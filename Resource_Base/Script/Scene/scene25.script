@@ -1,0 +1,32 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+SCENEFILE
+
+# $PlayerBombID_04	// ¥ì¥ß¥ê¥¢¡¤¥¹¥«©`¥ì¥Ã¥È{
+
+@ POST@
+
+CALL $SceneOff POST@
+
+@ QUIT@
+
+CALL $SceneOff QUIT@
+
+@ 1
+
+SD [blBegin] BGSI * $BGLayerSplit
+
+BGVALEX 1 + blBegin SI_PLBG_04_2
+	0 0 0 448 480
+	0 0 0 0
+	0.007 9000 false false
+	0x00ffffff
+BGBLEND 1 + blBegin BLEND_ALPHAADD
+
+BGVALUE 0 + blBegin SI_PLBG_04_1
+	CenterX CenterY CenterH + 32 CenterH + 32
+	0x00ffffff
+
+BGFLAG 0 + blBegin BG_FADEIN BGMT_FADE
+BGFLAG 1 + blBegin BG_FADEINHALF BGMT_FADE
+	

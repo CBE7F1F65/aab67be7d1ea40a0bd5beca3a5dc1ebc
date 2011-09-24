@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="Custom"
+	ProjectGUID="{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}"
+	VCNestedProjectGUID="{81A7E638-AF60-4BE7-9439-827179617AC1}"
+	VCNestedProjectFileName="Custom.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32">
+			<Tool
+				Name="CppCmplrTool"
+				OptimizeForWindowsApplication="true"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+		<Configuration
+			Name="FinalRelease|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

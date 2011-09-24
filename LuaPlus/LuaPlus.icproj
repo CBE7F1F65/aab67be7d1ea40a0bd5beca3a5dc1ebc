@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="LuaPlus"
+	ProjectGUID="{ACB58A18-DE6E-4C2F-BC64-93C8673CBEBE}"
+	VCNestedProjectGUID="{9C233F9B-D3AF-4C38-8743-45898A100640}"
+	VCNestedProjectFileName="LuaPlus.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

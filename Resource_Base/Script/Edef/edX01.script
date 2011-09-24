@@ -1,0 +1,36 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+// ////////////// //
+# 0x1200
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	120 CenterBossX CenterBossY 120
+
+@ @@>% 120 8
+
+SD [i] 2
+LOOP [i]
+{
+	SDf [tshootx] SIGN i * 60 +f ENX
+	SD [tbaseangle] EN@ * 323
+	SD [tbaseangle] i * 12000 + tbaseangle
+	BL 6 tbaseangle 4 0
+		tshootx ENY - 10 tbaseangle 30 1.4 -0.08
+		2 3 8 0
+	SD [tbaseangle] tbaseangle * -1
+	BL 6 tbaseangle 8 0
+		tshootx ENY - 10 tbaseangle 100 1.8 -0.08
+		40 0 8 0
+}
+
+@ @@>% 120 16
+
+BL 15 0 1 7
+	ENX ENY 9000 -750 1.0 0.4
+	3 6 8 0

@@ -1,0 +1,37 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+///////
+# 0x8317
+
+@ @@] 60
+
+GHCHASE GHAIMX GHAIMY 60 - GH@
+
+@ 85
+
+SD [i] 4
+LOOP [i]
+{
+	A 9
+		TIMEREQUAL 90 ANGLESETAMAP 0
+		TIMERRANGE 90 120 SPEEDSETADD 8
+	BC i * 4 + 8 9000 i * 16 + 32
+		GHX GHY 0.0
+		11 4 i * -6 + 30 8
+}
+A 0
+
+//////
+# 0x8341
+
+@ @@>% 60 3
+
+B GHX GHY
+	true GHANGLE 0.2
+	16 4 8 0 0xff
+BUDECANCEL BUI
+BUDECANCEL BUI

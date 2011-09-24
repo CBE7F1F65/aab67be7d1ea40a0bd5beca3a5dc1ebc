@@ -1,0 +1,140 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+	
+// /////// //
+# 0x0106
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@%= 480 360
+
+EA 2 ENAC_REPOSITION_T
+	45
+SE $SE_Bullet_2 ENX
+
+@ @@%><% 480 0 360 120
+
+EA 4 ENAC_CHASETO_CXY
+	45 EN@ % 240 > 0 *f CenterW + 8 270
+SE $SE_Bullet_2 ENX
+	
+@ @@%><>%= 480 360 120 120 60
+
+EA 4 ENAC_CHASETO_CXY
+	15 EN@ - 60 % 240 > 0 *f CenterW + 8 0
+SE $SE_Bullet_2 ENX
+
+@ @@%<>%<% 480 405 120 120 45 2
+
+A 4
+	TIMERLESS 45 SPEEDSETADD EN@ % 120 / 2
+BC 9 ENAMAP 0 0
+	ENX ENY 1.0
+	2 EN@ / 120 % 2 + 4 8 0
+A 0
+
+@ @@>+%[% 240 410 480 345 16
+
+BC 16 SIGN BUI * EN@ * 240 + SEED 0
+	ENX ENY EN@ % 960 > 480 *f 1.0 +f 2.0
+	15 EN@ % 960 < 480 8 0
+
+// /////// //
+# 0x0110
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	45 CenterBossX CenterBossY 180
+SD [_0] 0
+
+@ @@% 180
+
+SD [_0] 2
+SE $SE_Bullet_2 ENX
+
+@ @@>%= 180 180 60
+
+SD [_0] 1
+
+@ @@>%= 180 180 80
+
+SD [_0] 0
+
+@ @@>%<% 120 180 75 2
+
+SD [tangle] ENAMAP 0
+A 15
+	VALEQUAL [_0] 0 SPEEDSETADD 4
+	VALEQUAL [_0] 1 SPEEDSET 80
+	VALEQUAL [_0] 2 SPEEDSET 400
+BC 6 RANDR 1500 + tangle 0
+	ENX ENY 2.5
+	2 1 8 0
+A 0
+
+BC 4 RAND 0
+	ENX ENY 2.5
+	13 0 8 0
+// ////////// //
+# 0x0114
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	120 CenterBossX CenterBossY 75
+
+@ @@>% 120 75
+
+SD [tbux] RAND % 400 + 24
+
+SD [toffset] RANDR 120
+GB 0x8114 0xff 0xff
+	tbux RAND % 120 + 64 ENAMAP toffset 2.0
+	2 8 240
+
+SE $SE_Bullet_2 tbux
+
+@ @@% 120
+
+BC 32 ENAMAP 0 8
+	ENX ENY 2.5
+	17 2 8 0
+
+// ////////// //
+# 0x0118
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@% 180
+
+SE $SE_Bullet_2 ENX
+
+@ @@>%<% 120 180 40 3
+
+B ENX ENY
+	false 0 EN@ % 180 /f 5.0 +f 2.0
+	17 2 8 0 0xff
+
+@ @@>%>% 120 120 45 15
+
+SD [i] 2
+LOOP [i]
+{
+	A 8
+		TIMERLESS 96 ANGLESETADD SIGN i * 100
+		TIMEREQUAL 96 SPEEDSETADD -80
+	BC 24 RAND 8
+		ENX ENY 2.2
+		1 i * 4 + 3 8 0
+}
+A 0

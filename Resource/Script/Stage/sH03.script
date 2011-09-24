@@ -1,0 +1,188 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+STAGEFILE
+
+// ///////////////////////////////////////// //
+
+# 302	// T31
+
+@ @@> 0
+
+EXECUTE CT_STAGE 300 TIME
+
+// Spell 306
+# 306
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0306 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 180 0x00000040
+
+BOSSUP
+
+// Spell 310
+# 310
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0310 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 180 0x00000040
+
+BOSSUP
+
+// Spell 314
+# 314
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0314 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 200 0x00000040
+
+BOSSUP
+
+// Spell 318
+# 318
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0318 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 200 0x00000040
+
+BOSSUP
+
+// Spell 322
+# 322
+
+@ QUIT@
+
+EFFOFF 0
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0322 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 180 0x00000060
+
+BOSSUP
+
+// Spell 326
+# 326
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0326 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 180 0x00000060
+
+BOSSUP
+
+// Spell 330
+# 330
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0330 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 140 180 0x00000060
+
+BOSSUP
+
+// Spell 334
+# 334
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0334 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 250 0x00000080
+
+BOSSUP
+
+// T34
+# 338
+
+@ @@> 0
+
+EXECUTE CT_STAGE 336 TIME
+
+// Spell 342
+# 342
+
+@ QUIT@
+
+MUSICSLIDE 3.0 0 -101 -1
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_03 true 0xffff
+}
+
+SPELLUP $EnemyID_03 CenterBossX CenterBossY
+
+EB 0x0342 0 $EnemyID_03
+	TX $EnemyID_03 TY $EnemyID_03 9000 0.0
+	$EnemyID_03 120 250 0x00000080
+
+BOSSUP

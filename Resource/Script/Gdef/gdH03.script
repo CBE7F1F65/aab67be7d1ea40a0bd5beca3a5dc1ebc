@@ -1,0 +1,39 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+// //////
+# 0x8326
+
+@ @@%= 240 120
+
+GHSET GHANGLE GHSPEED GHAC - 60
+
+@ @@% 240
+
+GHSET GHANGLE GHSPEED GHAC + 60
+
+@ @@>% 90 4
+
+SD [toffset] GH@ * 100 + GHANGLE
+SD [i] 4
+LOOP [i]
+{
+	B GHX GHY
+		true i * 1500 + toffset i *f 0.2 +f 1.0
+		5 i % 2 + 3 8 0 0xff
+
+}
+
+//////
+# 0x8342
+
+@ @@>% 60 3
+
+B GHX GHY
+	true GHANGLE 1.5
+	16 2 8 0 0xff
+BUDECANCEL BUI
+BUDECANCEL BUI

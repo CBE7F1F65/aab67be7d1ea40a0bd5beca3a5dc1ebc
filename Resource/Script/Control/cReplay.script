@@ -1,0 +1,31 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Replay
+# STATE_REPLAY
+
+// Init
+@ 1
+
+MUSICCHANGE $MusicOP false
+
+BGVALUE 0 SI_SelectScene
+	TotalCenterX TotalCenterY TotalW TotalH
+	0xffffffff
+
+BGVALUE 11 SI_TopContent_Replay
+	TotalCenterX 56 -1 -1
+	0xffffffff
+
+BGVALUE BGMASK SI_Null
+	TotalCenterX 265 610 390
+	0xA0000000
+
+// BackFade
+@ @@] 63
+
+CALL $TitleFade $TitleFade_Right
+
+// Events
+@ @@> 0

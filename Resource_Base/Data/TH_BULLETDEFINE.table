@@ -1,0 +1,51 @@
+73	h5nc	48														
+Comment	Type	SIID	nRoll	nColor	CollisionType	Collision_Main	Collision_Sub	FadeColor	WhiteColor	AutoSendSetID	nTurnAngle	seID	EffID	RenderType	RenderDepth	RenderFlag
+#		NormalBullet(0~29)														
+-	0	SI_Bullet_ShuttleBeam_0	0	16	2	8	3	160	15	0	0	90	0	4	24	0
+-	1	SI_Bullet_Scale_0	0	16	1	2	2.5	160	15	0	0	90	0	2	14	0
+-	2	SI_Bullet_Ring_0	0	16	1	3	0	160	15	0	0	90	0	2	13	1
+-	3	SI_Bullet_MiddleBall_0	0	16	1	3	0	160	15	0	0	90	0	2	11	1
+-	4	SI_Bullet_Shuttle_0	0	16	1	3	0	160	15	0	0	90	0	2	17	0
+-	5	SI_Bullet_Kunai_0	0	16	2	3	2	160	15	0	0	90	0	2	18	0
+-	6	SI_Bullet_Arris_0	0	16	2	3	2	160	15	0	0	90	0	2	18	0
+-	7	SI_Bullet_Amulet_0	0	16	1	3	0	160	15	0	0	90	0	2	15	0
+-	8	SI_Bullet_GunBullet_0	0	16	2	3	2	160	15	0	0	90	0	2	17	0
+-	9	SI_Bullet_BlackShuttle_0	0	16	2	3	0	160	15	0	0	90	0	2	17	0
+-	10	SI_Bullet_Star_0	0	16	1	3	0	160	15	0	320	90	0	2	16	0
+-	11	SI_Bullet_RollingBall_0	0	16	1	3	0	160	15	0	240	90	0	2	11	0
+-	12	SI_Bullet_SmallStar_0	0	16	1	3	0	160	15	0	240	90	0	2	19	1
+-	13	SI_Bullet_SmallBall_0	0	16	1	3	0	160	15	1	240	90	0	2	19	1
+-	14	SI_Bullet_Coin_0	0	6	1	3	0	255	1	0	240	90	0	2	12	1
+-	15	SI_Bullet_HugeBall_0	0	4	1	15	0	255	128	0	0	90	0	4	1	1
+-	16	SI_Bullet_BigStar_0	0	8	1	7	0	160	7	0	240	90	0	2	3	0
+-	17	SI_Bullet_BigBall_0	0	8	1	7	0	160	7	0	0	90	0	2	2	1
+-	18	SI_Bullet_BendedKnife_0	0	8	2	6	5	160	7	0	0	90	0	2	7	0
+-	19	SI_Bullet_Butterfly_0	0	8	1	5	0	160	7	0	0	90	0	2	10	0
+-	20	SI_Bullet_Knife_0	0	8	2	6	5	160	7	0	0	90	0	2	6	0
+-	21	SI_Bullet_Quaver_0	0	3	1	7	0	255	128	0	240	90	0	2	4	0
+-	22	SI_Bullet_Stupa_0	0	1	2	3.5	2.5	160	128	0	0	90	0	2	8	0
+-	23	SI_Bullet_LegatoQuaver_0	0	4	1	7	0	255	128	0	240	90	0	2	4	0
+-	24	SI_Bullet_BigShuttle_0	0	8	2	7	5	160	7	0	0	90	0	2	5	0
+-	25	SI_Bullet_RedFireBall_0	4	4	1	5	0	1	128	0	0	90	0	0	9	1
+-	26	SI_Bullet_FadedRedFireBall_0	4	4	1	5	0	3	128	0	0	90	0	0	9	1
+-	27	SI_Bullet_BlueFireBall_0	4	4	1	5	0	1	128	0	0	90	0	0	9	1
+-	28	SI_Bullet_FadedBlueFireBall_0	4	4	1	5	0	3	128	0	0	90	0	0	9	1
+#		ExBullet(32~59)														
+-	32	SI_BulletEx_Reimu_0	0	1	1	18	0	255	255	0	240	90	0	2	1	0
+-	33	SI_BulletEx_Sakuya_0	0	8	2	6	5	160	255	0	0	90	0	2	6	0
+-	34	SI_BulletEx_SakuyaFake_0	0	8	0	0	0	160	255	0	0	90	0	2	6	0
+-	35	SI_BulletEx_Youmu_0	8	1	1	14	0	255	255	0	0	90	84	2	8	0
+-	36	SI_BulletEx_Aya_0	0	1	1	12	0	255	255	0	0	90	0	2	3	0
+-	37	SI_BulletEx_Cirno_0	0	2	2	16	3	255	255	0	0	90	0	2	7	0
+-	38	SI_BulletEx_Tei_0	0	1	1	13	0	255	255	0	240	90	0	2	3	0
+-	39	SI_BulletEx_Yuka_Big_0	0	1	1	38	0	255	255	0	640	90	0	2	1	0
+-	40	SI_BulletEx_Yuka_Middle_0	0	1	1	28	0	255	255	0	640	90	0	2	1	0
+-	41	SI_BulletEx_Yuka_Small_0	0	1	1	18	0	255	255	0	640	90	0	2	1	0
+-	42	SI_BulletEx_Reisen_0	1	1	1	38	0	255	255	0	640	4	0	2	1	1
+-	43	SI_BulletEx_ReimuII_0	0	1	1	9	0	255	255	0	240	90	0	2	1	0
+-	44	SI_BulletEx_Hatate_0	0	2	3	128	64	255	255	0	0	96	0	2	1	0
+#		SpecialBullet(60~63)														
+-	60	SI_Null	0	16	0	0	0	0	255	0	0	90	0	2	0	1
+-	61	SI_Bullet_ShootItem_0	0	8	0	0	0	255	255	0	0	90	0	0	0	1
+-	62	SI_Bullet_FadeItem_0	0	8	0	0	0	255	255	0	0	90	0	0	0	1
+-	63	SI_Bullet_Score_0	0	6	0	0	0	255	255	0	0	90	0	2	0	1

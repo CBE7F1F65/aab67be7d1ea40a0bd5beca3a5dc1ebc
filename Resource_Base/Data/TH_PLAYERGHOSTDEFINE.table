@@ -1,0 +1,124 @@
+73	h5nc	4D									
+Comment	Index	SIID	XAdj	YAdj	Speed	Flag	RollTime	ShootAngle	MoveR	StartAngle	Blend
+#		Reimu									
+-	0	SI_PlayerGhost_00_01	-12	-15	0	10	0	0	0	0	2
+-	1	SI_PlayerGhost_00_01	12	-15	0	30	0	0	0	0	2
+-	2	SI_PlayerGhost_00_01	-30	-10	0	10	0	0	0	0	2
+-	3	SI_PlayerGhost_00_01	30	-10	0	30	0	0	0	0	2
+-	4	SI_PlayerGhost_00_02	10	15	0	10	0	0	0	0	2
+-	5	SI_PlayerGhost_00_02	-10	15	0	30	0	0	0	0	2
+-	6	SI_PlayerGhost_00_02	30	10	0	10	0	0	0	0	2
+-	7	SI_PlayerGhost_00_02	-30	10	0	30	0	0	0	0	2
+#		Marisa									
+-	8	SI_PlayerGhost_01_01	0	-25	0	14	0	0	0	0	2
+-	12	SI_PlayerGhost_01_02	0	15	0	14	0	0	0	0	2
+#		Sakuya									
+-	16	SI_Empty	0	-25	0	14	0	0	0	0	2
+-	20	SI_Empty	0	-25	0	14	0	0	0	0	2
+#		Youmu									
+-	24	SI_Null	0	0	0	0	0	0	0	0	2
+-	28	SI_Null	0	0	0	0	0	0	0	0	2
+#		Aya									
+-	32	SI_PlayerGhost_04_01	-15	-10	0	44	20	16	0	0	2
+-	33	SI_PlayerGhost_04_01	15	-10	0	44	20	-16	0	0	2
+-	36	SI_PlayerGhost_04_01	-5	15	0	44	20	16	0	0	2
+-	37	SI_PlayerGhost_04_01	5	15	0	44	20	-16	0	0	2
+#		Yuyuko									
+-	40	SI_PlayerGhost_05_01	0	0	3.5	114	0	0	0	0	2
+-	44	SI_PlayerGhost_05_01	0	0	0	114	0	0	0	0	2
+#		Medicine									
+-	48	SI_Null	0	0	0	0	0	0	0	0	2
+-	52	SI_Null	0	0	0	0	0	0	0	0	2
+#		Cirno									
+-	56	SI_Null	0	0	0	0	0	0	0	0	2
+-	60	SI_Null	0	0	0	0	0	0	0	0	2
+#		Lyrica									
+-	64	SI_PlayerGhost_08_01	0	-25	0	2001	0	0	0	0	2
+-	68	SI_PlayerGhost_08_01	0	15	0	2001	0	0	0	0	2
+#		Mystia									
+-	72	SI_PlayerGhost_09_01	-15	0	0	54	7	-360	0	0	2
+-	73	SI_PlayerGhost_09_01	15	0	0	54	7	360	0	0	2
+-	76	SI_PlayerGhost_09_01	-5	15	0	54	7	-360	0	0	2
+-	77	SI_PlayerGhost_09_01	5	15	0	54	7	360	0	0	2
+#		Marlin									
+-	80	SI_PlayerGhost_10_01	-32	0	0	2	0	2000	0	0	2
+-	81	SI_PlayerGhost_10_01	32	0	0	2	0	-2000	0	0	2
+-	82	SI_PlayerGhost_10_02	0	-32	0	2	0	0	0	0	2
+-	83	SI_PlayerGhost_10_02	0	32	0	2	0	0	0	0	2
+-	84	SI_PlayerGhost_10_01	32	0	0	2	0	-2000	0	0	2
+-	85	SI_PlayerGhost_10_01	-32	0	0	2	0	2000	0	0	2
+-	86	SI_PlayerGhost_10_02	0	-32	0	2	0	0	0	0	2
+-	87	SI_PlayerGhost_10_02	0	32	0	2	0	0	0	0	2
+#		Lunasa									
+-	88	SI_Empty	0	0	0	40	40	64	0	0	2
+-	89	SI_Empty	0	0	0	40	40	-64	0	0	2
+-	92	SI_Empty	0	0	0	40	40	64	0	0	2
+-	93	SI_Empty	0	0	0	40	40	-64	0	0	2
+#		Tei									
+-	96	SI_Empty	0	0	0	40	60	256	0	0	2
+-	97	SI_Empty	0	0	0	40	60	-256	0	0	2
+-	100	SI_Empty	0	0	0	40	60	256	0	0	2
+-	101	SI_Empty	0	0	0	40	60	-256	0	0	2
+#		Yuka									
+-	104	SI_Null	0	0	0	0	0	0	0	0	2
+-	108	SI_Null	0	0	0	0	0	0	0	0	2
+#		Reisen									
+-	112	SI_Null	0	0	0	0	0	0	0	0	2
+-	116	SI_Null	0	0	0	0	0	0	0	0	2
+#		Alice									
+-	120	SI_PlayerGhost_15_01	-32	16	0	2	0	0	0	0	2
+-	121	SI_PlayerGhost_15_01	32	16	0	2	0	0	0	0	2
+-	124	SI_PlayerGhost_15_01	-16	16	0	2	0	0	0	0	2
+-	125	SI_PlayerGhost_15_01	16	16	0	2	0	0	0	0	2
+#		Yamaxanadu									
+-	128	SI_PlayerGhost_16_01	-25	0	0	10	0	0	0	0	2
+-	129	SI_PlayerGhost_16_01	25	0	0	10	0	0	0	0	2
+-	130	SI_PlayerGhost_16_02	-40	0	0	10	0	0	0	0	2
+-	131	SI_PlayerGhost_16_02	40	0	0	10	0	0	0	0	2
+-	132	SI_PlayerGhost_16_01	25	0	0	10	0	0	0	0	2
+-	133	SI_PlayerGhost_16_01	-25	0	0	10	0	0	0	0	2
+-	134	SI_PlayerGhost_16_02	40	0	0	10	0	0	0	0	2
+-	135	SI_PlayerGhost_16_02	-40	0	0	10	0	0	0	0	2
+#		Komachi									
+-	136	SI_Null	0	0	0	0	0	0	0	0	2
+-	140	SI_Null	0	0	0	0	0	0	0	0	2
+#		Remilia									
+-	144	SI_PlayerGhost_18_01	-15	-32	0	2010	0	0	0	0	2
+-	145	SI_PlayerGhost_18_01	15	-32	0	2010	0	0	0	0	2
+-	146	SI_PlayerGhost_18_02	-15	-32	0	2002	0	0	0	0	2
+-	147	SI_PlayerGhost_18_02	15	-32	0	2002	0	0	0	0	2
+-	148	SI_PlayerGhost_18_01	-32	0	0	10	0	0	0	0	2
+-	149	SI_PlayerGhost_18_01	32	0	0	10	0	0	0	0	2
+-	150	SI_PlayerGhost_18_02	-32	0	0	2	0	0	0	0	2
+-	151	SI_PlayerGhost_18_02	32	0	0	2	0	0	0	0	2
+#		ReimuII									
+-	152	SI_PlayerGhost_19_01	0	0	2.5	10	0	0	24	0	2
+-	153	SI_PlayerGhost_19_01	0	0	2.5	30	0	0	24	18000	2
+-	154	SI_PlayerGhost_19_02	0	0	3.5	10	0	0	32	0	2
+-	155	SI_PlayerGhost_19_02	0	0	3.5	30	0	0	32	18000	2
+-	156	SI_PlayerGhost_19_01	0	0	-2.5	10	0	0	32	0	2
+-	157	SI_PlayerGhost_19_01	0	0	-2.5	30	0	0	32	18000	2
+-	158	SI_PlayerGhost_19_02	0	0	-3.5	10	0	0	24	0	2
+-	159	SI_PlayerGhost_19_02	0	0	-3.5	30	0	0	24	18000	2
+#		MarisaII									
+-	160	SI_PlayerGhost_20_01	-64	208	0	804	0	0	0	0	2
+-	161	SI_PlayerGhost_20_01	64	208	0	804	0	0	0	0	2
+-	162	SI_PlayerGhost_20_01	-128	208	0	804	0	0	0	0	2
+-	163	SI_PlayerGhost_20_01	128	208	0	804	0	0	0	0	2
+-	164	SI_PlayerGhost_20_01	32	208	0	804	0	0	0	0	2
+-	165	SI_PlayerGhost_20_01	-32	208	0	804	0	0	0	0	2
+-	166	SI_PlayerGhost_20_01	96	208	0	804	0	0	0	0	2
+-	167	SI_PlayerGhost_20_01	-96	208	0	804	0	0	0	0	2
+#		Yukari									
+-	168	SI_PlayerGhost_21_01	0	-32	0	1	0	0	0	0	2
+-	172	SI_PlayerGhost_21_13	0	-32	0	410	0	0	0	0	2
+#		Sanae									
+-	176	SI_PlayerGhost_22_01	0	-25	0	14	0	0	0	0	2
+-	177	SI_PlayerGhost_22_02	-30	-15	0	14	0	0	0	0	2
+-	178	SI_PlayerGhost_22_02	30	-15	0	14	0	0	0	0	2
+-	180	SI_PlayerGhost_22_01	0	15	0	14	0	0	0	0	2
+-	181	SI_PlayerGhost_22_02	30	-15	0	14	0	0	0	0	2
+-	182	SI_PlayerGhost_22_02	-30	-15	0	14	0	0	0	0	2
+#		Hatate									
+-	184	SI_Empty	0	0	0	40	8	120	0	0	2
+-	188	SI_Empty	0	0	0	40	8	120	0	0	2

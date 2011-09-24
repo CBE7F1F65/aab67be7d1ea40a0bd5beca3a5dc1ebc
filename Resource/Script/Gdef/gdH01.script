@@ -1,0 +1,18 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+// //////
+# 0x8114
+
+@ @@<%<% 80 30 16 8
+
+A 10
+	TIMERRANGE 30 90 SPEEDSETADD 4
+	TIMERRANGE 30 90 ANGLESETADD RANDR 300
+BC 16 GHAMAP 0 8
+	GHX GHY 0.0
+	1 GH@ % 16 > 0 + 3 8 0
+A 0

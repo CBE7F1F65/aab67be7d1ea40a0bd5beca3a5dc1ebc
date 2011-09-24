@@ -1,0 +1,25 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+FUNCTIONFILE
+
+// /////////////
+# $Chat_T41	
+
+@ 0
+
+CHATON 0xff
+	$PlayerID_01 $EnemyID_01 CS_RNN
+	$EnemyID_01 CS_RNN "准备好了吗？橙？"
+	$PlayerID_01 CS_LNN "是的，为了这一天橙可是做了不少修行哦。"
+	$EnemyID_01 CS_RNN "上一次也是这样说的吧？最后不也是失败了？"
+	$PlayerID_01 CS_LNN "呜～～～～～～～～蓝大人好坏。"
+	$PlayerID_01 CS_LNN "为了得到承认，橙不会输的！"
+CHATOFF
+
+@ @@[ 0
+
+IF CHATI - 0xff !
+{
+	SETTIME 0
+	SETSCENE GETSCENE + 4
+}

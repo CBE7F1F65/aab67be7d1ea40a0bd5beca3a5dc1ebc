@@ -1,0 +1,90 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Pause
+# STATE_PAUSE
+
+// Events
+@ INIT@
+
+SD [ptsec] RESERVEBEGIN
+SD [ptsel] RESERVEBEGIN + 1
+
+IF D ptsec !
+{
+	SD ptsec 1
+	SD ptsel REPLAYMODE
+}
+
+IF D ptsec - 1 !
+{
+	SELCLEAR
+	SD ptsec 0x10
+	SD [i] 3
+	LOOP [i]
+	{
+		SD [j] 2 - i
+		SELBUILD j SI_Pause_Start + j
+			CenterX, CenterY 1 0 8
+			CenterX j * 40 + CenterY
+			-8 -4
+			0 0
+			16 4
+			SEL_NULL
+	}
+	SELSET 3 D ptsel true 0 0 0 0
+	SELBUILD 4 SI_Pause_Pause
+		CenterX CenterY 1 0 8
+		CenterX CenterY - 60
+		-8 -4
+		0 0
+		16 4
+		SEL_NONACTIVE
+}
+
+IF D ptsec - 0x10 ! * SELCOMPLETE
+{
+	IF SEL !
+	{
+		SD ptsec 0xff
+		SD ptsel 0
+		SELCLEAR
+
+		SETSTATE STATE_START
+	}
+	ELSE
+	{
+		SD [bConfirm] 0
+		SD ptsec 0x10 * SEL + 0x20
+		SD ptsel SEL
+		SELCLEAR
+	}
+}
+
+ELSE IF D ptsec > 0x10
+{
+	SELCONFIRM CenterX CenterY false [bConfirm]
+
+	IF SELCOMPLETE
+	{
+		IF bConfirm
+		{
+			IF D ptsec - 0x30 !
+			{
+				SETSTATE STATE_TITLE
+			}
+			ELSE
+			{
+				SETSTATE STATE_START
+			}
+			SD ptsec 0xff
+			SETTIME 0
+		}
+		ELSE
+		{
+			SD ptsec 1
+		}
+		SELCLEAR
+	}
+}

@@ -1,0 +1,118 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+STAGEFILE
+
+// ///////////////////////////////////////// //
+
+// Spell 1200
+# 1200
+
+@ @@] 180
+
+CALL $StageTitle TIME
+
+@ 180
+
+BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+
+EB 0x0001 0 $EnemyID_01
+	0 0 9000 0.0
+	$EnemyID_01 120 180 0
+
+CALLEX $GetChatMode $GlobalValue_Chat 6
+	0xff 0xff
+	0xff 0xff
+	0xff
+	0xff
+	
+// Chat
+@ @@> 180
+
+CALL $Chat_T41 D $GlobalValue_Chat
+
+//////////
+
+// Spell 1204
+
+# 1204
+
+@ @@> 0
+
+SETPBINFI
+
+SD [tfire] 0
+SD [tspecial] 0
+SD [tchange] 0
+SD [tup] 0
+SD [tdown] 0
+SD [tleft] 0
+SD [tright] 0
+SD [tslow] 0
+
+IF CHECKKEY KS_FIRE KEY_PRESSED
+{
+	SD [tfire] 1
+}
+IF CHECKKEY KS_SPECIAL KEY_PRESSED
+{
+	SD [tspecial] 1
+}
+IF CHECKKEY KS_CHANGE KEY_PRESSED
+{
+	SD [tchange] 1
+}
+
+IF CHECKKEY KS_UP KEY_PRESSED
+{
+	SD [tup] 1
+}
+IF CHECKKEY KS_DOWN KEY_PRESSED
+{
+	SD [tdown] 1
+}
+IF CHECKKEY KS_LEFT KEY_PRESSED
+{
+	SD [tleft] 1
+}
+IF CHECKKEY KS_RIGHT KEY_PRESSED
+{
+	SD [tright] 1
+}
+IF CHECKKEY KS_SLOW KEY_PRESSED
+{
+	SD [tslow] 1
+}
+
+DISABLEALLKEY
+
+IF tfire
+{
+	SE 3 PX
+}
+IF tspecial
+{
+	SE 11 PX
+}
+IF tchange
+{
+	SE 12 PX
+}
+SETKEY KS_UP tup
+SETKEY KS_DOWN tdown
+SETKEY KS_LEFT tleft
+SETKEY KS_RIGHT tright
+SETKEY KS_SLOW tslow
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+}
+SPELLUP $EnemyID_01 CenterBossX CenterBossY
+
+EB 0x1200 0 $EnemyID_01
+	TX $EnemyID_01 TY $EnemyID_01 9000 0.0
+	$EnemyID_01 1200 180 0x00000040
+
+BOSSUP

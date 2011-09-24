@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}") = "Custom", "Custom.icproj", "{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		FinalRelease = FinalRelease
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}.Debug.ActiveCfg = Debug|Win32
+		{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}.Debug.Build.0 = Debug|Win32
+		{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}.FinalRelease.ActiveCfg = FinalRelease|Win32
+		{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}.FinalRelease.Build.0 = FinalRelease|Win32
+		{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}.Release.ActiveCfg = Release|Win32
+		{26CA96CF-3AC9-46B7-BCC3-DF46AA805B99}.Release.Build.0 = Release|Win32
+		{81A7E638-AF60-4BE7-9439-827179617AC1}.Debug.ActiveCfg = Debug|Win32
+		{81A7E638-AF60-4BE7-9439-827179617AC1}.Debug.Build.0 = Debug|Win32
+		{81A7E638-AF60-4BE7-9439-827179617AC1}.FinalRelease.ActiveCfg = FinalRelease|Win32
+		{81A7E638-AF60-4BE7-9439-827179617AC1}.Release.ActiveCfg = Release|Win32
+		{81A7E638-AF60-4BE7-9439-827179617AC1}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

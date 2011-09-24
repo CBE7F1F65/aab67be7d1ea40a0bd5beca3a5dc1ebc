@@ -1,0 +1,76 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+FUNCTIONFILE
+
+// /////////////
+# $Chat_T11	
+
+@ 0
+
+CHATON 0xff
+	0xff $EnemyID_01 CS_RNN
+	$EnemyID_01 CS_RNN "So awful."
+	$EnemyID_01 CS_RNN "Why you guys bother my singing at midnight?"
+	$EnemyID_01 CS_RNN "Could you please get out my way?"
+	$EnemyID_01 CS_RNN "Don't ask me about the weird moon!"
+CHATOFF
+
+@ 1
+
+CHATON 0xff
+	$PlayerID_04 $EnemyID_01 CS_RNN
+	$EnemyID_01 CS_RNN "What makes a vampire here?"
+	$PlayerID_03 CS_LNN "It seems like a bird monster."
+	$PlayerID_04 CS_LNN "No time to waste. Beat it."
+	$PlayerID_03 CS_LNN "Got it. Let's take a finger-guess,little bird."
+	$EnemyID_01 CS_RNN "Yeah it gonna be fine¡­. Oh I won!"
+	$PlayerID_03 CS_LNN "I'm afraid not."
+	$EnemyID_01 CS_RNN "Oh my god! When did you change it?"
+	$PlayerID_03 CS_LNN "I can take the control of time."
+CHATOFF
+
+@ 2
+
+CHATON 0xff
+	$PlayerID_01 $EnemyID_01 CS_LNN
+	$PlayerID_01 CS_LNN "How long will you follow me?"
+	$PlayerID_02 CS_LNN "Not bothering you right?"
+	$EnemyID_01 CS_RNN "Not good for you to shout at each other."
+	$PlayerID_02 CS_LNN "Why did you mimic my syntax?"
+	$EnemyID_01 CS_RNN "I don't know."
+	$PlayerID_01 CS_LNN "A more burden appeared. How can I be quiet?"
+	$EnemyID_01 CS_RNN "Whatever, give me your money."
+	$PlayerID_01 CS_LNN "Are you mimicking me now?"
+CHATOFF
+
+@ 3
+
+CHATON 0xff
+	$PlayerID_04 $EnemyID_01 CS_RNN
+	$EnemyID_01 CS_RNN "Are you a vampire?"
+	$PlayerID_04 CS_LNN "Certainly. Though I have an anemiarecently."
+	$EnemyID_01 CS_RNN "I think I should run away now."
+	$PlayerID_04 CS_LNN "I don't think you can."
+	$EnemyID_01 CS_RNN "Suddenly assault!"
+	$PlayerID_04 CS_LNN "I have to say you could never hit me."
+CHATOFF
+
+@ 4
+
+CHATON 0xff
+	$PlayerID_07 $EnemyID_01 CS_RNN
+	$EnemyID_01 CS_RNN "Obasan?"
+	$PlayerID_07 CS_LNN "Did I hear anything?"
+	$EnemyID_01 CS_RNN "How can you get my mutter?"
+	$PlayerID_07 CS_LNN "I can ignore it in case that you¡­"
+	$EnemyID_01 CS_RNN "What can I do for you, Sis?"
+	$PlayerID_07 CS_LNN "I want to eat toast bird."
+CHATOFF
+
+@ @@[ 0
+
+IF CHATI - 0xff !
+{
+	SETTIME 0
+	SETSCENE GETSCENE + 4
+}

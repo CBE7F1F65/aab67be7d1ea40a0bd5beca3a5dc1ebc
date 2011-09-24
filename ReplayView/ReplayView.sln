@@ -1,0 +1,29 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}") = "ReplayView", "ReplayView.icproj", "{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		FinalRelease = FinalRelease
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}.Debug.ActiveCfg = Debug|Win32
+		{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}.Debug.Build.0 = Debug|Win32
+		{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}.FinalRelease.ActiveCfg = FinalRelease|Win32
+		{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}.FinalRelease.Build.0 = FinalRelease|Win32
+		{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}.Release.ActiveCfg = Release|Win32
+		{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}.Release.Build.0 = Release|Win32
+		{997877FE-1AB7-4AF1-8E33-505A99E4FD82}.Debug.ActiveCfg = Debug|Win32
+		{997877FE-1AB7-4AF1-8E33-505A99E4FD82}.Debug.Build.0 = Debug|Win32
+		{997877FE-1AB7-4AF1-8E33-505A99E4FD82}.FinalRelease.ActiveCfg = FinalRelease|Win32
+		{997877FE-1AB7-4AF1-8E33-505A99E4FD82}.Release.ActiveCfg = Release|Win32
+		{997877FE-1AB7-4AF1-8E33-505A99E4FD82}.Release.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

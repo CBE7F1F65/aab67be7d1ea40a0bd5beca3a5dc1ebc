@@ -1,0 +1,38 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+SCENEFILE
+
+# $EnemyID_01	// ¥ß¥¹¥Æ¥£¥¢¡¤¥í©`¥ì¥é¥¤
+
+@ POST@
+
+CALL $SceneOff POST@
+
+@ QUIT@
+
+CALL $SceneOff QUIT@
+
+@ 1
+
+SD [blBegin] BGSI * $BGLayerSplit
+
+IF BGSI !
+{
+	CALL $MusicChangeWithDisplay $MusicEID_01
+}
+
+BGVALEX 1 + blBegin SI_BG_01_1
+	0 0 0 448 480
+	0 0 0 0
+	0.006 -1000 false false
+	0x00ffffff
+BGBLEND 1 + blBegin BLEND_ALPHAADD
+
+BGVALEX 0 + blBegin SI_BG_01_2
+	0 0 0 448 480
+	0 0 0 0
+	0.006 -13000 false false
+	0x00ffffff
+
+BGFLAG 0 + blBegin BG_FADEINHALF BGMT_FADE
+BGFLAG 1 + blBegin BG_FADEIN BGMT_FADE

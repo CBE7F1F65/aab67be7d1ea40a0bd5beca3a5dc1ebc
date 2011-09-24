@@ -1,0 +1,187 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+	
+// ////////////// //
+# 0x0204
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@>%<% 180 240 180 60
+
+SD [tmod] NOW@ / 60 % 3
+SD [toffset] tmod * 100 + 124
+EA 4 ENAC_CHASETO_CXY
+	60 RANDR 30 + toffset RANDR 80 + CenterBossY
+
+IF tmod !
+{
+	SD [i] 12
+	LOOP [i]
+	{
+		B ENX ENY
+			false 0 i *f 0.25 +f 1.2
+			17 0 8 0 0xff
+	}
+}
+ELSEIF tmod - 1 !
+{
+	SD [i] 6
+	LOOP [i]
+	{
+		SD [tonce] i / 2
+		A 4
+			TIMERLESS 120 ANGLESETADD SIGN i * 100
+		BC 16 ENAMAP tonce * 1225 8
+			ENX ENY tonce *f 0.5 +f 1.0
+			4 2 8 0
+	}
+	A 0
+}
+ELSE
+{
+	SD [i] 36
+	LOOP [i]
+	{
+		B ENX ENY
+			true RAND RAND % 5 /f 5.0 +f 1.2
+			13 6 8 0 0xff
+	}
+}
+
+////////////
+# 0x0208
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@>%<% 240 120 60 3
+
+SD [i] 2
+LOOP [i]
+{
+	A 4
+		TIMERLESS 120 ANGLESETADD SIGN i * 100
+	BC 10 i + EN@ * 600 + SEED 8
+		ENX ENY 2.0
+		4 2 8 0
+}
+A 0
+
+@ @@>%[]% 240 120 60 70 2
+
+SD [i] 3
+LOOP [i]
+{
+	B ENX ENY
+		false i * 100 - 100 2.5
+		2 8 8 0 0xff
+}
+
+////////////
+# 0x0212
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 180
+
+@ @@>%<% 180 180 30 15
+
+BC 16 RAND 8
+	ENX ENY 2.5
+	2 6 8 0
+
+@ @@% 180
+
+GB 0x8212 0xff 0xff
+	ENX ENY RAND % 3000 + 3000 2.5
+	0 8 240
+
+////////////
+# 0x0216
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+	
+@ 180
+
+GB 0x8216 0xff 0xff
+	ENX ENY 9000 4.5
+	0 8 0xffff
+
+@ @@>%<% 240 180 32 4
+
+B ENX ENY
+	false 0 EN@ % 180 *f 0.1 +f 1.5
+	17 7 16 0 0xff
+
+////////////
+# 0x0220
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 180
+
+@ 180
+
+SD [i] 2
+LOOP [i]
+{
+	GB 0x8220 0xff 0xff
+		ENX ENY 9000 0.0
+		0 8 0xffff
+	GHSAIM i 0
+}
+
+@ @@>%<% 180 180 30 15
+
+BC 32 RAND 8
+	ENX ENY 2.5
+	2 6 8 0
+	
+////////////
+# 0x0224
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 180	
+
+@ @@>%<%<% 180 240 180 8 6 2
+
+SD [toffset] EN@ % 240 / 2
+SD [tmod] EN@ % 480 < 240
+IF toffset < 60
+{
+	A 16
+		TIMERLESS 24 SPEEDSETADD -4
+		TIMEREQUAL 24 + toffset SPEEDSET 0
+		TIMEREQUAL 36 + toffset SPEEDSET 180
+		TIMEREQUAL 36 + toffset ANGLESETADD tmod * 6000 + 15000
+}
+SD [i] 2
+SD [taoffset] EN@ * 377
+LOOP [i]
+{
+	B ENX ENY
+		true SIGN i * taoffset + 9000 3.0
+		4 2 8 0 0xff
+}
+A 0
+
+@ @@>%>% 180 240 180 15
+
+BC 40 RAND 8
+	ENX ENY 2.5
+	3 6 8 0

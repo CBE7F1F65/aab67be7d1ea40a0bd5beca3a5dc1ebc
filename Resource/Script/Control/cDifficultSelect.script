@@ -1,0 +1,271 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Difficult
+# STATE_DIFFICULT_SELECT
+
+// Init
+@ 1
+
+SD [ptspmode] RESERVEBEGIN + 16
+BGOFF 7
+
+SELCLEAR
+
+MUSICCHANGE $MusicOP false
+// Back
+BGVALUE 0 SI_SelectScene
+	TotalCenterX TotalCenterY TotalW TotalH
+	0x00000000
+
+// UpTitle
+BGVALUE 11 SI_TopContent_BattleSelect
+	TotalCenterX 56 -1 -1
+	0xffffffff
+
+// If
+
+SD [lStart] 128
+SD [tStart] 105
+SD [vAdd]	65
+SD [vNextlineAdd] 215
+SD [hAdd] 192
+
+IF MODE !
+{
+	BGVALUE 1 SI_BattleTable
+		TotalCenterX 280 620 380
+		0x00000000
+		
+	SD [i] 3
+	LOOP [i]
+	{
+		SD [j] 2 - i
+		SELBUILD j SI_Battle_01 + j
+			TotalCenterX TotalCenterY 1 0 8
+			lStart  j * vAdd + tStart
+			-8 0
+			-12 0
+			12 0
+			SEL_NULL
+	}
+	SELSET 3 DIFFI true 0 0 0 0
+}
+ELSEIF MODE - MODE_STAGE !
+{
+	BGVALUE 1 SI_BattleTable
+		TotalCenterX 280 620 380
+		0x00000000
+	BGVALUE BGMASK SI_Null
+		TotalCenterX 280 600 420
+		0xA0000000
+	SD [i] 9
+	LOOP [i]
+	{
+		SD [j] 8 - i
+		IF j < 5
+		{
+			SD [siAdd] j
+		}
+		ELSEIF j < 7
+		{
+			SD [siAdd] j - 1
+		}
+		ELSE
+		{
+			SD [siAdd] j + 3 / 2
+		}
+		SD [flagConst] $FLAG_StageTried_01 + j
+		SD [selFlagSet] SEL_NONACTIVE + SEL_GRAY
+		SELBUILD j SI_Battle_01 + siAdd
+			TotalCenterX TotalCenterY 1 0 8
+			j / 3 % 3 * hAdd + lStart j % 3 * vAdd + tStart
+			-8 0
+			-12 0
+			12 0
+			GETFLAG flagConst ! * selFlagSet
+	}
+	SELSET 9 0 true 0 0 0 0
+	SETPUSHEVENT PUSHID_UIUSE
+		KS_LEFT KS_RIGHT -1 -1
+		PUSH_FIRST PUSH_ROLLTO
+}
+ELSEIF D ptspmode
+{
+	SD [i] 3
+	LOOP [i]
+	{
+		SD [j] 2 - i
+		SD [tnamecard] j + SI_NameCard_01
+		SELBUILD j tnamecard
+			TotalCenterX TotalCenterY 0.8 0 8
+			lStart j * 45 + 125
+			-8 0
+			-12 0
+			12 0
+			SEL_NULL
+		SELBUILD j SI_Face_01 + j
+			800 270 1 0 8
+			D 2 D 3
+			-400 0
+			400 0
+			0 0
+			SEL_GRAY + SEL_NOSHIFT
+	}
+	SD [tosel] GETSCENE
+	SD [tosel] SNOUSER tosel - $EnemyID_01
+	IF tosel < 0
+	{
+		SD [tosel] 0
+	}
+	SELSET 3 tosel true 7 57.5 45 0
+}
+ELSE
+{
+	SD [i] 5
+	LOOP [i]
+	{
+		SD [j] 4 - i
+		SELBUILD j SI_Battle_01 + j
+			TotalCenterX TotalCenterY 1 0 8
+			lStart j * 45 + 125
+			-8 0
+			-12 0
+			12 0
+			SEL_NULL
+	}
+	SD [tosel] GETSCENE
+	SD [tosel] SNOBATTLE tosel
+	IF tosel > 4
+	{
+		SD [tosel] 0
+	}
+	SELSET 5 tosel true 7 57.5 45 0
+}
+
+// BackFade
+@ @@>] 0 63
+
+CALL $TitleFade $TitleFade_Right
+
+// Events
+@ @@> 0
+
+SD [ptsec] RESERVEBEGIN
+SD [ptspmode] RESERVEBEGIN + 16
+SD [tsec] D ptsec < 0 !
+
+IF MODE - MODE_SPELL ! * tsec
+{
+	SD [tscene] GETSCENE
+	IF D ptspmode
+	{
+		BGVALUE 7 SNOUSER tscene - $EnemyID_01 + SI_Face_01
+			400 270 -1 -1
+			0xFF000000
+	}
+	ELSE
+	{
+		BGVALUE 7 SNOBATTLE tscene + SI_Battle_01
+			TotalCenterX 110 -1 -1
+			0xFFFFFFFF
+	}
+}
+
+SD [tsec] tsec * ISELCOMPLETE
+
+IF SELCOMPLETE + tsec
+{
+	SELCLEAR
+	IF MODE !
+	{
+		IF GETSCENE < 1200
+		{
+			SETDIFFI SEL
+			SETSCENE GETSCENE + DIFFI
+		}
+		ELSE
+		{
+			SETDIFFI SEL + 4
+			SETSCENE SEL * 100 + GETSCENE
+		}
+	}
+	ELSEIF MODE - MODE_STAGE !
+	{
+		SETDIFFI SEL % 3
+		SETSCENE SEL / 3 + 1 * 100 + DIFFI
+	}
+	
+	SD [tsec] D ptsec < 0
+	IF MODE - MODE_SPELL ! * tsec
+	{
+		ISELCLEAR
+		SD ptsec 0
+	}
+	ELSE
+	{
+		BGCOLOR 0
+			0xffffffff
+			0xffffffff
+			0xffffffff
+			0xffffffff
+	
+		SETSTATE STATE_PLAYER_SELECT
+		SETTIME 0
+	}
+}
+ELSEIF CHECKKEY KS_SPECIAL KEY_DOWN
+{
+	SE SE_SYSTEM_CANCEL CenterX
+	BGOFF 1
+	SD [tsec] D ptsec < 0 !
+	IF MODE - MODE_SPELL ! * tsec
+	{
+		ISELCLEAR
+		BGOFF 4
+		SD [ptsec] -1
+		SETTIME 0
+	}
+	ELSE
+	{
+		SETTIME 0
+		IF MODE !
+		{
+			SETSTATE STATE_TITLE
+		}
+		ELSE
+		{
+			SETSTATE STATE_SPELL
+		}
+		RETURN PTURN
+	}
+}
+ELSEIF MODE - MODE_STAGE !
+{
+	UPDATEPUSHEVENT PUSHID_UIUSE
+	SD [reset] false
+	IF CHECKKEY KS_LEFT KEY_DOWN
+	{
+		SD [tosel] SEL - 3
+		IF tosel < 0
+		{
+			SD [tosel] 6 + SEL
+		}
+		SD [reset] true
+	}
+	ELSEIF CHECKKEY KS_RIGHT KEY_DOWN
+	{
+		SD [tosel] SEL + 3
+		IF tosel > 8
+		{
+			SD [tosel] SEL - 6
+		}
+		SD [reset] true
+	}
+	IF reset
+	{
+		SE SE_SYSTEM_SELECT CenterX
+		SELSET 9 tosel true 0 0 0 0
+	}
+}

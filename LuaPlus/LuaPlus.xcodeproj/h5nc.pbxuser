@@ -1,0 +1,692 @@
+// !$*UTF8*$!
+{
+	0867D690FE84028FC02AAC07 /* Project object */ = {
+		activeBuildConfigurationName = Release;
+		activeSDKPreference = iphonesimulator4.3;
+		activeTarget = D2AAC07D0554694100DB518D /* LuaPlus */;
+		addToTargets = (
+			D2AAC07D0554694100DB518D /* LuaPlus */,
+		);
+		codeSenseManager = 7186CF0312529061007DF003 /* Code sense */;
+		perUserDictionary = {
+			PBXConfiguration.PBXFileTableDataSource3.PBXFileTableDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					1473,
+					20,
+					48,
+					43,
+					43,
+					20,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+					PBXFileDataSource_Target_ColumnID,
+				);
+			};
+			PBXConfiguration.PBXTargetDataSource.PBXTargetDataSource = {
+				PBXFileTableDataSourceColumnSortingDirectionKey = "-1";
+				PBXFileTableDataSourceColumnSortingKey = PBXFileDataSource_Filename_ColumnID;
+				PBXFileTableDataSourceColumnWidthsKey = (
+					20,
+					1433,
+					60,
+					20,
+					48,
+					43,
+					43,
+				);
+				PBXFileTableDataSourceColumnsKey = (
+					PBXFileDataSource_FiletypeID,
+					PBXFileDataSource_Filename_ColumnID,
+					PBXTargetDataSource_PrimaryAttribute,
+					PBXFileDataSource_Built_ColumnID,
+					PBXFileDataSource_ObjectSize_ColumnID,
+					PBXFileDataSource_Errors_ColumnID,
+					PBXFileDataSource_Warnings_ColumnID,
+				);
+			};
+			PBXPerProjectTemplateStateSaveDate = 331834786;
+			PBXWorkspaceStateSaveDate = 331834786;
+		};
+		perUserProjectItems = {
+			710A977E13627D9D00F689D9 /* PBXTextBookmark */ = 710A977E13627D9D00F689D9 /* PBXTextBookmark */;
+			71A2BC4F1361E29500945F33 /* PBXTextBookmark */ = 71A2BC4F1361E29500945F33 /* PBXTextBookmark */;
+			71A2BC511361E29500945F33 /* PBXTextBookmark */ = 71A2BC511361E29500945F33 /* PBXTextBookmark */;
+			71BD9B7113C765AE00B3B2E5 /* PBXTextBookmark */ = 71BD9B7113C765AE00B3B2E5 /* PBXTextBookmark */;
+			71EF5B0D1383791100B242B4 /* PBXTextBookmark */ = 71EF5B0D1383791100B242B4 /* PBXTextBookmark */;
+		};
+		sourceControlManager = 7186CF0212529061007DF003 /* Source Control */;
+		userBuildSettings = {
+		};
+	};
+	710A977E13627D9D00F689D9 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 71905BBF1253E17700E5E788 /* ldump.c */;
+		name = "ldump.c: 126";
+		rLen = 39;
+		rLoc = 2344;
+		rType = 0;
+		vrLen = 1071;
+		vrLoc = 1798;
+	};
+	7186CF0212529061007DF003 /* Source Control */ = {
+		isa = PBXSourceControlManager;
+		fallbackIsa = XCSourceControlManager;
+		isSCMEnabled = 0;
+		scmConfiguration = {
+			repositoryNamesForRoots = {
+				"" = "";
+			};
+		};
+	};
+	7186CF0312529061007DF003 /* Code sense */ = {
+		isa = PBXCodeSenseManager;
+		indexTemplatePath = "";
+	};
+	7186CF0612529070007DF003 /* auxiliar.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 2195}";
+		};
+	};
+	7186CF0712529070007DF003 /* LuaAutoBlock.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 871}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1745}";
+		};
+	};
+	7186CF0812529070007DF003 /* LuaCall.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1976}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1543}";
+		};
+	};
+	7186CF0912529070007DF003 /* LuaCall.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 858}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1869}";
+		};
+	};
+	7186CF0C12529070007DF003 /* LuaFunction.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3315}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1576}";
+		};
+	};
+	7186CF0D12529070007DF003 /* LuaHelper.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 829}";
+		};
+	};
+	7186CF0E12529070007DF003 /* LuaHelper_Object.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1976}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{707, 2488}";
+		};
+	};
+	7186CF0F12529070007DF003 /* LuaHelper_StackObject.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1132, 2782}}";
+			sepNavSelRange = "{2962, 10}";
+			sepNavVisRange = "{2111, 1358}";
+		};
+	};
+	7186CF1012529070007DF003 /* LuaLink.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {902, 1586}}";
+			sepNavSelRange = "{2732, 29}";
+			sepNavVisRange = "{1957, 1173}";
+			sepNavWindowFrame = "{{107, 370}, {961, 719}}";
+		};
+	};
+	7186CF1112529070007DF003 /* LuaObject.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1132, 31070}}";
+			sepNavSelRange = "{9548, 0}";
+			sepNavVisRange = "{9161, 779}";
+		};
+	};
+	7186CF1212529070007DF003 /* LuaObject.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 6864}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1345}";
+		};
+	};
+	7186CF1312529070007DF003 /* LuaObject.inl */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 819}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{162, 1263}";
+		};
+	};
+	7186CF1412529070007DF003 /* LuaPlus.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2665}}";
+			sepNavSelRange = "{2399, 0}";
+			sepNavVisRange = "{1732, 1426}";
+		};
+	};
+	7186CF1512529070007DF003 /* LuaPlus.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{597, 0}";
+			sepNavVisRange = "{0, 990}";
+		};
+	};
+	7186CF1612529070007DF003 /* LuaPlus_Libs.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 5746}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{8626, 1447}";
+		};
+	};
+	7186CF1712529070007DF003 /* LuaPlusAddons.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2561}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1976}";
+		};
+	};
+	7186CF1912529070007DF003 /* LuaPlusCD.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 14924}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1858}";
+		};
+	};
+	7186CF1A12529070007DF003 /* LuaPlusFunctions.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2535}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1513}";
+		};
+	};
+	7186CF1B12529070007DF003 /* LuaPlusInternal.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1132, 1066}}";
+			sepNavSelRange = "{1189, 12}";
+			sepNavVisRange = "{719, 928}";
+		};
+	};
+	7186CF1C12529070007DF003 /* LuaStackObject.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 738}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 854}";
+		};
+	};
+	7186CF1D12529070007DF003 /* LuaStackObject.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3822}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{5267, 1201}";
+		};
+	};
+	7186CF1E12529070007DF003 /* LuaStackObject.inl */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 8021}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1500}";
+		};
+	};
+	7186CF1F12529070007DF003 /* LuaStackTableIterator.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2587}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1912}";
+		};
+	};
+	7186CF2012529070007DF003 /* LuaStackTableIterator.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 793}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1946}";
+		};
+	};
+	7186CF2112529070007DF003 /* LuaState.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 6266}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1548}";
+		};
+	};
+	7186CF2212529070007DF003 /* LuaState.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 5512}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1832}";
+		};
+	};
+	7186CF2312529070007DF003 /* LuaState.inl */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 6552}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1654}";
+		};
+	};
+	7186CF2412529070007DF003 /* LuaState_DumpObject.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 13546}}";
+			sepNavSelRange = "{2807, 0}";
+			sepNavVisRange = "{2630, 1224}";
+		};
+	};
+	7186CF2512529070007DF003 /* LuaStateOutFile.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1053}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1343}";
+		};
+	};
+	7186CF2612529070007DF003 /* LuaStateOutFile.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1844}";
+		};
+	};
+	7186CF2712529070007DF003 /* LuaTableIterator.cpp */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2626}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1852}";
+		};
+	};
+	7186CF2812529070007DF003 /* LuaTableIterator.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 845}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1788}";
+		};
+	};
+	7186CF2A12529070007DF003 /* luathread.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1853}";
+		};
+	};
+	7186CF2B12529070007DF003 /* lwstrlib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 15301}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1540}";
+		};
+	};
+	7186CF2C12529070007DF003 /* popen.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2964}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1424}";
+		};
+	};
+	7186CF2E12529070007DF003 /* pt.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 949}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 2473}";
+		};
+	};
+	7186CF3112529070007DF003 /* lapi.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{320, 0}";
+			sepNavVisRange = "{0, 320}";
+		};
+	};
+	7186CF3612529070007DF003 /* lcode.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1248}}";
+			sepNavSelRange = "{461, 0}";
+			sepNavVisRange = "{0, 1765}";
+		};
+	};
+	7186CF3712529070007DF003 /* ldblib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 5499}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1205}";
+		};
+	};
+	7186CF3812529070007DF003 /* ldebug.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 8801}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1320}";
+		};
+	};
+	7186CF3912529070007DF003 /* ldebug.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1136}";
+		};
+	};
+	7186CF3A12529070007DF003 /* ldo.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 7579}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1230}";
+		};
+	};
+	7186CF3B12529070007DF003 /* ldo.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 793}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1996}";
+		};
+	};
+	7186CF3D12529070007DF003 /* lfunc.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3471}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1427}";
+		};
+	};
+	7186CF3E12529070007DF003 /* lfunc.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1199}";
+		};
+	};
+	7186CF3F12529070007DF003 /* lgc.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 10842}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1446}";
+		};
+	};
+	7186CF4012529070007DF003 /* lgc.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1625}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1468}";
+		};
+	};
+	7186CF4212529070007DF003 /* liolib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 7969}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1221}";
+		};
+	};
+	7186CF4312529070007DF003 /* llex.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 9529}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 981}";
+		};
+	};
+	7186CF4412529070007DF003 /* llex.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1391}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1459}";
+		};
+	};
+	7186CF4512529070007DF003 /* llimits.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1690}}";
+			sepNavSelRange = "{225, 0}";
+			sepNavVisRange = "{0, 1282}";
+		};
+	};
+	7186CF4612529070007DF003 /* lmathlib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3601}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1161}";
+		};
+	};
+	7186CF4712529070007DF003 /* lmem.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1235}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1597}";
+		};
+	};
+	7186CF4812529070007DF003 /* lmem.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 832}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1871}";
+		};
+	};
+	7186CF4A12529070007DF003 /* lobject.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 8411}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1374}";
+		};
+	};
+	7186CF4B12529070007DF003 /* lobject.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 7761}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1362}";
+		};
+	};
+	7186CF4C12529070007DF003 /* lopcodes.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1898}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 805}";
+		};
+	};
+	7186CF4D12529070007DF003 /* lopcodes.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3783}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1654}";
+		};
+	};
+	7186CF4E12529070007DF003 /* loslib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3510}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1335}";
+		};
+	};
+	7186CF4F12529070007DF003 /* lparser.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 19825}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1479}";
+		};
+	};
+	7186CF5012529070007DF003 /* lparser.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1248}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1390}";
+		};
+	};
+	7186CF5112529070007DF003 /* lstate.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3822}}";
+			sepNavSelRange = "{165, 0}";
+			sepNavVisRange = "{124, 1352}";
+		};
+	};
+	7186CF5212529070007DF003 /* lstate.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2665}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1222}";
+		};
+	};
+	7186CF5312529070007DF003 /* lstring.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 2951}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1516}";
+		};
+	};
+	7186CF5412529070007DF003 /* lstring.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1385}";
+		};
+	};
+	7186CF5512529070007DF003 /* lstrlib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 20319}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1312}";
+		};
+	};
+	7186CF5612529070007DF003 /* ltable.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 10764}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1568}";
+		};
+	};
+	7186CF5712529070007DF003 /* ltable.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1710}";
+		};
+	};
+	7186CF5812529070007DF003 /* ltablib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 3926}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1365}";
+		};
+	};
+	7186CF5912529070007DF003 /* ltm.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 1053}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1416}";
+		};
+	};
+	7186CF5A12529070007DF003 /* ltm.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1114}";
+		};
+	};
+	7186CF5C12529070007DF003 /* lua.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 6552}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1340}";
+		};
+	};
+	7186CF5E12529070007DF003 /* luaconf.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {902, 11531}}";
+			sepNavSelRange = "{593, 18}";
+			sepNavVisRange = "{0, 1057}";
+			sepNavWindowFrame = "{{360, 139}, {961, 719}}";
+		};
+	};
+	7186CF6112529070007DF003 /* lundump.h */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {747, 780}}";
+			sepNavSelRange = "{536, 9}";
+			sepNavVisRange = "{284, 591}";
+		};
+	};
+	71905B881253E06500E5E788 /* lapi.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 16796}}";
+			sepNavSelRange = "{138, 0}";
+			sepNavVisRange = "{0, 1277}";
+		};
+	};
+	71905B8D1253E09C00E5E788 /* lbaselib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 10244}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1721}";
+		};
+	};
+	71905BBF1253E17700E5E788 /* ldump.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 6292}}";
+			sepNavSelRange = "{2344, 39}";
+			sepNavVisRange = "{1798, 1071}";
+		};
+	};
+	71905C611253E5E900E5E788 /* linit.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 775}}";
+			sepNavSelRange = "{0, 0}";
+			sepNavVisRange = "{0, 1131}";
+		};
+	};
+	71905C631253E5F700E5E788 /* loadlib.c */ = {
+		uiCtxt = {
+			sepNavIntBoundsRect = "{{0, 0}, {1651, 10062}}";
+			sepNavSelRange = "{7836, 0}";
+			sepNavVisRange = "{7624, 1516}";
+		};
+	};
+	71A2BC4F1361E29500945F33 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7186CF1C12529070007DF003 /* LuaStackObject.cpp */;
+		name = "LuaStackObject.cpp: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 854;
+		vrLoc = 0;
+	};
+	71A2BC511361E29500945F33 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7186CF1B12529070007DF003 /* LuaPlusInternal.h */;
+		name = "LuaPlusInternal.h: 41";
+		rLen = 12;
+		rLoc = 1189;
+		rType = 0;
+		vrLen = 1516;
+		vrLoc = 0;
+	};
+	71BD9B7113C765AE00B3B2E5 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7186CF1D12529070007DF003 /* LuaStackObject.h */;
+		name = "LuaStackObject.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1201;
+		vrLoc = 5267;
+	};
+	71EF5B0D1383791100B242B4 /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 7186CF1D12529070007DF003 /* LuaStackObject.h */;
+		name = "LuaStackObject.h: 1";
+		rLen = 0;
+		rLoc = 0;
+		rType = 0;
+		vrLen = 1201;
+		vrLoc = 5267;
+	};
+	D2AAC07D0554694100DB518D /* LuaPlus */ = {
+		activeExec = 0;
+	};
+}

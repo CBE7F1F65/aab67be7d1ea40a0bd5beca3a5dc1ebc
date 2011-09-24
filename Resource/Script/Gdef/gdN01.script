@@ -1,0 +1,32 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+// ////////////// //
+# 0x8109
+
+@ @@] 90
+
+SD [ttar] 1
+ST ttar GHX GHY
+SD [ttime] 90 - GH@
+CHASEAIM ttar _0 ttime
+
+RAMA false
+	GHX GHY TX _0 TY _0 0 [tangle]
+
+SD [tghi] GHI
+BCONTROL BTYPE_GHOST [tghi]
+	TX ttar TY ttar tangle 0 2.5
+
+@ @@[]% 60 150 3
+
+SD [tangle] GHI * SEED
+A 4
+	TIMERLESS 60 ANGLESETADD GHI % 2 * 600
+B GHX GHY
+	true GH@ * 1000 + tangle 2.0
+	1 GHI % 3 + 5 8 0 0xff
+A 0

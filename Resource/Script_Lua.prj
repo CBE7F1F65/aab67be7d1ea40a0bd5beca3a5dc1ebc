@@ -1,0 +1,78 @@
+[Project ID]
+Signature=UE Proj: v.1
+[Project Information]
+CTags Legacy Support=0
+Compilable=0
+Create Tagfile=0
+Filter=
+Include Sub Directories=1
+Project Directory=E:\hge[th09x]\Resource\Script_Lua
+Project Start=DA07080003001900140038001300000064
+Project Tagfile=
+Project Wordfile=
+Relative to Project File=1
+Save Account=0
+Use Relative Directory=1
+Using VCS=0
+Working Time=1640093
+[Folders]
+HDSS=1
+HDSS - Control=1
+HDSS - Edef=1
+HDSS - Event=1
+HDSS - Scene=1
+.\=1
+.\ - ÎÄµµ=1
+.\ - HDSS=1
+.\ - HDSS - Control=1
+.\ - HDSS - Scene=1
+.\ - HDSS - Scene - Scene=1
+.\ - Script_Lua=1
+.\ - Script_Lua - HDSS=1
+.\ - Script_Lua - HDSS - Control=1
+.\ - Script_Lua - HDSS - Event=1
+[uemakeXp]
+ReleaseMode=0
+[Debug Settings]
+Program Arguments=
+Selected Debugger=0
+Source Paths=
+Symbol Paths=
+Working Directory=
+[Open Files]
+Active File Display Mode=3
+Active File Index=0
+Open File Line0=3179
+Open File Line1=0
+Open File Line2=0
+Open File Line3=0
+Open File Line4=462
+Open File Line5=1329
+Open File Line6=398
+Open File Pos0=3350
+Open File Pos1=0
+Open File Pos2=0
+Open File Pos3=0
+Open File Pos4=1185
+Open File Pos5=2207
+Open File Pos6=0
+Open File Window Pos0=2,3,-1,-1,-8,-30,0,0,247,572
+Open File Window Pos1=0,1,-1,-1,-8,-30,25,25,276,583
+Open File Window Pos2=0,1,-1,-1,-8,-30,50,50,301,608
+Open File Window Pos3=0,1,-1,-1,-8,-30,75,75,326,633
+Open File Window Pos4=0,1,-1,-1,-8,-30,100,100,351,658
+Open File Window Pos5=0,1,-1,-1,-8,-30,125,125,376,683
+Open File Window Pos6=0,1,-1,-1,-8,-30,150,150,426,715
+Open File0=E:\hge\Resource\Script_Lua\HDSS\Control\cPlayerSelect.lua
+Open File1=E:\hge\Resource\Script_Lua\HDSS\Event\ePlayerShootCharge.lua
+Open File2=E:\hge\Resource\Script_Lua\HDSS\Event\ePlayerShot.lua
+Open File3=E:\hge\Resource\Script_Lua\HDSS\EventExecute.lua
+Open File4=E:\hge\Resource\Script_Lua\HDSS\Event\ePlayerInStop.lua
+Open File5=E:\hge\Resource\Script_Lua\HDSS\Control\cOver.lua
+Open File6=E:\hge\Resource\Script_Lua\HDSS\Control\cClear.lua
+Open File7=
+
+[Group Filter]
+.\=*.lua
+[Files]
+0=.\

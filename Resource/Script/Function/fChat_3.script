@@ -1,0 +1,96 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+FUNCTIONFILE
+
+// /////////////
+# $Chat_T31	
+
+@ 0
+
+CHATON 0xff
+	0xff $EnemyID_03 CS_RNN
+	$EnemyID_03 CS_RNN "Welcome to the moon."
+	$EnemyID_03 CS_RNN "But it is not the time to say it."
+	$EnemyID_03 CS_RNN "All we should do is to prevent theinvasion of the aliens."
+	$EnemyID_03 CS_RNN "Step away from the Lunar Cannon!"
+CHATOFF
+
+@ 1
+
+CHATON 0xff
+	$PlayerID_01 $EnemyID_03 CS_RNN
+	$EnemyID_03 CS_RNN "It is you two again."
+	$PlayerID_01 CS_LNN "It's your entire fault this time. Why don't you try talking to them?"
+	$PlayerID_07 CS_LNN "Things must have a peaceful way tobe solved."
+	$PlayerID_01 CS_LNN "Or is it really such bad that theyjust exist?"
+	$EnemyID_03 CS_RNN "All we should do is to prevent theinvasion of the aliens."
+	$PlayerID_07 CS_LNN "(She looks like someone else.)"
+	$EnemyID_03 CS_RNN "Step away from the Lunar Cannon!"
+	$PlayerID_01 CS_LNN "(Same sense.)"
+CHATOFF
+
+@ 2
+
+CHATON 0xff
+	$PlayerID_03 $EnemyID_03 CS_LNN
+	$PlayerID_03 CS_LNN "Great Lunar Cannon!"
+	$PlayerID_07 CS_LNN "Its power can destroy the world."
+	$EnemyID_03 CS_RNN "You are too dangerous to get closeto it."
+	$PlayerID_03 CS_LNN "Glad to make you unhappy."
+	$EnemyID_03 CS_RNN "All we should do is to prevent theinvasion of the aliens."
+	$PlayerID_07 CS_LNN "She is just a dummy controlled by others."
+	$EnemyID_03 CS_RNN "Step away from the Lunar Cannon!"
+	$PlayerID_07 CS_LNN "Awful."
+CHATOFF
+
+@ 3
+
+CHATON 0xff
+	$PlayerID_01 $EnemyID_03 CS_RNN
+	$EnemyID_03 CS_RNN "Welcome my friend, Hakurei Reimu."
+	$PlayerID_01 CS_LNN "Sounds like a real princess."
+	$EnemyID_03 CS_RNN "All we should do is to prevent theinvasion of the aliens."
+	$PlayerID_01 CS_LNN "Did your smile change just now?"
+	$EnemyID_03 CS_RNN "Step away from the Lunar Cannon!"
+	$PlayerID_01 CS_LNN "Something weird¡­ "
+CHATOFF
+
+@ 4
+
+CHATON 0xff
+	$PlayerID_05 $EnemyID_03 CS_RNN
+	$EnemyID_03 CS_RNN "You are the alien, aren't you?"
+	$PlayerID_05 CS_LNN "Yes I am. But please wait¡­ "
+	$EnemyID_03 CS_RNN "All we should do is to prevent theinvasion of the aliens."
+	$PlayerID_05 CS_LNN "Please listen to me!"
+	$EnemyID_03 CS_RNN "Step away from the Lunar Cannon!"
+	$PlayerID_05 CS_LNN "(She refuses to have a talk.)"
+CHATOFF
+
+@ @@[ 0
+
+IF CHATI - 0xff !
+{
+	SETTIME 0
+	SETSCENE GETSCENE + 4
+}
+
+// /////////////
+# $Chat_T32	
+
+@ 0
+
+CHATON 0xff
+	0xff $EnemyID_03 CS_RNN
+	$EnemyID_03 CS_RNN "So good¡­ did you do¡­ "
+	$EnemyID_03 CS_RNN "But¡­ You can never¡­ destroy it¡­ "
+	$EnemyID_03 CS_RNN "I¡­ will show you¡­ the true powerof the Lunar Cannon!"
+CHATOFF
+
+@ @@[ 0
+
+IF CHATI - 0xff !
+{
+	SETTIME 0
+	SETSCENE GETSCENE + 4
+}

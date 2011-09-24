@@ -1,0 +1,32 @@
+#ifndef __NOTUSELUA
+
+#ifndef _LUACONSTDEFINE_H
+#define _LUACONSTDEFINE_H
+
+enum {
+	LUAERROR_LOADINGSCRIPT,
+	LUAERROR_LUAERROR,
+	LUAERROR_NOTFUNCTION,
+	LUAERROR_DUMPINGSCRIPT
+};
+#define LUACALCULATESTR_INT			'i'
+#define LUACALCULATESTR_DWORD		'd'
+#define LUACALCULATESTR_LONGLONG	'l'
+#define LUACALCULATESTR_QWORD		'q'
+
+#define DEFAULT_LUAFILETABLEFILE	"Script_Lua/LuaFileTable.lua"
+#define DEFAULT_LUACONSTFILE		"Script_Lua/Const.lua"
+#define DEFAULT_BINLUAFILE			"Script_Lua/Script.lua"
+#define DEFAULT_BINSCRIPTFILE		"Script.dat"
+#define DEFAULT_TEMPLUAFILE			"Script_Lua/Script.tmp"
+#define DEFAULT_LUAFILETABLENAME		"luaFileTable"
+#define DEFAULT_LUASTRINGTABLENAME		"luaStringTable"
+#define DEFAULT_BUSEUNPACKEDFILESNAME	"bUseUnpackedFiles"
+#define M_STRINGMAX		0x80
+#define M_MESSAGESTRMAX	0x100
+
+#define M_SCRIPT_PASSWORD	0x9B32A041
+
+#endif
+
+#endif

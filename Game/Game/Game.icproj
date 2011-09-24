@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="Game"
+	ProjectGUID="{E7A7C376-8D5F-4647-AC65-B44A28FDB7B2}"
+	VCNestedProjectGUID="{B36ED7CF-3E22-4A75-93BC-40D6BCECE0DB}"
+	VCNestedProjectFileName="Game.vcproj">
+	<Configurations/>
+	<Files/>
+</VisualStudioProject>

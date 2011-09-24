@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="hge"
+	ProjectGUID="{9F8AACB6-5F1B-463C-ADF0-CD0ADA749A06}"
+	VCNestedProjectGUID="{32B00EEA-7CF8-44B6-82B4-0EA67C7C4E54}"
+	VCNestedProjectFileName="hge.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32">
+			<Tool
+				Name="CppCmplrTool"
+				DisableSpecificDiagnostics="1786"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				DisableSpecificDiagnostics="1786"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

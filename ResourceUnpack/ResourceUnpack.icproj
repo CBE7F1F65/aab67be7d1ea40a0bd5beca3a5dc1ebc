@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="ResourceUnpack"
+	ProjectGUID="{BEA2A916-C4FB-4973-AEEE-425555BE1B13}"
+	VCNestedProjectGUID="{407FE0E9-7DE2-4051-B96B-122069263389}"
+	VCNestedProjectFileName="ResourceUnpack.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32">
+			<Tool
+				Name="CppCmplrTool"
+				OptimizeForWindowsApplication="true"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+		<Configuration
+			Name="FinalRelease|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

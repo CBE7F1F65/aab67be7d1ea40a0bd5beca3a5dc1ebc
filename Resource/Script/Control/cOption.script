@@ -1,0 +1,110 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Option
+# STATE_OPTION
+
+// Init
+@ 1
+
+BGVALUE 11 SI_Title_Option
+	TotalCenterX 56 -1 -1
+	0xffffffff
+
+BGVALUE BGMASK SI_Null
+	TotalCenterX 260 400 380
+	0xA0000000
+
+SD [i] 6
+LOOP [i]
+{
+	SD [j] 5 - i
+	IF j
+	{
+		SD [y] j * 32 + 256
+	}
+	ELSE
+	{
+		SD [y] 100
+	}
+	SELBUILD j SI_Option_KeySet + j
+		TotalCenterX TotalCenterY 1 0 8
+		220 y
+		-4 -4
+		0 0
+		0 0
+		SEL_NULL
+}
+
+SD [i] 6
+LOOP [i]
+{
+	SD [j] 5 - i
+	SD [y] j * 30 + 108
+
+	SD [xOffset] 0
+	IF j - 5 !
+	{
+		SD [xOffset] 40
+	}
+	ELSE
+	{
+		SD [k] 2
+		LOOP [k]
+		{
+			SD [l] k !
+	
+			SELBUILD j * 2 + l + 0x80 SI_DigitBig_0 + l
+				TotalCenterX TotalCenterY 1 0 8
+				l * 16 + 430 y
+				0 0
+				0 0
+				0 0
+				SEL_NONACTIVE
+		}
+	}
+	
+	SELBUILD j + 0x10 SI_OptionKey_Shoot + j
+		TotalCenterX TotalCenterY 1 0 8
+		340 + xOffset y
+		-4 -4
+		0 0
+		0 0
+		SEL_NONACTIVE + SEL_GRAY
+}
+
+SELBUILD 0x90 SI_OptionGraph_Window
+	TotalCenterX TotalCenterY 0.8 0 8
+	380 288
+	0 0
+	0 0
+	0 0
+	SEL_NONACTIVE
+	
+SD [i] 4
+LOOP [i]
+{
+	SD [j] 3 - i
+
+	SD [k] 2
+	LOOP [k]
+	{
+		SD [l] k !
+
+		SELBUILD l * 0x10 + 0xB0 + j SI_DigitBig_0 + l
+			TotalCenterX TotalCenterY 1 0 8
+			j * 16 + 348 l * 32 + 320
+			0 0
+			0 0
+			0 0
+			SEL_NONACTIVE
+	}
+}
+
+SELSET 6 0 true 0 0 0 0
+
+// BackFade
+@ @@] 63
+
+CALL $TitleFade $TitleFade_Right

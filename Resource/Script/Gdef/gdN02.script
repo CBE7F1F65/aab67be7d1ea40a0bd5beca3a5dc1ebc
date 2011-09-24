@@ -1,0 +1,67 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+///////
+# 0x8205
+
+@ @@< 70
+
+GHCHASE GHAIMX * 220 + 114 140 70 - GH@
+
+@ @@> 90
+
+SD [toffset] GH@ - 90 * 4
+A 14
+	TIMEREQUAL 24 SPEEDSET 0
+	VALEQUAL [_0] 1 SPEEDSET toffset + 250
+	VALEQUAL [_0] 1 ANGLESETAMAP GH@ % 3 * 2500 - 2500
+B GHX GHY
+	true toffset * 440 + SEED toffset /f 100.0 +f 1.5
+	3 2 8 0 0xff
+A 0
+
+////////
+# 0x8213
+
+@ @@>%<% 90 120 60 3
+
+A 4
+	TIMERLESS 60 SPEEDSETADD -4
+B GHX GHY
+	true RAND 4.0
+	4 13 8 0 0xff
+A 0
+
+@ @@>% 90 120
+
+A 4
+	TIMERLESS 60 SPEEDSETADD -6
+BC 32 ENAMAP 0 0
+	GHX GHY 4.0
+	17 6 8 0
+A 0
+
+///////
+# 0x8217
+
+@ @@<% 120 4
+
+A 5
+	TIMERRANGE 60 90 SPEEDSETADD GH@ / 4 % 4 + 2
+B GHX GHY
+	true SIGN GHI * GH@ * 900 + SEED 0.0
+	4 13 8 0 0xff
+B GHX GHY
+	false 0 0.0
+	4 14 8 0 0xff
+A 0
+
+////////
+# 0x8225
+
+@ @@> 0
+
+IZEZONE IZE_EVENT GHX GHY 1 15 $IzeEvent_8225

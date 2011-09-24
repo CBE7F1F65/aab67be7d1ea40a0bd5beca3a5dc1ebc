@@ -1,0 +1,434 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+	
+// ////////////// //
+# 0x0304
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@% 240
+
+SD [i] 4
+SD [trandy] RANDR 20
+SD [tmod] EN@ % 480 > 0
+SD [tmod] SIGN tmod
+LOOP [i]
+{
+	SD [taimx] 90 * i + 89
+	SD [taimy] i + 1 / 2 % 2 * 60 * tmod + 140 + trandy
+	GB 0x8304 0xff 0xff
+		taimx taimy 9000 0.0
+		0 8 180
+	GHSAIM i -f 1.5 *f 500 0
+}
+
+@ @@%[]% 240 120 160 2
+
+SD [i] 5
+LOOP [i]
+{
+	A 13
+		TIMERLESS 45 SPEEDSETADD -12
+		TIMEREQUAL 60 ANGLESETAMAP i - 2 * 1500
+		TIMERRANGE 60 75 SPEEDSETADD 12
+	B ENX ENY
+		true RANDR 6000 + 9000 5.0
+		24 1 8 0 0xff
+}
+A 0
+
+////////
+# 0x0308
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 120
+
+@ @@>%]% 160 180 40 4
+
+SD [tmod] EN@ % 360 < 180
+SD [tmod] SIGN tmod
+A 9
+	TIMERLESS 60 SPEEDSETADD -3
+	TIMERRANGE 45 90 ANGLESETADD tmod * 180
+BC 18 tmod * EN@ % 360 * 180 + SEED 0
+	ENX ENY 3.5
+	2 tmod * 2 + 4 8 0
+A 0
+
+@ @@>% 320 30
+
+SD [i] 4
+LOOP [i]
+{
+	SD [tmod] EN@ * 732
+	BEB ENX ENY
+		i * 9000 + tmod + SEED 2.0 0 2
+		180 BEAMFLAG_NONE 0xff 0xff
+}
+
+///////
+# 0x0312
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ 120
+
+EA 4 ENAC_CHASETO_CXY
+	60 CenterX 160
+
+@ @@>%= 120 90 29
+
+SD [_0] RANDR 30
+SE $SE_Bullet_2 CenterX
+
+@ @@>%[] 180 90 29 40
+
+SD [tline] EN@ % 90 - 29
+SD [tmod] EN@ % 180 < 90
+SD [i] 11
+SD [toffset] EN@ + tmod * 7 % 15
+A 3
+	TIMEREQUAL 120 FADEOUT
+LOOP [i]
+{
+	B i * 35 + 39 + toffset tline * 50 - 10 + _0
+		true 0 0.0
+		2 tmod * 4 + 2 32 24 0xff
+}
+A 0
+
+@ @@> 280
+
+BOSSATTACK
+
+SD [tangle] EN@ * -217 + SEED
+SD [tangle] RANDR 900 + tangle
+
+B ENX - 22 ENY - 30
+	true tangle RAND % 10 /f 10.0 +f 1.0
+	6 2 8 0 0xff
+
+///////
+# 0x0316
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 240
+
+@ @@>% 180 120
+
+SD [tangle] ENAMAP 0
+SD [tmod] EN@ % 240 < 120
+A 9
+	TIMERLESS 90 SPEEDSETADD -3
+	YLESS 360 BOUNCE 32 1
+SD [i] 5
+LOOP [i]
+{
+	BC 7 RANDR 200 + tangle 0
+		ENX ENY RAND % 10 /f 10.0 +f 4.5
+		24 tmod * 2 + 1 8 0
+	BC 7 RANDR 200 + tangle 0
+		ENX ENY RAND % 10 /f 10.0 +f 4.0
+		3 tmod * 4 + 2 8 0
+}
+BC 7 tangle 0
+	ENX ENY 6.0
+	15 tmod 8 0
+A 0
+
+///////
+# 0x0320
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ 120
+
+GB 0x8320 0xff ENI
+	ENX ENY RAND 4.0
+	0 8 80
+GHSAIM 2 1700
+
+@ 300
+
+GB 0x8320 0xff ENI
+	ENX ENY RAND 3.0
+	0 8 -40
+GHSAIM 6 975
+
+@ 600
+
+GB 0x8320 0xff ENI
+	ENX ENY RAND 5.0
+	0 8 -120
+GHSAIM 4 300
+
+// ////////////// //
+# 0x0328
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+// Intro
+@ @@]%= 500 250 144
+
+SD [ttimemod] EN@ % 500 < 250
+A 3
+	TIMEREQUAL 90 FADEOUT
+BL 15 0 45 8
+	ENX ENY 9000 0 0.0 0
+	3 SIGN ttimemod * 2 + 4 8 0
+A 0
+
+@ @@]%= 500 250 234
+
+SD [ttimemod] EN@ % 500 < 250
+SD [ttimemod] SIGN ttimemod
+SD [i] 6
+SD [trandx] RAND % 31 - 15
+SD [trandy] RAND % 31 - 15
+LOOP [i]
+{
+	A 8
+		TIMERLESS 80 ANGLESETADD i * 10 + 200 * ttimemod
+		TIMERLESS 160 SPEEDSETADD i / 3 + 2
+	BL 13 0 50 8
+		i * 1.2f +f ENX + trandx ENY + trandy -9000 0 i *f 0.15 0
+		1 ttimemod * 2 + 4 8 0
+}
+A 0
+
+// Disturb
+@ @@[% 240 120
+
+BC 16 ENAMAP 0 0
+	ENX ENY 1.5
+	2 EN@ % 180 < 90 * 2 + 4 8 0
+
+// Drive
+
+@ @@>% 240 5
+
+IF PY <f ENX
+{
+	BC 40 RAND 0
+		ENX ENY 3.5
+		1 7 8 0
+}
+
+
+@ @@[%<% 600 200 60 30
+
+SD [ttimemod] EN@ % 200 !
+SD [ttimemod] SIGN ttimemod
+A 3
+	TIMEREQUAL 90 FADEOUT
+BL 13 0 50 8
+	ttimemod *f 8.0 +f ENX ENY 9000 0 0.0 0
+	3 ttimemod * 2 + 4 8 0
+A 0
+
+@ @@[%[<% 600 200 90 150 30
+
+SD [ttimemod] EN@ - 90 % 200 !
+SD [ttimemod] SIGN ttimemod
+SD [i] 7
+SD [trandx] RAND % 31 - 15
+SD [trandy] RAND % 31 - 15
+LOOP [i]
+{
+	A 8
+		TIMERLESS 80 ANGLESETADD i * 11 + 200 * ttimemod
+		TIMERLESS 105 SPEEDSETADD i / 4 + 2
+	BL 15 0 45 8
+		i *f 1.2 +f ENX + trandx ENY + trandy -9000 0 i *f 0.15 0
+		1 ttimemod * 2 + 4 8 0
+}
+A 0
+
+
+////////
+# 0x0332
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 180
+
+@ @@% 180
+
+SD [tmod] EN@ / 180 % 6
+SD [_0] + tmod 0
+
+@ @@%[] 180 60 80
+
+SD [tmod] EN@ / 180 % 6
+SD [_0] + tmod 1
+
+@ @@%= 180 90
+
+SD [tmod] EN@ / 180 % 6
+SD [_0] + tmod 2
+
+@ @@%= 180 91
+
+EXECUTE CT_EDEF NOW# 180
+
+@ @@%[] 180 140 177
+
+SD [tmod] EN@ / 180 % 6
+SD [_0] + tmod 4
+
+@ @@%= 180 178
+
+SD [tmod] EN@ / 180 % 6
+SD [_0] + tmod 3
+
+@ @@%= 180 179
+
+EXECUTE CT_EDEF NOW# 180
+
+@ @@>%]%< 180 180 60 4 3
+
+SD [ttimemod] EN@ % 60
+SD [tmod] EN@ / 180 % 6
+A 25
+	VALEQUAL [_0] + tmod 1 SPEEDSETADD ttimemod / 15 + 5
+	VALEQUAL [_0] + tmod 2 TYPESET 17
+	VALEQUAL [_0] + tmod 2 ANGLESETADD SIGN tmod * ttimemod * 480 * tmod
+	VALEQUAL [_0] + tmod 3 TYPESET 5
+	VALEQUAL [_0] + tmod 4 SPEEDSETADD -1
+SD [i] 5
+LOOP [i]
+{
+	SD [ti] i * 87
+	SD [tsign] SIGN tmod
+	BC 3 EN@ * 537 * tsign + ti ttimemod
+		ENX ENY i *f 0.05 +f 0.3
+		5 ttimemod / 20 + tmod % 3 * 2 + 2 8 0
+}
+A 0
+
+///////
+# 0x0324
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+	
+@ @@% 180
+
+SD [tmod] EN@ % 360 < 180
+SD [tmodx] tmod * 180
+EA 4 ENAC_CHASETO_CXY
+	60 RANDR 60 + tmodx + 134 RANDR 30 + 120
+
+@ @@>%= 180 180 60
+
+SD [tmod] EN@ % 360 < 180
+DIST ENX ENY PX PY [tdist]
+SD [_0] ENAMAP 0
+
+A 5
+	TIMERRANGE 60 90 SPEEDSETADD 8
+BL 3 _0 tdist /f 4.0 -1
+	ENX ENY _0 0 0.0 0
+	3 tmod * 4 + 2 8 0
+A 0
+
+@ @@>% 180 15
+
+IF PY < 240
+{
+	BC 45 ENAMAP 0 0
+		ENX ENY 4.0
+		1 10 8 0
+}
+
+@ @@>%= 180 180 90
+
+SD [tmod] EN@ % 360 < 180
+SD [trandx] RANDR 30
+
+A 24
+	TIMERRANGE 15 30 AND INDEXMODEQUAL 2 0 THEN ANGLESETADD SIGN tmod * 200
+	TIMERRANGE 30 45 AND INDEXMODEQUAL 2 1 THEN ANGLESETADD SIGN tmod * -200
+	TIMERLESS 60 SPEEDSETADD 3
+SD [i] 7
+LOOP [i]
+{
+	BL 12 _0 18.0 -1
+		i * 50 + trandx + 24 RANDR 30 + 80 _0 0 0.1 0
+		3 tmod * 4 + 2 8 0
+}
+A 0
+
+///////
+# 0x0340
+
+@ 1
+
+EA 4 ENAC_CHASETO_CXY
+	60 CenterX CenterY
+	
+@ 120
+
+GB 0x8340 0xff ENI
+	ENX ENY RAND 4.0
+	0 8 180
+
+@ 180
+
+SD [i] 9
+SD [tindexsaved] BUI
+LOOP [i]
+{
+	SDf [tspeed] 0.5
+	SD [tr] i + 1 * 30
+	SDf [tr2] tr *f 2.0
+	SD [ti] i * 3
+	A 9
+		TIMEREQUAL 33 ANGLESETADD 9000
+		EVERY ANGLESETADD ASIN2 tspeed tr2 * 2 + ti
+		EVERY REMAIN
+	BC i + 1 * 5 i * 430 + SEED tr
+		ENX ENY tspeed
+		10 10 32 8
+}
+A 0
+SD [i] BUI - tindexsaved
+LOOP [i]
+{
+	BUDECANCEL i + tindexsaved
+}
+
+@ 240
+
+BC 32 ENAMAP 0 0
+	ENX ENY 0.4
+	17 0 8 0
+
+@ @@>% 600 180
+
+B ENX ENY
+	false 0 0.4
+	24 2 16 0 0xff
+	24 2 16 0 0xff

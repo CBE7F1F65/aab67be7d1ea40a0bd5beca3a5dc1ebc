@@ -1,0 +1,140 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Result
+# STATE_RESULT
+
+// Init
+@ 1
+
+BGVALUE 11 SI_TopContent_Result
+	TotalCenterX 56 -1 -1
+	0xffffffff
+SELCLEAR
+ISELCLEAR
+
+// BackFade
+@ @@] 63
+
+CALL $TitleFade $TitleFade_Right
+
+// Events
+@ @@> 0
+
+SD [ptsec] RESERVEBEGIN
+SD [ptdiff] RESERVEBEGIN + 1
+SD [ptsel] RESERVEBEGIN + 2
+
+IF D ptsec < -1
+{
+	BGVALUE BGMASK SI_Null
+		160 160 260 140
+		0xA0000000
+
+	SELCLEAR
+	ISELCLEAR
+	BGOFF 3
+	BGOFF 12
+	BGOFF 13
+	BGOFF 14
+
+	SD [i] 3
+	LOOP [i]
+	{
+		SD [j] 2 - i
+		SELBUILD j SI_HiScore_HighScore + j
+			0 128 1 0 8
+			160 j * 40 + 128
+			-4 -4
+			-40 -40 * j - 40
+			8 0
+			SEL_NULL
+	}
+	SELSET 3 D ptsel true 0 0 0 0
+
+	SD ptsec -1
+}
+ELSEIF D ptsec < 0
+{
+	IF SELCOMPLETE
+	{
+		SD ptsel SEL
+		SD ptsec SEL
+		SELCLEAR
+		ISELCLEAR
+		IF D ptsec - 2
+		{
+			IF D ptsec !
+			{
+				SD [i] 9
+				SD [bFull] false
+			}
+			ELSE
+			{
+				SD [i] 17
+				SD [bFull] true
+			}
+			LOOP [i]
+			{
+				IF bFull
+				{
+					SD [j] 16 - i
+				}
+				ELSE
+				{
+					IF i > 5
+					{
+						SD [j] 8 - i
+					}
+					ELSE
+					{
+						SD [j] 16 - i
+					}
+				}
+				SELBUILD bFull * 8 + 8 - i SI_Battle_01 + j
+					-128 96 1 0 8
+					-128 96
+					480 0
+					-480 0
+					0 0
+					SEL_NULL
+			}
+			SELSET bFull * 8 + 9 0 false 0 0 0 0
+			SD ptdiff -1
+		}
+		ELSE
+		{
+			ISELBUILD 0 "Nothing."
+				90 140 INFO_RED
+				SEL_NONACTIVE
+			ISELSET 0 0 true 0 0 0 0
+		}
+		BGVALUE BGMASK SI_Null
+			TotalCenterX 280 580 320
+			0xA0000000
+
+		BGVALUE 3 SI_HiScore_HighScore + SEL
+			120 88 -1 -1
+			0xffffffff
+	}
+}
+ELSEIF D ptsec - 2
+{
+	SETKEY KS_FIRE false
+	IF D ptdiff - SEL
+	{
+		SD ptdiff -1
+	}
+	IF D ptsec !
+	{
+		SD [i] 3
+		LOOP [i]
+		{
+			SD [j] 2 - i
+			BGVALUE i + 12 SI_ResultView_TotalPlayTime + i
+				240 i * 25 + 375 -1 -1
+				0xffffffff
+		}
+	}
+}

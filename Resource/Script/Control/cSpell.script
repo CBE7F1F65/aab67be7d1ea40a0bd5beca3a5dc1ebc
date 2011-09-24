@@ -1,0 +1,86 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Spell
+# STATE_SPELL
+
+@ 1
+
+SD [ptspmode] RESERVEBEGIN + 16
+
+ISELCLEAR
+// Back
+BGVALUE 0 SI_SelectScene
+	TotalCenterX TotalCenterY TotalW TotalH
+	0xffffffff
+
+// UpTitle
+BGVALUE 11 SI_TopContent_Spell
+	TotalCenterX 56 -1 -1
+	0xffffffff
+
+// Mask
+BGVALUE BGMASK SI_Null
+	290 180 380 140
+	0xA0000000
+
+ISELBUILD 0
+	"Spell Card Practice (Battle)"
+	120 130 INFO_GREEN
+	SEL_NULL
+ISELBUILD 1
+	"Spell Card Practice (Charactor)"
+	120 170 INFO_GREEN
+	SEL_NULL
+ISELBUILD 2
+	"Stage Practice"
+	120 210 INFO_GREEN
+	SEL_NULL
+
+SD [tmode] 0
+IF MODE - MODE_STAGE !
+{
+	SD [tmode] 2
+}
+ELSEIF D ptspmode
+{
+	SD [tmode] 1
+}
+ISELSET 3 tmode true 0 0 0 0
+
+// BackFade
+@ @@%] 256 63
+
+CALL $TitleFade $TitleFade_Right
+
+@ @@%[] 256 128 191
+
+CALL $TitleFade $TitleFade_Left
+
+// Events
+@ @@> 0
+
+IF ISELCOMPLETE
+{
+	SETSCENE 100
+	IF ISEL - 2 !
+	{
+		SETMODE MODE_STAGE
+		SETSTATE STATE_DIFFICULT_SELECT
+	}
+	ELSE
+	{
+		SD RESERVEBEGIN + 16 ISEL
+		SETMODE MODE_SPELL
+		SETSTATE STATE_DIFFICULT_SELECT
+	}
+	SETTIME 0
+}
+ELSEIF CHECKKEY KS_SPECIAL KEY_DOWN
+{
+	SE SE_SYSTEM_CANCEL CenterX
+	SETTIME 0
+	SETSTATE STATE_TITLE
+	RETURN PTURN
+}

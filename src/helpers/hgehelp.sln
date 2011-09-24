@@ -1,0 +1,25 @@
+Microsoft Visual Studio Solution File, Format Version 8.00
+Project("{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}") = "hgehelp", "hgehelp.icproj", "{1F75C075-6CD9-41D2-A771-F12556414E93}"
+	ProjectSection(ProjectDependencies) = postProject
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfiguration) = preSolution
+		Debug = Debug
+		Release = Release
+	EndGlobalSection
+	GlobalSection(ProjectConfiguration) = postSolution
+		{1F75C075-6CD9-41D2-A771-F12556414E93}.Debug.ActiveCfg = Debug|Win32
+		{1F75C075-6CD9-41D2-A771-F12556414E93}.Debug.Build.0 = Debug|Win32
+		{1F75C075-6CD9-41D2-A771-F12556414E93}.Release.ActiveCfg = Release|Win32
+		{1F75C075-6CD9-41D2-A771-F12556414E93}.Release.Build.0 = Release|Win32
+		{FA197D84-4A1A-4FD4-92FA-536A84867C25}.Release.Build.0 = Release|Win32
+		{FA197D84-4A1A-4FD4-92FA-536A84867C25}.Release.ActiveCfg = Release|Win32
+		{FA197D84-4A1A-4FD4-92FA-536A84867C25}.Debug.Build.0 = Debug|Win32
+		{FA197D84-4A1A-4FD4-92FA-536A84867C25}.Debug.ActiveCfg = Debug|Win32
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+	EndGlobalSection
+	GlobalSection(ExtensibilityAddIns) = postSolution
+	EndGlobalSection
+EndGlobal

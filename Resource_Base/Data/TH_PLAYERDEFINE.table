@@ -1,0 +1,26 @@
+73	h5nc	4A																												
+Comment	Type	Collision_r	FastSpeed	SlowSpeed	ChargeSpeed	AddChargeRate	ShotDelay	RechargeDelay	ShootChargeTime	ExPointParaB	ExPointParaA	ExPointMax	InfiNMaxSet	SIID	Face	SpellCutIn	SpellName_1	SpellName_2	SpellName_3	MusicID	DrainZone	AIDrainTime	StandFrame	LeftPreFrame	LeftFrame	RightPreFrame	RightFrame	SceneName	Name	EName
+-	0	0.5	4	2	4	1	12	50	1	35	-1.25	7.5	0	SI_Player_01_00	SI_Face_01	SI_PlayerSpellCutIn_01	霊符「陰陽印」	霊符「夢想封印」	霊符「博麗幻影」	7	SI_PlayerDrainZone_01	64	1	1	1	1	1	迷いの竹林 -REIMU-	博麗·霊夢	Hakurei Reimu
+-	1	1	5	3	3.3	1.15	8	45	32	30	-1	8	0	SI_Player_02_00	SI_Face_02	SI_PlayerSpellCutIn_02	魔符「スターダスト」	魔符「スターダストレヴァリエ」	魔符「イリュージョンスター」	8	SI_PlayerDrainZone_02	32	1	1	1	1	1	迷いの竹林 -MARISA-	霧雨·魔理沙	Kirisame Marisa
+-	2	1	4	3.2	3.6	1	8	55	32	22.5	-0.5	11.5	0	SI_Player_03_00	SI_Face_03	SI_PlayerSpellCutIn_03	時符「プライベートヴィジョン」	時符「プライベートヴィジョン」	時符「ミステリアスジャック」	9	SI_PlayerDrainZone_03	64	1	1	1	1	1	幻草原 -SAKUYA-	十六夜·咲夜	Izayoi Sakuya
+-	3	1	5	2.1	2.2	1	8	33	18	17.5	0	17.5	0	SI_Player_04_00	SI_Face_04	SI_PlayerSpellCutIn_04	迷符「纏縛剣」	迷符「纏縛剣」	迷符「半身大悟」	10	SI_PlayerDrainZone_04	64	1	1	1	1	1	白玉楼階段 -YOUMU-	魂魄·妖夢	Konpaku Youmu
+-	4	1	5.5	3.5	4	1	8	60	40	25	-1	3	0	SI_Player_05_00	SI_Face_05	SI_PlayerSpellCutIn_05	風符「風神一扇」	風符「風神一扇」	疾風「風神少女」	16	SI_PlayerDrainZone_05	32	1	1	1	1	1	大蝦蟇の池 -AYA-	射命丸·文	Syameimaru Aya
+-	5	1	4	1.9	2.9	1	8	40	16	16	-0.5	5	0	SI_Player_06_00	SI_Face_06	SI_PlayerSpellCutIn_06	死符「酔人の生、死の夢幻」	死符「酔人の生、死の夢幻」	「西行寺無余涅槃」	2	SI_PlayerDrainZone_06	8	1	1	1	1	1	白玉楼 -YUYUKO-	西行寺·幽々子	Saigyouzi Yuyuko
+-	6	1	5	2.4	2.8	1	8	60	8	35	-1.25	7.5	3	SI_Player_07_00	SI_Face_07	SI_PlayerSpellCutIn_07	毒符「神経の毒」	毒符「神経の毒」	毒符「憂鬱の毒」	17	SI_PlayerDrainZone_07	8	1	1	1	1	1	無名の丘 -MEDICINE-	メディスン·メランコリー	Medicine Melancholy
+-	7	1	4.7	3.3	2.9	1	8	60	1	6.25	-0.125	4.5	0	SI_Player_08_00	SI_Face_08	SI_PlayerSpellCutIn_08	凍符「パーフェクトフリーズ」	凍符「パーフェクトフリーズ」	凍符「ゴールドディヴィニティー」	12	SI_PlayerDrainZone_08	4	1	1	1	1	1	霧の湖 -CIRNO-	チルノ	Cirno
+-	8	1	4.2	2.2	2.8	1	8	60	75	35	-1.25	7.5	0	SI_Player_09_00	SI_Face_09	SI_PlayerSpellCutIn_09	騒符「ソウルノイズフロー」	騒符「ソウルノイズフロー」	騒符「リリカ·ソロライブ」	13	SI_PlayerDrainZone_09	12	1	1	1	1	1	幽明結界 -LYRICA-	リリカ·プリズムリバー	Lyrica Prismriver
+-	9	1	5	3.4	3	1	8	60	21	50	-0.75	33.5	0	SI_Player_10_00	SI_Face_10	SI_PlayerSpellCutIn_10	鳥符「ヒューマンケージ」	鳥符「ヒューマンケージダブル」	鳥符「ミステリアスソング」	14	SI_PlayerDrainZone_10	4	1	1	1	1	1	妖怪獣道 -MYSTIA-	ミスティア·ローレライ	Mystia Lorelei
+-	10	1	3.8	2	2.4	1	8	40	48	35	-1.25	7.5	0	SI_Player_11_00	SI_Face_11	SI_PlayerSpellCutIn_11	騒符「ソウルゴーハッピー」	騒符「ソウルゴーハッピー」	騒符「メルラン·ハッピーライブ」	13	SI_PlayerDrainZone_11	8	1	1	1	1	1	幽明結界 -MARLIN-	メルラン·プリズムリバー	Marlin Prismriver
+-	11	1	4.5	2.5	3.2	1	8	60	32	20	-0.75	3.5	0	SI_Player_12_00	SI_Face_12	SI_PlayerSpellCutIn_12	騒符「ノイズメランコリー」	騒符「ノイズメランコリー」	騒符「ルナサ·ソロライブ」	13	SI_PlayerDrainZone_12	8	1	1	1	1	1	幽明結界 -LUNASA-	ルナサ·プリズムリバー	Lunasa Prismriver
+-	12	1	4.5	1.9	4	1	8	60	60	25	-0.75	8.5	0	SI_Player_13_00	SI_Face_13	SI_PlayerSpellCutIn_13	兎符「開運大紋」	兎符「開運大紋」	兎符「因幡の素兎」	15	SI_PlayerDrainZone_13	32	1	1	1	1	1	迷いの竹林 -TEI-	因幡·てゐ	Inaba Tei
+-	13	1	3	1.8	3.9	1	8	60	20	15	-0.5	4	0	SI_Player_14_00	SI_Face_14	SI_PlayerSpellCutIn_14	花符「幻想郷の開花」	花符「幻想郷の開花」	幻想「花鳥風月、嘯風弄月」	18	SI_PlayerDrainZone_14	4	1	1	1	1	1	太陽の畑 -YUKA-	風見·幽香	Kazami Yuka
+-	14	1	4.5	2.5	3.5	1	8	60	1	35	-1.25	7.5	0	SI_Player_15_00	SI_Face_15	SI_PlayerSpellCutIn_15	波符「月面波紋（ルナウェーブ）」	波符「月面波紋（ルナウェーブ）」	散符「栄華之夢（ルナメガロポリス）」	11	SI_PlayerDrainZone_15	16	1	1	1	1	1	永遠亭 -REISEN-	鈴仙·優曇華院·イナバ	Reisen Udongein Inaba
+-	15	1	4	2.2	4	1	8	60	32	28	-1	8	0	SI_Player_16_00	SI_Face_16	SI_PlayerSpellCutIn_16	呪符「ストロードールカミカゼ」	呪符「ストロードールカミカゼ」	咒詛「首吊り蓬莱人形」	1	SI_PlayerDrainZone_16	4	1	1	1	1	1	人形租界 -ALICE-	アリス·マーガトロイド	Alice Margatroid
+-	16	1	5	2.4	3.3	1	8	60	40	35	-1.25	7.5	0	SI_Player_17_00	SI_Face_17	SI_PlayerSpellCutIn_17	罪符「彷徨える大罪」	罪符「彷徨える大罪」	審判「ラストジャッジメント」	20	SI_PlayerDrainZone_17	4	1	1	1	1	1	無縁塚 -SHIKIEIKI-	四季映姫·ヤマザナドゥ	Shikieiki Yamaxanadu
+-	17	1	4.1	2.2	3.2	1	8	60	60	40	-1	18	0	SI_Player_18_00	SI_Face_18	SI_PlayerSpellCutIn_18	投銭「宵越しの銭」	投銭「宵越しの銭」	死神「ヒガンルトゥール」	19	SI_PlayerDrainZone_18	32	1	1	1	1	1	再思の道 -KOMACHI-	小野塚·小町	Onozuka Komachi
+-	18	1	5	2.3	4	1	8	55	48	35	-1.25	7.5	0	SI_Player_19_00	SI_Face_19	SI_PlayerSpellCutIn_19	紅符「スカーレットシュート」	紅符「スカーレットシュート」	紅魔「スカーレットデビル」	0	SI_PlayerDrainZone_19	4	1	1	1	1	1	紅魔館 -REMILIA-	レミリア·スカーレット	Remilia Scarlet
+-	19	1	4	2	4	1.15	12	50	32	35	-1.25	7.5	0	SI_Player_20_00	SI_Face_20	SI_PlayerSpellCutIn_20	「陰陽印」	「夢想封印」	「博麗幻影」	4	SI_PlayerDrainZone_20	64	1	1	1	1	1	迷いの竹林 -REIMU-	ハクレイ·レイム	Hakurei Reimu
+-	20	1	5	3	3.3	1.15	8	45	8	30	-1	8	0	SI_Player_21_00	SI_Face_21	SI_PlayerSpellCutIn_21	「スターダスト」	「スターダストレヴァリエ」	「イリュージョンスター」	5	SI_PlayerDrainZone_21	32	1	1	1	1	1	迷いの竹林 -MARISA-	キリサメ·マリサ	Kirisame Marisa
+-	21	1	4	2	4	1	8	60	60	40	-1	18	0	SI_Player_22_00	SI_Face_22	SI_PlayerSpellCutIn_22	境符「移転境界」	境符「移転境界」	「深弾幕結界　-夢幻泡影-」	3	SI_PlayerDrainZone_22	16	1	1	1	1	1	博麗大結界 -YUKARI-	八雲·紫	Yakumo Yukari
+-	22	1	4.65	2.65	3.4	1	8	55	32	8	-0.2	4	0	SI_Player_23_00	SI_Face_23	SI_PlayerSpellCutIn_23	奇跡「神の風」	秘術「一子相伝の弾幕」	奇跡「八坂の神風」	21	SI_PlayerDrainZone_23	12	1	1	1	1	1	守矢の神社 -SANAE-	東風谷·早苗	Kotiya Sanae
+-	23	1	4.5	3	4	1	8	40	32	60	-0.75	50	0	SI_Player_24_00	SI_Face_24	SI_PlayerSpellCutIn_24	現代「既存写真」	現代「既存写真」	念写「リプレイ」	22	SI_PlayerDrainZone_24	4	1	1	1	1	1	妖怪の山 -HATATE-	姫海棠·はたて	Himekaidou Hatate

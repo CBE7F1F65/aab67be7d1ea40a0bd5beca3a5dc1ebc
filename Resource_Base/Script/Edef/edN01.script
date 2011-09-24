@@ -1,0 +1,162 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+	
+// ////////////// //
+# 0x0105
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	120 CenterBossX CenterBossY 120
+
+@ @@>%<% 120 120 30 15
+
+BC 16 RAND 0
+	ENX ENY 2.0
+	23 0 8 0
+
+@ @@% 160
+
+SD [i] 9
+LOOP [i]
+{
+	SD [j] 3
+	LOOP [j]
+	{
+		B ENX ENY
+			false j * 80 - 80 i *f 0.2f +f 1.0
+			21 2 8 0 0xff
+	}
+}
+
+@ @@>% 120 90
+
+SD [basex] RAND % 120 - 70
+SD [basex] ENX + basex
+SD [basey] RAND % 60 - 30
+SD [basey] ENY + basey
+
+SD [i] 7
+LOOP [i]
+{
+	SD [j] 2
+	LOOP [j]
+	{
+		B i * 7 + basex j * -9 + basey
+			true SIGN j * 9000 SIGN j *f 1.5
+			8 0 8 0 0xff
+	}
+	IF i % 4 - 2
+	{
+		B i * 7 + basex + 4 basey - 8
+		true 9000 1.5
+		8 i + 1 * 2 8 0 0xff
+	}
+}
+
+// ////////////// //
+# 0x0109
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@[ 120
+
+SD [tright] EN@ % 240 < 120
+SD [tright] SIGN tright
+SD [tangle] EN@ % 120 * 300 * tright + 9000
+
+SD [_0] 0
+ST _0 COSA tangle *f 120.0 +f ENX SINA tangle *f 120.0 +f ENY
+
+@ @@[%<% 120 120 30 10
+
+GB 0x8109 0xff 0xff
+	ENX ENY 9000 0.0
+	0 10 240
+
+@ @@>%<% 120 120 30 15
+
+BC 16 RAND 0
+	ENX ENY 2.0
+	23 1 8 0
+
+// /////// //
+# 0x0113
+
+@ 1
+
+SD [i] 4
+LOOP [i]
+{
+	SD [_0] + i 0
+}
+
+@ @@% 120
+
+EA 4 ENAC_CHASETO_CXY
+	60 PX RANDR 60 +f CenterBossY
+
+@ @@>%= 120 120 60
+
+SD [ttar] EN@ - 60 / 120 % 4
+BEB ENX ENY
+	9000 2.0 0 0
+	180 BEAMFLAG_NONE 240 ttar
+SD [_0] + ttar 1
+
+@ @@>% 360 2
+
+SD [ttar] EN@ / 2 % 4
+SD [pflag] [_0] + ttar
+SD [tyok] TY ttar < 300
+IF D pflag * tyok
+{
+	SD [i] 2
+	LOOP [i]
+	{
+		SD [tangle] SIGN i * 300
+		A 4
+			TIMERLESS 60 ANGLESETADD SIGN i * 300
+		B TX ttar TY ttar
+			true EN@ % 60 * tangle - 9000 1.2
+			21 0 8 0 0xff
+		A 0
+	}
+}
+
+@ @@>%<% 120 120 30 15
+
+BC 16 RAND 0
+	ENX ENY 2.0
+	23 2 8 0
+
+// ////////// //
+# 0x0117
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 78
+
+@ @@% 180
+
+A 9
+	TIMERRANGE 60 90 SPEEDSETADD 3
+	TIMEREQUAL 60 ANGLESETAMAP 0
+
+BC 13 RAND 120
+	PX PY 0
+	11 4 32 0
+A 0
+
+@ @@>% 120 78
+
+BC 16 ENAMAP 0 0
+	ENX ENY 2.0
+	2 5 8 0

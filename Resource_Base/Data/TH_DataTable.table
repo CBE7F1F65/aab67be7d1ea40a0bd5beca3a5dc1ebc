@@ -1,0 +1,10 @@
+73	h5nc	51
+Usage	Table	
+CustomConstFile	TH_CUSTOMCONST.table	
+MusicDefineFile	TH_MUSICDEFINE.table	
+BulletDefineFile	TH_BULLETDEFINE.table	
+EnemyDefineFile	TH_ENEMYDEFINE.table	
+PlayerDefineFile	TH_PLAYERDEFINE.table	
+SpriteDefineFile	TH_SPRITEDEFINE.table	
+PlayerShootDefineFile	TH_PLAYERSHOOTDEFINE.table	
+PlayerGhostDefineFile	TH_PLAYERGHOSTDEFINE.table	

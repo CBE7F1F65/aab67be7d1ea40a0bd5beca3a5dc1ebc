@@ -1,0 +1,169 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+	
+////////
+# 0x0206
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ 120
+
+SD [i] 7
+LOOP [i]
+{
+	GB 0x8206 0xff ENI
+		ENX ENY i * 5143 + SEED 3.0
+		0 8 90
+	GHSAIM i * 2 0
+}
+
+////////
+# 0x0210
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 120
+
+@ @@>%<% 160 240 160 30
+
+GB 0x8210 0xff 0xff
+	ENX ENY ENAMAP 0 5.0
+	0 8 120
+
+@ @@% 240
+
+SD [tmod] EN@ % 480 !
+SD [tmod] SIGN tmod
+SD [i] 5
+LOOP [i]
+{
+	SD [tama] tmod * i * 200
+	BC 40 ENAMAP tama 0
+		ENX ENY 2.5
+		1 12 i * 5 + 8 0
+}
+
+////////
+# 0x0214
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@% 120
+
+GB 0x8214 0xff 0xff
+	ENX ENY EN@ * -40 + SEED 3.0
+	0 8 480
+GHSAIM RAND % 16 0
+
+@ @@% 240
+
+BC 40 ENAMAP 0 0
+	ENX ENY 2.5
+	2 6 8 0
+	2 6 8 0
+
+/////////
+# 0x0218
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 120
+
+@ @@% 180
+
+BC 32 ENAMAP 0 0
+	ENX ENY 2.0
+	2 12 8 0
+
+@ @@>% 180 90
+
+SD [trand] RANDR 5
+SD [i] 2
+LOOP [i]
+{
+	GB 0x8218 0xff 0xff
+		i *f CenterW + trand i * 440 + 20 - trand i * 18000 1.0
+		0 8 480
+	GHSAIM i * 18000 + 9000 0
+}
+
+///////
+# 0x0222
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 180
+
+@ @@> 180
+
+SD [tangle] EN@ * 90 + SEED
+SD [tangle] SINA tangle *f 18000.0
+SD [tangle] SINA tangle *f 36000.0
+SD [tmod] EN@ % 16
+SD [i] 4
+A 4
+	TIMERLESS 128 ANGLESETADD 30
+LOOP [i]
+{
+	B ENX ENY
+		true i * 9000 + tangle tmod *f 0.1 +f 1.0
+		2 0 64 0 0xff
+}
+A 0
+
+///////
+# 0x0226
+
+@ 1
+
+EA 4 ENAC_CHASETO_CXY
+	60 CenterX 160
+
+@ 120
+
+SD [i] 5
+LOOP [i]
+{
+	GB 0x8226 0xff ENI
+		ENX ENY i * 7200 + SEED -1.2
+		0 8 140
+	GHSAIM i * 2 + 4 0
+}
+
+/////////
+# 0x0218
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 120
+
+@ @@% 180
+
+BC 32 ENAMAP 0 0
+	ENX ENY 2.0
+	2 12 8 0
+
+@ @@>% 180 90
+
+SD [trand] RANDR 5
+SD [i] 2
+LOOP [i]
+{
+	GB 0x8218 0xff 0xff
+		i *f CenterW + trand i * 440 + 20 - trand i * 18000 1.0
+		0 8 480
+	GHSAIM i * 18000 + 9000 0
+}

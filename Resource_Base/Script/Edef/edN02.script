@@ -1,0 +1,205 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+	
+/////////
+# 0x0205
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@>% 540 2
+
+SD [tmod] EN@ % 4 > 0
+SD [tmod] SIGN tmod
+B ENX ENY
+	true EN@ * 500 + SEED * tmod 2.2
+	4 2 8 0 0xff
+
+@ @@% 240
+
+SD [i] 2
+LOOP [i]
+{
+	GB 0x8205 0xff 0xff
+		ENX ENY 9000 0.0
+		0 8 160
+	GHSAIM i 0
+}
+
+@ @@>%= 240 240 160
+
+EFFSETUP 0 120
+	ENX ENY + 40 60
+SE $SE_PlayerBomb_04b ENX
+
+@ @@%= 240 200
+
+SD [_0] 1
+
+@ @@%= 240 201
+
+SD [_0] 0
+
+/////////
+# 0x0209
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+SD [_0] 0
+
+@ @@% 240
+
+SD [tmod] EN@ % 480 *f 0.8
+EA 4 ENAC_CHASETO_CXY
+	60 RANDR 60 + tmod + 128 CenterBossY
+SD [_1] ENAMAP 0
+
+@ @@>%= 240 240 145
+
+EFFSETUP 0 120
+	ENX ENY + 40 60
+SE $SE_PlayerBomb_04b ENX
+SD [_0] 1
+
+@ @@>%= 240 240 146
+
+SD [_0] 0
+
+@ @@>%[] 240 240 145 180
+
+BOSSATTACK
+
+@ @@>%= 240 240 180
+
+EA 4 ENAC_CHASETO_CXY
+	4 CenterW -f ENX CenterBossY
+SD [_0] 2
+
+@ @@>%= 240 240 181
+
+SD [_0] 0
+BC 60 RAND 0
+	ENX ENY 0.8
+	8 3 16 0
+
+@ @@>%<% 240 240 120 3
+
+A 26
+	VALEQUAL [_0] 1 TYPESET 60
+	VALEQUAL [_0] 1 SPEEDSET 0
+	VALEQUAL [_0] 1 CALLEVENT $Event_Bullet_0209 POST@
+	VALEQUAL [_0] 2 TYPESET 8
+	VALEQUAL [_0] 2 SPEEDSET 250
+SD [tangle] _1
+SD [tmod] EN@ % 480 < 240
+SD [tmod] SIGN tmod
+IF EN@ % 240 > 45
+{
+	SD [tangle] EN@ % 240 - 44 * 450 * tmod + tangle
+}
+B ENX ENY
+	true tangle 1.5
+	8 1 8 0 0xff
+A 0
+
+// ////////////// //
+# 0x0213
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 120
+
+@ @@[]% 120 165 15
+
+GB 0x8213 0xff ENI
+	ENX ENY 0 4.5
+	4 8 90
+
+///////
+# 0x0217
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@% 360
+
+BC 40 RAND 0
+	ENX ENY 0.8
+	17 6 8 0
+	
+@ @@%>% 360 200 40
+
+SD [tmod] EN@ % 360 / 40 - 7
+GB 0x8217 0xff 0xff
+	tmod * 90 + CenterX ENY 9000 2.0
+	4 8 0xff
+
+////////
+# 0x0221
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	60 CenterBossX CenterBossY 120
+
+@ @@>% 160 4
+
+A 14
+	EVERYMOD 40 SPEEDSETADD -160
+	EVERYMOD 40 ANGLESETADD -8000
+	EVERY SPEEDSETADD 4
+	EVERY ANGLESETADD 200
+B ENX ENY
+	true EN@ * 333 + SEED 1.5
+	4 RAND % 16 8 0 0xff
+IF EN@ > 320
+{
+	B ENX ENY
+		true EN@ * -333 + SEED 2.0
+		4 RAND % 16 8 0 0xff
+}
+IF EN@ > 480
+{
+	SD [i] 2
+	LOOP [i]
+	{
+		B ENX ENY
+			true SIGN i * EN@ * 395 + SEED 2.0
+			4 RAND % 16 8 0 0xff
+	}
+}
+A 0
+
+///////
+# 0x0225
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@]%= 500 360 120
+
+SD [i] 2
+LOOP [i]
+{
+	GB 0x8225 0xff ENI
+		ENX ENY i * 18000 SIGN i * 2
+		0 8 96
+}
+
+@ @@>%<% 160 120 90 2
+
+B ENX ENY
+	true EN@ * -730 + SEED 2.5
+	2 6 8 0 0xff

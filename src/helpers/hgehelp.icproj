@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="hgehelp"
+	ProjectGUID="{1F75C075-6CD9-41D2-A771-F12556414E93}"
+	VCNestedProjectGUID="{FA197D84-4A1A-4FD4-92FA-536A84867C25}"
+	VCNestedProjectFileName="hgehelp.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

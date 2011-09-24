@@ -1,0 +1,212 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+///////////////
+# STATE_OVER
+
+@ 1
+
+BGVALUE 0 SI_SelectScene
+	TotalCenterX TotalCenterY TotalW TotalH
+	0xffffffff
+BGVALUE 11 SI_Title_Result
+	TotalCenterX 56 -1 -1
+	0xffffffff
+	
+BGFLAG 0 BG_LIGHTUP BGMT_LIGHT
+
+BGVALUE BGMASK SI_Null
+	TotalCenterX 260 580 380
+	0xA0000000
+
+@ @@> 0
+
+SD [ptdepth] RESERVEBEGIN
+SD [ptsec] RESERVEBEGIN + 1
+SD [ptnowchar] RESERVEBEGIN + 2
+SD [ptinsert] RESERVEBEGIN + 3
+
+
+IF D ptdepth !
+{
+	SD [i] 2
+	LOOP [i]
+	{
+		SD [j] i !
+		SELBUILD j SI_Confirm_Yes + j
+			80 * j + 280 405 1 0 8
+			D 2 D 3
+			-1 -0.5
+			0 0
+			2 0.5
+			SEL_NULL
+	}
+
+	SELBUILD 2 SI_Result_Save
+		320 360 1 0 8
+		D 2 D 3
+		0 0
+		0 0
+		0 0
+		SEL_NONACTIVE
+
+	SELSET 2 0 false 0 0 0 0
+	
+	SELBUILD 0x11 SI_Result_Score
+		160 110 1 0 8
+		D 2 D 3
+		0 0
+		0 0
+		0 0
+		SEL_NONACTIVE
+
+	SD [i] 6
+	LOOP [i]
+	{
+		SD [j] 5 - i
+		SELBUILD j + 0x12 SI_Result_Faith + j
+			160 j * 35 + 145 1 0 8
+			D 2 D 3
+			0 0
+			0 0
+			0 0
+			SEL_NONACTIVE
+	}
+
+	SD [i] 2
+	LOOP [i]
+	{
+		SD [j] i !
+		SD [k] 16
+		LOOP [k]
+		{
+			SD [l] 15 - k
+			SELBUILD j * 0x10 + 0x20 + l SI_DigitBig_6
+				l * 16 + 300 j * 35 + 110 1 0 8
+				D 2 D 3
+				0 0
+				0 0
+				0 0
+				SEL_NONACTIVE
+		}
+
+		SD [k] 2
+		LOOP [k]
+		{
+			SD [l] k !
+			SD [nSel] j * 0x10 + 0x40 + l
+			SD [selX] l * 16 + 300
+			SD [selY] j * 35 + 180
+			SELBUILD nSel SI_DigitBig_7
+				selX selY 1 0 8
+				D 2 D 3
+				0 0
+				0 0
+				0 0
+				SEL_NONACTIVE
+			SELBUILD nSel + 0x30 SI_DigitBig_8
+				selX selY + 105 1 0 8
+				D 2 D 3
+				0 0
+				0 0
+				0 0
+				SEL_NONACTIVE
+		}
+	}
+
+	SD [i] 16
+	LOOP [i]
+	{
+		SD [j] 15 - i
+		SELBUILD j + 0x60 SI_DigitBig_9
+			j * 16 + 300 250 1 0 8
+			D 2 D 3
+			0 0
+			0 0
+			0 0
+			SEL_NONACTIVE
+	}
+}
+ELSEIF D ptdepth - 1 !
+{
+	IF SELCOMPLETE
+	{
+		SELCLEAR
+		IF SEL !
+		{
+			SD ptdepth 2
+		}
+		ELSE
+		{
+			IF MODE
+			{
+				BGOFF 4
+				SETTIME 0
+				SETSTATE STATE_DIFFICULT_SELECT
+				RETURN PTURN
+			}
+			ELSE
+			{
+				SD ptdepth 7
+			}
+		}
+	}
+}
+ELSEIF D ptdepth - 3 !
+{
+	IF D ptsec - 2
+	{
+		SD [xOffset] D ptsec * -42
+
+		BGVALUE 5 0
+			D ptnowchar * 11 + 411 + xOffset D ptsec * 291 + 108 11 4
+			0xffffffff
+	}
+	ELSE
+	{
+		BGOFF 5
+	}
+}
+ELSEIF D ptdepth - 4 !
+{
+	SD [i] 2
+	LOOP [i]
+	{
+		SD [j] i !
+		SELBUILD j SI_DigitBig_.
+			j * 80 + 440 290 1 0 8
+			D 2 D 3
+			-1 -0.5
+			0 0
+			2 0.5
+			SEL_NULL
+			
+	}
+	SELSET 2 1 false 0 0 0 0
+	SD ptdepth 5
+}
+ELSEIF D ptdepth - 5 !
+{
+	IF SELCOMPLETE
+	{
+		BGOFF 4
+		BGOFF 6
+		SELCLEAR
+		SD ptdepth SEL * -4 + 6
+	}
+}
+ELSEIF D ptdepth - 7 !
+{
+	BGOFF 4
+}
+ELSEIF D ptdepth - 8 !
+{
+	BGVALUE 5 0
+		D ptnowchar * 11 + 76 D ptinsert * 24 + 116 11 4
+		0xffffffff
+	IF D ptsec - 1 !
+	{
+		BGOFF 5
+	}
+}

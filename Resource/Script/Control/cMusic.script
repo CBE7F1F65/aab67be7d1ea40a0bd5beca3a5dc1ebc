@@ -1,0 +1,22 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Music
+# STATE_MUSIC
+
+// Init
+@ 1
+
+BGVALUE 11 SI_Title_Music
+	TotalCenterX 56 -1 -1
+	0xffffffff
+
+BGVALUE BGMASK SI_Null
+	TotalCenterX 265 520 380
+	0xA0000000
+
+// BackFade
+@ @@] 63
+
+CALL $TitleFade $TitleFade_Right

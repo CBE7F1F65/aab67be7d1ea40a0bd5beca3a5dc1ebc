@@ -1,0 +1,65 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// Continue
+# STATE_CONTINUE
+
+// Init
+@ INIT@
+
+SD [ptsec] RESERVEBEGIN
+SD [ptcont] RESERVEBEGIN + 1
+IF D ptsec !
+{		
+	SD [i] 2
+	LOOP [i]
+	{
+		SD [j] i !
+		SELBUILD j SI_Confirm_Yes + j
+			j * 80 + 184 280 1 0 8
+			D 2 D 3
+			-8 -4
+			0 0
+			16 4
+			SEL_NULL
+	}
+
+	SD [bNotExtra] GETSCENE < 1200
+	SD [bNotRange] MODE < 3 * bNotExtra
+	SDf [foffset] bNotRange + 1
+
+	SELBUILD 8 SI_Pause_Continue
+		CenterX 200 1 0 8
+		D 2 D 3
+		0 0
+		0 0
+		0 0
+		SEL_NONACTIVE
+
+	IF bNotRange
+	{
+		SELBUILD 8 SI_Pause_Credit
+			200 CenterY 1 0 8
+			D 2 D 3
+			0 0
+			0 0
+			0 0
+			SEL_NONACTIVE
+		SELBUILD 9 D ptcont + SI_DigitBig_0
+			280 CenterY 1.5 0 8
+			D 2 D 3
+			0 0
+			0 0
+			0 0
+			SEL_NONACTIVE
+	}
+
+	SELSET 2 1 false 0 0 0 0
+	SD ptsec 1
+}
+ELSEIF SELCOMPLETE
+{
+	SELCLEAR
+	SD ptsec SEL + 0x10
+}

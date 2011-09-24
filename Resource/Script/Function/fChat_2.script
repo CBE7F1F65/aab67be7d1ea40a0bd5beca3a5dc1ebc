@@ -1,0 +1,77 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+FUNCTIONFILE
+
+// /////////////
+# $Chat_T21	
+
+@ 0
+
+CHATON 0xff
+	0xff $EnemyID_02 CS_RNN
+	$EnemyID_02 CS_RNN "Why can't you guys be quiet?"
+	$EnemyID_02 CS_RNN "All changed after the moon gettingweird."
+	$EnemyID_02 CS_RNN "Anyway, you can do nothing here."
+	$EnemyID_02 CS_RNN "Hey, listen please!"
+CHATOFF
+
+@ 1
+
+CHATON 0xff
+	$PlayerID_02 $EnemyID_02 CS_RNN
+	$EnemyID_02 CS_RNN "Are both of you two Marisa?"
+	$PlayerID_02 CS_LNN "Not true cause she is faker."
+	$PlayerID_06 CS_LNN "Nothing true cause she is bogus."
+	$PlayerID_02 CS_LNN "Don't mimic me!"
+	$EnemyID_02 CS_RNN "¡­ What happened?"
+	$PlayerID_02 CS_LNN "I'm not going to explain that, so use your imagination."
+	$EnemyID_02 CS_RNN "How can I imagine! Is it somethingcaused by the weird moon?"
+	$PlayerID_06 CS_LNN "Nothing did I know."
+CHATOFF
+
+@ 2
+
+CHATON 0xff
+	$PlayerID_04 $EnemyID_02 CS_LNN
+	$PlayerID_04 CS_LNN "So you and another Marisa are comefrom a different world."
+	$PlayerID_05 CS_LNN "You are right. We will prevent thelaunch of Lunar Cannon."
+	$EnemyID_02 CS_RNN "Got it."
+	$PlayerID_04 CS_LNN "Well, how is Marisa?"
+	$EnemyID_02 CS_RNN "Why why why to ask me about her?"
+	$PlayerID_04 CS_LNN "So cute you are."
+	$EnemyID_02 CS_RNN "Stop! I will accuse you!"
+	$PlayerID_05 CS_LNN "Should we call her TSUNDERE?"
+CHATOFF
+
+@ 3
+
+CHATON 0xff
+	$PlayerID_06 $EnemyID_02 CS_RNN
+	$EnemyID_02 CS_RNN "Is it you, Marisa?"
+	$PlayerID_06 CS_LNN "Nothing wrong."
+	$EnemyID_02 CS_RNN "Why you sound so weird?"
+	$PlayerID_06 CS_LNN "Nothing but your illusion."
+	$EnemyID_02 CS_RNN "Wait, wait please!"
+	$PlayerID_06 CS_LNN "Nothing can stop me."
+
+CHATOFF
+
+@ 4
+
+CHATON 0xff
+	$PlayerID_02 $EnemyID_02 CS_RNN
+	$EnemyID_02 CS_RNN "Is it you again, Marisa?"
+	$PlayerID_02 CS_LNN "I think we haven¡¯t met for quite a long time."
+	$EnemyID_02 CS_RNN "You mean that it wasn't you?"
+	$PlayerID_02 CS_LNN "What are you talking about?"
+	$EnemyID_02 CS_RNN "¡­ Just an imagination?"
+	$PlayerID_02 CS_LNN "What?"
+CHATOFF
+
+@ @@[ 0
+
+IF CHATI - 0xff !
+{
+	SETTIME 0
+	SETSCENE GETSCENE + 4
+}

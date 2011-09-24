@@ -1,0 +1,291 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+FUNCTIONFILE
+
+// /////////////
+
+# $jump	//跳跃
+
+@ 1
+
+SD [totime] D 2
+SD [toscene] D 3
+SD [topower] D 4
+
+SETTIME totime
+SETSCENE toscene
+IF topower < 0 !
+{
+	SETPPOWER topower
+}
+
+
+// ///////////////
+# $TitleFade	// 标题卷动
+
+@ $TitleFade_Left
+// @ @@] 63
+
+SD [alpha] TIME * 4 + 3 *u 0x1000000
+BGCOLOR 0
+	alpha +u 0xffffff
+	0xff000000 -u alpha +u 0xffffff
+	Du 2
+	Du 1
+	
+@ $TitleFade_Right
+// @ @@] 63
+
+SD [alpha] TIME * 4 + 3 *u 0x1000000
+BGCOLOR 0
+	0xff000000 -u alpha +u 0xffffff
+	alpha +u 0xffffff
+	Du 2
+	Du 1
+
+SD [alpha] TIME * 2 *u 0x1000000
+BGCOLOR 1
+	alpha
+	alpha
+	alpha
+	alpha
+
+// /////////////
+# $SceneLightDark	// 场景明暗变化
+
+@ @@> 0
+
+SD [blID] D 2
+SD [color] ROLL NOW@ 63 *f 1.5 + 160 * 0x1000000 + 0xffffff
+BGCOLOR blID
+	color color color color
+
+// //////////////
+# $SceneColorLoop	// 场景颜色循环
+
+@ @@> 0
+
+SD [blID] D 2
+SD [bFull] D 3
+SD [alpha] 0x80
+IF bFull
+{
+	SD [alpha] 0xff
+}
+HSVTORGB NOW@ % 0xff 0xff 0xff alpha [color]
+BGCOLOR blID
+	color color color color
+	
+///////////////
+# $SceneOff	// 场景关闭
+
+@ POST@
+
+SD [blBegin] BGSI * $BGLayerSplit
+BGOFF 0 + blBegin
+BGOFF 1 + blBegin
+
+
+@ QUIT@
+
+SD [blBegin] BGSI * $BGLayerSplit
+BGFLAG 0 + blBegin BG_FADEOUT BGMT_FADE / 2
+BGFLAG 1 + blBegin BG_FADEOUT BGMT_FADE / 2
+
+// ////////////
+# $MusicChangeWithDisplay	// 音乐切换并显示
+
+@ @@> 0
+
+IF GETSCENE < 1200
+{
+	MUSICCHANGE NOW@ false
+	BGVALUE 14 NOW@ + SI_MusicName_01 - 1
+		280 454 -1 -1
+		0xffffffff
+	BGFLAG 14 BG_FADEOUT 0xff
+}
+ELSE
+{
+	MUSICSLIDE 3.0 -1 -101 GETSCENE - 1200 *f 0.25
+}
+
+// ///////////
+# $GetChatMode	// 获得聊天模式
+
+@ @@> 0
+
+SD [uopp1] D 2
+SD [uopp2] D 3
+SD [union_1] D 4
+SD [union_2] D 5
+SD [opp1] D 6
+SD [opp2] D 7
+
+SD [pret] NOW@
+SD pret 0
+
+SD [haveopp1] HAVEPLAYER uopp1
+SD [haveunion1_1] HAVEPLAYER union_1
+IF HAVEPLAYER uopp2 * haveopp1
+{
+	SD pret 1
+}
+ELSEIF HAVEPLAYER union_2 * haveunion1_1
+{
+	SD pret 2
+}
+ELSEIF HAVEPLAYER opp1
+{
+	SD pret 3
+}
+ELSEIF HAVEPLAYER opp2
+{
+	SD pret 4
+}
+
+// ////////// //
+# $StageTitle	// 显示关卡标题
+
+@ @@> 0
+
+DISABLEALLKEY
+
+@ 1
+
+BGOFF -1
+MUSICCHANGE 0 true
+
+SD [stage] GETSCENE / 100
+
+SD [col] stage * 0x10
+SD [col] col * 0x10101 +u 0xff000000
+BGVALUE 0 SI_BattleTable
+	CenterX CenterY 415 264
+	col
+
+IF stage > 1
+{
+	BGVALUE 1 DIFFI + SI_Battle_01
+		96 DIFFI * 45 + 120 132 22
+		0xffffffff
+}
+IF stage > 2
+{
+	BGVALUE 2 DIFFI > 0 + SI_Battle_04
+		224 DIFFI > 0 * 67 + 120 132 22
+		0xffffffff
+}
+IF stage > 3
+{
+	BGVALUE 3 SI_Battle_06
+		352 165 132 22
+		0xffffffff
+}
+
+BGVALUE 12 SI_Battle_01
+	CenterX CenterY 360 60
+	0xffffffff
+	
+EFFSETUP 0 62
+	CenterX CenterY 0
+	
+SE 112 CenterX
+
+@ @@] 60
+// 70 96
+SDf [intx] TIME /f 60.0
+INTER 360 132 intx [width]
+
+SD [stage] GETSCENE / 100
+
+SD [tox] stage - 1 % 3 * 128 + 96
+IF stage < 2
+{
+	SD [toy] DIFFI * 45 + 120
+	SD [battleoffset] DIFFI
+}
+ELSEIF stage % 3 !
+{
+	SD [toy] stage > 5 * 148 + 165
+	SD [battleoffset] stage > 5 * 5 + 5
+}
+ELSEIF stage - 4 !
+{
+	SD [toy] DIFFI / 2 * 67 + 290
+	SD [battleoffset] DIFFI / 2 + 6
+}
+ELSE
+{
+	SD [toy] DIFFI > 0 * 67 + 120
+	SD [battleoffset] DIFFI > 0 + 3
+	IF stage - 5 !
+	{
+		SD [toy] toy + 148
+		SD [battleoffset] battleoffset + 5
+	}
+}
+
+INTER CenterX tox intx [tox]
+INTER CenterY toy intx [toy]
+EFFMOVETO 0 tox toy 0
+
+BGVALUE 12 SI_Battle_01 + battleoffset
+	tox toy stage > 5 * 78 +f width width /f 6.0
+	0xffffffff
+
+@ 60
+
+SETSHAKE 1 true
+SE 113 CenterX
+
+@ 148
+
+BGFLAG 0 BG_FADEOUT BGMT_FADE
+BGFLAG 1 BG_FADEOUT BGMT_FADE
+BGFLAG 2 BG_FADEOUT BGMT_FADE
+BGFLAG 3 BG_FADEOUT BGMT_FADE
+BGFLAG 4 BG_FADEOUT BGMT_FADE
+BGFLAG 5 BG_FADEOUT BGMT_FADE
+BGFLAG 12 BG_FADEOUT BGMT_FADE
+
+@ 180
+
+BGOFF -1
+EFFOFF 0
+
+// ////////// //	//创造凤凰子弹
+# $BuildPhenix
+
+@ POST@
+
+SDf [tbasex] D 2
+SDf [tbasey] D 3
+SD [tbaseangle] D 4
+SDf [tspeed] D 5
+SD [ttar] D 6
+SD [ptanglesave] D 7
+
+BL 5 tbaseangle 17 2
+	tbasex tbasey tbaseangle 0 tspeed 0
+	42 0 24 0
+SD [i] 2
+LOOP [i]
+{
+	BL 5 SIGN i * 12500 + tbaseangle 17 0
+		tbasex tbasey tbaseangle 0 tspeed 0
+		42 0 24 0
+	BL 4 SIGN i * 13500 + tbaseangle 16 -3
+		tbasex tbasey tbaseangle 0 tspeed 0
+		42 0 24 0
+	BL 2 SIGN i * 14500 + tbaseangle 15 -5
+		tbasex tbasey tbaseangle 0 tspeed 0
+		42 0 24 0
+}
+B tbasex tbasey
+	true tbaseangle tspeed
+	17 1 24 0 ttar
+IF ptanglesave > 0
+{
+	SD ptanglesave tbaseangle
+}

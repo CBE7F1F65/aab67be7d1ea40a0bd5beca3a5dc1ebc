@@ -1,0 +1,171 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+FUNCTIONFILE
+
+// ÊÂ¼þ·ÖÖ§
+# $Event_PlayerBomb_01
+// ²©û¡¤ë‘‰ô 240
+@ 1
+
+BGSETUP $LayerBomb $PlayerBombID_01 true 208
+
+SD [i] 6
+LOOP [i]
+{
+	EFFSETUP i + $EffectSet_BombBegin 80
+		PX PY 240
+}
+
+@ 240
+
+BGSETUP $LayerBomb 0 true 0xffff
+
+@ @@> 0
+
+SD [tangleplus] NOW@ * 150
+SD [tangleplus] SINA tangleplus *f 24000
+IF NOW@ < 180
+{
+	SDf [r] NOW@
+}
+ELSE
+{
+	SDf [r] NOW@ - 180 * -6 + 180
+}
+
+SD [i] 6
+LOOP [i]
+{
+	SD [tangle] i * 6000 + tangleplus
+	SDf [xOffset] COSA tangle *f r +f PX
+	SDf [yOffset] SINA tangle *f r +f PY
+	EFFMOVETO i + $EffectSet_BombBegin xOffset yOffset 0
+	IZEZONE IZE_FADEOUT xOffset yOffset 1 36 0xff
+}
+
+//
+# $Event_PlayerBomb_02
+// ìFÓê¡¤Ä§ÀíÉ³ 180
+@ 1
+
+BGSETUP $LayerBomb $PlayerBombID_02 true 148
+
+EFFSETUP $EffectSet_BombBegin 81
+	PX PY 180
+
+@ @@> 0
+
+SETPPOS PX PY + 3
+EFFMOVETO $EffectSet_BombBegin PX PY 0
+
+SD [i] 6
+LOOP [i]
+{
+	SDf [yOffset] i * -75 +f PY
+	SDf [r] i * 10 + 60
+	IZEZONE IZE_FADEOUT PX yOffset 1 r 0xff
+	DAMAGEZONE PX yOffset r 0.1
+}
+
+//
+# $Event_PlayerBomb_03
+// Ê®ÁùÒ¹¡¤†DÒ¹ 220
+
+@ 1
+
+BGSETUP $LayerBomb $PlayerBombID_03 true 188
+
+EFFSETUP $EffectSet_BombBegin 82
+	PX PY 220
+
+STOPACTION STOPFLAG_ENEMYSET 220
+
+//
+# $Event_PlayerBomb_04
+// ¥ì¥ß¥ê¥¢¡¤¥¹¥«©`¥ì¥Ã¥È 250
+
+@ 1
+
+BGSETUP $LayerBomb $PlayerBombID_04 true 218
+
+EFFSETUP $EffectSet_BombBegin 98
+	PX PY 0
+
+@ @@> 0
+
+EFFMOVETO $EffectSet_BombBegin PX PY 0
+
+SD [i] 8
+LOOP [i]
+{
+	SD [yOffset] i * 55 + 48
+	IZEZONE IZE_FADEOUT PX yOffset 1 80 0xff
+	DAMAGEZONE PX yOffset 80 0.04
+}
+SD [i] 6
+LOOP [i]
+{
+	SD [xOffset] i * 70 + 49
+	IZEZONE IZE_FADEOUT xOffset PY 1 80 0xff
+	DAMAGEZONE xOffset PY 80 0.04
+}
+
+//
+# $Event_PlayerBomb_05
+// ²©û¡¤ë‘‰ô 240
+
+@ 1
+
+BGSETUP $LayerBomb $PlayerBombID_05 true 208
+
+EFFSETUP $EffectSet_BombBegin 99
+	PX PY 0
+
+@ @@> 0
+
+EFFMOVETO $EffectSet_BombBegin PX PY 0
+
+//
+# $Event_PlayerBomb_06
+// ìFÓê¡¤Ä§ÀíÉ³ 180
+
+@ 1
+
+BGSETUP $LayerBomb $PlayerBombID_06 true 148
+
+EFFSETUP $EffectSet_BombBegin 100
+	PX PY 0
+
+SETPPOWER 0
+
+@ @@> 0
+
+DISABLEALLKEY
+SETPPOS PX PY + 16
+EFFMOVETO $EffectSet_BombBegin PX PY 0
+IZEZONE IZE_FADEOUT CenterX CenterY 1 IZEOVERZONE 0xff
+DAMAGEZONE CenterX CenterY IZEOVERZONE 0.65
+
+
+//
+# $Event_PlayerBomb_07
+// °Ëë…¡¤×Ï 30
+
+@ 1
+
+BGSETUP $LayerBomb $EnemyID_33 true 16
+
+EFFSETUP $EffectSet_BombBegin 101
+	PX PY 0
+
+@ 15
+
+SETPPOS PGX 0 PGY 0
+EFFMOVETO $EffectSet_BombBegin PX PY 0
+
+@ @@> 0
+
+SETKEY KS_LEFT false
+SETKEY KS_RIGHT false
+SETKEY KS_UP false
+SETKEY KS_DOWN false

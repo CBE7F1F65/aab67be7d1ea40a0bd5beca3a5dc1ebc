@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="hgeParticleEditor"
+	ProjectGUID="{5AEB2D47-89F2-47BB-A9D6-6708204001F0}"
+	VCNestedProjectGUID="{FDA21157-179D-444D-877B-DC7A20668803}"
+	VCNestedProjectFileName="hgeParticleEditor.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Debug|Win32">
+			<Tool
+				Name="CppCmplrTool"
+				OptimizeForWindowsApplication="true"/>
+		</Configuration>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+		<Configuration
+			Name="FinalRelease|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

@@ -1,0 +1,15 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EVENTFILE
+
+// Event PlayerBomb
+# EVENT_PLAYERBOMB
+
+@ 1
+
+SETSHAKE 1 true
+SE $SE_PlayerBomb_01 + CHARA 0xff PX
+
+@ @@> 0
+
+CALL $Event_PlayerBomb_01 + CHARA 0xff NOW@

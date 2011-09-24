@@ -1,0 +1,33 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EVENTFILE
+
+// //////////
+# $Event_Bullet_0329
+
+@ POST@
+
+RAMA false
+	BUX BUY PX PY 0 [tangle]
+BC 40 tangle 0
+	BUX BUY 1.8
+	2 RAND % 4 + 8 8 0
+
+///////
+# $Event_Bullet_0209
+
+@ POST@
+
+A 10
+	VALEQUAL [_0] 2 TYPESET 8
+	VALEQUAL [_0] 2 SPEEDSET 250
+B CenterW -f BUX BUY
+	true 18000 - BUANGLE 0
+	60 2 8 0 0xff
+B BUX -f CenterX /f 2.0 +f CenterX BUY
+	true 9000 0
+	60 2 8 0 0xff
+B CenterW -f BUX -f CenterX /f 2.0 +f CenterX BUY
+	true 9000 0
+	60 2 8 0 0xff
+A 0

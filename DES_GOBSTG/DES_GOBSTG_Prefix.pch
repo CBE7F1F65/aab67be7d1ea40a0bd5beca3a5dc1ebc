@@ -1,0 +1,8 @@
+//
+// Prefix header for all source files of the 'DES_GOBSTG' target in the 'DES_GOBSTG' project
+//
+
+#ifdef __OBJC__
+    #import <Foundation/Foundation.h>
+    #import <UIKit/UIKit.h>
+#endif

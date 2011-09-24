@@ -1,0 +1,170 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+
+// /////////////
+
+# STATE_ENDING
+/*
+@ 1
+
+BGVALUE 0 49
+	320 240 640 480
+	1 1 1 1
+	0xffffffff
+
+BGVALUE 16 1
+	180 240 360 200
+	1 1 1 1
+	0xA0000000 
+
+BGVALUE 15 1
+	500 240 280 480
+	1 1 1 1
+	0xFF000000
+
+MUSICCHANGE 36 true
+
+@ @@> 0
+
+SD [ptdepth] RESERVEBEGIN + 1
+SD [pnccont] RESERVEBEGIN + 2
+SD [ptimeinterval] RESERVEBEGIN + 3
+
+SD ptimeinterval D ptimeinterval + 1
+SD [bJump] D ptimeinterval > 120
+
+IF D ptdepth !
+{
+	ISELCLEAR
+	ISELBUILD 0
+		"体验版至此结束，辛苦了"
+		20 160 INFO_GREEN
+		true false
+	ISELBUILD 1
+		"按住射击键可以跳过ＥＮＤＩＮＧ"
+		20 300 INFO_YELLOW
+		true false
+	ISELBUILD 2
+		"策划／场景／人设"
+		400 100 INFO_RED
+		true false
+	ISELBUILD 3
+		"剧情／音乐"
+		440 120 INFO_RED
+		true false
+		
+	SD ptdepth 1
+}
+ELSEIF D ptdepth - 1 !
+{
+	IF CHECKKEY KS_FIRE KEY_DOWN + bJump
+	{
+		IF D pnccont
+		{
+			ISELBUILD 4
+				"请继续尝试不接续通关"
+				40 180 INFO_GREEN
+				true false
+		}
+		ELSE
+		{
+			ISELBUILD 4
+				"恭喜你完美通关"
+				40 180 INFO_GREEN
+				true false
+		}
+		ISELBUILD 5
+			"Ｔｈｏｒ／ｈ５ｎｃ"
+			400 150 INFO_RED
+			true false
+		SD ptdepth 2
+		
+		SD ptimeinterval 0
+	}
+}
+ELSEIF D ptdepth - 2 !
+{
+	IF CHECKKEY KS_FIRE KEY_DOWN + bJump
+	{
+		ISELBUILD 6
+			"请多支持国产免费同人游戏"
+			20 200 INFO_GREEN
+			true false
+		ISELBUILD 7
+			"引擎／特效／脚本系统"
+			380 200 INFO_BLUE
+			true false
+		ISELBUILD 8
+			"色指定／难度设定"
+			400 220 INFO_BLUE
+			true false
+		SD ptdepth 3
+		
+		SD ptimeinterval 0
+	}
+}
+ELSEIF D ptdepth - 3 !
+{
+	IF CHECKKEY KS_FIRE KEY_DOWN + bJump
+	{
+		ISELBUILD 9
+			"感谢ＺＵＮ给我们的幻想乡"
+			40 220 INFO_GREEN
+			true false
+		ISELBUILD 10
+			"ｈ５ｎｃ（１７）"
+			400 250 INFO_BLUE
+			true false
+		SD ptdepth 4
+		
+		SD ptimeinterval 0
+	}
+}
+ELSEIF D ptdepth - 4 !
+{
+	IF CHECKKEY KS_FIRE KEY_DOWN + bJump
+	{
+		ISELBUILD 11
+			"欢迎来玩《叛之境界》本篇"
+			20 240 INFO_GREEN
+			true false
+		ISELBUILD 12
+			"特别感谢"
+			440 300 INFO_GRAY
+			true false
+		SD ptdepth 5
+		
+		SD ptimeinterval 0
+	}
+}
+ELSEIF D ptdepth - 5 !
+{
+	IF CHECKKEY KS_FIRE KEY_DOWN + bJump
+	{
+		ISELBUILD 13
+			"真诚感谢大家！"
+			60 260 INFO_GREEN
+			true false
+		ISELBUILD 14
+			"某人"
+			460 330 INFO_GRAY
+			true false
+		SD ptdepth 6
+		
+		SD ptimeinterval 0
+	}
+}
+ELSEIF D ptdepth - 6 !
+{
+	IF CHECKKEY KS_FIRE KEY_DOWN + bJump
+	{
+		ISELCLEAR
+		SD ptdepth 0xff
+	}
+}
+*/
+@ 1
+
+SD RESERVEBEGIN + 1 0xff

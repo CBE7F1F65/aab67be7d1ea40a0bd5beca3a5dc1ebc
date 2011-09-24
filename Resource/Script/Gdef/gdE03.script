@@ -1,0 +1,49 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+////////
+# 0x8304
+
+@ @@> 60
+
+GHSET GHAIMX + GHANGLE GHSPEED GHAC
+
+@ @@>% 30 3
+
+SD [i] 2
+LOOP [i]
+{
+	B GHX GHY
+	true i * 18000 + GHANGLE 2.0
+	4 2 8 16 0xff
+}
+
+////////
+# 0x8320
+
+@ @@%> 240 90
+
+SD [tmod] EN@ % 3
+A 17
+	TIMERLESS 30 SPEEDSETADD -10
+	TIMEREQUAL 60 TYPESET 60
+	TIMEREQUAL 120 TYPESET 2
+	TIMERRANGE 120 150 SPEEDSETADD 5
+B GHX GHY
+	true tmod - 1 *f GHAIMY + GHANGLE GHSPEED *f 0.65
+	2 GHAIMX 8 0 0xff
+A 0
+
+//////
+# 0x8340
+
+@ @@>% 60 3
+
+B GHX GHY
+	true GHANGLE 0.2
+	16 0 8 0 0xff
+BUDECANCEL BUI
+BUDECANCEL BUI

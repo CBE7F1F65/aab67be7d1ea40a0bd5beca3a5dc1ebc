@@ -1,0 +1,319 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+
+// PlayerSelect
+# STATE_PLAYER_SELECT
+
+// CalledRepaint
+@ INIT@
+
+IF GETSCENE < 1200 !
+{
+	SETCHARA 0 0 0
+	SETTIME 0
+	STARTPREP
+	SETSTATE STATE_START
+	EXECUTE CT_STAGE POST@ CT_SCENE
+	RETURN PGO
+}
+
+SD [ptfirst] RESERVEBEGIN
+SD [ptsecond] RESERVEBEGIN + 1
+SD [ptthird] RESERVEBEGIN + 2
+SD [ptiselfirstID] RESERVEBEGIN + 3
+
+// BGMask
+BGVALUE BGMASK SI_Null
+	508 157 264 180
+	0xA0000000
+
+IF D ptfirst + 1
+{
+	SD ptiselfirstID ISELFIRSTID
+}
+
+SELCLEAR
+ISELCLEAR
+
+SD [i] 7
+LOOP [i]
+{
+	SD [j] 6 - i
+	IF D ptfirst - j !
+	{
+		SD [unuseable] 1
+	}
+	IF D ptsecond - j !
+	{
+		SD [unuseable] 1
+	}
+	ELSE
+	{
+		SD [flag] $FLAG_PlayerUseable_01 + j
+		SD [unuseable] GETFLAG flag !
+	}
+	SELBUILD j SI_PlayerFace_01 + j
+		-240 270 1 0 8
+		D 2 D 3
+		400 0
+		-400 0
+		0 0
+		unuseable * SEL_NONACTIVE
+
+	SELBUILD j SI_PlayerNameCard_01 + j
+		-160 390 1 0 8
+		D 2 D 3
+		400 0
+		-400 0
+		0 0
+		SEL_GRAY
+
+}
+// ISEL
+SD [xstart] 390
+SD [ystart] 85
+SD [nowisel] 0
+SD [validnum] 0
+SD [yplus] 20
+
+SD [tflag] SEL_NONACTIVE + SEL_GRAY
+
+SD [i] 7
+LOOP [i]
+{
+	SD [j] 6 - i
+	SD [flagConst] $FLAG_PlayerUseable_01 + j
+	SD [unuseable] GETFLAG flagConst ! * tflag
+	ISELBUILD nowisel PLAYERNAME j
+		xstart nowisel * yplus + ystart INFO_GREEN
+		unuseable
+	IF unuseable
+	{
+		SD [validnum] validnum + 1
+	}
+	SD [nowisel] nowisel + 1
+}
+
+// ISELEND
+
+// CheckUsed
+IF D ptfirst + 1
+{
+	SELFLAG D ptfirst * 2 SEL_NONACTIVE + SEL_GRAY
+	ISELFLAG D ptfirst SEL_NONACTIVE
+	ISELCOLOR D ptfirst INFO_RED
+}
+IF D ptsecond + 1
+{
+	SELFLAG D ptsecond * 2 SEL_NONACTIVE + SEL_GRAY
+	ISELFLAG D ptsecond SEL_NONACTIVE
+	ISELCOLOR	D ptsecond INFO_RED
+}
+
+// PointToLast
+IF D ptfirst + 1 !
+{
+	SD [nowpt] CHARA 0xff
+}
+ELSEIF D ptsecond + 1 !
+{
+	SD [nowpt] D ptfirst
+}
+ELSE
+{
+	SD [nowpt] D ptsecond
+}
+SELSET nowisel nowpt true 0 0 0 0
+ISELSET nowisel nowpt true 9 ystart - 30 yplus D ptiselfirstID
+
+// Init
+@ 1
+// Music
+MUSICCHANGE $MusicOP false
+// TurnOff
+BGOFF 1
+//BGOFF 16
+
+// Back
+BGVALUE 0 SI_SelectScene
+	TotalCenterX TotalCenterY TotalW TotalH
+	0xffffffff
+// SetFade
+BGFLAG 0 BG_LIGHTRED BGMT_LIGHT
+
+// UpTitle
+BGVALUE 11 SI_TopContent_PlayerSelect
+	TotalCenterX 56 -1 -1
+	0xffffffff
+
+// Events
+@ @@> 0
+
+SD [ptfirst] RESERVEBEGIN
+SD [ptsecond] RESERVEBEGIN + 1
+SD [ptthird] RESERVEBEGIN + 2
+SD [ptconfirm] RESERVEBEGIN + 4
+
+SETCHARA D ptfirst D ptsecond D ptthird
+
+
+// SelectedI
+IF D ptfirst + 1
+{
+	BGVALUE 5 D ptfirst + SI_PlayerFace_01
+		200 TotalCenterY -1 -1
+		0xcf000000
+}
+ELSE
+{
+	BGOFF 5
+}
+// SelectedII
+IF D ptsecond + 1
+{
+	BGVALUE 6 D ptsecond + SI_PlayerFace_01
+		350 TotalCenterY -1 -1
+		0xcf000000
+}
+ELSE
+{
+	BGOFF 6
+}
+// SelectedAll
+IF D ptthird + 1
+{
+	BGVALUE 7 D ptthird + SI_PlayerFace_01
+		500 TotalCenterY -1 -1
+		0xcf000000
+	
+	BGOFF 8
+	BGOFF 9
+	BGOFF 16
+	
+	// Confirm
+	SELCONFIRM TotalCenterX TotalCenterY true [bConfirm]
+	IF SELCOMPLETE
+	{
+		IF bConfirm
+		{
+			SD ptconfirm 1
+			SELCLEAR
+			ISELCLEAR
+		}
+		ELSE
+		{
+			SD ptconfirm 0
+		}
+	}
+}
+ELSE
+{
+	BGOFF 7
+}
+
+IF CHECKKEY KS_SPECIAL KEY_DOWN
+{
+	SELCLEAR
+	ISELCLEAR
+	SE SE_SYSTEM_CANCEL CenterX
+	IF D ptfirst + 1 !
+	{
+		SETTIME 0
+		SETSTATE STATE_DIFFICULT_SELECT
+		RETURN PTURN
+	}
+	ELSEIF D ptsecond + 1 !
+	{
+		SD ptfirst -1
+		EXECUTE CT_CONTROL STATE_PLAYER_SELECT INIT@
+	}
+	ELSEIF D ptthird + 1 !
+	{
+		SD ptsecond -1
+		EXECUTE CT_CONTROL STATE_PLAYER_SELECT INIT@
+	}
+	ELSE
+	{
+		SD ptthird -1
+		EXECUTE CT_CONTROL STATE_PLAYER_SELECT INIT@
+	}
+}
+// Star
+IF ISELCOMPLETE !
+{
+	IF D ptfirst < 0
+	{
+		BGOFF 8
+	}
+	ELSE
+	{
+		SD [starInRange] ISELFIRSTID - 1 < D ptfirst
+		SD [starInRange] ISELFIRSTID + 10 > D ptfirst * starInRange
+		IF starInRange
+		{
+			BGVALUE 8 SI_FrontInfo_Star
+				368 D ptfirst - ISELFIRSTID * 20 + 95 -1 -1
+				0xffffffff
+		}
+		ELSE
+		{
+			BGOFF 8
+		}
+	}
+	IF D ptsecond < 0
+	{
+		BGOFF 9
+	}
+	ELSE
+	{
+		SD [starInRange] ISELFIRSTID - 1 < D ptsecond
+		SD [starInRange] ISELFIRSTID + 10 > D ptsecond * starInRange
+		IF starInRange
+		{
+			BGVALUE 9 SI_FrontInfo_Star
+				368 D ptsecond - ISELFIRSTID * 20 + 95 -1 -1
+				0xffffffff
+		}
+		ELSE
+		{
+			BGOFF 9
+		}
+	}
+}
+ELSE
+{
+	IF D ptfirst + 1 !
+	{
+		SD ptfirst SEL
+	}
+	ELSEIF D ptsecond + 1 !
+	{
+		SD ptsecond SEL
+	}
+	ELSEIF D ptthird + 1 !
+	{
+		SD ptthird SEL
+	}
+	
+	IF D ptthird + 1 !
+	{
+		EXECUTE CT_CONTROL STATE_PLAYER_SELECT INIT@
+	}
+	ELSE
+	{
+		IF D ptconfirm - 1 !
+		{
+			SETTIME 0
+			STARTPREP
+			SETSTATE STATE_START
+			EXECUTE CT_STAGE POST@ CT_SCENE
+		}
+		ELSEIF D ptconfirm !
+		{
+			SD ptthird -1
+			SD ptconfirm -1
+			EXECUTE CT_CONTROL STATE_PLAYER_SELECT INIT@
+		}
+	}
+}

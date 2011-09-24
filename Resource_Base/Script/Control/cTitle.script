@@ -1,0 +1,167 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+CONTROLFILE
+// Title
+# STATE_TITLE
+
+// Init
+@ 1
+
+// SetFlag
+SD [i] 7
+LOOP [i]
+{
+	SETFLAG $FLAG_PlayerUseable_01 + i true
+}
+SD [i] 9
+LOOP [i]
+{
+	SD [tstage] i / 3 + 1
+	SD [tdiffi] tstage * 0x100000
+	DATAGET tdiffi + StagePractice + tstage TryTime 0 [ttried]
+	SETFLAG $FLAG_StageTried_01 + i ttried
+}
+
+// Music
+MUSICCHANGE $MusicOP false
+
+// Back
+BGVALUE 0 SI_TitleScene
+	TotalCenterX TotalCenterY TotalW TotalH
+	0xff33ffff
+BGCOLOR 0
+	0xffffffff
+	0xffffffff
+	0xffffffff
+	0xffffffff
+
+// TitleWord
+SD [i] 5
+LOOP [i]
+{
+	SD [j] 4 - i
+	BGVALUE 6 + j SI_TitleWord_01 + j
+		j * 20 + 140 j * 60 + 180 -1 -1
+		0xffffffff
+	BGVALUE 1 + j SI_TitleWord_01 + j
+		j * 20 + 144 j * 60 + 184 -1 -1
+		0xff000000
+}
+
+// Select
+SD [i] 8
+LOOP [i]
+{
+	SD [j] 7 - i
+	SD [tspell] j - 2
+	IF j * tspell !
+	{
+		SD [tselflag] SEL_NONACTIVE + SEL_GRAY
+	}
+	ELSE
+	{
+		SD [tselflag] SEL_NULL
+	}
+	SELBUILD j SI_Title_Start + j
+		560 0 1 0 8
+		560 32 * j + 100
+		-4 -4
+		-8 0
+		8 0
+		tselflag
+}
+SELSET 8 SEL true 0 0 0 0
+
+// TitleWord Movement
+@ @@%[ 240 180
+
+SD [isRight] TIME % 480 < 240
+SD [offset] TIME % 60 / 2
+IF isRight !
+{
+	SD [offset] 29 - offset
+}
+
+SD [i] 5
+LOOP [i]
+{
+	SD [j] 4 - i
+	SD [off] SIGN j * offset
+	BGVALUE 6 + j SI_TitleWord_01 + j
+		j * 20 + 140 + off j * 60 + 180 -1 -1
+		0xffffffff
+	BGVALUE 1 + j SI_TitleWord_01 + j
+		j * 20 + 144 + off j * 60 + 184 -1 -1
+		0xff000000
+}
+
+
+// BackFade
+@ @@] 63
+
+CALL $TitleFade $TitleFade_Left
+
+// Events
+@ @@> 0
+
+IF SELCOMPLETE
+{
+	// KillTitleWord
+	SD [i] 10
+	LOOP [i]
+	{
+		BGOFF i + 1
+	}
+	SELCLEAR
+	// Sel
+	IF SEL !
+	{
+		SETSTATE STATE_DIFFICULT_SELECT
+		SETTIME 0
+		SETSCENE 100
+	}
+	IF SEL - 1 !
+	{
+		SETSTATE STATE_DIFFICULT_SELECT
+		SETTIME 0
+		SETSCENE 1200
+	}
+	IF SEL - 2 !
+	{
+		SETSTATE STATE_SPELL
+		SETTIME 0
+	}
+	IF SEL - 3 !
+	{
+		SETSTATE STATE_REPLAY
+		SETTIME 0
+	}
+	IF SEL - 4 !
+	{
+		SETSTATE STATE_RESULT
+		SETTIME 0
+	}
+	IF SEL - 5 !
+	{
+		SETSTATE STATE_MUSIC
+		SETTIME 0
+	}
+	IF SEL - 6 !
+	{
+		SETSTATE STATE_OPTION
+		SETTIME 0
+	}
+	IF SEL - 7 !
+	{
+		RETURN PQUIT
+	}
+}
+ELSEIF CHECKKEY KS_SPECIAL KEY_DOWN
+{
+	SE SE_SYSTEM_CANCEL CenterX
+	IF SEL - 7 !
+	{
+		RETURN PQUIT
+	}
+	SELSET 8 7 true 0 0 0 0
+}

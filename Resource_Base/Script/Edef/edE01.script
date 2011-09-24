@@ -1,0 +1,146 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+// ¿Õ
+# 0x0000
+
+@ 1
+
+// boss¸´Î»
+# 0x0001
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+	
+// boss¸´Î»µ½×ó²à
+# 0x0002
+
+@ 1
+
+EA 4 ENAC_CHASETO_CXY
+	60 CenterBossX - 80 CenterBossY - 20
+	
+// boss¸´Î»µ½ÓÒ²à
+# 0x0003
+
+@ 1
+
+EA 4 ENAC_CHASETO_CXY
+	60 CenterBossX + 80 CenterBossY - 20
+	
+// ////////////// //
+# 0x0104
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	120 CenterBossX CenterBossY 120
+
+@ @@>%<% 120 150 15 5
+
+SD [offset] EN@ % 15
+SD [i] 2
+LOOP [i]
+{
+	A 25
+		TIMERLESS 80 + offset SPEEDSETADD -1
+		TIMEREQUAL 80 + offset SPEEDSET 0
+		TIMEREQUAL 80 + offset TYPESET 19
+		TIMEREQUAL 80 + offset COLORSET 0
+		TIMEREQUAL 80 + offset ANGLESETADD SIGN i * offset * 600
+		TIMERRANGE 120 + offset 160 + offset SPEEDSETADD 3
+	BC 8 i * 500 + 8750 0
+		ENX ENY 2.5
+		2 6 8 0
+	A 0
+}
+
+// ////////// //
+# 0x0108
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	120 CenterBossX CenterBossY 75
+
+@ @@>% 120 75
+
+BC 16 ENAMAP 0 0
+	ENX ENY 2.5
+	6 14 8 0
+
+@ @@>%<% 120 270 90 45
+
+SD [i] 4
+SD [rangle] RAND
+LOOP [i]
+{
+	GB 0x8108 0xff 0xff
+		ENX ENY i * 9000 + rangle 0.6
+		0 10 240
+	GHSAIM EN@ % 180 0
+}
+
+// ////////// //
+# 0x0112
+
+@ 1
+
+EA 2 ENAC_REPOSITION_T
+	60
+
+@ @@>%= 240 240 96
+
+SD [i] 5
+LOOP [i]
+{
+	SD [j] 3
+	LOOP [j]
+	{
+		B ENX ENY
+			false j * 60 - 60 i *f 0.2 +f 2.0
+			6 14 8 0 0xff
+	}
+}
+ENSAIM RAND 0
+
+@ @@>%<% 120 240 80 5
+
+SD [toffset] EN@ % 40
+SD [tflag] EN@ % 80 < 40
+SD [tangle] SIGN tflag * toffset * 75
+SD [tangle] ENAIMX + tangle
+BC 12 tangle toffset * -3
+	ENX ENY toffset /f 20.0 +f 1.5
+	2 tflag + 11 8 0
+
+// //////////// //
+# 0x0116
+
+@ 1
+
+EA 5 ENAC_OVERPLAYER_CXYT
+	120 CenterBossX CenterBossY 75
+
+@ @@% 180
+
+SD [tangle] ENAMAP -6000
+
+SD [i] 3
+IF EN@ - 180 !
+{
+	SD [i] 1
+	SD [tangle] tangle + 6000
+}
+LOOP [i]
+{
+	GB 0x8116 0xff 0xff
+		ENX ENY i * 6000 + tangle 2.0
+		0 10 240
+	GHSAIM RAND EN@ % 360 > 0
+}

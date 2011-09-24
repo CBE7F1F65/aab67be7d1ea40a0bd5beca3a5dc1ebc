@@ -1,0 +1,45 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+// Пе
+# 0x8000
+
+@ 1
+
+
+// ////////////// //
+# 0x8108
+
+@ @@] 80
+
+SD [toffset] GH@ * GH@ * 3
+SD [toffset] SINA toffset *f 900
+IF GHAIMX
+{
+	SD [toffset] toffset * -1
+}
+GHSET GHANGLE + toffset GHSPEED +f 0.06f GHAC
+
+@ @@]% 75 3
+
+B GHX GHY
+	false 0 GHI % 2 *f 0.5 +f 1.5
+	4 GHI % 2 + 1 8 0 0xff
+
+// ///////////// //
+# 0x8116
+
+@ @@[] 20 60
+
+SD [toffset] GH@ * 1000
+A 13
+	TIMERLESS 50 SPEEDSETADD -5
+	TIMEREQUAL 50 SPEEDSET 0
+	TIMERRANGE 90 120 SPEEDSETADD 5
+B GHX GHY
+	true GHAIMX + toffset 2.5
+	11 GHAIMY + 4 8 8 0xff
+A 0

@@ -1,0 +1,129 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+STAGEFILE
+
+// ///////////////////////////////////////// //
+
+# 101	// T14
+
+@ @@> 0
+
+EXECUTE CT_STAGE 100 TIME
+
+// Spell 105
+# 105
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+}
+
+SPELLUP $EnemyID_01 CenterBossX CenterBossY
+
+EB 0x0105 0 $EnemyID_01
+	TX $EnemyID_01 TY $EnemyID_01 9000 0.0
+	$EnemyID_01 120 230 0x00000040
+
+BOSSUP
+
+// Spell 109
+# 109
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+}
+
+SPELLUP $EnemyID_01 CenterBossX CenterBossY
+
+EB 0x0109 0 $EnemyID_01
+	TX $EnemyID_01 TY $EnemyID_01 9000 0.0
+	$EnemyID_01 120 230 0x00000040
+
+BOSSUP
+
+// Spell 113
+# 113
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+}
+
+SPELLUP $EnemyID_01 CenterBossX CenterBossY
+
+EB 0x0113 0 $EnemyID_01
+	TX $EnemyID_01 TY $EnemyID_01 9000 0.0
+	$EnemyID_01 120 260 0x00000040
+
+BOSSUP
+
+// Spell 117
+# 117
+
+@ QUIT@
+
+MUSICSLIDE 3.0 0 -101 -1
+
+@ 1
+
+IF MODE - MODE_SPELL !
+{
+	BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+}
+
+SPELLUP $EnemyID_01 CenterBossX CenterBossY
+
+EB 0x0117 0 $EnemyID_01
+	TX $EnemyID_01 TY $EnemyID_01 9000 0.0
+	$EnemyID_01 120 260 0x00000080
+
+BOSSUP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// //////////
+# 125	// T17
+
+@ 1
+
+BGSETUP $LayerNormal $EnemyID_01 true 0xffff
+SE $SE_Bullet_2 0
+
+EB 0x0001 0 $EnemyID_01
+	0 0 9000 0.0
+	$EnemyID_01 120 180 0
+
+CALLEX $GetChatMode $GlobalValue_Chat 7
+	$PlayerID_08 $PlayerID_10
+	$PlayerID_08 $PlayerID_13
+	$PlayerID_15 $PlayerID_19
+	$PlayerID_10
+
+// Chat
+@ @@> 0
+
+CALL $Chat_T17 D $GlobalValue_Chat
+CALL $Chat_T17 D $GlobalValue_Chat

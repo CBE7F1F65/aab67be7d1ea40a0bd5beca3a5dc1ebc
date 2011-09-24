@@ -1,0 +1,91 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+EDEFFILE
+
+// ///////////////////////////////////////// //
+
+////////
+# 0x8206
+
+@ @@%= 160 90
+
+GHSET GHANGLE GHSPEED *f -1.0 GHAC
+GHSAIM GHAIMX GHANGLE
+
+@ @@>%<% 120 160 45 8
+
+SD [tmod] GH@ % 160 / 5 * 2 + 1
+SD [i] tmod
+LOOP [i]
+{
+	SD [tadd] i * 800
+	B GHX GHY
+		true tmod - 1 * -500 + tadd +f GHAIMY 2.0
+		1 GHAIMX 8 0 0xff
+}
+
+///////
+# 0x8210
+
+@ @@> 0
+
+A 8
+	TIMERRANGE 75 90 SPEEDSETADD 15
+	TIMEREQUAL 90 FADEOUT
+B RANDR 5 +f GHX RANDR 5 +f GHY
+	true RAND 0.5
+	RAND % 2 + 2 0 16 0 0xff
+A 0
+
+///////
+# 0x8214
+
+@ 20
+
+GHSET GHANGLE 0.0 GHAC
+
+@ @@% 150
+
+GHSAIM GHAIMX GHAMAP 0
+
+@ @@>%<% 120 150 45 8
+
+SD [tmod] GH@ % 150 / 8 * 2
+SD [i] tmod + 1
+SD [toffset] GHX > CenterX * 60 - 430
+LOOP [i]
+{
+	SD [tadd] i * 800
+	B GHX GHY
+		true tmod * toffset + tadd +f GHAIMY tmod *f 0.2 +f 1.6
+		1 GHAIMX 8 0 0xff
+}
+
+////////
+# 0x8218
+
+@ @@%<% 60 20 3
+
+B GHX GHY
+	true GHAIMX 2.0
+	1 2 8 0 0xff
+
+///////
+# 0x8226
+
+@ @@>% 60 8
+
+SD [tangle] EN@ * 90
+SD [tangle] SINA tangle *f 4500.0
+SD [tangle] ENAMAP 0 + tangle
+SD [tmod] EN@ % 20
+A 5
+	TIMERRANGE 90 120 SPEEDSETADD 4
+SD [i] 2
+LOOP [i]
+{
+	B GHX GHY
+		true i * 18000 + tangle 0.1
+		10 GHAIMX 8 0 0xff
+}
+A 0

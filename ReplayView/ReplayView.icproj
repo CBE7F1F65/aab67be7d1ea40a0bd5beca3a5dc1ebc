@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="gb2312"?>
+<VisualStudioProject
+	ProjectType="Intel C++ Project"
+	Version="11.1"
+	Name="ReplayView"
+	ProjectGUID="{EF267EDC-A6F8-41D8-A350-0092EE4A2AEB}"
+	VCNestedProjectGUID="{997877FE-1AB7-4AF1-8E33-505A99E4FD82}"
+	VCNestedProjectFileName="ReplayView.vcproj">
+	<Configurations>
+		<Configuration
+			Name="Release|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+		<Configuration
+			Name="FinalRelease|Win32">
+			<Tool
+				Name="GeneralTool"
+				InterproceduralOptimization="true"/>
+			<Tool
+				Name="CppCmplrTool"
+				GlobalOptimizations="true"
+				OptimizeForWindowsApplication="true"
+				ImproveFloatingPointConsistency="1"/>
+		</Configuration>
+	</Configurations>
+	<Files/>
+</VisualStudioProject>

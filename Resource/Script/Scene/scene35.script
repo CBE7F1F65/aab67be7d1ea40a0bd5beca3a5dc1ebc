@@ -1,0 +1,9 @@
+DES_TH_TOB_SCRIPTFILE 0x073
+
+SCENEFILE
+
+# $PlayerBombID_05	// ²©û¡¤ë‘‰ô`
+
+@ @@[ 0
+
+EXECUTE CT_SCENE $PlayerBombID_01 NOW@
