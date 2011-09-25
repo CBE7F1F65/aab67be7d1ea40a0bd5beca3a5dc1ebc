@@ -112,16 +112,16 @@ function helper_GetEnemyBasicData(nowpattern, nowlinenum, nowdirection, playerin
 		life = 35;
 	end
 	
-	x = x + TotalW / 4;
+	x = x + TotalW / 2;
 	
 	if nowdirection == 1 then
-		x = TotalW / 2 - x;
+		x = TotalW - x;
 		startangle = 18000 - startangle;
 		addangle = -addangle;
 	end
 	
 	if playerindex == 1 then
-		x = x + TotalW / 2;
+		x = x + TotalW;
 	end
 	
 	return type, x, y, startangle, addangle, addtimebegin, addtimeend, life;

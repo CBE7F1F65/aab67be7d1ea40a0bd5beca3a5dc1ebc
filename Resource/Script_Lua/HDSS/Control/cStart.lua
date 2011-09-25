@@ -6,6 +6,7 @@ function ControlExecute_cStart(timer)
 		local baseangle = hdss.Get(HDSS_ATAN2, TotalH, TotalW);
 		local enemyrandrom = RANDT();
 		hdssSD(LConst_Desc_LilyItem, helper_GetRandomItem());
+		
 		for i=0, 1 do
 			for j=0, 1 do
 				hdss.Call(
