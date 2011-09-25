@@ -59,9 +59,11 @@ void Process::Release()
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1_1, lastmatchchara[0][0]);
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1_2, lastmatchchara[0][1]);
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1_3, lastmatchchara[0][2]);
+		/*
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2_1, lastmatchchara[1][0]);
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2_2, lastmatchchara[1][1]);
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2_3, lastmatchchara[1][2]);
+		*/
 
 		if(playing)
 			DataConnector::addPlayTime();
@@ -156,6 +158,7 @@ void Process::musicSlide(float slidetime, int tovol, int pan, float pitch)
 
 void Process::SetShake(BYTE playerindex, BYTE round, bool force/* =false */)
 {
+	playerindex = 0;
 	if (force || worldshaketimer[playerindex] == 0)
 	{
 		worldshakeround[playerindex] = round;
@@ -699,6 +702,7 @@ DWORD Process::GetStopFlag(int index)
 
 void Process::SetLastMatchChara(BYTE playerindex, WORD ID, WORD ID_sub_1, WORD ID_sub_2)
 {
+	playerindex = 0;
 	lastmatchchara[playerindex][0] = ID;
 	lastmatchchara[playerindex][1] = ID_sub_1;
 	lastmatchchara[playerindex][2] = ID_sub_2;

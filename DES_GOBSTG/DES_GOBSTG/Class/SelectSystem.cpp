@@ -84,6 +84,7 @@ Selector * SelectSystem::BuildSelector(BYTE ID, int siID, float cenx, float ceny
 
 void SelectSystem::Setup(BYTE _pushid, int _nselect, int _select, BYTE _playerindex, int _keyminus, int _keyplus, int _keyok, int _keycancel, int maxtime/* =-1 */)
 {
+	_playerindex = 0;
 	nselect = _nselect;
 	select = _select;
 	playerindex = _playerindex;

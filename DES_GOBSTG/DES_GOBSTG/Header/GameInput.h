@@ -21,19 +21,19 @@
 #define KSI_ESCAPE	11
 #define KSI_CAPTURE	12
 
-#define KS_UP_(X)		gameinput[(X)].keyKS.keyUp
-#define KS_DOWN_(X)		gameinput[(X)].keyKS.keyDown
-#define KS_LEFT_(X)		gameinput[(X)].keyKS.keyLeft
-#define KS_RIGHT_(X)	gameinput[(X)].keyKS.keyRight
-#define KS_FIRE_(X)		gameinput[(X)].keyKS.keyFire
-#define KS_QUICK_(X)	gameinput[(X)].keyKS.keyQuick
-#define KS_SLOW_(X)		gameinput[(X)].keyKS.keySlow
-#define KS_DRAIN_(X)	gameinput[(X)].keyKS.keyDrain
-#define KS_PAUSE_(X)	gameinput[(X)].keyKS.keyPause
-#define KS_SKIP_(X)		gameinput[(X)].keyKS.keySkip
-#define KS_ENTER_(X)	gameinput[(X)].keyKS.keyEnter
-#define KS_ESCAPE_(X)	gameinput[(X)].keyKS.keyEscape
-#define KS_CAPTURE_(X)	gameinput[(X)].keyKS.keyCapture
+#define KS_UP_(X)		gameinput[(0)].keyKS.keyUp
+#define KS_DOWN_(X)		gameinput[(0)].keyKS.keyDown
+#define KS_LEFT_(X)		gameinput[(0)].keyKS.keyLeft
+#define KS_RIGHT_(X)	gameinput[(0)].keyKS.keyRight
+#define KS_FIRE_(X)		gameinput[(0)].keyKS.keyFire
+#define KS_QUICK_(X)	gameinput[(0)].keyKS.keyQuick
+#define KS_SLOW_(X)		gameinput[(0)].keyKS.keySlow
+#define KS_DRAIN_(X)	gameinput[(0)].keyKS.keyDrain
+#define KS_PAUSE_(X)	gameinput[(0)].keyKS.keyPause
+#define KS_SKIP_(X)		gameinput[(0)].keyKS.keySkip
+#define KS_ENTER_(X)	gameinput[(0)].keyKS.keyEnter
+#define KS_ESCAPE_(X)	gameinput[(0)].keyKS.keyEscape
+#define KS_CAPTURE_(X)	gameinput[(0)].keyKS.keyCapture
 
 #define KS_UP		KS_UP_(0)
 #define KS_DOWN		KS_DOWN_(0)
@@ -49,12 +49,12 @@
 #define KS_ESCAPE	KS_ESCAPE_(0)
 #define KS_CAPTURE	KS_CAPTURE_(0)
 
-#define JS_FIRE_(X)				gameinput[(X)].keyJS.joyFire
-#define JS_QUICK_(X)			gameinput[(X)].keyJS.joyQuick
-#define JS_SLOW_(X)				gameinput[(X)].keyJS.joySlow
-#define JS_DRAIN_(X)			gameinput[(X)].keyJS.joyDrain
-#define JS_PAUSE_(X)			gameinput[(X)].keyJS.joyPause
-#define JS_DEBUG_SPEEDUP_(X)	gameinput[(X)].keyJS.debug_joySpeedUp
+#define JS_FIRE_(X)				gameinput[(0)].keyJS.joyFire
+#define JS_QUICK_(X)			gameinput[(0)].keyJS.joyQuick
+#define JS_SLOW_(X)				gameinput[(0)].keyJS.joySlow
+#define JS_DRAIN_(X)			gameinput[(0)].keyJS.joyDrain
+#define JS_PAUSE_(X)			gameinput[(0)].keyJS.joyPause
+#define JS_DEBUG_SPEEDUP_(X)	gameinput[(0)].keyJS.debug_joySpeedUp
 
 #define JS_FIRE		JS_FIRE_(0)
 #define JS_QUICK	JS_QUICK_(0)

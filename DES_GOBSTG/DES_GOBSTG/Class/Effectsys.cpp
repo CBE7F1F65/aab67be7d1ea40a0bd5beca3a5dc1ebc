@@ -67,6 +67,7 @@ void Effectsys::Action()
 
 void Effectsys::RenderAll(BYTE playerindex)
 {
+	playerindex = 0;
 	DWORD i = 0;
 	DWORD size = effsys[playerindex].getSize();
 	for (effsys[playerindex].toBegin(); i<size; effsys[playerindex].toNext(), i++)
@@ -128,6 +129,7 @@ bool Effectsys::Init(HTEXTURE * tex, const char * foldername, char name[][M_PATH
 
 int Effectsys::Build(WORD ID, BYTE playerindex, float x, float y, float z, int lifetime/* =-1 */, BYTE tarID/* =0xff */, int angle/* =9000 */, float speed/* =0.0f */, float zSpeed/* =0.0f */)
 {
+	playerindex = 0;
 	Effectsys _effsys;
 	Effectsys * _peffsys = NULL;
 	if (effsys[playerindex].getSize() < EFFECTSYSMAX)
@@ -158,9 +160,10 @@ int Effectsys::Build(WORD ID, BYTE playerindex, float x, float y, float z, int l
 }
 
 
-void Effectsys::valueSet(WORD ID, BYTE playerindex, BObject & owner)
+void Effectsys::valueSet(WORD ID, BYTE _playerindex, BObject & owner)
 {
-	valueSet(ID, playerindex, owner.x, owner.y);
+	_playerindex = 0;
+	valueSet(ID, _playerindex, owner.x, owner.y);
 }
 
 void Effectsys::chaseSet(int _chasetimer, BYTE _tarAim)
@@ -171,6 +174,7 @@ void Effectsys::chaseSet(int _chasetimer, BYTE _tarAim)
 
 void Effectsys::valueSet(WORD _ID, BYTE _playerindex, float _x, float _y, float _z, int _lifetime, BYTE _tarID, int _angle, float _speed, float _zSpeed)
 {
+	_playerindex = 0;
 	ID			= _ID;
 	playerindex	= _playerindex;
 	tarID		= _tarID;

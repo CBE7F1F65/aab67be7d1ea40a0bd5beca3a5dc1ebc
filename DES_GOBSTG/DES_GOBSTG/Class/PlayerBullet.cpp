@@ -137,6 +137,7 @@ void PlayerBullet::Action()
 
 void PlayerBullet::RenderAll(BYTE playerindex)
 {
+	playerindex = 0;
 	if (pb[playerindex].getSize())
 	{
 		DWORD i = 0;
@@ -154,6 +155,7 @@ void PlayerBullet::RenderAll(BYTE playerindex)
 
 void PlayerBullet::BuildShoot(BYTE playerindex, BYTE playerID, int usetimer, bool bchargeshoot/* =false */)
 {
+	playerindex = 0;
 	playershootData * item;
 	for (int i=0; i<PLAYERSHOOTTYPEMAX; i++)
 	{
@@ -192,6 +194,7 @@ int PlayerBullet::Build(BYTE playerindex, int shootdataID, bool explode/* =false
 
 void PlayerBullet::valueSet(BYTE _playerindex, WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, int _hitonfactor, WORD _flag, BYTE seID, int _deletetime)
 {
+	_playerindex = 0;
 	playerindex = _playerindex;
 	ID		=	_ID;
 	angle	=	_angle;
@@ -320,6 +323,7 @@ void PlayerBullet::ClearLock()
 
 bool PlayerBullet::CheckAndSetLock(BObject * pbobj, BYTE playerindex, int lockedid, bool active)
 {
+	playerindex = 0;
 	if (locked[playerindex] != PBLOCK_LOST && activelocked[playerindex] != PBLOCK_LOST)
 	{
 		return false;
@@ -342,6 +346,7 @@ bool PlayerBullet::CheckAndSetLock(BObject * pbobj, BYTE playerindex, int locked
 
 bool PlayerBullet::GetLockAim(BObject ** ppbobj, BYTE playerindex)
 {
+	playerindex = 0;
 	int lockedid = activelocked[playerindex];
 	if (activelocked[playerindex] == PBLOCK_LOST)
 	{
@@ -705,6 +710,7 @@ void PlayerBullet::action()
 
 bool PlayerBullet::CheckShoot(BYTE playerindex, Enemy * en, float aimx, float aimy, float aimw, float aimh)
 {
+	playerindex = 0;
 //	float totalpower = 0.0f;
 	bool hit = false;
 	if (pb[playerindex].getSize())

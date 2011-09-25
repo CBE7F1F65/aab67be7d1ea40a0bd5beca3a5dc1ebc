@@ -82,6 +82,7 @@ void Bullet::Init()
 
 void Bullet::BuildCircle(BYTE playerindex, int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime, float avoid)
 {
+	playerindex = 0;
 	if (num <= 0)
 	{
 		return;
@@ -98,6 +99,7 @@ void Bullet::BuildCircle(BYTE playerindex, int num, int baseangle, float baser, 
 
 void Bullet::BuildLine(BYTE playerindex, int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime, float avoid)
 {
+	playerindex = 0;
 	if (num <= 0)
 	{
 		return;
@@ -113,6 +115,7 @@ void Bullet::BuildLine(BYTE playerindex, int num, int baseangle, float space, in
 
 int Bullet::Build(BYTE playerindex, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid, BYTE tarID)
 {
+	playerindex = 0;
 	if (bu[playerindex].getSize() == BULLETMAX)
 	{
 		return -1;
@@ -200,6 +203,7 @@ void Bullet::Action()
 
 void Bullet::RenderAll(BYTE playerindex)
 {
+	playerindex = 0;
 	if (bu[playerindex].getSize())
 	{
 		for (int i=0; i<BULLETTYPEMAX; i++)
@@ -307,6 +311,7 @@ void Bullet::matchFadeOutColorType()
 
 bool Bullet::valueSet(BYTE _playerindex, WORD _ID, float _x, float _y, int _angle, float _speed, BYTE _type, BYTE _color, int _fadeinTime, float avoid, BYTE _tarID)
 {
+	_playerindex = 0;
 	playerindex	= _playerindex;
 	ID			=	_ID;
 	x			=	_x;
@@ -447,10 +452,12 @@ int Bullet::DoIze()
 								{
 									speed = it->power;
 								}
-								int iret = Build(1-playerindex, x - SIGN(playerindex) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
+								int iret = Build(playerindex, x - SIGN(playerindex) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
+//								int iret = Build(1-playerindex, x - SIGN(playerindex) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
 								if (iret >= 0)
 								{
-									(*(bu[1-playerindex])).passEvent(EVENTZONE_TYPE_BULLETWARP);
+									(*(bu[playerindex])).passEvent(EVENTZONE_TYPE_BULLETWARP);
+//									(*(bu[1-playerindex])).passEvent(EVENTZONE_TYPE_BULLETWARP);
 								}
 								bu[playerindex].toIndex(_tindex);
 								passEvent(EVENTZONE_TYPE_BULLETWARP);
@@ -580,6 +587,7 @@ void Bullet::passEvent(DWORD _eventID)
 
 void Bullet::SendBullet(BYTE playerindex, float x, float y, BYTE setID, BYTE * sendtime, float * speed, int sendbonus)
 {
+	playerindex = 0;
 	int siidindex = EFFSPSEND_COLOR_RED;
 	if (playerindex)
 	{
@@ -587,7 +595,8 @@ void Bullet::SendBullet(BYTE playerindex, float x, float y, BYTE setID, BYTE * s
 	}
 	if (sendtime)
 	{
-		Player::p[1-playerindex].DoSendBullet(x, y, sendbonus);
+		Player::p[playerindex].DoSendBullet(x, y, sendbonus);
+//		Player::p[1-playerindex].DoSendBullet(x, y, sendbonus);
 	}
 	float _hscale = randtf(0.6f, 0.8f);
 	int esindex = EffectSp::Build(setID, playerindex, EffectSp::senditemsiid[siidindex][0], x, y, 0, _hscale);
@@ -792,7 +801,8 @@ void Bullet::action()
 						sendsetID += 2;
 					}
 				}
-				SendBullet(1-playerindex, x, y, sendsetID, &sendtime, &speed, sendbonus);
+				SendBullet(playerindex, x, y, sendsetID, &sendtime, &speed, sendbonus);
+//				SendBullet(1-playerindex, x, y, sendsetID, &sendtime, &speed, sendbonus);
 			}
 		}
 		else if(timer == 32)

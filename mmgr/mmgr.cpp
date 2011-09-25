@@ -145,7 +145,7 @@ static		char		szlogfilepath[260] = {0};
 static	const	unsigned int	paddingSize            = 4;	// alignment of memory must be on 16byte for most use on PSP
 #endif
 
-#define _MMGR_LOGFILENAME	"memory.log"
+#define _MMGR_LOGFILENAME	""
 #define _MMGR_LEAKFILENAME	"memleaks.log"
 #define _MMGR_REPORTFILENAME	"memreport.log"
 

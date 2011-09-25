@@ -81,7 +81,7 @@ bool GameInput::InitInput(HGE * _hge)
 	KS_CAPTURE_(1)	= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCAPTURE, RESCONFIGDEFAULT_KEYCAPTURE);
 
 	gameinput[0].keycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN);
-	gameinput[1].keycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN);
+//	gameinput[1].keycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN);
 
 	JS_FIRE_(0)		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYFIRE, RESCONFIGDEFAULT_JOYFIRE);
 	JS_QUICK_(0)	= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYQUICK, RESCONFIGDEFAULT_JOYQUICK);
@@ -96,7 +96,7 @@ bool GameInput::InitInput(HGE * _hge)
 	JS_PAUSE_(1)	= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYPAUSE, RESCONFIGDEFAULT_JOYPAUSE);
 
 	gameinput[0].joycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN);
-	gameinput[1].joycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN);
+//	gameinput[1].joycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN);
 
 #ifdef __DEBUG
 	JS_DEBUG_SPEEDUP_(0) = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_DEBUG_JOYSPEEDUP, RESCONFIGDEFAULT_DEBUG_JOYSPEEDUP);
@@ -164,14 +164,14 @@ bool GameInput::ReleaseInput()
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYENTER, KS_ENTER_(1));
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYESCAPE, KS_ESCAPE_(1));
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCAPTURE, KS_CAPTURE_(1));
-	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCOMBINESLOWDRAIN, gameinput[1].keycombineslowdrain);
+//	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCOMBINESLOWDRAIN, gameinput[1].keycombineslowdrain);
 
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYFIRE, JS_FIRE_(1));
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYQUICK, JS_QUICK_(1));
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYSLOW, JS_SLOW_(1));
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYDRAIN, JS_DRAIN_(1));
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYPAUSE, JS_PAUSE_(1));
-	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYCOMBINESLOWDRAIN, gameinput[1].joycombineslowdrain);
+//	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYCOMBINESLOWDRAIN, gameinput[1].joycombineslowdrain);
 
 #ifdef __DEBUG
 	hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_DEBUG_JOYSPEEDUP, JS_DEBUG_SPEEDUP_(0));
@@ -326,17 +326,17 @@ void GameInput::SyncForActiveInput()
 	for (int i=0; i<GAMEACTIVEINPUTMAX; i++)
 	{
 		WORD testi = 1<<i;
-		if (gameinput[0].input & testi || gameinput[1].input & testi)
+		if (gameinput[0].input & testi/* || gameinput[1].input & testi*/)
 		{
 			gameinput[0].input |= testi;
-			gameinput[1].input |= testi;
+//			gameinput[1].input |= testi;
 		}
 	}
 }
 
 void GameInput::SwapInput(bool setswap)
 {
-	swapinput = setswap;
+//	swapinput = setswap;
 }
 
 WORD GameInput::updateActiveInput(bool copylast/* =false */)
@@ -365,6 +365,7 @@ WORD GameInput::updateActiveInput(bool copylast/* =false */)
 
 bool GameInput::GetKey(BYTE playerindex, int ksi, int type/* =DIKEY_PRESSED */)
 {
+	playerindex = 0;
 	if (playerindex != 1)
 	{
 		playerindex = 0;
@@ -378,6 +379,7 @@ bool GameInput::GetKey(BYTE playerindex, int ksi, int type/* =DIKEY_PRESSED */)
 
 void GameInput::SetKey(BYTE playerindex, int ksi, bool set/* =true */)
 {
+	playerindex = 0;
 	if (playerindex != 1)
 	{
 		playerindex = 0;

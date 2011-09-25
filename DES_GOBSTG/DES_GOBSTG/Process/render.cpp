@@ -131,6 +131,8 @@ int Process::render()
 #ifdef __WIN32
 		hge->Gfx_EndScene();
 #endif // __WIN32
+
+		/*
 #if defined __WIN32
 		hge->Gfx_BeginScene(rendertar[1]);
 		hge->Gfx_Clear(0x00000000);
@@ -143,6 +145,7 @@ int Process::render()
 #ifdef __WIN32
 		hge->Gfx_EndScene();
 #endif // __WIN32
+		*/
 	}
 
 #ifdef __WIN32

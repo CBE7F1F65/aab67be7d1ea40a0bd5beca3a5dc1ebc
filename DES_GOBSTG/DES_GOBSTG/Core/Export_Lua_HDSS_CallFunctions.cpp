@@ -109,6 +109,7 @@ int _HDSSCallGet::Call_SETCHARA(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		WORD _id = _INEXT_HDSS_LUAPARA;
 		WORD _id_sub_1 = 0xffff;
 		WORD _id_sub_2 = 0xffff;
@@ -173,6 +174,7 @@ int _HDSSCallGet::Call_SETKEY(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _ksi = _INEXT_HDSS_LUAPARA;
 		bool _set = true;
 		_JNEXT_HDSS_LUAPARA;
@@ -192,6 +194,7 @@ int _HDSSCallGet::Call_DISABLEALLKEY(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		GameInput::SetKey(_playerindex, KSI_UP, false);
 		GameInput::SetKey(_playerindex, KSI_DOWN, false);
 		GameInput::SetKey(_playerindex, KSI_LEFT, false);
@@ -212,6 +215,7 @@ int _HDSSCallGet::Call_SETPUSHEVENT(LuaState * ls)
 	{
 		BYTE _index = _INEXT_HDSS_LUAPARA;
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _pushkey_1 = PUSHKEY_KEYNULL;
 		int _pushkey_2 = PUSHKEY_KEYNULL;
 		int _pushkey_3 = PUSHKEY_KEYNULL;
@@ -267,6 +271,7 @@ int _HDSSCallGet::Call_UPDATEPUSHEVENT(LuaState * ls)
 		if (bhavenext)
 		{
 			_playerindex = _IOBJ_HDSS_LUA;
+			_playerindex = 0;
 		}
 		bool bret = PushKey::UpdatePushEvent(_index, _playerindex);
 		ls->PushBoolean(bret);
@@ -599,6 +604,7 @@ int _HDSSCallGet::Call_ENBUILD(LuaState * ls)
 	{
 		WORD _eID = _INEXT_HDSS_LUAPARA;
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -645,6 +651,7 @@ int _HDSSCallGet::Call_ENACTIONSET(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		WORD _ac = _INEXT_HDSS_LUAPARA;
 		float _para_x = 0;
 		float _para_y = 0;
@@ -705,6 +712,7 @@ int _HDSSCallGet::Call_ENSAIM(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _level = 0;
 		float _aimx = 0;
 		float _aimy = 0;
@@ -740,6 +748,7 @@ int _HDSSCallGet::Call_ENTOI(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		Enemy::en[_playerindex].toIndex(_index);
 	}
@@ -752,6 +761,7 @@ int _HDSSCallGet::Call_ENAZBUILD(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		BYTE _flag = _INEXT_HDSS_LUAPARA;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
@@ -860,6 +870,7 @@ int _HDSSCallGet::Call_EZONEBUILD(LuaState * ls)
 	{
 		DWORD _type = _INEXT_HDSS_LUAPARA;
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 
@@ -931,6 +942,7 @@ int _HDSSCallGet::Call_EFFSETUP(LuaState * ls)
 	{
 		WORD _ID = _INEXT_HDSS_LUAPARA;
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 
@@ -996,6 +1008,7 @@ int _HDSSCallGet::Call_EFFMOVETO(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		BYTE _effindex = _INEXT_HDSS_LUAPARA;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
@@ -1026,6 +1039,7 @@ int _HDSSCallGet::Call_SETPINITLIFE(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		BYTE _initlife = _INEXT_HDSS_LUAPARA;
 		Player::p[_playerindex].SetInitLife(_initlife);
 	}
@@ -1038,6 +1052,7 @@ int _HDSSCallGet::Call_ADDPNCHARGE(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		float _addcharge = 0;
 		float _addchargemax = 0;
 		_JNEXT_HDSS_LUAPARA;
@@ -1061,6 +1076,7 @@ int _HDSSCallGet::Call_SETPBINFI(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		BYTE _reasonflag = _INEXT_HDSS_LUAPARA;
 		int _infitimer = PLAYER_INFIMAX;
 
@@ -1081,6 +1097,7 @@ int _HDSSCallGet::Call_BUBUILD(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -1120,6 +1137,7 @@ int _HDSSCallGet::Call_BUACTIONSET(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _i = 0;
 		if (argscount > 2)
 		{
@@ -1145,6 +1163,7 @@ int _HDSSCallGet::Call_BUBUILDCIRCLE(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _num = _INEXT_HDSS_LUAPARA;
 		int _baseangle = _INEXT_HDSS_LUAPARA;
 		float _baser = _FNEXT_HDSS_LUAPARA;
@@ -1179,6 +1198,7 @@ int _HDSSCallGet::Call_BUBUILDLINE(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _num = _INEXT_HDSS_LUAPARA;
 		int _baseangle = _INEXT_HDSS_LUAPARA;
 		float _space = _FNEXT_HDSS_LUAPARA;
@@ -1217,6 +1237,7 @@ int _HDSSCallGet::Call_BUDECANCEL(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _buindex = Bullet::bu[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAPARA;
 		if (bhavenext)
@@ -1235,6 +1256,7 @@ int _HDSSCallGet::Call_BEBUILD(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -1288,6 +1310,7 @@ int _HDSSCallGet::Call_BGVALUE(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _siid = _INEXT_HDSS_LUAPARA;
 		float _cenx = _FNEXT_HDSS_LUAPARA;
@@ -1323,6 +1346,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _siid = _INEXT_HDSS_LUAPARA;
 
@@ -1448,6 +1472,7 @@ int _HDSSCallGet::Call_BGFLAG(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		BYTE _flag = _INEXT_HDSS_LUAPARA;
 		int _maxtime = -1;
@@ -1468,6 +1493,7 @@ int _HDSSCallGet::Call_BGCOLOR(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		DWORD col[4];
 		int _blend = BLEND_DEFAULT;
@@ -1495,6 +1521,7 @@ int _HDSSCallGet::Call_BGBLEND(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _blend = _INEXT_HDSS_LUAPARA;
 		BGLayer::ubg[_playerindex][_index].SetBlend(_blend);
@@ -1509,6 +1536,7 @@ int _HDSSCallGet::Call_BGOFF(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		int _index = _INEXT_HDSS_LUAPARA;
 		if (_index < 0)
 		{
@@ -1529,6 +1557,7 @@ int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 	if (true)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
+		_playerindex = 0;
 		BYTE _setID = _INEXT_HDSS_LUAPARA;
 
 		WORD _sID = BGLAYERSET_NONE;
@@ -1812,6 +1841,7 @@ int _HDSSCallGet::Call_SELSETUP(LuaState * ls)
 		if (bhavenext)
 		{
 			_playerindex = _IOBJ_HDSS_LUA;
+			_playerindex = 0;
 			_JNEXT_HDSS_LUAPARA;
 			if (bhavenext)
 			{

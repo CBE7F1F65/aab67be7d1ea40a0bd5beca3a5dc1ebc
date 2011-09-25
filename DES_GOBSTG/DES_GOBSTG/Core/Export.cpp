@@ -332,13 +332,16 @@ hge3DPoint * Export::GetFarPoint(BYTE renderflag)
 		ptfar.y = M_CLIENT_CENTER_Y;
 		break;
 	case M_RENDER_LEFT:
+	case M_RENDER_RIGHT:
 		ptfar.x = M_GAMESQUARE_CENTER_X_0;
 		ptfar.y = M_GAMESQUARE_CENTER_Y;
 		break;
+/*
 	case M_RENDER_RIGHT:
 		ptfar.x = M_GAMESQUARE_CENTER_X_1;
 		ptfar.y = M_GAMESQUARE_CENTER_Y;
 		break;
+		*/
 	}
 	return &ptfar;
 }
@@ -392,6 +395,7 @@ BYTE Export::GetPlayerIndexByRenderFlag(BYTE renderflag)
 
 BYTE Export::GetRenderFlagByPlayerIndex(BYTE playerindex)
 {
+	playerindex = 0;
 	if (playerindex == 0)
 	{
 		return M_RENDER_LEFT;

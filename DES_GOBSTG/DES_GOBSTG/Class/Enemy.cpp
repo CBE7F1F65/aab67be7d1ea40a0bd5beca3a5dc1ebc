@@ -65,6 +65,7 @@ void Enemy::Release()
 
 int Enemy::Build(WORD eID, BYTE playerindex, float x, float y, int angle, float speed, BYTE type, float life, int infitimer)
 {
+	playerindex = 0;
 	BYTE nmaxset = BResource::bres.enemydata[type].nmaxset;
 	BYTE nmax = BResource::bres.enemydata[type].nmax;
 	if (nmax && nEnemyNow[playerindex][nmaxset] > nmax)
@@ -130,10 +131,12 @@ void Enemy::ClearAll()
 
 void Enemy::BossFadeout(BYTE playerindex)
 {
+	playerindex = 0;
 	if (bossindex[playerindex] != 0xff)
 	{
 		bossindex[playerindex] = 0xff;
-		FrontDisplay::fdisp.SetState(FDISP_SPELLNAME_0+(1-playerindex), FDISPSTATE_OFF);
+		FrontDisplay::fdisp.SetState(FDISP_SPELLNAME_0+(playerindex), FDISPSTATE_OFF);
+//		FrontDisplay::fdisp.SetState(FDISP_SPELLNAME_0+(1-playerindex), FDISPSTATE_OFF);
 		Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_BOSSFADEOUT, playerindex);
 	}
 }
@@ -233,6 +236,7 @@ void Enemy::Action()
 
 void Enemy::BuildENAZ(BYTE playerindex, BYTE flag, float x, float y, float rPrep, float rParal, int angle)
 {
+	playerindex = 0;
 	EnemyActivationZone _enaz;
 	enaz[playerindex].push_back(_enaz);
 	EnemyActivationZone * _penaz = &(*(enaz[playerindex].rbegin()));
@@ -246,6 +250,7 @@ void Enemy::BuildENAZ(BYTE playerindex, BYTE flag, float x, float y, float rPrep
 
 void Enemy::SendGhost(BYTE playerindex, float x, float y, BYTE setID, BYTE * sendtime, float * acceladd)
 {
+	playerindex = 0;
 	int siidindex = EFFSPSEND_COLOR_RED;
 	if (playerindex)
 	{
@@ -276,6 +281,7 @@ void Enemy::SendGhost(BYTE playerindex, float x, float y, BYTE setID, BYTE * sen
 
 void Enemy::RenderAll(BYTE _playerindex)
 {
+	_playerindex = 0;
 	DWORD i = 0;
 	DWORD size = en[_playerindex].getSize();
 	for (en[_playerindex].toBegin(); i<size; en[_playerindex].toNext(), i++)
@@ -293,6 +299,7 @@ void Enemy::RenderAll(BYTE _playerindex)
 
 void Enemy::RenderScore(BYTE _playerindex)
 {
+	_playerindex = 0;
 	DWORD i = 0;
 	DWORD size = scoredisplay[_playerindex].size;
 	for (scoredisplay[_playerindex].toBegin(); i<size; scoredisplay[_playerindex].toNext(), i++)
@@ -348,6 +355,7 @@ void Enemy::setLevelAim(int _level, float aimx, float aimy, int _aimangle)
 
 void Enemy::valueSet(BYTE _playerindex, WORD _eID, float _x, float _y, int _angle, float _speed, BYTE _type, float _life, int _infitimer)
 {
+	_playerindex = 0;
 	playerindex	=	_playerindex;
 	ID		=	_eID;
 	x		=	_x;
@@ -1087,6 +1095,7 @@ bool Enemy::DoActivate()
 
 bool Enemy::CheckENAZ(BYTE playerindex, float x, float y, float rori)
 {
+	playerindex = 0;
 	bool haveor = false;
 	bool orcheck = false;
 	if (!enaz[playerindex].size())
@@ -1438,6 +1447,7 @@ void Enemy::SetActiveInfo(BYTE _activemaxtime, WORD _eID, BYTE _type, int _angle
 
 void Enemy::giveItem(BYTE playerindex)
 {
+	playerindex = 0;
 	if (!take)
 	{
 		return;

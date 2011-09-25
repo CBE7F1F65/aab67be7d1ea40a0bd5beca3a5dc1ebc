@@ -1,4 +1,4 @@
-73	h5nc	4A																												
+90	h5nc	4A																												
 Comment	Type	Collision_r	FastSpeed	SlowSpeed	ChargeSpeed	AddChargeRate	ShotDelay	RechargeDelay	ShootChargeTime	ExPointParaB	ExPointParaA	ExPointMax	InfiNMaxSet	SIID	Face	SpellCutIn	SpellName_1	SpellName_2	SpellName_3	MusicID	DrainZone	AIDrainTime	StandFrame	LeftPreFrame	LeftFrame	RightPreFrame	RightFrame	SceneName	Name	EName
 -	0	0.5	4	2	4	1	12	50	1	35	-1.25	7.5	0	SI_Player_Reimu_0	SI_Face_01	SI_PlayerSpellCutIn_01	ë‘·û¡¸êê–Ó¡¡¹	ë‘·û¡¸‰ôÏë·âÓ¡¡¹	ë‘·û¡¸²©û»ÃÓ°¡¹	7	SI_PlayerDrainZone_01	64	8	4	4	4	4	ÃÔ¤¤¤ÎÖñÁÖ -REIMU-	²©û¡¤ë‘‰ô	Hakurei Reimu
 -	1	1	5	3	3.3	1.15	8	45	32	30	-1	8	0	SI_Player_Marisa_0	SI_Face_02	SI_PlayerSpellCutIn_02	Ä§·û¡¸¥¹¥¿©`¥À¥¹¥È¡¹	Ä§·û¡¸¥¹¥¿©`¥À¥¹¥È¥ì¥ô¥¡¥ê¥¨¡¹	Ä§·û¡¸¥¤¥ê¥å©`¥¸¥ç¥ó¥¹¥¿©`¡¹	8	SI_PlayerDrainZone_02	32	8	4	4	4	4	ÃÔ¤¤¤ÎÖñÁÖ -MARISA-	ìFÓê¡¤Ä§ÀíÉ³	Kirisame Marisa

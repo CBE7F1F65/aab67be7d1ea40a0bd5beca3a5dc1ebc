@@ -76,6 +76,7 @@ void Item::Action()
 
 void Item::RenderAll(BYTE playerindex)
 {
+	playerindex = 0;
 	if (mi[playerindex].getSize())
 	{
 		DWORD i = 0;
@@ -126,6 +127,7 @@ void Item::valueSet(WORD type, float _x, float _y, bool _bDrained, int _angle, f
 
 int Item::Build(BYTE playerindex, WORD type, float _x, float _y, bool _bDrained /* = false */, int _angle, float _speed)
 {
+	playerindex = 0;
 	if (mi[playerindex].getSize() == ITEMMAX)
 	{
 		return -1;
@@ -158,6 +160,7 @@ void Item::Render()
 
 void Item::SendBullet(BYTE playerindex, float x, float y, BYTE setID)
 {
+	playerindex = 0;
 	int siidindex = EFFSPSEND_COLOR_RED;
 	if (playerindex)
 	{
@@ -181,6 +184,7 @@ void Item::SendBullet(BYTE playerindex, float x, float y, BYTE setID)
 
 void Item::action(BYTE playerindex)
 {
+	playerindex = 0;
 	if(Player::p[playerindex].bSlow && !bDrained && !(Player::p[playerindex].flag & PLAYER_COLLAPSE || Player::p[playerindex].flag & PLAYER_SHOT))
 	{
 //		float rdrain = (Player::p[playerindex].bSlow) ? 64 : 48;

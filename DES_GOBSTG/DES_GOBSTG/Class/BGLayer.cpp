@@ -45,6 +45,7 @@ void BGLayer::Init()
 
 void BGLayer::KillOtherLayer(BYTE playerindex)
 {
+	playerindex = 0;
 	for (int i=0; i<BGLAYERMAX+FGLAYERMAX; i++)
 	{
 		ubg[playerindex][i].exist = false;
@@ -367,6 +368,7 @@ void BGLayer::ActionSpecial()
 
 void BGLayer::RenderBG(BYTE playerindex)
 {
+	playerindex = 0;
 	for (int i=0; i<BGLAYERMAX; i++)
 	{
 		if (ubg[playerindex][i].exist)
@@ -382,6 +384,7 @@ void BGLayer::RenderBG(BYTE playerindex)
 
 void BGLayer::RenderFG(BYTE playerindex)
 {
+	playerindex = 0;
 	for (int i=BGLAYERMAX; i<BGFGLAYERMAX; i++)
 	{
 		if (ubg[playerindex][i].exist)
@@ -404,6 +407,7 @@ void BGLayer::RenderFGPause()
 
 void BGLayer::BGLayerSetup(BYTE playerindex, BYTE setID, WORD sID/* =BGLAYERSET_NONE */, bool bForce/* =false */)
 {
+	playerindex = 0;
 	WORD osID = bglayerset[playerindex][setID].sID;
 	if (bForce || osID != setID)
 	{

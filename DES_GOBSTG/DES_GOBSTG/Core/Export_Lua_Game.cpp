@@ -229,6 +229,7 @@ int Export_Lua_Game::LuaFn_Game_GetSendItemInfo(LuaState * ls)
 {
 	LuaStack args(ls);
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 
 	EffectSp * _peffsp = &(*(EffectSp::effsp[_playerindex]));
 	ls->PushInteger(_peffsp->setID);
@@ -250,6 +251,7 @@ int Export_Lua_Game::LuaFn_Game_AddSendBulletInfo(LuaState * ls)
 	BYTE _sendsetID = args[1].GetInteger();
 	BYTE _sendtime = args[2].GetInteger();
 	BYTE _playerindex = args[3].GetInteger();
+	_playerindex = 0;
 	int _index = Bullet::bu[_playerindex].getIndex();
 	if (args.Count() > 3)
 	{
@@ -266,6 +268,7 @@ int Export_Lua_Game::LuaFn_Game_AddSendGhostInfo(LuaState * ls)
 	BYTE _sendsetID = args[1].GetInteger();
 	BYTE _sendtime = args[2].GetInteger();
 	BYTE _playerindex = args[3].GetInteger();
+	_playerindex = 0;
 	float _accel = args[4].GetFloat();
 	float _acceladd = args[5].GetFloat();
 	int _index = Enemy::en[_playerindex].getIndex();
@@ -282,6 +285,7 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerDrainInfo(LuaState * ls)
 	LuaStack args(ls);
 
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	int _eventID = args[2].GetInteger();
 	ls->PushInteger(Player::p[_playerindex].nowID);
 	if (_eventID == SCR_EVENT_PLAYERDRAINCHECK)
@@ -308,6 +312,7 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerShotInfo(LuaState * ls)
 	LuaStack args(ls);
 
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	ls->PushInteger(Player::p[_playerindex].nowID);
 	ls->PushInteger(Player::p[_playerindex].nLife);
 	ls->PushInteger(Player::p[_playerindex].shottimer);
@@ -326,6 +331,7 @@ int Export_Lua_Game::LuaFn_Game_SetPlayerDrainSpriteInfo(LuaState * ls)
 	int argscount = args.Count();
 
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	float _x = args[2].GetFloat();
 	float _y = args[3].GetFloat();
 	int _headangle = 0;
@@ -357,6 +363,7 @@ int Export_Lua_Game::LuaFn_Game_SetGhostActiveInfo(LuaState * ls)
 	LuaStack args(ls);
 
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	BYTE _activemaxtime = args[2].GetInteger();
 	WORD _eID = args[3].GetInteger();
 	BYTE _type = args[4].GetInteger();
@@ -372,15 +379,19 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerSendExInfo(LuaState * ls)
 {
 	LuaStack args(ls);
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	int _esindex = EffectSp::effsp[_playerindex].getIndex();
 	EffectSp * _peffsp = &(*EffectSp::effsp[_playerindex]);
 
 	ls->PushInteger(_esindex);
-	ls->PushInteger(Player::p[1-_playerindex].nowID);
+	ls->PushInteger(Player::p[_playerindex].nowID);
+//	ls->PushInteger(Player::p[1-_playerindex].nowID);
 	ls->PushNumber(Player::p[_playerindex].x);
 	ls->PushNumber(Player::p[_playerindex].y);
-	ls->PushNumber(Player::p[1-_playerindex].x);
-	ls->PushNumber(Player::p[1-_playerindex].y);
+	ls->PushNumber(Player::p[_playerindex].x);
+	ls->PushNumber(Player::p[_playerindex].y);
+//	ls->PushNumber(Player::p[1-_playerindex].x);
+//	ls->PushNumber(Player::p[1-_playerindex].y);
 	ls->PushInteger(Player::p[_playerindex].nowID);
 	ls->PushNumber(_peffsp->x);
 	ls->PushNumber(_peffsp->y);
@@ -392,6 +403,7 @@ int Export_Lua_Game::LuaFn_Game_PlayerSendEx(LuaState * ls)
 	LuaStack args(ls);
 
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	int _esindex = args[2].GetInteger();
 	EffectSp * _peffsp = &(EffectSp::effsp[_playerindex][_esindex]);
 
@@ -425,7 +437,8 @@ int Export_Lua_Game::LuaFn_Game_PlayerSendEx(LuaState * ls)
 	_peffsp->colorSet(_color, BLEND_ALPHAADD);
 	_peffsp->actionSet(9000, 0, _headangleadd);
 	_peffsp->chaseSet(EFFSP_CHASE_FREE, _aimx, _aimy, _chasetimer);
-	_peffsp->AppendData(Player::p[1-_playerindex].nowID, _appendfloat);
+	_peffsp->AppendData(Player::p[_playerindex].nowID, _appendfloat);
+//	_peffsp->AppendData(Player::p[1-_playerindex].nowID, _appendfloat);
 
 	return 0;
 }
@@ -435,6 +448,7 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerStopInfo(LuaState * ls)
 	LuaStack args(ls);
 
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 
 	if (Player::raisespellstopplayerindex >= M_PL_MATCHMAXPLAYER)
 	{
@@ -447,11 +461,12 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerStopInfo(LuaState * ls)
 	}
 	else
 	{
-		_playerindex = 1 - _playerindex;
+//		_playerindex = 1 - _playerindex;
 		ls->PushBoolean(false);
 	}
 	ls->PushInteger(Player::p[_playerindex].nowID);
-	ls->PushInteger(Player::p[1-_playerindex].nowID);
+	ls->PushInteger(Player::p[_playerindex].nowID);
+//	ls->PushInteger(Player::p[1-_playerindex].nowID);
 	ls->PushInteger(Player::p[_playerindex].spellstoptimer);
 	ls->PushInteger(PL_SHOOTINGCHARGE_STOPTIME);
 	BYTE _spellclass = 0;
@@ -517,17 +532,21 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerShootChargeInfo(LuaState * ls)
 {
 	LuaStack args(ls);
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	BYTE _spellclass;
 	BYTE _spelllevel;
 	Player::p[_playerindex].GetSpellClassAndLevel(&_spellclass, &_spelllevel, Player::p[_playerindex].nowshootingcharge);
 	ls->PushInteger(_spellclass);
 	ls->PushInteger(_spelllevel);
 	ls->PushInteger(Player::p[_playerindex].nowID);
-	ls->PushNumber(Player::p[1-_playerindex].x);
-	ls->PushNumber(Player::p[1-_playerindex].y);
 	ls->PushNumber(Player::p[_playerindex].x);
 	ls->PushNumber(Player::p[_playerindex].y);
-	ls->PushInteger(Player::p[1-_playerindex].nowID);
+//	ls->PushNumber(Player::p[1-_playerindex].x);
+//	ls->PushNumber(Player::p[1-_playerindex].y);
+	ls->PushNumber(Player::p[_playerindex].x);
+	ls->PushNumber(Player::p[_playerindex].y);
+	ls->PushInteger(Player::p[_playerindex].nowID);
+//	ls->PushInteger(Player::p[1-_playerindex].nowID);
 	return 8;
 }
 
@@ -535,6 +554,7 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerShootChargeOneInfo(LuaState * ls)
 {
 	LuaStack args(ls);
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	BYTE _ID = Player::p[_playerindex].nowID;
 	BYTE _shootchargemaxtime = BResource::bres.playerdata[_ID].shootchargetime;
 	ls->PushInteger(_ID);
@@ -550,6 +570,7 @@ int Export_Lua_Game::LuaFn_Game_GetEdefInfo(LuaState * ls)
 	LuaStack args(ls);
 	int _name = args[1].GetInteger();
 	BYTE _playerindex = _name>>16;
+//	_playerindex = 0;
 	WORD _eID = _name & 0xffff;
 	ls->PushInteger(_playerindex);
 	ls->PushInteger(_eID);
@@ -565,10 +586,12 @@ int Export_Lua_Game::LuaFn_Game_SendItemBullet(LuaState * ls)
 {
 	LuaStack args(ls);
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	int _num = args[2].GetInteger();
 	for (int i=0; i<_num; i++)
 	{
-		Item::SendBullet(1-_playerindex, (*Item::mi[_playerindex]).x, (*Item::mi[_playerindex]).y, EFFSPSET_SYSTEM_SENDITEMBULLET);
+		Item::SendBullet(_playerindex, (*Item::mi[_playerindex]).x, (*Item::mi[_playerindex]).y, EFFSPSET_SYSTEM_SENDITEMBULLET);
+//		Item::SendBullet(1-_playerindex, (*Item::mi[_playerindex]).x, (*Item::mi[_playerindex]).y, EFFSPSET_SYSTEM_SENDITEMBULLET);
 	}
 	return 0;
 }
@@ -578,6 +601,7 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerMoveInfo(LuaState * ls)
 	LuaStack args(ls);
 	int argscount = args.Count();
 	BYTE _playerindex = args[1].GetInteger();
+	_playerindex = 0;
 	int _lastindex = 0;
 	if (argscount > 1)
 	{
@@ -608,6 +632,7 @@ int Export_Lua_Game::LuaFn_Game_SetPerfectFreezeParam(LuaState * ls)
 	if (args.Count() > 1)
 	{
 		BYTE _playerindex = args[1].GetInteger();
+		_playerindex = 0;
 		LuaObject _obj = args[2];
 		if (!_obj.IsTable())
 		{
@@ -634,6 +659,7 @@ int Export_Lua_Game::LuaFn_Game_GetOneMatchOverInfo(LuaState * ls)
 	if (args.Count() > 0)
 	{
 		BYTE _playerindex = args[1].GetInteger();
+		_playerindex = 0;
 		ls->PushInteger(gametime);
 		ls->PushInteger(Player::p[_playerindex].nowID);
 		ls->PushInteger(Player::p[_playerindex].nLife);

@@ -39,6 +39,7 @@ void EventZone::Render()
 
 void EventZone::RenderAll(BYTE playerindex)
 {
+	playerindex = 0;
 	for (list<EventZone>::iterator it=ezone[playerindex].begin(); it!=ezone[playerindex].end(); it++)
 	{
 		it->Render();
@@ -47,6 +48,7 @@ void EventZone::RenderAll(BYTE playerindex)
 
 void EventZone::Build(DWORD _type, BYTE _playerindex, float _x, float _y, int _maxtime, float _rx/* =EVENTZONE_OVERZONE */, float _ry/* =EVENTZONE_OVERZONE */, float _power/* =0 */, DWORD _eventID/* =EVENTZONE_EVENT_NULL */, float _rspeed/* =0 */, int inittimer/* =0 */, int _siid/* =-1 */, int _turnangle/* =0 */)
 {
+	_playerindex = 0;
 	EventZone _ezone;
 	ezone[_playerindex].push_back(_ezone);
 	EventZone * _pezone = &(*(ezone[_playerindex].rbegin()));

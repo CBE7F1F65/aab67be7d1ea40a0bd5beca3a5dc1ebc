@@ -25,6 +25,7 @@ PlayerGhost::~PlayerGhost()
 
 void PlayerGhost::valueSet(BYTE _playerindex, WORD _ID, bool move)
 {
+	_playerindex = 0;
 	playerindex = _playerindex;
 	ID		=	_ID;
 

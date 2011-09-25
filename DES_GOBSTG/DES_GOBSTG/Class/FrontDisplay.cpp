@@ -105,19 +105,21 @@ void FrontDisplay::SetState(BYTE type, BYTE state/* =FDISPSTATE_ON */)
 		panelstate = state;
 		break;
 	case FDISP_SPELLNAME_0:
+	case FDISP_SPELLNAME_1:
 		spellnamestate[0] = state;
 		if (state == FDISPSTATE_OFF)
 		{
 			spellnameclass[0] = 0;
 		}
 		break;
-	case FDISP_SPELLNAME_1:
+		/*
 		spellnamestate[1] = state;
 		if (state == FDISPSTATE_OFF)
 		{
 			spellnameclass[1] = 0;
 		}
 		break;
+		*/
 	case FDISP_MUSICNAME:
 		musicstate = state;
 		break;
@@ -137,6 +139,7 @@ void FrontDisplay::SignUpSpell()
 
 void FrontDisplay::OnShootCharge(BYTE playerindex, BYTE nowshootingcharge)
 {
+	playerindex = 0;
 	BYTE spellclass;
 	BYTE spelllevel;
 	Player::p[playerindex].GetSpellClassAndLevel(&spellclass, &spelllevel, nowshootingcharge);
@@ -211,6 +214,7 @@ void FrontDisplay::action()
 
 void FrontDisplay::RenderHeadInfo(BYTE playerindex)
 {
+	playerindex = 0;
 	if (!Player::CheckAble() || !Player::p[playerindex].exist)
 	{
 		return;
@@ -330,14 +334,14 @@ void FrontDisplay::RenderPanel()
 	{
 		float spellpointx[M_PL_MATCHMAXPLAYER];
 		spellpointx[0] = M_GAMESQUARE_RIGHT_0-panel.spellpoint->GetWidth()*displayscale;
-		spellpointx[1] = M_GAMESQUARE_LEFT_1;
+//		spellpointx[1] = M_GAMESQUARE_LEFT_1;
 		float winindix[M_PL_MATCHMAXPLAYER][2];
 		float winindiw = panel.winindi->GetWidth();
 		float winindih = panel.winindi->GetHeight();
 		for (int i=0; i<2; i++)
 		{
 			winindix[0][i] = M_GAMESQUARE_LEFT_0 + winindiw * (i+1);
-			winindix[1][i] = M_GAMESQUARE_RIGHT_1 - winindiw * (i+1);
+//			winindix[1][i] = M_GAMESQUARE_RIGHT_1 - winindiw * (i+1);
 		}
 
 		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
@@ -502,6 +506,8 @@ void FrontDisplay::RenderPanel()
 
 void FrontDisplay::RenderSpellName(BYTE playerindex)
 {
+/*
+	playerindex = 0;
 	if (spellnamestate[1-playerindex])
 	{
 		float aimx = M_GAMESQUARE_LEFT_(playerindex) + 120;
@@ -528,6 +534,7 @@ void FrontDisplay::RenderSpellName(BYTE playerindex)
 		gameinfodisplay.fsSpell[1-playerindex][spellclass-1].SetColor(ucol, ucol, dcol, dcol);
 		gameinfodisplay.fsSpell[1-playerindex][spellclass-1].Render(x-100, y, FONTSYS_DEFAULT_SHADOW);
 	}
+	*/
 }
 
 void FrontDisplay::RenderEnemyX()
@@ -579,10 +586,12 @@ bool FrontDisplay::Init()
 	panel.rightedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_RIGHT_0);
 	panel.topedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TOP_0);
 	panel.bottomedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOTTOM_0);
+	/*
 	panel.leftedge[1] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LEFT_1);
 	panel.rightedge[1] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_RIGHT_1);
 	panel.topedge[1] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TOP_1);
 	panel.bottomedge[1] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOTTOM_1);
+	*/
 
 	panel.spellpoint = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_SPELLPOINT);
 //	panel.spellpoint->SetHotSpot(0, 0);

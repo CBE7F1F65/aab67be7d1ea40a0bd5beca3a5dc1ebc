@@ -30,6 +30,7 @@ void Player::Init()
 
 void Player::RenderAll(BYTE _playerindex)
 {
+	_playerindex = 0;
 	if (p[_playerindex].exist)
 	{
 		p[_playerindex].Render();

@@ -6,6 +6,7 @@ pushkeyEvent PushKey::pushkeyevent[PUSHKEY_IDMAX];
 
 bool PushKey::SetPushEvent(BYTE ID, BYTE playerindex, int pushkey_1/* =PUSHKEY_KEYNULL */, int pushkey_2/* =PUSHKEY_KEYNULL */, int pushkey_3/* =PUSHKEY_KEYNULL */, int pushkey_4/* =PUSHKEY_KEYNULL */, int pushfirst/* =M_PUSH_FIRST */, int pushrollto/* =M_PUSH_ROLLTO */)
 {
+	playerindex = 0;
 	if (ID >= PUSHKEY_IDMAX)
 	{
 		return false;
@@ -23,6 +24,7 @@ bool PushKey::SetPushEvent(BYTE ID, BYTE playerindex, int pushkey_1/* =PUSHKEY_K
 
 bool PushKey::UpdatePushEvent(BYTE ID, BYTE _playerindex)
 {
+	_playerindex = 0;
 	if (ID >= PUSHKEY_IDMAX)
 	{
 		return false;

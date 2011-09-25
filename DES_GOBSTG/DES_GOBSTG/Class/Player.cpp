@@ -275,6 +275,7 @@ void Player::ClearRound(BYTE round/* =0 */)
 
 void Player::valueSet(BYTE _playerindex, BYTE round)
 {
+	_playerindex = 0;
 	playerindex = _playerindex;
 	nowID		= ID;
 	ClearSet(round);
@@ -945,7 +946,8 @@ bool Player::Collapse()
 
 		effCollapse.MoveTo(x, y , 0, true);
 		effCollapse.Fire();
-		p[1-playerindex].winflag |= 1<<round;
+		p[playerindex].winflag |= 1<<round;
+//		p[1-playerindex].winflag |= 1<<round;
 	}
 	else if(collapsetimer == 64)
 	{
@@ -1499,7 +1501,7 @@ BYTE Player::shootCharge(BYTE nChargeLevel, bool nodelete)
 	{
 		return 0;
 	}
-	if (nChargeLevel > 3 && nChargeLevel < 7 && Enemy::bossindex[1-playerindex] != 0xff)
+	if (nChargeLevel > 3 && nChargeLevel < 7 && Enemy::bossindex[playerindex] != 0xff)
 	{
 		if (nChargeLevel == 4)
 		{
@@ -1608,7 +1610,8 @@ void Player::AddExPoint(float expoint, float x, float y)
 	if (fExPoint >= fexsend)
 	{
 		AddExPoint(-fexsend, x, y);
-		SendEx(1-playerindex, x, y);
+		SendEx(playerindex, x, y);
+//		SendEx(1-playerindex, x, y);
 	}
 }
 
@@ -1621,7 +1624,8 @@ void Player::AddGhostPoint(int ghostpoint, float x, float y)
 		{
 			AddGhostPoint(-(60-rank*2), x, y);
 			AddBulletPoint(-10, x, y);
-			Enemy::SendGhost(1-playerindex, x, y, EFFSPSET_SYSTEM_SENDGHOST);
+			Enemy::SendGhost(playerindex, x, y, EFFSPSET_SYSTEM_SENDGHOST);
+//			Enemy::SendGhost(1-playerindex, x, y, EFFSPSET_SYSTEM_SENDGHOST);
 		}
 	}
 }
@@ -1637,7 +1641,8 @@ void Player::AddBulletPoint(int bulletpoint, float x, float y)
 		{
 			setID = EFFSPSET_SYSTEM_SENDREDBULLET;
 		}
-		Bullet::SendBullet(1-playerindex, x, y, setID);
+		Bullet::SendBullet(playerindex, x, y, setID);
+//		Bullet::SendBullet(1-playerindex, x, y, setID);
 	}
 }
 

@@ -1,4 +1,4 @@
-73	h5nc	48														
+90	h5nc	48														
 Comment	Type	SIID	nRoll	nColor	CollisionType	Collision_Main	Collision_Sub	FadeColor	WhiteColor	AutoSendSetID	nTurnAngle	seID	EffID	RenderType	RenderDepth	RenderFlag
 #		NormalBullet(0~29)														
 -	0	SI_Bullet_ShuttleBeam_0	0	16	2	8	3	160	15	0	0	90	0	4	24	0

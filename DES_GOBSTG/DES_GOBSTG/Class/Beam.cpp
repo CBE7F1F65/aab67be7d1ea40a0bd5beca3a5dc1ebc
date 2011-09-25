@@ -79,6 +79,7 @@ void Beam::Action()
 
 void Beam::RenderAll(BYTE playerindex)
 {
+	playerindex = 0;
 	if (be[playerindex].getSize())
 	{
 		DWORD i = 0;
@@ -95,6 +96,7 @@ void Beam::RenderAll(BYTE playerindex)
 
 int Beam::Build(BYTE playerindex, float x, float y, int angle, float speed, BYTE type, BYTE color, float length, float width, BYTE flag, int fadeintime, int fadeouttime, BYTE tarID)
 {
+	playerindex = 0;
 	if (be[playerindex].getSize() == BEAMMAX)
 	{
 		return NULL;
@@ -224,6 +226,7 @@ void Beam::SetHold(BYTE _holdtar, BYTE _pintar, float holdoffset)
 
 void Beam::action(BYTE playerindex)
 {
+	playerindex = 0;
 	if (delaytimer)
 	{
 		delaytimer--;

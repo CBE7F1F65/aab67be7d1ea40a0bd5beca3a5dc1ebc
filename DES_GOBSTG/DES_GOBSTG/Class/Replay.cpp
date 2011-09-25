@@ -134,7 +134,7 @@ void Replay::Fill()
 	}
 	else if (rpyinfo.matchmode == M_MATCHMODE_P2C || rpyinfo.matchmode == M_MATCHMODE_C2C)
 	{
-		strcpy(rpyinfo.username[1], RESCONFIGDEFAULT_USERNAME);
+//		strcpy(rpyinfo.username[1], RESCONFIGDEFAULT_USERNAME);
 	}
 
 }

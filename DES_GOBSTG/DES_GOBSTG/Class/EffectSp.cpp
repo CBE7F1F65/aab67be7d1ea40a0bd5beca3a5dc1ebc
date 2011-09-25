@@ -125,35 +125,36 @@ void EffectSp::RenderAll()
 }
 
 
-void EffectSp::EffectSpOff(BYTE _playerindex, int _setID, int _ID)
+void EffectSp::EffectSpOff(BYTE playerindex, int _setID, int _ID)
 {
+	playerindex = 0;
 	if (_setID < EFFSPSET_LISTBEGIN || _setID >= EFFSPSET_LISTUNTIL)
 	{
 		return;
 	}
-	DWORD nowindex = effsp[_playerindex].getIndex();
-	if (effsp[_playerindex].getSize())
+	DWORD nowindex = effsp[playerindex].getIndex();
+	if (effsp[playerindex].getSize())
 	{
 		DWORD i = 0;
-		DWORD size = effsp[_playerindex].getSize();
-		for (effsp[_playerindex].toBegin(); i<size; effsp[_playerindex].toNext(), i++)
+		DWORD size = effsp[playerindex].getSize();
+		for (effsp[playerindex].toBegin(); i<size; effsp[playerindex].toNext(), i++)
 		{
-			if (effsp[_playerindex].isValid())
+			if (effsp[playerindex].isValid())
 			{
-				if ((*effsp[_playerindex]).exist)
+				if ((*effsp[playerindex]).exist)
 				{
-					if ((*effsp[_playerindex]).setID == _setID)
+					if ((*effsp[playerindex]).setID == _setID)
 					{
-						if (_ID < 0 || (*effsp[_playerindex]).ID == _ID)
+						if (_ID < 0 || (*effsp[playerindex]).ID == _ID)
 						{
-							effsp[_playerindex].pop();
+							effsp[playerindex].pop();
 						}
 					}
 				}
 			}
 		}
 	}
-	effsp[_playerindex].toIndex(nowindex);
+	effsp[playerindex].toIndex(nowindex);
 }
 
 void EffectSp::actionSet(int _angle, float _speed, int _headangleadd/* =0 */)
@@ -254,7 +255,7 @@ void EffectSp::action()
 		aimx = Player::p[0].x;
 		aimy = Player::p[0].y;
 		break;
-	case EFFSP_CHASE_PLAYER_1:
+//	case EFFSP_CHASE_PLAYER_1:
 		aimx = Player::p[1].x;
 		aimy = Player::p[1].y;
 		break;

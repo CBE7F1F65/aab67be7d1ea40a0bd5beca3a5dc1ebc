@@ -1,4 +1,4 @@
-73	h5nc	4C																	
+90	h5nc	4C																	
 Comment	Index	UserID	ChargeBullet	SIID	TimeMod	HitOnFactor	Flag	Power	DeleteTime	Arrange	Angle	AddAngle	Speed	AccelSpeed	Scale	CollisionR	Xbias	Ybias	SE
 -	0	0	0	SI_PlayerBullet_00_0_0	4	-1	1700	10	0	0	0	0	18	0	1	0	10	15	60
 -	1	0	0	SI_PlayerBullet_00_0_0	4	-1	1700	10	0	0	0	0	18	0	1	0	-10	15	60

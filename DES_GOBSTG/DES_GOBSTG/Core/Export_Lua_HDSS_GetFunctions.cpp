@@ -47,6 +47,7 @@ int _HDSSCallGet::Get_RANK(LuaState * ls)
 		if (bhavenext)
 		{
 			BYTE _playerindex = _IOBJ_HDSS_LUA;
+			_playerindex = 0;
 			_PI_HDSS_LUA(Player::p[_playerindex].cardlevel);
 			_PI_HDSS_LUA(Player::p[_playerindex].bosslevel);
 			return 3;
@@ -62,6 +63,7 @@ int _HDSSCallGet::Get_CHARA(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PI_HDSS_LUA(Player::p[_playerindex].nowID);
 		_PI_HDSS_LUA(Player::p[_playerindex].ID);
 		_PI_HDSS_LUA(Player::p[_playerindex].ID_sub_1);
@@ -131,6 +133,7 @@ int _HDSSCallGet::Get_ENX(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -149,6 +152,7 @@ int _HDSSCallGet::Get_ENY(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -167,6 +171,7 @@ int _HDSSCallGet::Get_ENSPEED(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -185,6 +190,7 @@ int _HDSSCallGet::Get_ENLEVEL(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -203,6 +209,7 @@ int _HDSSCallGet::Get_ENAIMX(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -221,6 +228,7 @@ int _HDSSCallGet::Get_ENAIMY(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -239,6 +247,7 @@ int _HDSSCallGet::Get_ENAIMANGLE(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -257,6 +266,7 @@ int _HDSSCallGet::Get_ENLIFE(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -275,6 +285,7 @@ int _HDSSCallGet::Get_ENI(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PI_HDSS_LUA(Enemy::en[_playerindex].getIndex());
 		_PI_HDSS_LUA(Enemy::bossindex[_playerindex]);
 		return 2;
@@ -288,6 +299,7 @@ int _HDSSCallGet::Get_ENANGLE(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _enindex = Enemy::en[_playerindex].getIndex();
 		_JNEXT_HDSS_LUAFUNC;
 		if (bhavenext)
@@ -306,6 +318,7 @@ int _HDSSCallGet::Get_ENNUM(LuaState * ls)
 	if (argscount > 2)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		int _set = _INEXT_HDSS_LUAFUNC;
 		int iret = 0;
 		if (_set < 0 || _set >= ENEMY_NMAXSETMAX)
@@ -463,6 +476,7 @@ int _HDSSCallGet::Get_CHECKKEY(LuaState * ls)
 	if (argscount > 2)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		int _ksi = _INEXT_HDSS_LUAFUNC;
 		int _type = DIKEY_PRESSED;
 		_JNEXT_HDSS_LUAFUNC;
@@ -483,6 +497,7 @@ int _HDSSCallGet::Get_PX(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PF_HDSS_LUA(Player::p[_playerindex].x);
 		_PI_HDSS_LUA(Player::p[_playerindex].nowID);
 		return 2;
@@ -496,6 +511,7 @@ int _HDSSCallGet::Get_PY(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PF_HDSS_LUA(Player::p[_playerindex].y);
 		_PI_HDSS_LUA(Player::p[_playerindex].nowID);
 		return 2;
@@ -509,6 +525,7 @@ int _HDSSCallGet::Get_PLIFE(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PI_HDSS_LUA(Player::p[_playerindex].nLife);
 		_PI_HDSS_LUA(Player::p[_playerindex].initlife);
 		return 2;
@@ -522,6 +539,7 @@ int _HDSSCallGet::Get_PBDRAIN(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PB_HDSS_LUA(Player::p[_playerindex].bDrain);
 		return 1;
 	}
@@ -534,6 +552,7 @@ int _HDSSCallGet::Get_PBINFI(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		_PB_HDSS_LUA(Player::p[_playerindex].bInfi);
 		_PI_HDSS_LUA(Player::p[_playerindex].infireasonflag);
 		_PI_HDSS_LUA(Player::p[_playerindex].infitimer);
@@ -548,6 +567,7 @@ int _HDSSCallGet::Get_PGX(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _index = _INEXT_HDSS_LUAFUNC;
 		_PF_HDSS_LUA(Player::p[_playerindex].pg[_index].x);
 		return 1;
@@ -561,6 +581,7 @@ int _HDSSCallGet::Get_PGY(LuaState * ls)
 	if (argscount > 1)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		BYTE _index = _INEXT_HDSS_LUAFUNC;
 		_PF_HDSS_LUA(Player::p[_playerindex].pg[_index].y);
 		return 1;
@@ -574,6 +595,7 @@ int _HDSSCallGet::Get_BGSINDEX(LuaState * ls)
 	if (argscount > 2)
 	{
 		BYTE _playerindex = _INEXT_HDSS_LUAFUNC;
+		_playerindex = 0;
 		int _set = _INEXT_HDSS_LUAFUNC;
 		_PI_HDSS_LUA(BGLayer::bglayerset[_playerindex][_set].sID);
 		_PI_HDSS_LUA(BGLayer::bglayerset[_playerindex][_set].timer);
