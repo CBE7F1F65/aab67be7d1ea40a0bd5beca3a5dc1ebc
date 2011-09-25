@@ -18,21 +18,13 @@
 #include "../header/BResource.h"
 #include "../header/Scripter.h"
 #include "../header/GameInput.h"
+#include "../Header/Replay.h"
 
 #include "../header/GameAI.h"
 
-#define _GAMERANK_MIN	8
-#define _GAMERANK_MAX	22
-#define _GAMERANK_ADDINTERVAL	9000
-#define _GAMERANK_STAGEOVERADD	-8
+#define _GAMERANK_MIN	0
+#define _GAMERANK_MAX	4
 
-#define _PL_SHOOTCHARGEINFI_1	8
-#define _PL_SHOOTCHARGEINFI_2	47
-#define _PL_SHOOTCHARGEINFI_3	63
-#define _PL_SHOOTCHARGEINFI_4	127
-
-#define _PLAYER_DEFAULETCARDLEVEL_(X)	(X?9:8)
-#define _PLAYER_DEFAULETBOSSLEVEL_(X)	(X?9:8)
 #define _CARDLEVEL_ADDINTERVAL	3600
 #define _BOSSLEVEL_ADDINTERVAL	3600
 #define _CARDLEVEL_MAX	16
@@ -48,15 +40,11 @@
 #define _PL_SPELLBONUS_BOSS_3	500000
 
 Player Player::p[M_PL_MATCHMAXPLAYER];
-float Player::lostStack = 0;
 bool Player::able = false;
 
 BYTE Player::rank = _GAMERANK_MIN;
-int Player::lilycount = 0;
 
 DWORD Player::alltime = 0;
-
-BYTE Player::raisespellstopplayerindex = 0;
 
 BYTE Player::round = 0;
 
@@ -116,8 +104,6 @@ void Player::ClearSet(BYTE _round)
 	angle		=	0;
 	flag		=	PLAYER_MERGE;
 	bSlow		=	false;
-	bCharge		=	false;
-	bDrain		=	false;
 	bInfi		=	true;
 	hscale		=	1.0f;
 	vscale		=	1.0f;
@@ -134,30 +120,10 @@ void Player::ClearSet(BYTE _round)
 	fasttimer			=	0;
 	playerchangetimer	=	0;
 	costlifetimer		=	0;
-	shootchargetimer	=	0;
-
-	shootingchargeflag	=	0;
-	nowshootingcharge	=	0;
-
-	fExPoint = 0;
-	nGhostPoint = 0;
 	nBulletPoint = 0;
-	nSpellPoint	= 0;
 
 	nLifeCost	=	0;
-	fCharge = 0;
-	if (_round == 0)
-	{
-		fChargeMax = PLAYER_CHARGEONE;
-		winflag = 0;
-	}
-
-	cardlevel = _PLAYER_DEFAULETCARDLEVEL_(_round);
-	bosslevel = _PLAYER_DEFAULETBOSSLEVEL_(_round);
-	nowcardlevel = cardlevel;
-	nowbosslevel = bosslevel;
 	infitimer = 0;
-	rechargedelaytimer = 0;
 	infireasonflag = 0;
 
 	shootpushtimer = 0;
@@ -175,16 +141,6 @@ void Player::ClearSet(BYTE _round)
 	nComboHit = 0;
 	nComboHitOri = 0;
 	nComboGage = 0;
-
-	nBounceAngle = 0;
-
-	drainx = x;
-	drainy = y;
-	drainheadangle = 0;
-	draintimer = 0;
-	drainhscale = 1;
-	drainvscale = 0;
-	draincopyspriteangle = 0;
 
 	if (effGraze.exist)
 	{
@@ -228,7 +184,6 @@ void Player::ClearSet(BYTE _round)
 	}
 
 	changePlayerID(nowID, true);
-	setShootingCharge(0);
 
 	esChange.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERCHANGE, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y, 0, 3.0f);
 	esChange.colorSet(0x7fffffff, BLEND_ALPHAADD);
@@ -246,32 +201,6 @@ void Player::ClearSet(BYTE _round)
 	esCollapse.colorSet(0x80ffffff);
 }
 
-void Player::ClearRound(BYTE round/* =0 */)
-{
-	raisespellstopplayerindex = 0xff;
-	if (round)
-	{
-		rank += _GAMERANK_STAGEOVERADD;
-		if (rank < _GAMERANK_MIN)
-		{
-			rank = _GAMERANK_MIN;
-		}
-		AddLilyCount(-1000);
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			p[i].valueSet(i, round);
-		}
-	}
-	else
-	{
-		rank = _GAMERANK_MIN;
-		lilycount = 0;
-		alltime = 0;
-	}
-}
-
-//add
-
 
 void Player::valueSet(BYTE _playerindex, BYTE round)
 {
@@ -281,13 +210,12 @@ void Player::valueSet(BYTE _playerindex, BYTE round)
 	ClearSet(round);
 	initFrameIndex();
 	UpdatePlayerData();
-	SetDrainSpriteInfo(x, y);
 
 	nLife		=	initlife;
 
 	if (round == 0)
 	{
-		lostStack		=	0;
+		Replay::lostStack	=	0;
 	}
 
 	setFrame(PLAYER_FRAME_STAND);
@@ -315,16 +243,14 @@ void Player::valueSet(BYTE _playerindex, BYTE round)
 bool Player::Action()
 {
 	alltime++;
-	AddLostStack();
+	Replay::AddLostStack();
 	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
 	{
 		if (gametime % _CARDLEVEL_ADDINTERVAL == 0)
 		{
-			p[i].AddCardBossLevel(1, 0);
 		}
 		if (gametime % _BOSSLEVEL_ADDINTERVAL == 0)
 		{
-			p[i].AddCardBossLevel(0, 1);
 		}
 		DWORD stopflag = Process::mp.GetStopFlag();
 		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, i, FRAME_STOPFLAG_PLAYER);
@@ -338,7 +264,6 @@ bool Player::Action()
 			}
 			else if (binspellstop)
 			{
-				p[i].actionInSpellStop();
 			}
 			else
 			{
@@ -350,15 +275,6 @@ bool Player::Action()
 			}
 		}
 	}
-	if (gametime % _GAMERANK_ADDINTERVAL == 0)
-	{
-		rank++;
-		if (rank > _GAMERANK_MAX)
-		{
-			rank = _GAMERANK_MAX;
-		}
-	}
-	AddLilyCount(0, true);
 	return true;
 }
 
@@ -485,13 +401,6 @@ void Player::action()
 			flag &= ~PLAYER_DRAIN;
 		}
 	}
-	if (flag & PLAYER_CHARGE)
-	{
-		if (Charge())
-		{
-			flag &= ~PLAYER_CHARGE;
-		}
-	}
 	if(flag & PLAYER_GRAZE)
 	{
 		if(Graze())
@@ -504,16 +413,6 @@ void Player::action()
 	if (nLifeCost > _PLAYER_LIFECOSTMAX)
 	{
 		nLifeCost = _PLAYER_LIFECOSTMAX;
-	}
-	if (rechargedelaytimer)
-	{
-		rechargedelaytimer--;
-	}
-	if (shootchargetimer)
-	{
-		Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSHOOTCHARGEONE, playerindex);
-		PlayerBullet::BuildShoot(playerindex, nowID, shootchargetimer, true);
-		shootchargetimer--;
 	}
 	if (infitimer > 0)
 	{
@@ -537,7 +436,6 @@ void Player::action()
 		}
 		else if (!nComboGage)
 		{
-			AddSpellPoint(-1);
 		}
 	}
 
@@ -635,23 +533,10 @@ void Player::action()
 		{
 			if (!GameInput::GetKey(playerindex, KSI_FIRE))
 			{
-				bCharge = false;
-				flag &= ~PLAYER_CHARGE;
 				shootpushtimer = 0;
 			}
 			else
 			{
-				if (!rechargedelaytimer)
-				{
-					flag &= ~PLAYER_SHOOT;
-					bCharge = true;
-					if (shootpushtimer >= PLAYER_SHOOTPUSHOVER && !(flag & PLAYER_CHARGE))
-					{
-						chargetimer = 0;
-						flag |= PLAYER_CHARGE;
-						shootpushtimer = 0xff;
-					}
-				}
 			}
 		}
 		if (GameInput::GetKey(playerindex, KSI_DRAIN))
@@ -662,7 +547,6 @@ void Player::action()
 				if (!(flag & PLAYER_DRAIN))
 				{
 					draintimer = 0;
-					SetDrainSpriteInfo(x, y, 0, 0);
 				}
 			}
 			flag |= PLAYER_DRAIN;
@@ -787,12 +671,6 @@ void Player::action()
 	}
 }
 
-void Player::actionInSpellStop()
-{
-	spellstoptimer++;
-	Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERINSPELLSTOP, playerindex);
-}
-
 void Player::actionInStop()
 {
 //	Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERINSTOP, playerindex);
@@ -869,7 +747,6 @@ bool Player::CostLife()
 	costlifetimer++;
 	if (costlifetimer == 1)
 	{
-		AddLilyCount(-1500);
 		if (nLife == 1)
 		{
 			nLife = 0;
@@ -896,13 +773,10 @@ bool Player::CostLife()
 		SetInfi(PLAYERINFI_COSTLIFE, 120);
 		if (nLife == 1)
 		{
-			AddCharge(0, PLAYER_CHARGEMAX);
 		}
 		else
 		{
-			AddCharge(0, 130-nLife * 10);
 		}
-		nBounceAngle = randt();
 	}
 	else if (costlifetimer == 50)
 	{
@@ -923,8 +797,6 @@ bool Player::CostLife()
 		GameInput::SetKey(playerindex, KSI_QUICK, false);
 		GameInput::SetKey(playerindex, KSI_SLOW, false);
 		GameInput::SetKey(playerindex, KSI_DRAIN, false);
-		x += cost(nBounceAngle) * ((60-costlifetimer) / 20.0f);
-		y += sint(nBounceAngle) * ((60-costlifetimer) / 20.0f);
 	}
 	return false;
 }
@@ -946,8 +818,6 @@ bool Player::Collapse()
 
 		effCollapse.MoveTo(x, y , 0, true);
 		effCollapse.Fire();
-		p[playerindex].winflag |= 1<<round;
-//		p[1-playerindex].winflag |= 1<<round;
 	}
 	else if(collapsetimer == 64)
 	{
@@ -965,8 +835,6 @@ bool Player::Collapse()
 		collapsetimer = 0;
 		vscale = 1.0f;
 		flag |= PLAYER_MERGE;
-
-		AddCharge(0, 130);
 
 //		SetInfi(PLAYERINFI_COLLAPSE);
 		exist = false;
@@ -1030,21 +898,6 @@ bool Player::Drain()
 
 bool Player::Bomb()
 {
-	BYTE ncharge;
-	BYTE nchargemax;
-	GetNCharge(&ncharge, &nchargemax);
-	if (nchargemax > 1)
-	{
-		BYTE nChargeLevel = shootCharge(nchargemax, true);
-		if (nChargeLevel == nchargemax)
-		{
-			AddCharge(-PLAYER_CHARGEMAX, -PLAYER_CHARGEMAX);
-		}
-		else
-		{
-			AddCharge((nChargeLevel-nchargemax)*PLAYER_CHARGEONE, (nChargeLevel-nchargemax)*PLAYER_CHARGEONE);
-		}
-	}
 	return true;
 }
 
@@ -1100,29 +953,6 @@ bool Player::FastChange()
 	return false;
 }
 
-bool Player::Charge()
-{
-	chargetimer++;
-	if (chargetimer == 1)
-	{
-		SE::push(SE_PLAYER_CHARGEON, x);
-	}
-	BYTE nChargeLevel = AddCharge(chargespeed);
-	if (!GameInput::GetKey(playerindex, KSI_FIRE))
-	{
-		shootCharge(nChargeLevel);
-		chargetimer = 0;
-		fCharge = 0;
-		if (nChargeLevel > 0)
-		{
-			rechargedelaytimer = rechargedelay;
-		}
-		return true;
-	}
-	bCharge = true;
-	return false;
-}
-
 bool Player::PlayerChange()
 {
 	if(GameInput::GetKey(playerindex, KSI_DRAIN, DIKEY_DOWN))
@@ -1162,10 +992,8 @@ void Player::DoEnemyCollapse(float x, float y, BYTE type)
 		addcharge = 2.0f;
 	}
 	AddComboHit(1, true);
-	AddCharge(0, addcharge);
 
 	enemyData * edata = &(BResource::bres.enemydata[type]);
-	AddExPoint(edata->expoint, x, y);
 
 	int addghostpoint;
 	if (edata->ghostpoint < 0)
@@ -1180,7 +1008,6 @@ void Player::DoEnemyCollapse(float x, float y, BYTE type)
 	{
 		addghostpoint = edata->ghostpoint;
 	}
-	AddGhostPoint(addghostpoint, x, y);
 
 	int addbulletpoint;
 	float _x = x + randtf(-4.0f, 4.0f);
@@ -1234,7 +1061,6 @@ void Player::DoEnemyCollapse(float x, float y, BYTE type)
 	{
 		addspellpoint = edata->spellpoint;
 	}
-	AddSpellPoint(addspellpoint);
 }
 
 void Player::DoGraze(float x, float y)
@@ -1253,29 +1079,12 @@ void Player::DoPlayerBulletHit(int hitonfactor)
 	}
 }
 
-void Player::DoSendBullet(float x, float y, int sendbonus)
-{
-	for (int i=0; i<sendbonus; i++)
-	{
-		AddComboHit(1, false);
-		AddGhostPoint(2, x, y);
-		AddBulletPoint(3, x, y);
-		int addspellpoint = nComboHitOri * 9;
-		if (addspellpoint > 1000)
-		{
-			addspellpoint = 1000;
-		}
-		AddSpellPoint(addspellpoint);
-	}
-}
-
 void Player::DoShot()
 {
 	if (!bInfi && !(flag & (PLAYER_SHOT | PLAYER_COLLAPSE)))
 	{
 		flag |= PLAYER_SHOT;
 		AddComboHit(-1, true);
-		AddSpellPoint(-1);
 	}
 }
 
@@ -1284,7 +1093,6 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 	switch (itemtype)
 	{
 	case ITEM_GAUGE:
-		AddCharge(0, PLAYER_CHARGEMAX);
 		break;
 	case ITEM_BULLET:
 		Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSENDITEMBULLET, playerindex);
@@ -1292,76 +1100,11 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 		break;
 	case ITEM_EX:
 		AddBulletPoint(1, _x, _y);
-		AddExPoint(100, _x, _y);
 		break;
 	case ITEM_POINT:
-		AddSpellPoint(70000+rank*7000);
 		break;
 	}
 }
-
-void Player::GetNCharge(BYTE * ncharge, BYTE * nchargemax)
-{
-	if (ncharge)
-	{
-		*ncharge = (BYTE)(fCharge/PLAYER_CHARGEONE);
-	}
-	if (nchargemax)
-	{
-		*nchargemax = (BYTE)(fChargeMax/PLAYER_CHARGEONE);
-	}
-}
-
-void Player::GetSpellClassAndLevel(BYTE * spellclass, BYTE * spelllevel, int  _shootingchargeflag)
-{
-	BYTE usingshootingchargeflag = shootingchargeflag;
-	if (_shootingchargeflag > 0)
-	{
-		usingshootingchargeflag = _shootingchargeflag;
-	}
-	if (spellclass)
-	{
-		if (usingshootingchargeflag & _PL_SHOOTINGCHARGE_4)
-		{
-			if ((usingshootingchargeflag & _PL_SHOOTINGCHARGE_3) || (usingshootingchargeflag & _PL_SHOOTINGCHARGE_2))
-			{
-				*spellclass = 4;
-			}
-			else
-			{
-				*spellclass = 3;
-			}
-		}
-		else if (usingshootingchargeflag & _PL_SHOOTINGCHARGE_3)
-		{
-			*spellclass = 2;
-		}
-		else if (usingshootingchargeflag & _PL_SHOOTINGCHARGE_2)
-		{
-			*spellclass = 1;
-		}
-		else
-		{
-			*spellclass = 0;
-		}
-	}
-	if (spelllevel)
-	{
-		if (usingshootingchargeflag & _PL_SHOOTINGCHARGE_4)
-		{
-			*spelllevel = nowbosslevel;
-		}
-		else if(usingshootingchargeflag)
-		{
-			*spelllevel = nowcardlevel;
-		}
-		else
-		{
-			*spelllevel = 0;
-		}
-	}
-}
-
 
 void Player::ResetPlayerGhost(bool move /* = false */)
 {
@@ -1381,11 +1124,6 @@ void Player::Render()
 {
 	if (spdrain && bDrain)
 	{
-		SpriteItemManager::RenderSpriteEx(spdrain, drainx, drainy, ARC(drainheadangle), drainhscale, drainvscale);
-		if (draincopyspriteangle)
-		{
-			SpriteItemManager::RenderSpriteEx(spdrain, drainx, drainy, ARC(drainheadangle+draincopyspriteangle), drainhscale, drainvscale);
-		}
 	}
 	if (sprite)
 	{
@@ -1462,173 +1200,6 @@ void Player::callPlayerChange()
 	playerchangetimer = 0;
 }
 
-void Player::setShootingCharge(BYTE _shootingchargeflag)
-{
-	if (!_shootingchargeflag)
-	{
-		shootingchargeflag = 0;
-	}
-	else
-	{
-		shootingchargeflag |= _shootingchargeflag;
-		if (shootingchargeflag & _PL_SHOOTINGCHARGE_1)
-		{
-			shootchargetimer = BResource::bres.playerdata[nowID].shootchargetime;
-		}
-		if (_shootingchargeflag & ~_PL_SHOOTINGCHARGE_1)
-		{
-			nowshootingcharge = _shootingchargeflag;
-			if (_shootingchargeflag & _PL_SHOOTINGCHARGE_4)
-			{
-				nowbosslevel = bosslevel;
-			}
-			else
-			{
-				nowcardlevel = cardlevel;
-			}
-			Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSHOOTCHARGE, playerindex);
-		}
-	}
-}
-
-BYTE Player::shootCharge(BYTE nChargeLevel, bool nodelete)
-{
-	if (flag & PLAYER_COLLAPSE)
-	{
-		return 0;
-	}
-	if (!nChargeLevel)
-	{
-		return 0;
-	}
-	if (nChargeLevel > 3 && nChargeLevel < 7 && Enemy::bossindex[playerindex] != 0xff)
-	{
-		if (nChargeLevel == 4)
-		{
-			return shootCharge(3, nodelete);
-		}
-		else if (nChargeLevel == 6)
-		{
-			return shootCharge(7, nodelete);
-		}
-		return 0;
-	}
-	setShootingCharge(0);
-	int chargezonemaxtime=1;
-	float chargezoner=0;
-	switch (nChargeLevel)
-	{
-	case 1:
-		SetInfi(PLAYERINFI_SHOOTCHARGE, _PL_SHOOTCHARGEINFI_1);
-		setShootingCharge(_PL_SHOOTINGCHARGE_1);
-//		AddCardBossLevel(1, 0);
-		break;
-	case 2:
-		SetInfi(PLAYERINFI_SHOOTCHARGE, _PL_SHOOTCHARGEINFI_2);
-		if (!nodelete)
-		{
-			setShootingCharge(_PL_SHOOTINGCHARGE_1);
-		}
-		setShootingCharge(_PL_SHOOTINGCHARGE_2);
-		AddCardBossLevel(1, 0);
-		chargezonemaxtime = _PL_CHARGEZONE_MAXTIME_2;
-		chargezoner = _PL_CHARGEZONE_R_2;
-		break;
-	case 3:
-		SetInfi(PLAYERINFI_SHOOTCHARGE, _PL_SHOOTCHARGEINFI_3);
-		if (!nodelete)
-		{
-			setShootingCharge(_PL_SHOOTINGCHARGE_1);
-		}
-		setShootingCharge(_PL_SHOOTINGCHARGE_3);
-		AddCardBossLevel(1, 0);
-		chargezonemaxtime = _PL_CHARGEZONE_MAXTIME_3;
-		chargezoner = _PL_CHARGEZONE_R_3;
-		break;
-	case 4:
-		SetInfi(PLAYERINFI_SHOOTCHARGE, _PL_SHOOTCHARGEINFI_4);
-		if (!nodelete)
-		{
-			setShootingCharge(_PL_SHOOTINGCHARGE_1);
-		}
-		setShootingCharge(_PL_SHOOTINGCHARGE_4);
-		AddCardBossLevel(0, 1);
-		chargezonemaxtime = _PL_CHARGEZONE_MAXTIME_4;
-		chargezoner = _PL_CHARGEZONE_R_4;
-		break;
-	case 5:
-		setShootingCharge(_PL_SHOOTINGCHARGE_4);
-		AddCardBossLevel(0, 1);
-		break;
-	case 6:
-		setShootingCharge(_PL_SHOOTINGCHARGE_3);
-		setShootingCharge(_PL_SHOOTINGCHARGE_4);
-		AddCardBossLevel(1, 1);
-		break;
-	case 7:
-		setShootingCharge(_PL_SHOOTINGCHARGE_3);
-		AddCardBossLevel(1, 0);
-		break;
-	}
-	if (nChargeLevel > 1)
-	{
-		raisespellstopplayerindex = playerindex;
-		spellstoptimer = 0;
-		Process::mp.SetStop(FRAME_STOPFLAG_SPELLSET|FRAME_STOPFLAG_PLAYERINDEX_0|FRAME_STOPFLAG_PLAYERINDEX_1, PL_SHOOTINGCHARGE_STOPTIME);
-		if (chargezoner)
-		{
-			EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, playerindex, x, y, chargezonemaxtime, 0, 0, 10, EVENTZONE_EVENT_NULL, chargezoner/chargezonemaxtime, -2, SpriteItemManager::GetIndexByName(SI_PLAYER_CHARGEZONE), 400);
-		}
-		if (nChargeLevel < 5)
-		{
-			AddCharge(-PLAYER_CHARGEONE*(nChargeLevel-1), -PLAYER_CHARGEONE*(nChargeLevel-1));
-		}
-		AddLilyCount(-500);
-		FrontDisplay::fdisp.OnShootCharge(playerindex, nowshootingcharge);
-	}
-	return nChargeLevel;
-}
-
-void Player::SendEx(BYTE playerindex, float x, float y)
-{
-	int _esindex = EffectSp::Build(EFFSPSET_SYSTEM_SENDEXATTACK, playerindex, EffectSp::senditemexsiid, x, y);
-	if (_esindex >= 0)
-	{
-		Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSENDEX, playerindex);
-		SE::push(SE_BULLET_SENDEX, x);
-	}
-}
-
-void Player::AddExPoint(float expoint, float x, float y)
-{
-	fExPoint += expoint;
-	float fexsend = fExSendParaB + fExSendParaA * rank;
-	if (fexsend < fExSendMax)
-	{
-		fexsend = fExSendMax;
-	}
-	if (fExPoint >= fexsend)
-	{
-		AddExPoint(-fexsend, x, y);
-		SendEx(playerindex, x, y);
-//		SendEx(1-playerindex, x, y);
-	}
-}
-
-void Player::AddGhostPoint(int ghostpoint, float x, float y)
-{
-	nGhostPoint += ghostpoint;
-	if (nGhostPoint >= 60-rank*1.5f)
-	{
-		if (nBulletPoint >= 10)
-		{
-			AddGhostPoint(-(60-rank*2), x, y);
-			AddBulletPoint(-10, x, y);
-			Enemy::SendGhost(playerindex, x, y, EFFSPSET_SYSTEM_SENDGHOST);
-//			Enemy::SendGhost(1-playerindex, x, y, EFFSPSET_SYSTEM_SENDGHOST);
-		}
-	}
-}
 
 void Player::AddBulletPoint(int bulletpoint, float x, float y)
 {
@@ -1643,35 +1214,6 @@ void Player::AddBulletPoint(int bulletpoint, float x, float y)
 		}
 		Bullet::SendBullet(playerindex, x, y, setID);
 //		Bullet::SendBullet(1-playerindex, x, y, setID);
-	}
-}
-
-void Player::AddSpellPoint(int spellpoint)
-{
-	if (spellpoint < 0)
-	{
-		nSpellPoint = 0;
-		return;
-	}
-	spellpoint = spellpoint * rank / 10 + spellpoint;
-	int spellpointone = spellpoint % 10;
-	if (spellpointone)
-	{
-		spellpoint += 10-spellpointone;
-	}
-	if (nSpellPoint < _PL_SPELLBONUS_BOSS_1 && nSpellPoint + spellpoint >= _PL_SPELLBONUS_BOSS_1 ||
-		nSpellPoint < _PL_SPELLBONUS_BOSS_2 && nSpellPoint + spellpoint >= _PL_SPELLBONUS_BOSS_2)
-	{
-		shootCharge(5);
-	}
-	else if (nSpellPoint < _PL_SPELLBONUS_BOSS_3 && nSpellPoint + spellpoint >= _PL_SPELLBONUS_BOSS_3)
-	{
-		shootCharge(6);
-	}
-	nSpellPoint += spellpoint;
-	if (nSpellPoint > PLAYER_NSPELLPOINTMAX)
-	{
-		nSpellPoint = PLAYER_NSPELLPOINTMAX;
 	}
 }
 
@@ -1716,86 +1258,5 @@ void Player::AddComboHit(int combo, bool ori)
 	if (nComboGage > PLAYER_COMBOGAGEMAX)
 	{
 		nComboGage = PLAYER_COMBOGAGEMAX;
-	}
-}
-
-BYTE Player::AddCharge(float addcharge, float addchargemax)
-{
-	BYTE ncharge;
-	BYTE nchargemax;
-	GetNCharge(&ncharge, &nchargemax);
-	float addchargemaxval = addchargemax;
-	if (addchargemax > 0)
-	{
-		addchargemaxval = addchargemax * BResource::bres.playerdata[nowID].addchargerate;
-	}
-	fChargeMax += addchargemaxval;
-	if (fChargeMax > PLAYER_CHARGEMAX)
-	{
-		fChargeMax = PLAYER_CHARGEMAX;
-	}
-	if (fChargeMax < 0)
-	{
-		fChargeMax = 0;
-	}
-	fCharge += addcharge;
-	if (fCharge > fChargeMax)
-	{
-		fCharge = fChargeMax;
-	}
-	if (fCharge < 0)
-	{
-		fCharge = 0;
-	}
-	BYTE nchargenow;
-	BYTE nchargemaxnow;
-	GetNCharge(&nchargenow, &nchargemaxnow);
-	if (nchargenow > ncharge)
-	{
-		SE::push(SE_PLAYER_CHARGEUP);
-	}
-	if (nchargemaxnow > nchargemax)
-	{
-		FrontDisplay::fdisp.gameinfodisplay.gaugefilledcountdown[playerindex] = FDISP_COUNTDOWNTIME;
-	}
-	return nchargenow;
-}
-
-void Player::AddLilyCount(int addval, bool bytime/* =false */)
-{
-	if (bytime)
-	{
-		if (gametime < 5400)
-		{
-			AddLilyCount(gametime/1800+3);
-		}
-		else
-		{
-			AddLilyCount(7);
-		}
-	}
-	lilycount += addval;
-	if (lilycount > 10000)
-	{
-		Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSENDLILY, rank);
-		AddLilyCount(-10000);
-	}
-	else if (lilycount < 0)
-	{
-		lilycount = 0;
-	}
-}
-
-void Player::AddCardBossLevel(int cardleveladd, int bossleveladd)
-{
-	cardlevel += cardleveladd;
-	bosslevel += bossleveladd;
-	if (cardlevel > _CARDLEVEL_MAX)
-	{
-		cardlevel = _CARDLEVEL_MAX;
-	}
-	if (bosslevel > _BOSSLEVEL_MAX)
-	{
-		bosslevel = _BOSSLEVEL_MAX;
 	}
 }

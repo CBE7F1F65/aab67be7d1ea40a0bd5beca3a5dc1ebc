@@ -1336,31 +1336,6 @@ void Enemy::action()
 			{
 				Player::p[playerindex].DoEnemyCollapse(x, y, type);
 			}
-			if (BResource::bres.enemydata[type].spellpoint)
-			{
-				int tscore = Player::p[playerindex].nSpellPoint;
-				ScoreDisplay _item;
-				if (tscore < PLAYER_NSPELLPOINTMAX)
-				{
-					hge->Math_itoa(tscore, _item.cScore);
-				}
-				else
-				{
-					strcpy(_item.cScore, "b");
-				}
-				_item.timer = 0;
-				_item.x = x;
-				_item.y = y;
-				if(tscore >= 300000)
-				{
-					_item.yellow = true;
-				}
-				else
-				{
-					_item.yellow = false;
-				}
-				scoredisplay[playerindex].push_back(_item);
-			}
 
 			BYTE blastmaxtime;
 			float blastr;

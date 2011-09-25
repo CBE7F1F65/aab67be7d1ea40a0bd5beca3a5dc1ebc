@@ -117,8 +117,6 @@ void Process::startPrep(bool callinit)
 	{
 		Player::p[i].valueSet(i);
 	}
-	Player::ClearRound();
-	FrontDisplay::fdisp.SignUpSpell();
 	musicChange(BResource::bres.playerdata[scene].musicID);
 
 	if(!replaymode)

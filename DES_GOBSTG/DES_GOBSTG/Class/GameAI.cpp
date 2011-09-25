@@ -470,9 +470,6 @@ bool GameAI::SetMove()
 
 	AnalyzeCheckOrder(tox, toy, neutral, randxprop, randyprop);
 
-	BYTE nCharge;
-	BYTE nChargeMax;
-	Player::p[playerindex].GetNCharge(&nCharge, &nChargeMax);
 
 	bool bdone = false;
 	int risknum = 0;
@@ -487,20 +484,7 @@ bool GameAI::SetMove()
 	{
 		inrisk = true;
 	}
-	else if (nCharge)
-	{
-		inrisk = false;
-	}
 	if (Player::p[playerindex].timer % 8 != 0 && Player::p[playerindex].nComboGage < PLAYER_COMBOGAGEMAX * 2 / 3)
-	{
-		GameInput::SetKey(playerindex, KSI_FIRE, true);
-	}
-	if (inrisk && nChargeMax && !nCharge || nChargeMax == 4 && nCharge < 2)
-	{
-		GameInput::SetKey(playerindex, KSI_FIRE, true);
-//		GameInput::SetKey(playerindex, KSI_DRAIN, true);
-	}
-	if (Player::p[playerindex].nSpellPoint > 500000)
 	{
 		GameInput::SetKey(playerindex, KSI_FIRE, true);
 	}
@@ -595,10 +579,6 @@ bool GameAI::SetMove()
 	}
 	if ((!bdone || bshot) && !Player::p[playerindex].bInfi)
 	{
-		if (bshot && !nCharge && nChargeMax > 1)
-		{
-			GameInput::SetKey(playerindex, KSI_QUICK, true);
-		}
 		GameInput::SetKey(playerindex, KSI_FIRE, false);
 	}
 	ClearRisk();

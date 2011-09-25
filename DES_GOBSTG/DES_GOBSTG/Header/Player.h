@@ -41,7 +41,6 @@
 #define	PLAYER_BOMB					0x0040
 #define	PLAYER_SLOWCHANGE			0x0080
 #define	PLAYER_FASTCHANGE			0x0100
-#define PLAYER_CHARGE				0x0200
 #define	PLAYER_PLAYERCHANGE			0x0400
 #define	PLAYER_GRAZE				0x1000
 
@@ -81,11 +80,9 @@ public:
 	void ClearSet(BYTE round=0);
 	void UpdatePlayerData();       
 	void ResetPlayerGhost(bool move = false);
-	static void ClearRound(BYTE round=0);
 
 	void action();
 	void actionInStop();
-	void actionInSpellStop();
 
 	void RenderEffect();
 
@@ -98,27 +95,18 @@ public:
 	bool Bomb();
 	bool SlowChange();
 	bool FastChange();
-	bool Charge();
 	bool PlayerChange();
 	bool Graze();
 
 	void changePlayerID(WORD toID, bool moveghost=false);
-	BYTE shootCharge(BYTE nChargeLevel, bool nodelete=false);
-	void setShootingCharge(BYTE shootingchargeflag);
 
 	void AddComboHit(int combo, bool ori);
-	void AddSpellPoint(int spellpoint);
-	void AddExPoint(float expoint, float x, float y);
-	void AddGhostPoint(int ghostpoint, float x, float y);
 	void AddBulletPoint(int bulletpoint, float x, float y);
-	static void AddLilyCount(int lilycount, bool bytime=false);
-	void AddCardBossLevel(int cardlevel, int bosslevel);
 
 	void DoEnemyCollapse(float x, float y, BYTE type);
 	void DoItemGet(WORD itemtype, float x, float y);
 	void DoGraze(float x, float y);
 	void DoPlayerBulletHit(int hitonfactor = PL_HITONFACTORDEFAULT);
-	void DoSendBullet(float x, float y, int sendbonus=1);
 	void DoShot();
 
 	void Render();
@@ -137,22 +125,14 @@ public:
 	void SetInitLife(BYTE initlife);
 	void SetChara(WORD id, WORD id_sub_1=0xffff, WORD id_sub_2=0xffff);
 	void SetInfi(BYTE reasonflag, int infitimer=PLAYER_INFIMAX);
-	bool HavePlayer(WORD ID);
-	void GetNCharge(BYTE * ncharge=NULL, BYTE * nchargemax=NULL);
-	void GetSpellClassAndLevel(BYTE * spellclass, BYTE * spelllevel, int _shootingchargeflag=-1);
-	BYTE AddCharge(float addcharg=0, float addchargemaxe=0);
 
-	void SetDrainSpriteInfo(float x, float y, int headangle=0, float hscale=1.0f, float vscale=0.0f, int copyspriteangle=0);
-
-	static void AddLostStack();
 	static void SetAble(bool setable);
 	static bool CheckAble();
-	static void SendEx(BYTE playerindex, float x, float y);
 
 	static void Init();
 	static bool Action();
 	static void RenderAll(BYTE playerindex);
-	static int IsMatchEnd();
+	static int IsEnd();
 
 public:
 	WORD	ID_sub_1;
@@ -188,41 +168,21 @@ public:
 	float	speedfactor;
 	float	r;
 
-	float	chargespeed;
 	int		infitimer;
 
 	bool	bSlow;
-	bool	bCharge;
 	bool	bDrain;
 	bool	bInfi;
 
-	float fExPoint;
-	int nGhostPoint;
 	int nBulletPoint;
-	int	nSpellPoint;
 	int nComboHit;
 	int nComboHitOri;
-	float fCharge;
-	float fChargeMax;
-
-	float fExSendParaB;
-	float fExSendParaA;
-	float fExSendMax;
-
-	int nBounceAngle;
 
 	hgeSprite * sprite;
 	hgeSprite * spdrain;
 	BYTE	frameindex[M_PL_ONESETPLAYER][PLAYER_FRAME_STATEMAX];
 	BYTE	faceindex[M_PL_ONESETPLAYER];
 	BYTE	nowframeindex;
-
-	float	drainx;
-	float	drainy;
-	int		drainheadangle;
-	float	drainhscale;
-	float	drainvscale;
-	int		draincopyspriteangle;
 
 	WORD	flag;
 
@@ -238,17 +198,10 @@ public:
 	WORD	costlifetimer;
 	WORD	spellstoptimer;
 
-	BYTE	shootingchargeflag;
-	BYTE	nowshootingcharge;
-	BYTE	shootchargetimer;
-
 	BYTE	shootpushtimer;
 	BYTE	shootnotpushtimer;
 
 	BYTE	shotdelay;
-
-	BYTE	rechargedelay;
-	BYTE	rechargedelaytimer;
 
 	BYTE	infireasonflag;
 
@@ -260,21 +213,11 @@ public:
 	BYTE	initlife;
 	BYTE	playerindex;
 
-	BYTE	winflag;
-
-	BYTE cardlevel;
-	BYTE bosslevel;
-	BYTE nowcardlevel;
-	BYTE nowbosslevel;
-
 	static BYTE rank;
-	static int lilycount;
 
-	static float lostStack;
 	static bool able;
 
 	static DWORD alltime;
-	static BYTE	raisespellstopplayerindex;
 	static BYTE round;
 
 	static Player p[M_PL_MATCHMAXPLAYER];

@@ -43,15 +43,6 @@ int _HDSSCallGet::Get_RANK(LuaState * ls)
 	if (true)
 	{
 		_PI_HDSS_LUA(Player::rank);
-		_JNEXT_HDSS_LUAFUNC;
-		if (bhavenext)
-		{
-			BYTE _playerindex = _IOBJ_HDSS_LUA;
-			_playerindex = 0;
-			_PI_HDSS_LUA(Player::p[_playerindex].cardlevel);
-			_PI_HDSS_LUA(Player::p[_playerindex].bosslevel);
-			return 3;
-		}
 		return 1;
 	}
 	return 0;

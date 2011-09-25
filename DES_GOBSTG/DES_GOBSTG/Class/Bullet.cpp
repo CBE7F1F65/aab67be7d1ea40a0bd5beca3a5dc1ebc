@@ -595,8 +595,6 @@ void Bullet::SendBullet(BYTE playerindex, float x, float y, BYTE setID, BYTE * s
 	}
 	if (sendtime)
 	{
-		Player::p[playerindex].DoSendBullet(x, y, sendbonus);
-//		Player::p[1-playerindex].DoSendBullet(x, y, sendbonus);
 	}
 	float _hscale = randtf(0.6f, 0.8f);
 	int esindex = EffectSp::Build(setID, playerindex, EffectSp::senditemsiid[siidindex][0], x, y, 0, _hscale);

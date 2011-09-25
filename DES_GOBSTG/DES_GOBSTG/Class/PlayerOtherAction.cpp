@@ -53,37 +53,8 @@ bool Player::CheckAble()
 	return able;
 }
 
-bool Player::HavePlayer(WORD _ID)
+int Player::IsEnd()
 {
-	if (_ID == ID || _ID == ID_sub_1 || _ID == ID_sub_2)
-	{
-		return true;
-	}
-	return false;
-}
-
-int Player::IsMatchEnd()
-{
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		BYTE wintime = 0;
-		if (p[i].winflag & _PLAYER_WINFLAG_1)
-		{
-			wintime++;
-		}
-		if (p[i].winflag & _PLAYER_WINFLAG_2)
-		{
-			wintime++;
-		}
-		if (p[i].winflag & _PLAYER_WINFLAG_3)
-		{
-			wintime++;
-		}
-		if (wintime >= 2)
-		{
-			return i;
-		}
-	}
 	return -1;
 }
 
@@ -311,11 +282,6 @@ void Player::UpdatePlayerData()
 	speed = pdata->fastspeed;
 	slowspeed = pdata->slowspeed;
 	shotdelay = pdata->shotdelay;
-	chargespeed = pdata->chargespeed;
-	rechargedelay = pdata->rechargedelay;
-	fExSendParaB = pdata->exsendparab;
-	fExSendParaA = pdata->exsendparaa;
-	fExSendMax = pdata->exsendmax;
 	if (sprite)
 	{
 		SpriteItemManager::ChangeSprite(pdata->siid, sprite);
@@ -333,17 +299,6 @@ void Player::UpdatePlayerData()
 		spdrain = SpriteItemManager::CreateSprite(pdata->drainzoneSIID);
 	}
 	spdrain->SetBlendMode(BLEND_ALPHAADD);
-}
-
-
-void Player::AddLostStack()
-{
-	float lost = (hge->Timer_GetDelta() - 1/60.0f) * 100 * 60.0f;
-	if(lost < 0)
-		lost = 0;
-	if(lost > 100)
-		lost = 100;
-	lostStack += lost;
 }
 
 void Player::SetInfi(BYTE reasonflag, int _infitimer/* =PLAYER_INFIMAX */)
@@ -371,14 +326,4 @@ void Player::SetChara(WORD id, WORD id_sub_1/* =0xffff */, WORD id_sub_2/* =0xff
 	nowID = ID;
 	ID_sub_1 = id_sub_1;
 	ID_sub_2 = id_sub_2;
-}
-
-void Player::SetDrainSpriteInfo(float _x, float _y, int _headangle/* =0 */, float _hscale/* =1.0f */, float _vscale/* =0.0f */, int _copyspriteangle/* =0 */)
-{
-	drainx = _x;
-	drainy = _y;
-	drainheadangle = _headangle;
-	drainhscale = _hscale;
-	drainvscale = _vscale;
-	draincopyspriteangle = _copyspriteangle;
 }

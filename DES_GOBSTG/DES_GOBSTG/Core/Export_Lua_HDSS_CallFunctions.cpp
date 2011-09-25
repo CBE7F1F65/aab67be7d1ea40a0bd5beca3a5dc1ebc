@@ -1065,7 +1065,6 @@ int _HDSSCallGet::Call_ADDPNCHARGE(LuaState * ls)
 				_addchargemax = _FOBJ_HDSS_LUA;
 			}
 		}
-		Player::p[_playerindex].AddCharge(_addcharge, _addchargemax);
 	}
 	return 0;
 }

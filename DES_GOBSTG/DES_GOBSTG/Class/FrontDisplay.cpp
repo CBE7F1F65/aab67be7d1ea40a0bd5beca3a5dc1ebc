@@ -126,37 +126,6 @@ void FrontDisplay::SetState(BYTE type, BYTE state/* =FDISPSTATE_ON */)
 	}
 }
 
-void FrontDisplay::SignUpSpell()
-{
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
-	{
-		for (int i=0; i<3; i++)
-		{
-			gameinfodisplay.fsSpell[j][i].SignUp(BResource::bres.playerdata[Player::p[j].nowID].spellname[i], 0.5f);
-		}
-	}
-}
-
-void FrontDisplay::OnShootCharge(BYTE playerindex, BYTE nowshootingcharge)
-{
-	playerindex = 0;
-	BYTE spellclass;
-	BYTE spelllevel;
-	Player::p[playerindex].GetSpellClassAndLevel(&spellclass, &spelllevel, nowshootingcharge);
-	if (spellclass)
-	{
-		if (spellclass > 3)
-		{
-			spellclass = 3;
-		}
-		if (spellnameclass[playerindex] < 3)
-		{
-			spellnameclass[playerindex] = spellclass;
-			SetState(FDISP_SPELLNAME_0+playerindex, FDISPSTATE_ON);
-		}
-	}
-}
-
 void FrontDisplay::OnChangeMusic(int musicID)
 {
 	SetState(FDISP_MUSICNAME, FDISPSTATE_ON);
@@ -214,117 +183,6 @@ void FrontDisplay::action()
 
 void FrontDisplay::RenderHeadInfo(BYTE playerindex)
 {
-	playerindex = 0;
-	if (!Player::CheckAble() || !Player::p[playerindex].exist)
-	{
-		return;
-	}
-	float displayscale = Process::mp.infodisplayscale/Process::mp.screenscale;
-	float yoffset = 24.0f*displayscale;
-	float ybottomoffset = 32.0f*displayscale;
-	float yoffsetadd = 22.0f*displayscale;
-	float px = Player::p[playerindex].x;
-	float py = Player::p[playerindex].y;
-	DWORD color = 0xffffffff;
-	BYTE alpha = 0xff;
-	if (Player::p[playerindex].bCharge)
-	{
-		float tyoffset = yoffset;
-		yoffset += yoffsetadd;
-		if (py-tyoffset < M_GAMESQUARE_TOP)
-		{
-			tyoffset = -ybottomoffset;
-			ybottomoffset += yoffsetadd;
-		}
-		BYTE ncharge;
-		BYTE nchargemax;
-		if (Player::p[playerindex].chargetimer < 16)
-		{
-			alpha = Player::p[playerindex].chargetimer * 16;
-		}
-		Player::p[playerindex].GetNCharge(&ncharge, &nchargemax);
-		if (Player::p[playerindex].chargetimer % 16 < 8)
-		{
-			color = (alpha<<24)+0xA0ffA0;
-		}
-		else
-		{
-			color = (alpha<<24)+0xffffff;
-		}
-		gameinfodisplay.charge->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.charge, px, py-tyoffset-10*displayscale, 0, displayscale);
-		info.headdigitfont->SetColor(color);
-		char tbuff[M_STRMAX];
-		sprintf(tbuff, "%d / %d", ncharge, nchargemax);
-		SpriteItemManager::FontPrintf(info.headdigitfont, px, py-tyoffset-6, HGETEXT_CENTER, tbuff);
-	}
-	if (gameinfodisplay.lastlifecountdown[playerindex])
-	{
-		float tyoffset = yoffset;
-		yoffset += yoffsetadd;
-		if (py-tyoffset < M_GAMESQUARE_TOP)
-		{
-			tyoffset = -ybottomoffset;
-			ybottomoffset += yoffsetadd;
-		}
-		alpha = 0xff;
-		if (gameinfodisplay.lastlifecountdown[playerindex] < 16)
-		{
-			alpha = gameinfodisplay.lastlifecountdown[playerindex] * 16;
-		}
-		color = (alpha<<24)+0xffffff;
-		gameinfodisplay.caution->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.caution, px, py-tyoffset-8*displayscale, 0, displayscale);
-		gameinfodisplay.lastlife->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.lastlife, px, py-tyoffset, 0, displayscale);
-	}
-	if (gameinfodisplay.gaugefilledcountdown[playerindex])
-	{
-		float tyoffset = yoffset;
-		yoffset += yoffsetadd;
-		if (py-tyoffset < M_GAMESQUARE_TOP)
-		{
-			tyoffset = -ybottomoffset;
-			ybottomoffset += yoffsetadd;
-		}
-		BYTE ncharge;
-		BYTE nchargemax;
-		Player::p[playerindex].GetNCharge(&ncharge, &nchargemax);
-		alpha = 0xff;
-		if (gameinfodisplay.gaugefilledcountdown[playerindex] < 16)
-		{
-			alpha = gameinfodisplay.gaugefilledcountdown[playerindex] * 16;
-		}
-		color = (alpha<<24)+0xffffff;
-		gameinfodisplay.gaugefilled->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.gaugefilled, px, py-tyoffset-10*displayscale, 0, displayscale);
-		gameinfodisplay.gaugelevel->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.gaugelevel, px-16*displayscale, py-tyoffset, 0, displayscale);
-		info.headdigitfont->SetColor(color);
-		char tbuff[M_STRMAX];
-		sprintf(tbuff, "%d", nchargemax);
-		SpriteItemManager::FontPrintf(info.headdigitfont, px+16*displayscale, py-tyoffset-8*displayscale, HGETEXT_CENTER, tbuff);
-	}
-	if (gameinfodisplay.lilycountdown)
-	{
-		float tyoffset = yoffset;
-		yoffset += yoffsetadd;
-		if (py-tyoffset < M_GAMESQUARE_TOP)
-		{
-			tyoffset = -ybottomoffset;
-			ybottomoffset += yoffsetadd;
-		}
-		alpha = 0xff;
-		if (gameinfodisplay.lilycountdown < 16)
-		{
-			alpha = gameinfodisplay.lilycountdown * 16;
-		}
-		color = (alpha<<24)+0xffffff;
-		gameinfodisplay.caution->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.caution, px, py-tyoffset-8*displayscale, 0, displayscale);
-		gameinfodisplay.lily->SetColor(color);
-		SpriteItemManager::RenderSpriteEx(gameinfodisplay.lily, px, py-tyoffset, 0, displayscale);
-	}
 }
 
 void FrontDisplay::RenderPanel()
@@ -372,35 +230,7 @@ void FrontDisplay::RenderPanel()
 				}
 			}
 			SpriteItemManager::FontPrintf(info.spellpointdigitfont, spellpointx[i]+38*displayscale, M_GAMESQUARE_TOP+16*displayscale, HGETEXT_RIGHT, buffer);
-			int nSpellPoint = Player::p[i].nSpellPoint;
-			sprintf(buffer, "%06d", nSpellPoint);
-			SpriteItemManager::FontPrintf(info.spellpointdigitfont, spellpointx[i]+38*displayscale, M_GAMESQUARE_TOP+16*displayscale, HGETEXT_LEFT, buffer);
 
-			if (Player::p[i].winflag)
-			{
-				SpriteItemManager::RenderSpriteEx(panel.winindi, winindix[i][0], M_GAMESQUARE_TOP+winindih, ARC(panel.winindiheadangle));
-				if (i == Player::IsMatchEnd())
-				{
-					SpriteItemManager::RenderSpriteEx(panel.winindi, winindix[i][1], M_GAMESQUARE_TOP+winindih, ARC(panel.winindiheadangle));
-				}
-			}
-
-			_spd = SpriteItemManager::CastSprite(panel.slotindex);
-			float fslot = Player::p[i].fChargeMax / PLAYER_CHARGEMAX;
-			SpriteItemManager::SetSpriteTextureRect(panel.slot, _spd->tex_x, _spd->tex_y, _spd->tex_w*fslot, _spd->tex_h);
-			SpriteItemManager::SetSpriteHotSpot(panel.slot, 0, _spd->tex_h);
-			panel.slot->SetColor(0xff808080);
-			SpriteItemManager::RenderSprite(panel.slot, M_GAMESQUARE_LEFT_(i)+16, M_GAMESQUARE_BOTTOM);
-			fslot = Player::p[i].fCharge / PLAYER_CHARGEMAX;
-			SpriteItemManager::SetSpriteTextureRect(panel.slot, _spd->tex_x, _spd->tex_y, _spd->tex_w*fslot, _spd->tex_h);
-			SpriteItemManager::SetSpriteHotSpot(panel.slot, 0, _spd->tex_h);
-			panel.slot->SetColor(0xffffffff);
-			BYTE nCharge;
-			Player::p[i].GetNCharge(&nCharge);
-			if (nCharge > 0)
-			{
-				panel.slot->SetColor(0xffffff80);
-			}
 			SpriteItemManager::RenderSprite(panel.slot, M_GAMESQUARE_LEFT_(i)+16, M_GAMESQUARE_BOTTOM);
 			SpriteItemManager::RenderSprite(panel.slotback, M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_BOTTOM);
 			float tempx;
@@ -419,14 +249,6 @@ void FrontDisplay::RenderPanel()
 				{
 					SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_EMPTY], tempx, M_GAMESQUARE_TOP);
 				}
-			}
-			if (info.spellpointdigitfont)
-			{
-				char tbuff[M_STRITOAMAX];
-				sprintf(tbuff, "%02d", Player::p[i].cardlevel);
-				SpriteItemManager::FontPrintf(info.spellpointdigitfont, M_GAMESQUARE_LEFT_(i)+2*displayscale, M_GAMESQUARE_BOTTOM-11*displayscale, HGETEXT_LEFT, tbuff);
-				sprintf(tbuff, "%02d", Player::p[i].bosslevel);
-				SpriteItemManager::FontPrintf(info.spellpointdigitfont, M_GAMESQUARE_RIGHT_(i)-2*displayscale, M_GAMESQUARE_BOTTOM-11*displayscale, HGETEXT_RIGHT, tbuff);
 			}
 		}
 		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)

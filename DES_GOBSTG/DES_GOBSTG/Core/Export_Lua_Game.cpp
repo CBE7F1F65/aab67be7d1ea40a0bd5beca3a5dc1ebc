@@ -318,7 +318,6 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerShotInfo(LuaState * ls)
 	ls->PushInteger(Player::p[_playerindex].shottimer);
 	ls->PushInteger(Player::p[_playerindex].shotdelay);
 	BYTE _ncharge, _nchargemax;
-	Player::p[_playerindex].GetNCharge(&_ncharge, &_nchargemax);
 	ls->PushInteger(_nchargemax);
 
 	return 5;
@@ -354,7 +353,6 @@ int Export_Lua_Game::LuaFn_Game_SetPlayerDrainSpriteInfo(LuaState * ls)
 			}
 		}
 	}
-	Player::p[_playerindex].SetDrainSpriteInfo(_x, _y, _headangle, _hscale, _vscale, _copyspriteangle);
 	return 0;
 }
 
@@ -445,36 +443,7 @@ int Export_Lua_Game::LuaFn_Game_PlayerSendEx(LuaState * ls)
 
 int Export_Lua_Game::LuaFn_Game_GetPlayerStopInfo(LuaState * ls)
 {
-	LuaStack args(ls);
-
-	BYTE _playerindex = args[1].GetInteger();
-	_playerindex = 0;
-
-	if (Player::raisespellstopplayerindex >= M_PL_MATCHMAXPLAYER)
-	{
-		return 0;
-	}
-
-	if (Player::raisespellstopplayerindex == _playerindex)
-	{
-		ls->PushBoolean(true);
-	}
-	else
-	{
-//		_playerindex = 1 - _playerindex;
-		ls->PushBoolean(false);
-	}
-	ls->PushInteger(Player::p[_playerindex].nowID);
-	ls->PushInteger(Player::p[_playerindex].nowID);
-//	ls->PushInteger(Player::p[1-_playerindex].nowID);
-	ls->PushInteger(Player::p[_playerindex].spellstoptimer);
-	ls->PushInteger(PL_SHOOTINGCHARGE_STOPTIME);
-	BYTE _spellclass = 0;
-	BYTE _spelllevel = 0;
-	Player::p[_playerindex].GetSpellClassAndLevel(&_spellclass, &_spelllevel);
-	ls->PushInteger(_spellclass);
-	ls->PushInteger(_spelllevel);
-	return 7;
+	return 0;
 }
 
 int Export_Lua_Game::LuaFn_Game_GetEnumReplayInfo(LuaState * ls)
@@ -535,7 +504,6 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerShootChargeInfo(LuaState * ls)
 	_playerindex = 0;
 	BYTE _spellclass;
 	BYTE _spelllevel;
-	Player::p[_playerindex].GetSpellClassAndLevel(&_spellclass, &_spelllevel, Player::p[_playerindex].nowshootingcharge);
 	ls->PushInteger(_spellclass);
 	ls->PushInteger(_spelllevel);
 	ls->PushInteger(Player::p[_playerindex].nowID);
@@ -560,7 +528,7 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerShootChargeOneInfo(LuaState * ls)
 	ls->PushInteger(_ID);
 	ls->PushNumber(Player::p[_playerindex].x);
 	ls->PushNumber(Player::p[_playerindex].y);
-	ls->PushInteger(_shootchargemaxtime-Player::p[_playerindex].shootchargetimer+1);
+	ls->PushInteger(_shootchargemaxtime);
 	ls->PushInteger(_shootchargemaxtime);
 	return 5;
 }

@@ -30,6 +30,7 @@ public:
 	static void Release(bool deletefiles=true);
 	static int GetEnumReplay();
 	static void ReleaseEnumReplay();
+	static void AddLostStack();
 
 public:
 	partInfo partinfo[RPYPARTMAX];
@@ -43,6 +44,7 @@ public:
 	static Replay rpy;
 	static Replay * enumrpy;
 	static int nenumrpy;
+	static float lostStack;
 };
 
 #endif

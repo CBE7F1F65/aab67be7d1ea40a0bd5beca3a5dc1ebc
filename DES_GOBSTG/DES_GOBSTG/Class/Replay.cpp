@@ -13,6 +13,8 @@ Replay Replay::rpy;
 Replay * Replay::enumrpy = NULL;
 int Replay::nenumrpy = 0;
 
+float Replay::lostStack = 0;
+
 Replay::Replay()
 {
 	replayIndex = 0;
@@ -119,7 +121,7 @@ void Replay::Fill()
 	rpyinfo.hour = wHour;
 	rpyinfo.minute = wMinute;
 
-	rpyinfo.lost = Player::lostStack / Process::mp.framecounter;
+	rpyinfo.lost = lostStack / Process::mp.framecounter;
 	rpyinfo.matchmode = Process::mp.matchmode;
 	rpyinfo.offset = replayIndex;
 
@@ -206,6 +208,16 @@ WORD Replay::ReadInput()
 float Replay::GetReplayFPS()
 {
 	return Export::rpyGetReplayFPS(replayframe[replayIndex]);
+}
+
+void Replay::AddLostStack()
+{
+	float lost = (hge->Timer_GetDelta() - 1/60.0f) * 100 * 60.0f;
+	if(lost < 0)
+		lost = 0;
+	if(lost > 100)
+		lost = 100;
+	lostStack += lost;
 }
 
 void Replay::InitReplayIndex(bool replaymode, BYTE part)

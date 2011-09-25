@@ -167,19 +167,9 @@ void PlayerGhost::action()
 {
 	timer++;
 
-	bool shootingchargeone = Player::p[playerindex].shootchargetimer;
-
 	if (flag & PGFLAG_ACTIVEWHENCHARGE)
 	{
-		if (!shootingchargeone)
-		{
-			active = false;
-			return;
-		}
-		else
-		{
-			active = true;
-		}
+		active = true;
 	}
 
 	float aimx = x;
@@ -204,7 +194,7 @@ void PlayerGhost::action()
 	{
 		chasetime = 8;
 		BObject * _tpbobj;
-		if (PlayerBullet::GetLockAim(&_tpbobj, playerindex) && (shooting || shootingchargeone))
+		if (PlayerBullet::GetLockAim(&_tpbobj, playerindex) && (shooting))
 		{
 			aimx = _tpbobj->x - _pgd->xadj;
 			aimy = _tpbobj->y - _pgd->yadj;
@@ -284,7 +274,7 @@ void PlayerGhost::action()
 		chasetime = _PLAYERGHOST_ADJUSTTIME - timer;
 	}
 
-	bool stay = (flag & PGFLAG_STAYWHENCHARGE) && shootingchargeone;
+	bool stay = (flag & PGFLAG_STAYWHENCHARGE);
 
 	if (aimx != x || aimy != y)
 	{

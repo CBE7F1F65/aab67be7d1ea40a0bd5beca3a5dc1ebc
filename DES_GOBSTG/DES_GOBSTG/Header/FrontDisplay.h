@@ -343,8 +343,6 @@ public:
 	void SetState(BYTE type, BYTE state=FDISPSTATE_ON);
 	void SetValue(LONGLONG llval, int ival, float fval, bool bval);
 
-	void SignUpSpell();
-	void OnShootCharge(BYTE playerindex, BYTE nowshootingcharge);
 	void OnChangeMusic(int musicID);
 
 	void BuildPostPrint(hgeFont * font, float x, float y, const char * str, int align=HGETEXT_CENTER|HGETEXT_MIDDLE, float scale=1.0f, float properation=1.0f, float rotation=0, float tracking=0, float spacing=1.0f);
