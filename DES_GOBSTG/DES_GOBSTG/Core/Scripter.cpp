@@ -6,7 +6,7 @@
 
 Scripter Scripter::scr;
 
-char Scripter::strdesc[STRINGDESCMAX][M_STRMAX*2];
+char Scripter::strdesc[DATASTRUCT_STRINGDESCMAX][M_STRMAX*2];
 
 Scripter::Scripter()
 {
@@ -80,7 +80,7 @@ bool Scripter::SetString(int index, char * str)
 	{
 		return false;
 	}
-	if (index < 0 || index >= STRINGDESCMAX)
+	if (index < 0 || index >= DATASTRUCT_STRINGDESCMAX)
 	{
 		return false;
 	}
@@ -90,7 +90,7 @@ bool Scripter::SetString(int index, char * str)
 
 char * Scripter::GetString(int index)
 {
-	if (index < 0 || index >= STRINGDESCMAX)
+	if (index < 0 || index >= DATASTRUCT_STRINGDESCMAX)
 	{
 		return NULL;
 	}
@@ -778,7 +778,7 @@ Token Scripter::GetToken()
 		ret.type |= SCR_TOKEN_HANDLE;
 		ret.value = strdescIndex;
 		strdescIndex++;
-		if(strdescIndex > STRINGDESCMAX)
+		if(strdescIndex > DATASTRUCT_STRINGDESCMAX)
 		{
 			ret.type = SCR_TOKEN_ERROR;
 			ret.value = SCR_ERROR_STRINGTOOMUCH;

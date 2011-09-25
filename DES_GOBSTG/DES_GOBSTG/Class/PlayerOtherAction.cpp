@@ -76,7 +76,7 @@ void Player::initFrameIndex()
 		{
 			_ID = ID;
 		}
-		if (_ID > PLAYERTYPEMAX)
+		if (_ID > DATASTRUCT_PLAYERTYPEMAX)
 		{
 			continue;
 		}

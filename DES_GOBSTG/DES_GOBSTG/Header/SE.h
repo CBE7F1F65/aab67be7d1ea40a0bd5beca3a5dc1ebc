@@ -3,6 +3,7 @@
 
 #include "MainDependency.h"
 #include "Const.h"
+#include "DataStruct.h"
 
 #define SE_DEFAULT				0
 
@@ -75,7 +76,7 @@ public:
 	HCHANNEL chn;
 	float sum;
 	WORD counter;
-	static SE se[SEMAX];
+	static SE se[DATASTRUCT_SEMAX];
 	static BYTE vol;
 };
 

@@ -14,7 +14,7 @@ Relative to Project File=1
 Save Account=0
 Use Relative Directory=1
 Using VCS=0
-Working Time=1653154
+Working Time=1653164
 [Folders]
 HDSS=1
 HDSS - Control=1
@@ -23,13 +23,13 @@ HDSS - Event=1
 HDSS - Scene=1
 .\=1
 .\ - ÎÄµµ=1
-.\ - HDSS=1
 .\ - HDSS - Scene - Scene=1
 .\ - Script_Lua=1
 .\ - Script_Lua - HDSS=1
 .\ - Script_Lua - HDSS - Control=1
 .\ - Script_Lua - HDSS - Event=1
-.\ - HDSS - Control=1
+.\ - HDSS=1
+.\ - HDSS - Edef=1
 [uemakeXp]
 ReleaseMode=0
 [Debug Settings]

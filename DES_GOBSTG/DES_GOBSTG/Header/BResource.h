@@ -5,18 +5,18 @@
 #include "DataStruct.h"
 
 #define RSIZE_RESOURCE		(sizeof(resourceData))
-#define RSIZE_STRINGDESC	(sizeof(char) * M_STRMAX * STRINGDESCMAX)
+#define RSIZE_STRINGDESC	(sizeof(char) * M_STRMAX * DATASTRUCT_STRINGDESCMAX)
 #define RSIZE_CUSTOMCONST	(sizeof(customconstData) * SCR_CUSTOMCONSTMAX)
-#define RSIZE_TEXTURE		(sizeof(textureData) * TEXMAX)
-#define RSIZE_MUSIC			(sizeof(musicData) * MUSICMAX)
-#define RSIZE_BULLET		(sizeof(bulletData) * BULLETTYPEMAX)
-#define RSIZE_ENEMY			(sizeof(enemyData) * ENEMYTYPEMAX)
-#define RSIZE_PLAYER		(sizeof(playerData) * PLAYERTYPEMAX)
+#define RSIZE_TEXTURE		(sizeof(textureData) * DATASTRUCT_TEXMAX)
+#define RSIZE_MUSIC			(sizeof(musicData) * DATASTRUCT_MUSICMAX)
+#define RSIZE_BULLET		(sizeof(bulletData) * DATASTRUCT_BULLETTYPEMAX)
+#define RSIZE_ENEMY			(sizeof(enemyData) * DATASTRUCT_ENEMYTYPEMAX)
+#define RSIZE_PLAYER		(sizeof(playerData) * DATASTRUCT_PLAYERTYPEMAX)
 //#define RSIZE_SPRITE		(sizeof(spriteData) * SPRITEITEMMAX)
 #define RSIZE_SPRITE		(sizeof(spriteData) * spritenumber)
 #define RSIZE_SPRITENUMBER	(sizeof(int))
-#define RSIZE_PLAYERSHOOT	(sizeof(playershootData) * PLAYERSHOOTTYPEMAX)
-#define RSIZE_PLAYERGHOST	(sizeof(playerghostData) * PLAYERGHOSTTYPEMAX)
+#define RSIZE_PLAYERSHOOT	(sizeof(playershootData) * DATASTRUCT_PLAYERSHOOTTYPEMAX)
+#define RSIZE_PLAYERGHOST	(sizeof(playerghostData) * DATASTRUCT_PLAYERGHOSTTYPEMAX)
 
 class BResource
 {
@@ -45,22 +45,25 @@ public:
 
 public:
 
-	musicData musdata[MUSICMAX];
 	resourceData resdata;
-	bulletData bulletdata[BULLETTYPEMAX];
-	enemyData enemydata[ENEMYTYPEMAX];
-	playerData playerdata[PLAYERTYPEMAX];
+	seData sedata[DATASTRUCT_SEMAX];
+	effectData effdata[DATASTRUCT_EFFECTMAX];
+	itemData itemdata[DATASTRUCT_ITEMMAX];
+	enemyData enemydata[DATASTRUCT_ENEMYMAX];
+	musicData musdata[DATASTRUCT_MUSICMAX];
+	bulletData bulletdata[DATASTRUCT_BULLETTYPEMAX];
+	playerData playerdata[DATASTRUCT_PLAYERTYPEMAX];
 //	spriteData spritedata[SPRITEITEMMAX];
 	spriteData * spritedata;
 	int spritenumber;
-	playershootData playershootdata[PLAYERSHOOTTYPEMAX];
-	playerghostData playerghostdata[PLAYERGHOSTTYPEMAX];
+	playershootData playershootdata[DATASTRUCT_PLAYERSHOOTTYPEMAX];
+	playerghostData playerghostdata[DATASTRUCT_PLAYERGHOSTTYPEMAX];
 	customconstData * customconstdata;
-	textureData texturedata[TEXMAX];
+	textureData texturedata[DATASTRUCT_TEXMAX];
 
 	//texture
-	HTEXTURE	tex[TEXMAX];
-	hgeTextureInfo texinfo[TEXMAX];
+	HTEXTURE	tex[DATASTRUCT_TEXMAX];
+	hgeTextureInfo texinfo[DATASTRUCT_TEXMAX];
 
 	static BResource bres;
 };

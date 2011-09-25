@@ -8,7 +8,7 @@
 #include "../Header/SpriteItemManager.h"
 
 VectorList<Effectsys> Effectsys::effsys[M_PL_MATCHMAXPLAYER];
-hgeEffectSystem Effectsys::efftype[EFFECTSYSTYPEMAX];
+hgeEffectSystem Effectsys::efftype[DATASTRUCT_EFFECTMAX];
 
 Effectsys::Effectsys()
 {
@@ -81,7 +81,7 @@ void Effectsys::RenderAll(BYTE playerindex)
 
 void Effectsys::Release()
 {
-	for (int i=0; i<EFFECTSYSTYPEMAX; i++)
+	for (int i=0; i<DATASTRUCT_EFFECTMAX; i++)
 	{
 		efftype[i].FreeList();
 	}
@@ -91,7 +91,7 @@ bool Effectsys::Init(HTEXTURE * tex, const char * foldername, char name[][M_PATH
 {
 	Release();
 	char buffer[M_STRMAX];
-	for(int i=0;i<EFFECTSYSTYPEMAX;i++)
+	for(int i=0;i<DATASTRUCT_EFFECTMAX;i++)
 	{
 		if (!strlen(name[i]))
 		{
@@ -195,7 +195,7 @@ void Effectsys::valueSet(WORD _ID, BYTE _playerindex, float _x, float _y, float 
 
 	exist = true;
 
-	if(ID >= EFFECTSYSTYPEMAX)
+	if(ID >= DATASTRUCT_EFFECTMAX)
 		ID = 0;
 
 	eff.InitEffectSystem(efftype[ID]);

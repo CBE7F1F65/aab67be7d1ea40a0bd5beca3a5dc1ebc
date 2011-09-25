@@ -177,14 +177,14 @@ void Enemy::Action()
 					if (pen->able)
 					{
 						PlayerBullet::CheckAndSetLock((BObject *)pen, j, en[j].getIndex(), pen->checkActive() && pen->maxlife < 100 && (pen->flag & ENEMYFLAG_PBSHOTABLE));
-						if (pen->type < PLAYERTYPEMAX)
+						if (pen->type < DATASTRUCT_PLAYERTYPEMAX)
 						{
 							bossindex[j] = en[j].getIndex();
 						}
 					}
 					else
 					{
-						if (pen->type < PLAYERTYPEMAX)
+						if (pen->type < DATASTRUCT_PLAYERTYPEMAX)
 						{
 							BossFadeout(j);
 						}
@@ -1176,7 +1176,7 @@ void Enemy::Fadeout()
 {
 	if (!fadeout)
 	{
-		if (type < PLAYERTYPEMAX)
+		if (type < DATASTRUCT_PLAYERTYPEMAX)
 		{
 			SE::push(SE_BOSS_DEAD, x);
 		}

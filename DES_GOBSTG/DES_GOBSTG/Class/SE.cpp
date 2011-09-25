@@ -9,13 +9,13 @@
 
 #define SE_FREEBEGIN		0x40
 
-SE SE::se[SEMAX];
+SE SE::se[DATASTRUCT_SEMAX];
 BYTE SE::vol;
 
 bool SE::Initial()
 {
 	char buffer[M_STRMAX];
-	for(int i = 0;i < SEMAX;i++)
+	for(int i = 0;i < DATASTRUCT_SEMAX;i++)
 	{
 		strcpy(buffer, BResource::bres.resdata.sefilename[i]);
 		if(!strlen(buffer))
@@ -66,7 +66,7 @@ void SE::push(BYTE type, float x)
 
 void SE::play()
 {
-	for(int i = 0;i < SEMAX;i++)
+	for(int i = 0;i < DATASTRUCT_SEMAX;i++)
 	{
 		if(se[i].counter)
 		{
@@ -89,7 +89,7 @@ void SE::stop(int type)
 {
 	if (type < 0)
 	{
-		for (int i=0; i<SEMAX; i++)
+		for (int i=0; i<DATASTRUCT_SEMAX; i++)
 		{
 			stop(i);
 		}

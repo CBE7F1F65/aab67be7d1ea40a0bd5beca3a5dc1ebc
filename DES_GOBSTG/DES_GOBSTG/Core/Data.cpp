@@ -191,7 +191,7 @@ void Data::raSetIndi(int sno, WORD _indi)
 */
 char * Data::getEnemyName(int type)
 {
-	if (type < 0 || type >= ENEMYTYPEMAX)
+	if (type < 0 || type >= DATASTRUCT_ENEMYTYPEMAX)
 	{
 		return NULL;
 	}
@@ -200,7 +200,7 @@ char * Data::getEnemyName(int type)
 
 char * Data::getEnemyEName(int type)
 {
-	if (type < 0 || type >= ENEMYTYPEMAX)
+	if (type < 0 || type >= DATASTRUCT_ENEMYTYPEMAX)
 	{
 		return NULL;
 	}
@@ -209,7 +209,7 @@ char * Data::getEnemyEName(int type)
 
 char * Data::getPlayerName(int type)
 {
-	if (type < 0 || type >= PLAYERTYPEMAX)
+	if (type < 0 || type >= DATASTRUCT_PLAYERTYPEMAX)
 	{
 		return NULL;
 	}
@@ -218,7 +218,7 @@ char * Data::getPlayerName(int type)
 
 char * Data::getPlayerEName(int type)
 {
-	if (type < 0 || type >= PLAYERTYPEMAX)
+	if (type < 0 || type >= DATASTRUCT_PLAYERTYPEMAX)
 	{
 		return NULL;
 	}
@@ -1076,7 +1076,7 @@ char * Data::sRead(BYTE type, DWORD section, DWORD name, const char * def_val)
 //
 bool Data::SetEffectSystemResourceName(int effi, const char * filename)
 {
-	if(effi < 0 || effi >= EFFECTSYSTYPEMAX)
+	if(effi < 0 || effi >= DATASTRUCT_EFFECTMAX)
 		return false;
 	strcpy(BResource::bres.resdata.effectsysfilename[effi], filename);
 	FILE * file = checkTableFile(DATA_EFFECTTABLEDEFINE);
@@ -1097,7 +1097,7 @@ bool Data::SetEffectSystemResourceName(int effi, const char * filename)
 	}
 	fprintf(file, "%x\t%s\t%x\r\n", GAME_VERSION, GAME_SIGNATURE, DATA_EFFECTTABLEDEFINE);
 	fprintf(file, "%s\t%s\r\n", comment[0], comment[1]);
-	for (int i=0; i<EFFECTSYSTYPEMAX; i++)
+	for (int i=0; i<DATASTRUCT_EFFECTMAX; i++)
 	{
 		if (strlen(BResource::bres.resdata.effectsysfilename[i]))
 		{
@@ -1123,7 +1123,7 @@ bool Data::SetEffectSystemResourceName(int effi, const char * filename)
 
 bool Data::GetEffectSystemResourceName(int effi, char * filename)
 {
-	if(!filename || effi < 0 || effi >= EFFECTSYSTYPEMAX)
+	if(!filename || effi < 0 || effi >= DATASTRUCT_EFFECTMAX)
 		return false;
 	if (!strlen(BResource::bres.resdata.effectsysfilename[effi]))
 	{

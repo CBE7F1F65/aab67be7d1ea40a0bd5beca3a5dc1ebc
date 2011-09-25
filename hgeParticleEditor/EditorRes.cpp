@@ -19,12 +19,12 @@ EditorRes::EditorRes()
 
 	font = NULL;
 
-	for(int i=0; i<TEXMAX; i++)
+	for(int i=0; i<DATASTRUCT_TEXMAX; i++)
 	{
 		tex[i] = NULL;
 	}
 
-	for(int i=0; i<EFFECTSYSTYPEMAX; i++)
+	for(int i=0; i<DATASTRUCT_EFFECTMAX; i++)
 	{
 		eff[i] = NULL;
 	}
@@ -60,7 +60,7 @@ bool EditorRes::Load()
 	button = new hgeSprite(tex[TEX_WHITE], 0, 0, 1, 1);
 	button->SetColor(0x0000000);
 
-	for(int i=0; i<EFFECTSYSTYPEMAX; i++)
+	for(int i=0; i<DATASTRUCT_EFFECTMAX; i++)
 	{
 		ReloadEffect(i);
 	}
@@ -189,14 +189,14 @@ void EditorRes::Release()
 		delete font;
 	font = NULL;
 
-	for(int i=0; i<TEXMAX; i++)
+	for(int i=0; i<DATASTRUCT_TEXMAX; i++)
 	{
 		if(tex[i].tex)
 			hge->Texture_Free(tex[i]);
 		tex[i] = NULL;
 	}
 
-	for(int i=0; i<EFFECTSYSTYPEMAX; i++)
+	for(int i=0; i<DATASTRUCT_EFFECTMAX; i++)
 	{
 		ReleaseEffect(i);
 	}

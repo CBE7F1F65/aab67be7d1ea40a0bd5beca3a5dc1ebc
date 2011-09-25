@@ -1,11 +1,12 @@
-#ifndef __NOTUSELUA
+#ifndef __EXPORT_LUA_H__
+#define __EXPORT_LUA_H__
 
-#ifndef _EXPORT_LUA_H
-#define _EXPORT_LUA_H
-
+#include "_LObjNode.h"
+#include "Export_Lua_Const.h"
 #include "MainDependency.h"
-#include "../../../LuaPlus/LuaPlus/LuaPlus.h"
-using namespace LuaPlus;
+
+#define ERRORSTR_TITLE				"Error!"
+
 
 #ifndef __NOTUSEHDSS
 #define HDSS_PREFIX	"HDSS_"
@@ -17,16 +18,43 @@ using namespace LuaPlus;
 #define LUAFN_EVENTEXECUTE		"EventExecute"
 #endif
 
+#ifdef _DEBUG
+#define _DEBUG_ENTERFUNC_LUA	state->GetStack(1, &debug_ar);\
+	state->GetInfo("nSl", &debug_ar)
+#else
+#define _DEBUG_ENTERFUNC_LUA
+#endif
+
+
+#define _ENTERFUNC_LUA(X)	_DEBUG_ENTERFUNC_LUA; \
+	LuaStack args(ls);\
+	node._init(ls, NULL, &args, &node);\
+	if (node.argscount >= (X))\
+							{\
+							do\
+								{
+
+#define _LEAVEFUNC_LUA			} while(false);\
+							}\
+							else\
+							{\
+							ShowError(LUAERROR_ARG, "");\
+							return 0;\
+							}\
+							return node.retcount
+
 class Export_Lua
 {
 public:
 	Export_Lua();
 	~Export_Lua();
 public:
+
+	static void Init();
+	static void Release(LuaState * ls = NULL);
+
 	static void InitHGE(HGE * hge = NULL);
 	static void ReleaseHGE();
-
-	static void Release(LuaState * ls = NULL);
 
 	static int LoadLuaFile(LuaState * ls, const char * filename, bool bDoFile = false, int * filecount = NULL, FILE * outputfile = NULL);
 private:
@@ -49,14 +77,17 @@ public:
 	static void HeatUp(list<int> * charcodelist, LuaState * ls=NULL);
 	static void HeatUp(list<int> * charcodelist, LuaState * ls, LuaObject * obj);
 
-	//lua
-
 	static bool LuaRegistFunction();
 	static bool _LuaRegistFunction(LuaObject * obj);
 
 	static bool LuaRegistConst();
 	static bool _LuaRegistConst(LuaObject * obj);
 	static bool _LuaRegistCustomConst(LuaObject * obj);
+	static bool _LuaRegistTEX(LuaObject * obj);
+	static bool _LuaRegistSIID(LuaObject * obj);
+	static bool _LuaRegistMUSICID(LuaObject * obj);
+	static bool _LuaRegistSEID(LuaObject * obj);
+	static bool _LuaRegistEFFID(LuaObject * obj);
 
 	static DWORD _LuaHelper_GetColor(LuaObject * obj);
 	static void _LuaHelper_PushDWORD(LuaState * ls, DWORD dval);
@@ -66,10 +97,16 @@ public:
 	static void _LuaHelper_PushQWORD(LuaState * ls, QWORD qval);
 	static QWORD _LuaHelper_GetQWORD(LuaObject * obj);
 	static void _LuaHelper_PushString(LuaState * ls, const char * sval);
+	static void _LuaHelper_PushTable(LuaState * ls, LuaStackObject tval);
+	static LuaStackObject _LuaHelper_CreateTable(LuaState * ls);
 
 	static void _LuaHelper_GetCalculateValue(LuaObject * obj, char calchar, bool buseq, void * val);
 
 	static int LuaFn_Global_Calculate(LuaState * ls);
+	static int LuaFn_Global_AMA(LuaState * ls);
+	static int LuaFn_Global_RMA(LuaState * ls);
+	static int LuaFn_Global_SINT(LuaState * ls);
+	static int LuaFn_Global_COST(LuaState * ls);
 	static int LuaFn_Global_DIST(LuaState * ls);
 	static int LuaFn_Global_DIST2(LuaState * ls);
 	static int LuaFn_Global_SIGN(LuaState * ls);
@@ -84,6 +121,7 @@ public:
 	static int LuaFn_Global_GetPrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_WritePrivateProfileString(LuaState * ls);
 	static int LuaFn_Global_MessageBox(LuaState * ls);
+	static int LuaFn_Global_SystemLog(LuaState * ls);
 
 	static int LuaFn_LuaState_DoFile(LuaState * ls);
 	static int LuaFn_LuaState_SetConst(LuaState * ls);
@@ -99,13 +137,14 @@ public:
 	static int LuaFn_LuaState_RShift(LuaState * ls);
 	static int LuaFn_LuaState_ReadLineInContent(LuaState * ls);
 
-	/* HGE Help */
-
 public:
-	static HGE * hge;
 	static LuaStateOwner state;
-};
-
+#ifdef _DEBUG
+	static lua_Debug debug_ar;
 #endif
+	static _LObjNode node;
+
+	static HGE * hge;
+};
 
 #endif

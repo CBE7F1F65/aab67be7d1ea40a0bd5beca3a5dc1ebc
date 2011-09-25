@@ -12,7 +12,7 @@ function _DEBUG_GetSaveReplayName()
 end
 
 function _DEBUG_NewRandomMatch()
-	game.SetMatchMode(MatchMode_P2C);
+	game.SetGameMode(MatchMode_P2C);
 	local randchara = {};
 	local randcharaname = {};
 	local siid;

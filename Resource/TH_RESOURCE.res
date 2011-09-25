@@ -1,5 +1,5 @@
 [Header]
-GameVersion=115
+GameVersion=144
 Signature=h5nc
 FileType=129
 
@@ -19,13 +19,6 @@ EffectDefineFile=TH_EffectTable.table
 SEDefineFile=TH_SETable.table
 
 [Folder]
-ScriptFolder_1=Script/Control/
-ScriptFolder_2=Script/Event/
-ScriptFolder_3=Script/Function/
-ScriptFolder_4=Script/Scene/
-ScriptFolder_5=Script/Edef/
-ScriptFolder_6=Script/Gdef/
-ScriptFolder_7=Script/Stage/
 SnapShotFolder=SnapShot/
 ReplayFolder=Replay/
 DataFolder=Data/
@@ -36,10 +29,10 @@ ScriptExt_7=script
 ReplayExt_7=rpy
 
 [ReplayHeader]
-Signature_11=DES_TH_09X
+Signature_11=DES_FLARE
 TempSign_3=rpy
 CompleteSign_3=RPY
-Tag_3=09X
+Tag_3=FLR
 
 [UIString]
 FileName=File

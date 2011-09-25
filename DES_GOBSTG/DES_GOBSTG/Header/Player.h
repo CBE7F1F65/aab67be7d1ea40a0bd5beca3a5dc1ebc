@@ -148,7 +148,7 @@ public:
 	float	lastmx[PL_SAVELASTMAX];
 	float	lastmy[PL_SAVELASTMAX];
 
-	PlayerGhost pg[PLAYERGHOSTMAX];
+	PlayerGhost pg[DATASTRUCT_PLAYERGHOSTMAX];
 
 	EffectSp	esChange;
 	EffectSp	esShot;

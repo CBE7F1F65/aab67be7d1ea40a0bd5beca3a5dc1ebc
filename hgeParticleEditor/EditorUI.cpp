@@ -545,7 +545,7 @@ void EditorUI::PageUp()
 		}
 		if(!bFound)
 		{
-			for(int i=EFFECTSYSTYPEMAX-1; i> ebnum; i--)
+			for(int i=DATASTRUCT_EFFECTMAX-1; i> ebnum; i--)
 			{
 				if(eres.eff[i])
 				{
@@ -609,7 +609,7 @@ void EditorUI::PageDown()
 	if(editmode == UIEDITMODE_EB)
 	{
 		bool bFound = false;
-		for(int i=ebnum+1; i<EFFECTSYSTYPEMAX; i++)
+		for(int i=ebnum+1; i<DATASTRUCT_EFFECTMAX; i++)
 		{
 			if(eres.eff[i])
 			{
@@ -851,7 +851,7 @@ void EditorUI::Update()
 	{
 		bool bFound = false;
 		if(eres.bgtex == -1)
-			eres.bgtex = TEXMAX;
+			eres.bgtex = DATASTRUCT_TEXMAX;
 		int i;
 		for(i=eres.bgtex-1; i>=0; i--)
 		{
@@ -863,7 +863,7 @@ void EditorUI::Update()
 		}
 		if(!bFound)
 		{
-			for(i=TEXMAX-1; i>eres.bgtex; i--)
+			for(i=DATASTRUCT_TEXMAX-1; i>eres.bgtex; i--)
 			{
 				if(eres.tex[i].tex)
 				{
@@ -1495,12 +1495,12 @@ bool EditorUI::Add()
 	if(editmode == UIEDITMODE_EB)
 	{
 		int i = 0;
-		for(; i<EFFECTSYSTYPEMAX; i++)
+		for(; i<DATASTRUCT_EFFECTMAX; i++)
 		{
 			if(!eres.eff[i])
 				break;
 		}
-		if(i >= 0 && i < EFFECTSYSTYPEMAX)
+		if(i >= 0 && i < DATASTRUCT_EFFECTMAX)
 		{
 			if(!eres.eff[i])
 			{
@@ -1604,7 +1604,7 @@ bool EditorUI::ChangeBGTex(int texnum)
 	{
 		bool bFound = false;
 		int i;
-		for(i=eres.bgtex+1; i<TEXMAX; i++)
+		for(i=eres.bgtex+1; i<DATASTRUCT_TEXMAX; i++)
 		{
 			if(eres.tex[i].tex)
 			{
@@ -1684,7 +1684,7 @@ bool EditorUI::EditEB()
 	}
 	else if(oper == UIITEM_EB_TEX_VALUE)
 	{
-		if(ival >= 0 && ival < TEXMAX)
+		if(ival >= 0 && ival < DATASTRUCT_TEXMAX)
 		{
 			if(eres.tex[ival].tex)
 			{

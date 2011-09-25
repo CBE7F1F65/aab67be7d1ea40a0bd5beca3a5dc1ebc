@@ -110,7 +110,7 @@ bool _DataTable::DataTableDefine()
 
 bool _DataTable::PackageTableDefine()
 {
-	ZeroMemory(BResource::bres.resdata.packagefilename, sizeof(char) * PACKAGEMAX * M_PATHMAX);
+	ZeroMemory(BResource::bres.resdata.packagefilename, sizeof(char) * DATASTRUCT_PACKAGEMAX * M_PATHMAX);
 	_READSTRINGBUFFERLINE(3);
 	while (!feof(file))
 	{
@@ -143,7 +143,7 @@ bool _DataTable::TextureTableDefine()
 
 bool _DataTable::EffectTableDefine()
 {
-	ZeroMemory(BResource::bres.resdata.effectsysfilename, sizeof(char) * EFFECTSYSTYPEMAX * M_PATHMAX);
+	ZeroMemory(BResource::bres.resdata.effectsysfilename, sizeof(char) * DATASTRUCT_EFFECTMAX * M_PATHMAX);
 	_READSTRINGBUFFERLINE(3);
 	while (!feof(file))
 	{
@@ -157,7 +157,7 @@ bool _DataTable::EffectTableDefine()
 
 bool _DataTable::SETableDefine()
 {
-	ZeroMemory(BResource::bres.resdata.sefilename, sizeof(char) * SEMAX * M_PATHMAX);
+	ZeroMemory(BResource::bres.resdata.sefilename, sizeof(char) * DATASTRUCT_SEMAX * M_PATHMAX);
 	_READSTRINGBUFFERLINE(3);
 	while (!feof(file))
 	{

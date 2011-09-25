@@ -266,7 +266,7 @@ int Process::processInit()
 		return PQUIT;
 	}
 
-	for (int i=0; i<PACKAGEMAX; i++)
+	for (int i=0; i<DATASTRUCT_PACKAGEMAX; i++)
 	{
 		if(!BResource::bres.LoadPackage(i))
 		{

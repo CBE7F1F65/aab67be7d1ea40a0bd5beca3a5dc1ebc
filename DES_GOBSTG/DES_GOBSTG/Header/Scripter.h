@@ -2,6 +2,7 @@
 #define _SCRIPTER_H
 
 #include "MainDependency.h"
+#include "DataStruct.h"
 #include "Const.h"
 #include "keytable.h"
 
@@ -254,7 +255,7 @@ public:
 	int varIndex;
 	DWORD strdescIndex;
 
-	static char strdesc[STRINGDESCMAX][M_STRMAX*2];
+	static char strdesc[DATASTRUCT_STRINGDESCMAX][M_STRMAX*2];
 
 	static Scripter scr;
 

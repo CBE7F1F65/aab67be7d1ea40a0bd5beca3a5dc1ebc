@@ -2,7 +2,7 @@
 #ifndef __NOTUSEHDSS
 
 #include "../Header/Export_Lua_HDSS.h"
-#include "../Header/LuaConstDefine.h"
+#include "../Header/Export_Lua_Const.h"
 #include "../Header/Scripter.h"
 
 #include "../Header/Export_Lua_HDSS_CallGet.h"

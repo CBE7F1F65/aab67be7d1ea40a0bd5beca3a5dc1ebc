@@ -93,7 +93,7 @@ function ControlExecute_cTitle(timer)
 --			_DEBUG_LGlobal_Jump = MatchMode_N2N;
 --		end
 		if _DEBUG_LGlobal_Jump ~= -1 then
-			game.SetMatchMode(_DEBUG_LGlobal_Jump);
+			game.SetGameMode(_DEBUG_LGlobal_Jump);
 			for i=0, 1 do
 				local nowID, lastID, lastID_Sub_1, lastID_Sub_2, lastMatchID, lastMatchID_Sub_1, lastMatchID_Sub_2 = hdss.Get(HDSS_CHARA, i);
 				hdssSETCHARA(i, lastMatchID, lastMatchID_Sub_1, lastMatchID_Sub_2);

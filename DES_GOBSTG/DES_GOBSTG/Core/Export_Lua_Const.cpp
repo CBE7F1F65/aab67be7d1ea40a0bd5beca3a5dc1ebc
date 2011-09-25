@@ -1,7 +1,7 @@
 #ifndef __NOTUSELUA
 
 #include "../Header/Export_Lua.h"
-#include "../Header/LuaConstDefine.h"
+#include "../Header/Export_Lua_Const.h"
 #include "../Header/BResource.h"
 
 bool Export_Lua::_LuaRegistConst(LuaObject * obj)
@@ -171,14 +171,89 @@ bool Export_Lua::_LuaRegistConst(LuaObject * obj)
 bool Export_Lua::_LuaRegistCustomConst(LuaObject * obj)
 {
 	// CustomConst
+	BResource * pbres = &(BResource::bres);
+	if (!pbres->customconstdata)
+	{
+		return false;
+	}
 	for (int i=0; i<SCR_CUSTOMCONSTMAX; i++)
 	{
-		if (strlen(BResource::bres.customconstdata[i].name))
+		if (strlen(pbres->customconstdata[i].name))
 		{
-			obj->SetInteger(BResource::bres.customconstdata[i].name, BResource::bres.customconstdata[i].value);
+			obj->SetInteger(pbres->customconstdata[i].name, pbres->customconstdata[i].value);
 		}
 	}
 
+	return true;
+}
+
+bool Export_Lua::_LuaRegistTEX(LuaObject * obj)
+{
+	// TEX
+	BResource * pbres = &(BResource::bres);
+	for (int i=0; i<DATASTRUCT_TEXMAX; i++)
+	{
+		if (strlen(pbres->texturedata[i].texname))
+		{
+			obj->SetInteger(pbres->texturedata[i].texname, i);
+		}
+	}
+	return true;
+}
+
+bool Export_Lua::_LuaRegistSIID(LuaObject * obj)
+{
+	// SIID
+	BResource * pbres = &(BResource::bres);
+	for (int i=0; i<pbres->spritenumber; i++)
+	{
+		if (strlen(pbres->spritedata[i].spritename))
+		{
+			obj->SetInteger(pbres->spritedata[i].spritename, i);
+		}
+	}
+	return true;
+}
+
+bool Export_Lua::_LuaRegistMUSICID(LuaObject * obj)
+{
+	// MusicID
+	BResource * pbres = &(BResource::bres);
+	for (int i=0; i<DATASTRUCT_MUSICMAX; i++)
+	{
+		if (strlen(pbres->musdata[i].musicname))
+		{
+			obj->SetInteger(pbres->musdata[i].musicname, i);
+		}
+	}
+	return true;
+}
+
+bool Export_Lua::_LuaRegistSEID(LuaObject * obj)
+{
+	// SEID
+	BResource * pbres = &(BResource::bres);
+	for (int i=0; i<DATASTRUCT_SEMAX; i++)
+	{
+		if (strlen(pbres->sedata[i].sename))
+		{
+			obj->SetInteger(pbres->sedata[i].sename, i);
+		}
+	}
+	return true;
+}
+
+bool Export_Lua::_LuaRegistEFFID(LuaObject * obj)
+{
+	// EffID
+	BResource * pbres = &(BResource::bres);
+	for (int i=0; i<DATASTRUCT_EFFECTMAX; i++)
+	{
+		if (strlen(pbres->effdata[i].effname))
+		{
+			obj->SetInteger(pbres->effdata[i].effname, i);
+		}
+	}
 	return true;
 }
 

@@ -84,7 +84,7 @@ public:
 	BYTE	arrange;
 	BYTE	playerindex;
 
-	static hgeSprite * sprite[PLAYERSHOOTTYPEMAX][PLAYERBULLETTYPE];
+	static hgeSprite * sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
 	static DWORD bcol0, bcol1, bcol2, bcol3;
 	static int locked[M_PL_MATCHMAXPLAYER];
 	static int activelocked[M_PL_MATCHMAXPLAYER];

@@ -7,8 +7,8 @@ BResource BResource::bres;
 BResource::BResource()
 {
 	ZeroMemory(&resdata, RSIZE_RESOURCE);
-	ZeroMemory(tex, sizeof(HTEXTURE) * TEXMAX);
-	ZeroMemory(texinfo, sizeof(hgeTextureInfo) * TEXMAX);
+	ZeroMemory(tex, sizeof(HTEXTURE) * DATASTRUCT_TEXMAX);
+	ZeroMemory(texinfo, sizeof(hgeTextureInfo) * DATASTRUCT_TEXMAX);
 	customconstdata = NULL;
 	spritenumber = 0;
 	spritedata = NULL;
@@ -497,7 +497,7 @@ bool BResource::LoadPackage(int packindex)
 
 bool BResource::LoadAllPackage()
 {
-	for(int i=0; i<PACKAGEMAX; i++)
+	for(int i=0; i<DATASTRUCT_PACKAGEMAX; i++)
 	{
 		if (!LoadPackage(i))
 		{
@@ -509,25 +509,25 @@ bool BResource::LoadAllPackage()
 
 void BResource::InitTexinfo()
 {
-	for (int i=0; i<TEXMAX; i++)
+	for (int i=0; i<DATASTRUCT_TEXMAX; i++)
 	{
 		texinfo[i].tex = NULL;
 		texinfo[i].texw = texturedata[i].width;
 		texinfo[i].texh = texturedata[i].height;
 	}
-	for (int i=0; i<TEXMAX; i++)
+	for (int i=0; i<DATASTRUCT_TEXMAX; i++)
 	{
 		tex[i].texindex = i;
 		texinfo[i].tex = &tex[i].tex;
 	}
-	hge->Gfx_SetTextureInfo(TEXMAX, texinfo);
+	hge->Gfx_SetTextureInfo(DATASTRUCT_TEXMAX, texinfo);
 }
 
 bool BResource::LoadTexture( int texindex/*=-1*/ )
 {
 	if (texindex < 0)
 	{
-		for (int i=0; i<TEXMAX; i++)
+		for (int i=0; i<DATASTRUCT_TEXMAX; i++)
 		{
 			LoadTexture(i);
 		}
@@ -569,7 +569,7 @@ bool BResource::FreeTexture( int texindex/*=-1*/ )
 {
 	if (texindex < 0)
 	{
-		for (int i=0; i<TEXMAX; i++)
+		for (int i=0; i<DATASTRUCT_TEXMAX; i++)
 		{
 			FreeTexture(i);
 		}

@@ -4,6 +4,7 @@
 #include "MainDependency.h"
 #include "Const.h"
 #include "BObject.h"
+#include "DataStruct.h"
 
 #define EFFECTSYSMAX		0x100
 #define EFFID_LEFTIDBEGIN	0x0
@@ -51,7 +52,7 @@ public:
 	BYTE tarAim;
 	BYTE playerindex;
 
-	static hgeEffectSystem efftype[EFFECTSYSTYPEMAX];
+	static hgeEffectSystem efftype[DATASTRUCT_EFFECTMAX];
 	static VectorList<Effectsys> effsys[M_PL_MATCHMAXPLAYER];
 };
 

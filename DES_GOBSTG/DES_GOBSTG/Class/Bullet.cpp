@@ -18,7 +18,7 @@
 #define _BULLETRENDERFLAG_NONE	0
 #define _BULLETRENDERFLAG_ROUND	1
 
-RenderDepth Bullet::renderDepth[M_PL_MATCHMAXPLAYER][BULLETTYPEMAX];
+RenderDepth Bullet::renderDepth[M_PL_MATCHMAXPLAYER][DATASTRUCT_BULLETTYPEMAX];
 
 int Bullet::_actionList[M_PL_MATCHMAXPLAYER][BULLETACTIONMAX];
 hgeSprite * Bullet::sprite[BULLETTYPECOLORMAX];
@@ -45,10 +45,10 @@ void Bullet::Init()
 
 	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
 	{
-		ZeroMemory(renderDepth[i], sizeof(RenderDepth) * BULLETTYPEMAX);
+		ZeroMemory(renderDepth[i], sizeof(RenderDepth) * DATASTRUCT_BULLETTYPEMAX);
 		bu[i].init(BULLETMAX);
 	}
-	for (int i=0; i<BULLETTYPEMAX; i++)
+	for (int i=0; i<DATASTRUCT_BULLETTYPEMAX; i++)
 	{
 		bulletData * tbd = &BResource::bres.bulletdata[i];
 		int tnum = tbd->nRoll;
@@ -166,7 +166,7 @@ void Bullet::Action()
 		bulletcount[j] = 0;
 		if (bu[j].getSize())
 		{
-			ZeroMemory(Bullet::renderDepth[j], sizeof(RenderDepth) * BULLETTYPEMAX);
+			ZeroMemory(Bullet::renderDepth[j], sizeof(RenderDepth) * DATASTRUCT_BULLETTYPEMAX);
 			DWORD i = 0;
 			DWORD size = bu[j].getSize();
 			DWORD stopflag = Process::mp.GetStopFlag();
@@ -206,7 +206,7 @@ void Bullet::RenderAll(BYTE playerindex)
 	playerindex = 0;
 	if (bu[playerindex].getSize())
 	{
-		for (int i=0; i<BULLETTYPEMAX; i++)
+		for (int i=0; i<DATASTRUCT_BULLETTYPEMAX; i++)
 		{
 			if (Bullet::renderDepth[playerindex][i].haveType)
 			{

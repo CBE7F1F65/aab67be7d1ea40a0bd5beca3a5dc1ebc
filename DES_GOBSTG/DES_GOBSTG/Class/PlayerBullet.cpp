@@ -16,7 +16,7 @@ VectorList<PlayerBullet> PlayerBullet::pb[M_PL_MATCHMAXPLAYER];
 int PlayerBullet::locked[M_PL_MATCHMAXPLAYER];
 int PlayerBullet::activelocked[M_PL_MATCHMAXPLAYER];
 
-hgeSprite * PlayerBullet::sprite[PLAYERSHOOTTYPEMAX][PLAYERBULLETTYPE];
+hgeSprite * PlayerBullet::sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
 
 DWORD PlayerBullet::bcol0;
 DWORD PlayerBullet::bcol1;
@@ -66,9 +66,9 @@ void PlayerBullet::Init()
 		activelocked[i] = PBLOCK_LOST;
 	}
 
-	for (int i=0; i<PLAYERSHOOTTYPEMAX; i++)
+	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
 	{
-		for (int j=0; j<PLAYERBULLETTYPE; j++)
+		for (int j=0; j<DATASTRUCT_PLAYERBULLETTYPE; j++)
 		{
 			sprite[i][j] = SpriteItemManager::CreateSprite(BResource::bres.playershootdata[i].siid+(((BResource::bres.playershootdata[i].flag)&PBFLAG_ANIMATION)?j:0));
 		}
@@ -77,9 +77,9 @@ void PlayerBullet::Init()
 
 void PlayerBullet::Release()
 {
-	for (int i=0; i<PLAYERSHOOTTYPEMAX; i++)
+	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
 	{
-		for (int j=0; j<PLAYERBULLETTYPE; j++)
+		for (int j=0; j<DATASTRUCT_PLAYERBULLETTYPE; j++)
 		{
 			SpriteItemManager::FreeSprite(&sprite[i][j]);
 		}
@@ -157,7 +157,7 @@ void PlayerBullet::BuildShoot(BYTE playerindex, BYTE playerID, int usetimer, boo
 {
 	playerindex = 0;
 	playershootData * item;
-	for (int i=0; i<PLAYERSHOOTTYPEMAX; i++)
+	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
 	{
 		item = &(BResource::bres.playershootdata[i]);
 		if (item->userID == playerID)
@@ -259,7 +259,7 @@ void PlayerBullet::valueSet(BYTE _playerindex, WORD _ID, BYTE _arrange, float _x
 		hscale = M_CLIENT_HEIGHT / SpriteItemManager::GetTexW(BResource::bres.playershootdata[ID].siid);
 		vscale = scale / SpriteItemManager::GetTexH(BResource::bres.playershootdata[ID].siid);
 		angle = -9000;
-		for (int i=0; i<PLAYERBULLETTYPE; i++)
+		for (int i=0; i<DATASTRUCT_PLAYERBULLETTYPE; i++)
 		{
 			sprite[ID][i]->SetBlendMode(BLEND_ALPHAADD);
 		}
@@ -583,7 +583,7 @@ void PlayerBullet::action()
 					if (timer % (PB_FADEOUTTIME / 3 + 1) == 1)
 					{
 						animation++;
-						if (animation >= PLAYERBULLETTYPE)
+						if (animation >= DATASTRUCT_PLAYERBULLETTYPE)
 						{
 							animation = 0;
 						}
@@ -652,9 +652,9 @@ void PlayerBullet::action()
 			if (timer % (PB_FADEOUTTIME / 3 + 1) == 1)
 			{
 				animation++;
-				if (animation >= PLAYERBULLETTYPE)
+				if (animation >= DATASTRUCT_PLAYERBULLETTYPE)
 				{
-					animation = PLAYERBULLETTYPE-1;
+					animation = DATASTRUCT_PLAYERBULLETTYPE-1;
 				}
 			}
 		}

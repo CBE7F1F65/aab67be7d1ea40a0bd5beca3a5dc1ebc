@@ -662,7 +662,7 @@ void Player::action()
 	if(!(flag & PLAYER_GRAZE))
 		effGraze.Stop();
 
-	for(int i=0;i<PLAYERGHOSTMAX;i++)
+	for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
 	{
 		if (pg[i].exist)
 		{
@@ -911,7 +911,7 @@ bool Player::SlowChange()
 	{
 		ResetPlayerGhost();
 		SE::push(SE_PLAYER_SLOWON, x);
-		for(int i=0;i<PLAYERGHOSTMAX;i++)
+		for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
 		{
 			pg[i].timer = 0;
 		}
@@ -938,7 +938,7 @@ bool Player::FastChange()
 	{
 		ResetPlayerGhost();
 		SE::push(SE_PLAYER_SLOWOFF, x);
-		for(int i=0;i<PLAYERGHOSTMAX;i++)
+		for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
 		{
 			pg[i].timer = 0;
 		}
@@ -1109,12 +1109,12 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 void Player::ResetPlayerGhost(bool move /* = false */)
 {
 	int tid = nowID;
-	tid *= PLAYERGHOSTMAX * 2;
+	tid *= DATASTRUCT_PLAYERGHOSTMAX * 2;
 	if (bSlow)
 	{
-		tid += PLAYERGHOSTMAX;
+		tid += DATASTRUCT_PLAYERGHOSTMAX;
 	}
-	for (int i=0; i<PLAYERGHOSTMAX; i++)
+	for (int i=0; i<DATASTRUCT_PLAYERGHOSTMAX; i++)
 	{
 		pg[i].valueSet(playerindex, tid+i, move);
 	}
@@ -1136,7 +1136,7 @@ void Player::RenderEffect()
 {
 	effGraze.Render();
 
-	for(int i=0;i<PLAYERGHOSTMAX;i++)
+	for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
 	{
 		if (pg[i].exist)
 		{

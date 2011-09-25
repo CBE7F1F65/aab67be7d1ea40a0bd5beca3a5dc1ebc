@@ -1,7 +1,7 @@
 #ifndef __NOTUSELUA
 
 #include "../Header/Export_Lua_HGE.h"
-#include "../Header/LuaConstDefine.h"
+#include "../Header/Export_Lua_Const.h"
 #include "../Header/Export.h"
 #include "../Header/SpriteItemManager.h"
 

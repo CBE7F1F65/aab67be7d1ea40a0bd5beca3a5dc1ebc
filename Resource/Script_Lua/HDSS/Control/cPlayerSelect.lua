@@ -209,7 +209,7 @@ function _CEPlayerSelect_SyncInput(bleftcomplete, brightcomplete)
 		end
 	end
 	
-	local matchmode = game.GetMatchMode();
+	local matchmode = game.GetGameMode();
 	if (matchmode == MatchMode_P2C or matchmode == MatchMode_C2C) and bleftcomplete or
 		matchmode == MatchMode_C2P and not brightcomplete then
 		if hdss.Get(HDSS_CHECKKEY, 0, KSI_UP) then

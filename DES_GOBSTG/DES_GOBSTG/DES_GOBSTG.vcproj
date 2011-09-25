@@ -388,6 +388,10 @@
 					Name="Export_Lua"
 					>
 					<File
+						RelativePath=".\Core\_LObjNode.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Core\Export_Lua.cpp"
 						>
 					</File>
@@ -699,10 +703,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Header\LuaConstDefine.h"
-					>
-				</File>
-				<File
 					RelativePath=".\Header\Main.h"
 					>
 				</File>
@@ -739,6 +739,10 @@
 					>
 					<File
 						RelativePath=".\Header\Export_Lua.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Header\Export_Lua_Const.h"
 						>
 					</File>
 					<File

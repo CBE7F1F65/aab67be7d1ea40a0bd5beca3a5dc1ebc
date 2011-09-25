@@ -3,6 +3,7 @@
 
 #include "../DES_GOBSTG/DES_GOBSTG/header/MainDependency.h"
 #include "../DES_GOBSTG/DES_GOBSTG/header/Const.h"
+#include "../DES_GOBSTG/DES_GOBSTG/header/DataStruct.h"
 #include "../include/hgeEffectSystem.h"
 
 #define M_ACTIVECLIENT_LEFT		0.0f
@@ -167,7 +168,7 @@ public:
 	hgeSprite * panel;
 	hgeSprite * button;
 
-	HTEXTURE tex[TEXMAX];
+	HTEXTURE tex[DATASTRUCT_TEXMAX];
 	hgeFont * font;
 
 	char filename[M_PATHMAX];
@@ -176,8 +177,8 @@ public:
 
 	UIinfo iteminfo[UIITEMMAX];
 
-	hgeEffectSystem * eff[EFFECTSYSTYPEMAX];
-	int texnum[EFFECTSYSTYPEMAX];
+	hgeEffectSystem * eff[DATASTRUCT_EFFECTMAX];
+	int texnum[DATASTRUCT_EFFECTMAX];
 	int bgtex;
 };
 

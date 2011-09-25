@@ -3,27 +3,75 @@
 
 #include "Const.h"
 
+#define DATASTRUCT_CUSTOMCONSTMAX	0x100
+#define DATASTRUCT_TEXMAX			0x300
+#define DATASTRUCT_MUSICMAX			0x10
+#define DATASTRUCT_EFFECTMAX		0x100
+#define DATASTRUCT_SPRITEMAX		0x400
+#define DATASTRUCT_ITEMMAX			0x20
+#define DATASTRUCT_ENEMYMAX			0x100
+#define DATASTRUCT_BULLETTYPEMAX	0x40
+#define DATASTRUCT_ENEMYTYPEMAX		0x50
+#define DATASTRUCT_PLAYERTYPEMAX	0x20
+#define DATASTRUCT_PLAYERGHOSTMAX		4
+#define DATASTRUCT_PLAYERSHOOTTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX * (DATASTRUCT_PLAYERGHOSTMAX + 2))
+#define DATASTRUCT_PLAYERGHOSTTYPEMAX	(DATASTRUCT_PLAYERGHOSTMAX * DATASTRUCT_PLAYERTYPEMAX * 2)
+#define DATASTRUCT_SCENEMAX			DATASTRUCT_PLAYERTYPEMAX
+#define DATASTRUCT_PLAYERBULLETTYPE		4
+#define DATASTRUCT_PACKAGEMAX			0x20
+#define DATASTRUCT_SEMAX				0x80
+#define DATASTRUCT_FONTSYSMAX			0x40
+#define DATASTRUCT_STRINGDESCMAX		0x400
+
 struct customconstData{
-	char name[M_STRMAX];
+	char name[M_STRKEYMAX];
 	int value;
 };
 
 struct textureData
 {
 	char texfilename[M_STRMAX];
+	char texname[M_STRKEYMAX];
 	int width;
 	int height;
 };
 
 struct musicData{
-	char musicname[M_STRMAX];
 	char musicfilename[M_PATHMAX];
+	char musicname[M_STRKEYMAX];
 #ifdef __IPHONE
 	char _unused[4];
 #endif
 	LONGLONG startpos;
 	LONGLONG introlength;
 	LONGLONG alllength;
+};
+
+struct spriteData 
+{
+	char spritename[M_STRKEYMAX];
+	float tex_x;
+	float tex_y;
+	float tex_w;
+	float tex_h;
+	int tex;
+};
+
+struct seData
+{
+	char sefilename[M_STRMAX];
+	char sename[M_STRKEYMAX];
+};
+
+struct effectData
+{
+	char efffilename[M_STRMAX];
+	char effname[M_STRKEYMAX];
+};
+
+struct itemData
+{
+	int siid;
 };
 
 struct spellData{
@@ -70,9 +118,9 @@ struct uiStringData
 struct resourceData
 {
 	//resource file
-	char sefilename[SEMAX][M_PATHMAX];
-	char effectsysfilename[EFFECTSYSTYPEMAX][M_PATHMAX];
-	char packagefilename[PACKAGEMAX][M_PATHMAX];
+	char sefilename[DATASTRUCT_SEMAX][M_PATHMAX];
+	char effectsysfilename[DATASTRUCT_EFFECTMAX][M_PATHMAX];
+	char packagefilename[DATASTRUCT_PACKAGEMAX][M_PATHMAX];
 
 	//font
 	char fontfilename[M_STRMAX];
@@ -205,16 +253,6 @@ struct playerData
 	BYTE leftFrame;
 	BYTE rightPreFrame;
 	BYTE rightFrame;
-};
-
-struct spriteData 
-{
-	char spritename[M_STRMAX];
-	float tex_x;
-	float tex_y;
-	float tex_w;
-	float tex_h;
-	int tex;
 };
 
 struct playershootData 

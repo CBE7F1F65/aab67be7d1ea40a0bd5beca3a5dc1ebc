@@ -336,7 +336,7 @@ void BGLayer::Action(bool active)
 						bglayerset[j][i].timer++;
 						setindex = i;
 
-						Scripter::scr.Execute(SCR_SCENE, bglayerset[j][i].sID+j*PLAYERTYPEMAX, bglayerset[j][i].timer);
+						Scripter::scr.Execute(SCR_SCENE, bglayerset[j][i].sID+j*DATASTRUCT_PLAYERTYPEMAX, bglayerset[j][i].timer);
 					}
 				}
 			}
@@ -413,7 +413,7 @@ void BGLayer::BGLayerSetup(BYTE playerindex, BYTE setID, WORD sID/* =BGLAYERSET_
 	{
 		if (osID != BGLAYERSET_NONE && osID != setID)
 		{
-			Scripter::scr.Execute(SCR_SCENE, osID+playerindex*PLAYERTYPEMAX, SCRIPT_CON_POST);
+			Scripter::scr.Execute(SCR_SCENE, osID+playerindex*DATASTRUCT_PLAYERTYPEMAX, SCRIPT_CON_POST);
 		}
 		bglayerset[playerindex][setID].sID = sID;
 		bglayerset[playerindex][setID].timer = 0;

@@ -3,11 +3,16 @@
 #include "../Header/Export_Lua.h"
 #include "../Header/Export_Lua_HGEHelp.h"
 #include "../Header/Const.h"
-#include "../Header/LuaConstDefine.h"
+#include "../Header/Export_Lua_Const.h"
 #include "../Header/ConstResource.h"
 
 LuaStateOwner Export_Lua::state;
+#ifdef _DEBUG
+lua_Debug Export_Lua::debug_ar;
+#endif
 HGE * Export_Lua::hge = NULL;
+
+_LObjNode Export_Lua::node;
 
 Export_Lua::Export_Lua()
 {
@@ -20,9 +25,6 @@ Export_Lua::~Export_Lua()
 
 void Export_Lua::Release(LuaState * ls /* = NULL */)
 {
-	Export_Lua_HGEHelp::_LuaHelper_hgeFont_DeleteAllFont();
-	Export_Lua_HGEHelp::_LuaHelper_hgeSprite_DeleteAllSprite();
-	Export_Lua_HGEHelp::_LuaHelper_hgeES_DeleteAllES();
 	ReleaseHGE();
 }
 
@@ -255,6 +257,7 @@ int Export_Lua::LoadPackedLuaFiles(LuaState * ls)
 	int iret = 0;
 	if (CheckUseUnpackedFiles(ls))
 	{
+		hge->Resource_DeleteFile(hge->Resource_MakePath(DEFAULT_BINLUAFILE));
 		return iret;
 	}
 	hge->Resource_AttachPack(DEFAULT_BINSCRIPTFILE, M_SCRIPT_PASSWORD);
