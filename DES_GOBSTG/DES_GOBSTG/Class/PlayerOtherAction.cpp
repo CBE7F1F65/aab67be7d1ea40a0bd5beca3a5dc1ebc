@@ -9,7 +9,7 @@
 
 #include "../header/GameAI.h"
 
-#define _PLAYER_ANIMATIONSPEED	8
+#define _PLAYER_ANIMATIONSPEED	4
 
 #define _PLAYER_WINFLAG_1	0x01
 #define _PLAYER_WINFLAG_2	0x02

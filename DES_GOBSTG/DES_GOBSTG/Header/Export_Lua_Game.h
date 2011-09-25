@@ -18,7 +18,6 @@ public:
 	static int LuaFn_Game_GetGameMode(LuaState * ls);
 	static int LuaFn_Game_GetPlayerContentTable(LuaState * ls);
 	static int LuaFn_Game_GetSceneContentTable(LuaState * ls);
-	static int LuaFn_Game_GetPlayerShotInfo(LuaState * ls);
 	static int LuaFn_Game_GetPlayerStopInfo(LuaState * ls);
 	static int LuaFn_Game_GetEnumReplayInfo(LuaState * ls);
 	static int LuaFn_Game_SetEnumReplayByIndex(LuaState * ls);

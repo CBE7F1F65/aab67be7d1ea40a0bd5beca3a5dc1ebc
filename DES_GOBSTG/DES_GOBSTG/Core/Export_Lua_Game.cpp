@@ -20,7 +20,6 @@ bool Export_Lua_Game::_LuaRegistFunction(LuaObject * obj)
 	_gameobj.Register("GetGameMode", LuaFn_Game_GetGameMode);
 	_gameobj.Register("GetPlayerContentTable", LuaFn_Game_GetPlayerContentTable);
 	_gameobj.Register("GetSceneContentTable", LuaFn_Game_GetSceneContentTable);
-	_gameobj.Register("GetPlayerShotInfo", LuaFn_Game_GetPlayerShotInfo);
 	_gameobj.Register("GetPlayerStopInfo", LuaFn_Game_GetPlayerStopInfo);
 	_gameobj.Register("GetEnumReplayInfo", LuaFn_Game_GetEnumReplayInfo);
 	_gameobj.Register("SetEnumReplayByIndex", LuaFn_Game_SetEnumReplayByIndex);
@@ -34,66 +33,74 @@ bool Export_Lua_Game::_LuaRegistFunction(LuaObject * obj)
 
 int Export_Lua_Game::LuaFn_Game_Random_Int(LuaState * ls)
 {
-	LuaStack args(ls);
+	_ENTERFUNC_LUA(0);
 
-	int argscount = args.Count();
 	int _imin = 0;
 	int _imax = RAND_MAX;
 	int _seed;
 	int * _pseed = NULL;
-	if (argscount > 0)
+
+	node.jNextGet();
+	if (node.bhavenext)
 	{
-		_imin = args[1].GetInteger();
-		if (argscount > 1)
+		_imin = node.iGet();
+		node.jNextGet();
+		if (node.bhavenext)
 		{
-			_imax = args[2].GetInteger();
-			if (argscount > 2)
+			_imax = node.iGet();
+			node.jNextGet();
+			if (node.bhavenext)
 			{
-				_seed = args[3].GetInteger();
+				_seed = node.iGet();
 				_pseed = &_seed;
 			}
 		}
 	}
+
 	int _iret = randt(_imin, _imax, _pseed);
-	ls->PushInteger(_iret);
+	node.PInt(_iret);
 	if (_pseed)
 	{
-		ls->PushInteger(_seed);
-		return 2;
+		node.PInt(_seed);
 	}
-	return 1;
+
+	_LEAVEFUNC_LUA;
 }
 
 int Export_Lua_Game::LuaFn_Game_Random_Float(LuaState * ls)
 {
-	LuaStack args(ls);
+	_ENTERFUNC_LUA(0);
 
-	int argscount = args.Count();
 	float _fmin = 0.0f;
 	float _fmax = 1.0f;
 	int _seed;
 	int * _pseed = NULL;
-	if (argscount > 0)
+
+	node.jNextGet();
+	if (node.bhavenext)
 	{
-		_fmin = args[1].GetFloat();
-		if (argscount > 1)
+		_fmin = node.fGet();
+		node.jNextGet();
+		if (node.bhavenext)
 		{
-			_fmax = args[2].GetFloat();
-			if (argscount > 2)
+			_fmax = node.fGet();
+			node.jNextGet();
+			if (node.bhavenext)
 			{
-				_seed = args[3].GetInteger();
+				_seed = node.iGet();
 				_pseed = &_seed;
 			}
 		}
 	}
-	float _fret = randtf(_fmin, _fmax);
-	ls->PushNumber(_fret);
+
+	float _fret = randtf(_fmin, _fmax, _pseed);
+	node.PFloat(_fret);
 	if (_pseed)
 	{
-		ls->PushInteger(_seed);
-		return 2;
+		node.PInt(_seed);
 	}
-	return 1;
+
+	_LEAVEFUNC_LUA;
 }
 
 int Export_Lua_Game::LuaFn_Game_SetGameMode(LuaState * ls)
@@ -164,22 +171,6 @@ int Export_Lua_Game::LuaFn_Game_GetSceneContentTable(LuaState * ls)
 		return 1;
 	}
 	return 0;
-}
-
-int Export_Lua_Game::LuaFn_Game_GetPlayerShotInfo(LuaState * ls)
-{
-	LuaStack args(ls);
-
-	BYTE _playerindex = args[1].GetInteger();
-	_playerindex = 0;
-	ls->PushInteger(Player::p[_playerindex].nowID);
-	ls->PushInteger(Player::p[_playerindex].nLife);
-	ls->PushInteger(Player::p[_playerindex].shottimer);
-	ls->PushInteger(Player::p[_playerindex].shotdelay);
-	BYTE _ncharge, _nchargemax;
-	ls->PushInteger(_nchargemax);
-
-	return 5;
 }
 
 int Export_Lua_Game::LuaFn_Game_GetPlayerStopInfo(LuaState * ls)
@@ -287,37 +278,44 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerMoveInfo(LuaState * ls)
 
 int Export_Lua_Game::LuaFn_Game_LoadTexture(LuaState * ls)
 {
-	LuaStack args(ls);
+	_ENTERFUNC_LUA(0);
+
 	int _texindex = -1;
 
-	if (args.Count() > 0)
+	node.jNextGet();
+	if (node.bhavenext)
 	{
-		_texindex = args[1].GetInteger();
+		_texindex = node.iGet();
 	}
 
 	bool bret = BResource::bres.LoadTexture(_texindex);
-	ls->PushBoolean(bret);
-	return 1;
+	node.PBoolean(bret);
+
+	_LEAVEFUNC_LUA;
 }
 
 int Export_Lua_Game::LuaFn_Game_FreeTexture(LuaState * ls)
 {
-	LuaStack args(ls);
+	_ENTERFUNC_LUA(0);
+
 #ifndef __WIN32
+
 	int _texindex = -1;
 
-	if (args.Count() > 0)
+	node.jNextGet();
+	if (node.bhavenext)
 	{
-		_texindex = args[1].GetInteger();
+		_texindex = node.iGet();
 	}
 
 	bool bret = BResource::bres.FreeTexture(_texindex);
-	ls->PushBoolean(bret);
+	node.PBoolean(bret);
+
 #else
 	ls->PushBoolean(true);
 #endif // __WIN32
 
-	return 1;
+	_LEAVEFUNC_LUA;
 }
 
 #endif

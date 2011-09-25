@@ -1,8 +1,3 @@
-function _EventExecute_PlayerShot(playerindex)
-	local playerID, nLife, shottimer, shotdelay, nchargemax = game.GetPlayerShotInfo(playerindex);
-	return LTable_ePlayerShotFunction[playerID+1](playerindex, playerID, nLife, shottimer, shotdelay, nchargemax);
-end
-
 function _EventExecute_EffspChase(playerindex)
 end
 
@@ -19,8 +14,6 @@ function EventExecute(name, con)
 
 	if name == EVENT_EFFSPCHASE then
 		return _EventExecute_EffspChase(con);
-	elseif name == EVENT_PLAYERSHOT then
-		return _EventExecute_PlayerShot(con);
 	elseif name == EVENT_BOSSFADEOUT then
 		return _EventExecute_BossFadeout(con);
 	elseif name == EVENT_PLAYERINSTOP then
