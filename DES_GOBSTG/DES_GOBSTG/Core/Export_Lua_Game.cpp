@@ -196,14 +196,11 @@ int Export_Lua_Game::LuaFn_Game_GetEnumReplayInfo(LuaState * ls)
 	_table.SetInteger("day", Replay::enumrpy[_index].rpyinfo.day);
 	LuaStackObject _usernametable = _table.CreateTable("username");
 	LuaStackObject _usingcharatable = _table.CreateTable("usingchara");
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	_usernametable.SetString(1, Replay::enumrpy[_index].rpyinfo.username);
+	LuaStackObject _usingcharasubtable = _usingcharatable.CreateTable(1);
+	for (int j=0; j<M_PL_ONESETPLAYER; j++)
 	{
-		_usernametable.SetString(i+1, Replay::enumrpy[_index].rpyinfo.username[i]);
-		LuaStackObject _usingcharasubtable = _usingcharatable.CreateTable(i+1);
-		for (int j=0; j<M_PL_ONESETPLAYER; j++)
-		{
-			_usingcharasubtable.SetString(j+1, Data::data.getPlayerName(Replay::enumrpy[_index].rpyinfo.usingchara[i][j]));
-		}
+		_usingcharasubtable.SetString(j+1, Data::data.getPlayerName(Replay::enumrpy[_index].rpyinfo.usingchara[j]));
 	}
 	ls->PushString(Replay::enumrpy[_index].filename);
 	ls->PushValue(_table);
@@ -233,16 +230,15 @@ int Export_Lua_Game::LuaFn_Game_GetEdefInfo(LuaState * ls)
 {
 	LuaStack args(ls);
 	int _name = args[1].GetInteger();
-	BYTE _playerindex = _name>>16;
-//	_playerindex = 0;
+//	 = 0;
 	WORD _eID = _name & 0xffff;
-	ls->PushInteger(_playerindex);
+	ls->PushInteger(0);
 	ls->PushInteger(_eID);
-	ls->PushInteger((*Enemy::en[_playerindex]).level);
-	ls->PushNumber((*Enemy::en[_playerindex]).x);
-	ls->PushNumber((*Enemy::en[_playerindex]).y);
-	ls->PushNumber(Player::p[_playerindex].x);
-	ls->PushNumber(Player::p[_playerindex].y);
+	ls->PushInteger((*Enemy::en).level);
+	ls->PushNumber((*Enemy::en).x);
+	ls->PushNumber((*Enemy::en).y);
+	ls->PushNumber(Player::p.x);
+	ls->PushNumber(Player::p.y);
 	return 7;
 }
 
@@ -250,20 +246,18 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerMoveInfo(LuaState * ls)
 {
 	LuaStack args(ls);
 	int argscount = args.Count();
-	BYTE _playerindex = args[1].GetInteger();
-	_playerindex = 0;
 	int _lastindex = 0;
 	if (argscount > 1)
 	{
 		_lastindex = args[2].GetInteger();
 	}
-	float _lastx = Player::p[_playerindex].lastx[_lastindex];
-	float _lasty = Player::p[_playerindex].lasty[_lastindex];
-	float _lastmx = Player::p[_playerindex].lastmx[_lastindex];
-	float _lastmy = Player::p[_playerindex].lastmy[_lastindex];
-	int _moveangle = BObject::AMainAngle(_lastmx, _lastmy, Player::p[_playerindex].x, Player::p[_playerindex].y);
+	float _lastx = Player::p.lastx[_lastindex];
+	float _lasty = Player::p.lasty[_lastindex];
+	float _lastmx = Player::p.lastmx[_lastindex];
+	float _lastmy = Player::p.lastmy[_lastindex];
+	int _moveangle = BObject::AMainAngle(_lastmx, _lastmy, Player::p.x, Player::p.y);
 	bool _moved = true;
-	if (_lastmx == Player::p[_playerindex].x && _lastmy == Player::p[_playerindex].y)
+	if (_lastmx == Player::p.x && _lastmy == Player::p.y)
 	{
 		_moved = false;
 	}

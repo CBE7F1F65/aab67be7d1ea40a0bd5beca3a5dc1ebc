@@ -4,8 +4,8 @@
 #include "../header/BObject.h"
 #include "../header/Process.h"
 
-int EventZone::bulletActionList[M_PL_MATCHMAXPLAYER][BULLETACTIONMAX];
-list<EventZone> EventZone::ezone[M_PL_MATCHMAXPLAYER];
+int EventZone::bulletActionList[BULLETACTIONMAX];
+list<EventZone> EventZone::ezone;
 
 EventZone::EventZone()
 {
@@ -22,11 +22,8 @@ EventZone::~EventZone()
 
 void EventZone::Clear()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		ezone[i].clear();
-		ZeroMemory(bulletActionList[i], BULLETACTIONMAX*sizeof(int));
-	}
+	ezone.clear();
+	ZeroMemory(bulletActionList, BULLETACTIONMAX*sizeof(int));
 }
 
 void EventZone::Render()
@@ -37,22 +34,19 @@ void EventZone::Render()
 	}
 }
 
-void EventZone::RenderAll(BYTE playerindex)
+void EventZone::RenderAll()
 {
-	playerindex = 0;
-	for (list<EventZone>::iterator it=ezone[playerindex].begin(); it!=ezone[playerindex].end(); it++)
+	for (list<EventZone>::iterator it=ezone.begin(); it!=ezone.end(); it++)
 	{
 		it->Render();
 	}
 }
 
-void EventZone::Build(DWORD _type, BYTE _playerindex, float _x, float _y, int _maxtime, float _rx/* =EVENTZONE_OVERZONE */, float _ry/* =EVENTZONE_OVERZONE */, float _power/* =0 */, DWORD _eventID/* =EVENTZONE_EVENT_NULL */, float _rspeed/* =0 */, int inittimer/* =0 */, int _siid/* =-1 */, int _turnangle/* =0 */)
+void EventZone::Build(DWORD _type, float _x, float _y, int _maxtime, float _rx/* =EVENTZONE_OVERZONE */, float _ry/* =EVENTZONE_OVERZONE */, float _power/* =0 */, DWORD _eventID/* =EVENTZONE_EVENT_NULL */, float _rspeed/* =0 */, int inittimer/* =0 */, int _siid/* =-1 */, int _turnangle/* =0 */)
 {
-	_playerindex = 0;
 	EventZone _ezone;
-	ezone[_playerindex].push_back(_ezone);
-	EventZone * _pezone = &(*(ezone[_playerindex].rbegin()));
-	_pezone->playerindex = _playerindex;
+	ezone.push_back(_ezone);
+	EventZone * _pezone = &(*(ezone.rbegin()));
 	_pezone->type = _type;
 	_pezone->x = _x;
 	_pezone->y = _y;
@@ -73,22 +67,19 @@ void EventZone::Build(DWORD _type, BYTE _playerindex, float _x, float _y, int _m
 
 void EventZone::Action()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	DWORD stopflag = Process::mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_EVENTZONE);
+	if (!binstop)
 	{
-		DWORD stopflag = Process::mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, i, FRAME_STOPFLAG_EVENTZONE);
-		if (!binstop)
+		for (list<EventZone>::iterator it=ezone.begin(); it!=ezone.end();)
 		{
-			for (list<EventZone>::iterator it=ezone[i].begin(); it!=ezone[i].end();)
+			if (it->action())
 			{
-				if (it->action())
-				{
-					it = ezone[i].erase(it);
-				}
-				else
-				{
-					++it;
-				}
+				it = ezone.erase(it);
+			}
+			else
+			{
+				++it;
 			}
 		}
 	}

@@ -12,7 +12,7 @@
 hgeSprite * Item::sprite[ITEMSPRITEMAX];
 
 //VectorList<infoFont> Item::infofont;
-VectorList<Item> Item::mi[M_PL_MATCHMAXPLAYER];
+VectorList<Item> Item::mi;
 
 #define ITEMMAX				0x10
 
@@ -35,57 +35,50 @@ Item::~Item()
 
 void Item::ClearItem()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		mi[i].clear_item();
-	}
+	mi.clear_item();
 //	infofont.clear_item();
 }
 
 void Item::Action()
 {
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
+	DWORD stopflag = Process::mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_ITEM);
+	if (!binstop)
 	{
-		DWORD stopflag = Process::mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, j, FRAME_STOPFLAG_ITEM);
-		if (!binstop)
+		if (mi.getSize())
 		{
-			if (mi[j].getSize())
+			DWORD i = 0;
+			DWORD size = mi.getSize();
+			for (mi.toBegin(); i<size; mi.toNext(), i++)
 			{
-				DWORD i = 0;
-				DWORD size = mi[j].getSize();
-				for (mi[j].toBegin(); i<size; mi[j].toNext(), i++)
+				if (!mi.isValid())
 				{
-					if (!mi[j].isValid())
-					{
-						continue;
-					}
-					if ((*mi[j]).exist)
-					{
-						(*mi[j]).action(j);
-					}
-					else
-					{
-						mi[j].pop();
-					}
+					continue;
+				}
+				if ((*mi).exist)
+				{
+					(*mi).action();
+				}
+				else
+				{
+					mi.pop();
 				}
 			}
 		}
 	}
 }
 
-void Item::RenderAll(BYTE playerindex)
+void Item::RenderAll()
 {
-	playerindex = 0;
-	if (mi[playerindex].getSize())
+	if (mi.getSize())
 	{
 		DWORD i = 0;
-		DWORD size = mi[playerindex].getSize();
-		for (mi[playerindex].toBegin(); i<size; mi[playerindex].toNext(), i++)
+		DWORD size = mi.getSize();
+		for (mi.toBegin(); i<size; mi.toNext(), i++)
 		{
-			if (mi[playerindex].isValid())
+			if (mi.isValid())
 			{
-				(*mi[playerindex]).Render();
+				(*mi).Render();
 			}
 		}
 	}
@@ -94,10 +87,7 @@ void Item::RenderAll(BYTE playerindex)
 void Item::Init()
 {
 	Release();
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		mi[i].init(ITEMMAX);
-	}
+	mi.init(ITEMMAX);
 //	infofont.init(ITEMINFOFONTMAX);
 	int tidx = SpriteItemManager::GetIndexByName(SI_ITEM_GUARD);
 	for(int i=0;i<ITEMTYPEMAX;i++)
@@ -125,15 +115,14 @@ void Item::valueSet(WORD type, float _x, float _y, bool _bDrained, int _angle, f
 	exist	=	true;
 }
 
-int Item::Build(BYTE playerindex, WORD type, float _x, float _y, bool _bDrained /* = false */, int _angle, float _speed)
+int Item::Build(WORD type, float _x, float _y, bool _bDrained /* = false */, int _angle, float _speed)
 {
-	playerindex = 0;
-	if (mi[playerindex].getSize() == ITEMMAX)
+	if (mi.getSize() == ITEMMAX)
 	{
 		return -1;
 	}
-	mi[playerindex].push_back()->valueSet(type, _x, _y, _bDrained, _angle, _speed);
-	return mi[playerindex].getEndIndex();
+	mi.push_back()->valueSet(type, _x, _y, _bDrained, _angle, _speed);
+	return mi.getEndIndex();
 }
 
 void Item::Release()
@@ -143,10 +132,7 @@ void Item::Release()
 		if(sprite[i])
 			SpriteItemManager::FreeSprite(&sprite[i]);
 	}
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		mi[i].clear();
-	}
+	mi.clear();
 //	infofont.clear();
 }
 
@@ -158,38 +144,13 @@ void Item::Render()
 	}
 }
 
-void Item::SendBullet(BYTE playerindex, float x, float y, BYTE setID)
+void Item::action()
 {
-	playerindex = 0;
-	int siidindex = EFFSPSEND_COLOR_RED;
-	if (playerindex)
+	if(Player::p.bSlow && !bDrained && !(Player::p.flag & PLAYER_COLLAPSE || Player::p.flag & PLAYER_SHOT))
 	{
-		siidindex = EFFSPSEND_COLOR_BLUE;
-	}
-	float _hscale = randtf(1.2f, 1.4f);
-	int esindex = EffectSp::Build(setID, playerindex, EffectSp::senditemsiid[siidindex][0], x, y, 0, _hscale);
-	if (esindex >= 0)
-	{
-		EffectSp * _peffsp = &(EffectSp::effsp[playerindex][esindex]);
-		_peffsp->colorSet(0x80ffffff, BLEND_ALPHAADD);
-		float aimx;
-		float aimy;
-		aimx = randtf(M_GAMESQUARE_LEFT_(playerindex) + 8, M_GAMESQUARE_RIGHT_(playerindex) - 8);
-		aimy = randtf(M_GAMESQUARE_TOP, M_GAMESQUARE_TOP + 128);
-		_peffsp->chaseSet(EFFSP_CHASE_FREE, aimx, aimy, randt(45, 60));
-		_peffsp->animationSet(EFFSPSEND_ANIMATIONMAX);
-		_peffsp->AppendData(0, 0);
-	}
-}
-
-void Item::action(BYTE playerindex)
-{
-	playerindex = 0;
-	if(Player::p[playerindex].bSlow && !bDrained && !(Player::p[playerindex].flag & PLAYER_COLLAPSE || Player::p[playerindex].flag & PLAYER_SHOT))
-	{
-//		float rdrain = (Player::p[playerindex].bSlow) ? 64 : 48;
+//		float rdrain = (Player::p.bSlow) ? 64 : 48;
 		float rdrain = 64;
-		if (checkCollisionSquare(Player::p[playerindex].x, Player::p[playerindex].y, rdrain))
+		if (checkCollisionSquare(Player::p.x, Player::p.y, rdrain))
 		{
 			bDrained = true;
 			bFast = false;
@@ -203,9 +164,9 @@ void Item::action(BYTE playerindex)
 				speed = _ITEM_DRAINFASTSPEED;
 			else
 				speed = _ITEM_DRAINSLOWSPEED;
-			float dist = DIST(x, y, Player::p[playerindex].x, Player::p[playerindex].y);
-			x += speed * (Player::p[playerindex].x - x) / dist;
-			y += speed * (Player::p[playerindex].y - y) / dist;
+			float dist = DIST(x, y, Player::p.x, Player::p.y);
+			x += speed * (Player::p.x - x) / dist;
+			y += speed * (Player::p.y - y) / dist;
 		}
 		else
 		{
@@ -224,7 +185,7 @@ void Item::action(BYTE playerindex)
 	}
 	else
 	{
-		headangle += SIGN((int)mi[playerindex].getIndex()) * 600 * speed;
+		headangle += SIGN((int)mi.getIndex()) * 600 * speed;
 	}
 
 	timer++;
@@ -242,12 +203,12 @@ void Item::action(BYTE playerindex)
 		}
 	}
 
-	if (checkCollisionSquare(Player::p[playerindex].x, Player::p[playerindex].y, _ITEM_GETR)
-		&& !(Player::p[playerindex].flag & PLAYER_COLLAPSE))
+	if (checkCollisionSquare(Player::p.x, Player::p.y, _ITEM_GETR)
+		&& !(Player::p.flag & PLAYER_COLLAPSE))
 	{
 		SE::push(SE_ITEM_POWERUP, x);
 
-		Player::p[playerindex].DoItemGet(ID, x, y);
+		Player::p.DoItemGet(ID, x, y);
 
 		exist = false;
 	}

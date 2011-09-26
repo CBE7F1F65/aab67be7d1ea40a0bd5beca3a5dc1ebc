@@ -27,7 +27,7 @@ int Process::frame()
 		return PTURN;
 	}
 #endif
-	if (GameInput::GetKey(0, KSI_SKIP))
+	if (GameInput::GetKey(KSI_SKIP))
 	{
 		if (!replaymode)
 		{

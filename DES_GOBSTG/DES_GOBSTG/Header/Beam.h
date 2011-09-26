@@ -19,10 +19,10 @@ public:
 	~Beam();
 
 	static void Init();
-	static int Build(BYTE playerindex, float x, float y, int angle, float speed, BYTE type, BYTE color, float length, float width = 0, BYTE flag = BEAMFLAG_NONE, int fadeintime = 8, int fadeouttime = 0, BYTE tarID = 0xff);
+	static int Build(float x, float y, int angle, float speed, BYTE type, BYTE color, float length, float width = 0, BYTE flag = BEAMFLAG_NONE, int fadeintime = 8, int fadeouttime = 0, BYTE tarID = 0xff);
 	static void ClearItem();
 	static void Action();
-	static void RenderAll(BYTE playerindex);
+	static void RenderAll();
 
 	void valueSet(WORD ID, float x, float y,int angle, float speed, BYTE type, BYTE color, float length, float width = 0, BYTE flag = BEAMFLAG_NONE, int fadeintime = 8, int fadeouttime = 0, BYTE tarID = 0xff);
 	bool isInRect(float aimx, float aimy, float r, int nextstep=0);
@@ -33,7 +33,7 @@ public:
 	void SetHold(BYTE holdtar, float holdoffset);
 	void SetHold(BYTE holdtar, BYTE pintar, float holdoffset);
 
-	void action(BYTE playerindex);
+	void action();
 
 	void Render();
 
@@ -63,7 +63,7 @@ public:
 
 	BYTE	delaytimer;
 
-	static VectorList<Beam> be[M_PL_MATCHMAXPLAYER];
+	static VectorList<Beam> be;
 };
 
 #endif

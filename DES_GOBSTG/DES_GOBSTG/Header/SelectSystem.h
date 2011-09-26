@@ -22,7 +22,7 @@ public:
 		float hscale = 1, float vscale = 0,
 		BYTE flag = SEL_NULL);
 	void Clear();
-	void Setup(BYTE pushid, int nselect, int select, BYTE playerindex=0, int keyminus=PUSHKEY_KEYNULL, int keyplus=PUSHKEY_KEYNULL, int keyok=PUSHKEY_KEYNULL, int keycancel=PUSHKEY_KEYNULL, int maxtime=SELSYS_DEFAULTMAXTIME);
+	void Setup(BYTE pushid, int nselect, int select, int keyminus=PUSHKEY_KEYNULL, int keyplus=PUSHKEY_KEYNULL, int keyok=PUSHKEY_KEYNULL, int keycancel=PUSHKEY_KEYNULL, int maxtime=SELSYS_DEFAULTMAXTIME);
 	bool SetPageNumber(BYTE nPageNum, float fadebegin, float offset, int initshift=0, int shiftangle=9000);
 	void SetSelectFrame(int siID, float x, float y);
 	void SetAction(BYTE typeflag, float xadj, float yadj);
@@ -67,7 +67,7 @@ public:
 	int keycancel;
 	BYTE pushid;
 
-	BYTE playerindex;
+
 
 	list<Selector>sel;
 

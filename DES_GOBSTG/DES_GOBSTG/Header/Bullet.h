@@ -56,7 +56,7 @@ public:
 	static void Release();
 	static void ClearItem();
 	static void Action();
-	static void RenderAll(BYTE playerindex);
+	static void RenderAll();
 	void Render();
 
 	void action();
@@ -73,16 +73,15 @@ public:
 
 	bool isInRect(float aimx, float aimy, float r, int nextstep=0);
 
-	bool valueSet(BYTE playerindex, WORD ID, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid = 0, BYTE tarID = 0xff);
+	bool valueSet(WORD ID, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid = 0, BYTE tarID = 0xff);
 
-	static int Build(BYTE playerindex, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0, BYTE tarID=0xff);
-	static void BuildCircle(BYTE playerindex, int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
-	static void BuildLine(BYTE playerindex, int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
+	static int Build(float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0, BYTE tarID=0xff);
+	static void BuildCircle(int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
+	static void BuildLine(int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
 
 	void matchFadeInColorType();
 	void matchFadeOutColorType();
 
-	static void SendBullet(BYTE playerindex, float x, float y, BYTE setID, BYTE * sendtime=NULL, float * speed = NULL, int sendbonus=1);
 	void AddSendInfo(BYTE sendsetID, BYTE _sendtime);
 
 	bool passedEvent(DWORD eventID);
@@ -114,7 +113,6 @@ public:
 	BYTE	oldtype;
 	BYTE	color;
 	BYTE	oldcolor;
-	BYTE	playerindex;
 	BYTE	typechangetimer;
 
 	BYTE	sendtime;
@@ -125,14 +123,14 @@ public:
 
 	Effectsys	eff;
 
-	static int _actionList[M_PL_MATCHMAXPLAYER][BULLETACTIONMAX];
+	static int _actionList[BULLETACTIONMAX];
 
-	static RenderDepth renderDepth[M_PL_MATCHMAXPLAYER][DATASTRUCT_BULLETTYPEMAX];
+	static RenderDepth renderDepth[DATASTRUCT_BULLETTYPEMAX];
 	static hgeSprite * sprite[BULLETTYPECOLORMAX];
 	static WORD index;
-	static VectorList<Bullet>bu[M_PL_MATCHMAXPLAYER];
+	static VectorList<Bullet>bu;
 	
-	static int bulletcount[M_PL_MATCHMAXPLAYER];
+	static int bulletcount;
 };
 
 #endif

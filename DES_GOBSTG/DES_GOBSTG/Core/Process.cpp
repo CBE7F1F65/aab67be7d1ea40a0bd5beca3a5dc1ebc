@@ -21,19 +21,16 @@ Process::Process()
 	infodisplayscale = RESCONFIGDEFAULT_INFODISPLAYSCALE;
 	bulletcountmax = RESCONFIGDEFAULT_BULLETCOUNTMAX;
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		rendertar[i] = NULL;
-		sprendertar[i] = NULL;
-		SetShake(i, 0, true);
-				
+	rendertar = NULL;
+	sprendertar = NULL;
+	SetShake(0, true);
+
 #if defined __IPHONE
-		touchMoveID[i] = 0xff;
-		shootTriger[i] = false;
-		drainTriger[i] = false;
-		tapTimer[i] = 0;
+	touchMoveID = 0xff;
+	shootTriger = false;
+	drainTriger = false;
+	tapTimer = 0;
 #endif
-	}
 #if defined __IPHONE
 	ZeroMemory(touchinfo, sizeof(TouchInfo)*TOUCHPOINT_MAX);
 	ZeroMemory(touchdirectmove, sizeof(TouchDirectMove)*M_PL_MATCHMAXPLAYER);
@@ -56,14 +53,9 @@ void Process::Release()
 		hge->	Ini_SetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLSE, sevol);
 
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, screenmode);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1_1, lastmatchchara[0][0]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1_2, lastmatchchara[0][1]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1_3, lastmatchchara[0][2]);
-		/*
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2_1, lastmatchchara[1][0]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2_2, lastmatchchara[1][1]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2_3, lastmatchchara[1][2]);
-		*/
+		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1, lastmatchchara[0]);
+		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2, lastmatchchara[1]);
+		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_3, lastmatchchara[2]);
 
 		if(playing)
 			DataConnector::addPlayTime();
@@ -90,18 +82,16 @@ void Process::Release()
 	hgeEffectSystem::Release();
 	Replay::Release();
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	if (rendertar)
 	{
-		if (rendertar[i])
-		{
-			hge->Target_Free(rendertar[i]);
-		}
-		if (sprendertar[i])
-		{
-			delete sprendertar[i];
-			sprendertar[i] = NULL;
-		}
+		hge->Target_Free(rendertar);
 	}
+	if (sprendertar)
+	{
+		delete sprendertar;
+		sprendertar = NULL;
+	}
+
 	BResource::bres.FreeTexture();
 	if (texInit.tex)
 	{
@@ -134,10 +124,7 @@ void Process::ClearAll()
 		stopflag[i] = 0;
 		stoptimer[i] = 0;
 	}
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		SetShake(i, 0, true);
-	}
+	SetShake(0, true);
 	replayFPS = 0;
 
 //	matchmode = 0;
@@ -156,42 +143,38 @@ void Process::musicSlide(float slidetime, int tovol, int pan, float pitch)
 	}
 }
 
-void Process::SetShake(BYTE playerindex, BYTE round, bool force/* =false */)
+void Process::SetShake(BYTE round, bool force/* =false */)
 {
-	playerindex = 0;
-	if (force || worldshaketimer[playerindex] == 0)
+	if (force || worldshaketimer == 0)
 	{
-		worldshakeround[playerindex] = round;
-		worldshaketimer[playerindex] = worldshakeround[playerindex] * 15;
-		worldx[playerindex] = 0;
-		worldy[playerindex] = 0;
-		worldz[playerindex] = 0;
+		worldshakeround = round;
+		worldshaketimer = worldshakeround * 15;
+		worldx = 0;
+		worldy = 0;
+		worldz = 0;
 	}
 }
 
 void Process::WorldShake()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	DWORD stopflag = mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_WORLDSHAKE);
+	if (!binstop)
 	{
-		DWORD stopflag = mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, i, FRAME_STOPFLAG_WORLDSHAKE);
-		if (!binstop)
+		if (worldshaketimer)
 		{
-			if (worldshaketimer[i])
+			worldshaketimer--;
+			if (!worldshaketimer)
 			{
-				worldshaketimer[i]--;
-				if (!worldshaketimer[i])
-				{
-					worldshakeround[i] = 0;
-					worldx[i] = 0;
-					worldy[i] = 0;
-				}
-				else
-				{
-					int tangle = (worldshakeround[i]*15-worldshaketimer[i]) * 4800;
-					worldx[i] = sint(tangle) * 10;
-					worldy[i] = cost(tangle) * 10;
-				}
+				worldshakeround = 0;
+				worldx = 0;
+				worldy = 0;
+			}
+			else
+			{
+				int tangle = (worldshakeround*15-worldshaketimer) * 4800;
+				worldx = sint(tangle) * 10;
+				worldy = cost(tangle) * 10;
 			}
 		}
 	}
@@ -700,12 +683,11 @@ DWORD Process::GetStopFlag(int index)
 	return _stopflag;	
 }
 
-void Process::SetLastMatchChara(BYTE playerindex, WORD ID, WORD ID_sub_1, WORD ID_sub_2)
+void Process::SetLastMatchChara(WORD ID, WORD ID_sub_1, WORD ID_sub_2)
 {
-	playerindex = 0;
-	lastmatchchara[playerindex][0] = ID;
-	lastmatchchara[playerindex][1] = ID_sub_1;
-	lastmatchchara[playerindex][2] = ID_sub_2;
+	lastmatchchara[0] = ID;
+	lastmatchchara[1] = ID_sub_1;
+	lastmatchchara[2] = ID_sub_2;
 }
 
 #if defined __IPHONE
@@ -737,11 +719,10 @@ void Process::TouchCallback_ButtonDown(float x, float y, int ID)
 void Process::TouchCallback_ButtonUp(float x, float y, int ID)
 {
 	_TranslateTouchPoint(&x, &y);
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++) {
-		if (touchMoveID[i] == ID) {
-			touchMoveID[i] = 0xff;
-			break;
-		}
+	if (touchMoveID == ID)
+	{
+		touchMoveID = 0xff;
+		break;
 	}
 	ZeroMemory(&(touchinfo[ID]), sizeof(TouchInfo));
 }
@@ -750,17 +731,17 @@ void Process::TouchCallback_ButtonUp(float x, float y, int ID)
 void Process::TouchCallback_Move(float x, float y, int ID)
 {
 	_TranslateTouchPoint(&x, &y);
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++) {
-		if (ID == touchMoveID[i]) {
-			if (touchinfo[ID].toupdate) {
-				touchinfo[ID].lastx = touchinfo[ID].x;
-				touchinfo[ID].lasty = touchinfo[ID].y;
-				touchinfo[ID].toupdate = false;
-			}
-			touchinfo[ID].x = x;
-			touchinfo[ID].y = y;
-			break;
+	if (ID == touchMoveID)
+	{
+		if (touchinfo[ID].toupdate)
+		{
+			touchinfo[ID].lastx = touchinfo[ID].x;
+			touchinfo[ID].lasty = touchinfo[ID].y;
+			touchinfo[ID].toupdate = false;
 		}
+		touchinfo[ID].x = x;
+		touchinfo[ID].y = y;
+		break;
 	}
 }
 #endif

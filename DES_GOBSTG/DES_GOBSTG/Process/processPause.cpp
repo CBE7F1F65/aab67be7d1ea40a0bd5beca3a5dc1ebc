@@ -44,17 +44,14 @@ int Process::processPause()
 		Scripter::scr.Execute(SCR_CONTROL, STATE_PAUSE, ((replaymode && replayend) ? STATE_TITLE : STATE_START) | 0xff00);
 		if (state != STATE_PAUSE)
 		{
-			for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-			{
-				GameInput::gameinput[i].updateActiveInput(true);
-			}
+			GameInput::gameinput.updateActiveInput(true);
 			pauseinit = false;
 			if (state != STATE_START)
 			{
 				FrontDisplay::fdisp.SetState(FDISP_PANEL, FDISPSTATE_OFF);
 				for (int i=0; i<M_PL_ONESETPLAYER; i++)
 				{
-					FrontDisplay::fdisp.SetState(FDISP_SPELLNAME_0+i, FDISPSTATE_OFF);
+					FrontDisplay::fdisp.SetState(FDISP_SPELLNAME+i, FDISPSTATE_OFF);
 				}
 				FrontDisplay::fdisp.SetState(FDISP_MUSICNAME, FDISPSTATE_OFF);
 				GameInput::SwapInput(false);

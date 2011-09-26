@@ -2,34 +2,32 @@
 
 void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 {
-	BYTE playerindex = Export::GetPlayerIndexByRenderFlag(renderflag);
 	Export::clientSet3DMode();
-	Export::clientSetMatrix(worldx[playerindex], worldy[playerindex], worldz[playerindex], renderflag);
-	BGLayer::RenderBG(playerindex);
+	Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
+	BGLayer::RenderBG();
 	Export::clientSet2DMode();
-	Export::clientSetMatrix(worldx[playerindex], worldy[playerindex], worldz[playerindex], renderflag);
+	Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
 	if(renderflag != M_RENDER_NULL)
 	{
-		EventZone::RenderAll(playerindex);
-		Enemy::RenderAll(playerindex);
-		PlayerBullet::RenderAll(playerindex);
-		Player::RenderAll(playerindex);
-		Effectsys::RenderAll(playerindex);
-		Beam::RenderAll(playerindex);
-		Bullet::RenderAll(playerindex);
-		Item::RenderAll(playerindex);
-		Enemy::RenderScore(playerindex);
-		FrontDisplay::fdisp.RenderSpellName(playerindex);
-		FrontDisplay::fdisp.RenderHeadInfo(playerindex);
+		EventZone::RenderAll();
+		Enemy::RenderAll();
+		PlayerBullet::RenderAll();
+		Player::RenderAll();
+		Effectsys::RenderAll();
+		Beam::RenderAll();
+		Bullet::RenderAll();
+		Item::RenderAll();
+		Enemy::RenderScore();;
+		FrontDisplay::fdisp.RenderHeadInfo();
 		//
 		/*
-		for (int i=M_GAMESQUARE_LEFT_(playerindex); i<M_GAMESQUARE_RIGHT_(playerindex); i++)
+		for (int i=M_GAMESQUARE_LEFT_(); i<M_GAMESQUARE_RIGHT_(); i++)
 		{
 			for (int j=M_GAMESQUARE_TOP; j<M_GAMESQUARE_BOTTOM; j++)
 			{
-				if (Player::p[playerindex].bDrain)
+				if (Player::p.bDrain)
 				{
-					if (Enemy::CheckENAZ(playerindex, i, j, 1))
+					if (Enemy::CheckENAZ(i, j, 1))
 					{
 						hge->Gfx_RenderLine(i, j, i+1, j);
 					}
@@ -40,21 +38,21 @@ void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 		//
 		//
 		/*
-		if (Bullet::bu[playerindex].getSize())
+		if (Bullet::bu.getSize())
 		{
 			DWORD i = 0;
-			DWORD size = Bullet::bu[playerindex].getSize();
-			for (Bullet::bu[playerindex].toBegin(); i<size; Bullet::bu[playerindex].toNext(), i++)
+			DWORD size = Bullet::bu.getSize();
+			for (Bullet::bu.toBegin(); i<size; Bullet::bu.toNext(), i++)
 			{
-				if (Bullet::bu[playerindex].isValid())
+				if (Bullet::bu.isValid())
 				{
-					if ((*(Bullet::bu[playerindex])).type == 44)
+					if ((*(Bullet::bu)).type == 44)
 					{
-						for (int i=M_GAMESQUARE_LEFT_(playerindex); i<M_GAMESQUARE_RIGHT_(playerindex); i++)
+						for (int i=M_GAMESQUARE_LEFT_(); i<M_GAMESQUARE_RIGHT_(); i++)
 						{
 							for (int j=M_GAMESQUARE_TOP; j<M_GAMESQUARE_BOTTOM; j++)
 							{
-								if ((*(Bullet::bu[playerindex])).isInRect(i, j, 1))
+								if ((*(Bullet::bu)).isInRect(i, j, 1))
 								{
 									hge->Gfx_RenderLine(i, j, i+1, j, 0xffffff00);
 								}
@@ -66,19 +64,19 @@ void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 		}
 		*/
 		/*
-		if (Beam::be[playerindex].getSize())
+		if (Beam::be.getSize())
 		{
 			DWORD i = 0;
-			DWORD size = Beam::be[playerindex].getSize();
-			for (Beam::be[playerindex].toBegin(); i<size; Beam::be[playerindex].toNext(), i++)
+			DWORD size = Beam::be.getSize();
+			for (Beam::be.toBegin(); i<size; Beam::be.toNext(), i++)
 			{
-				if (Beam::be[playerindex].isValid())
+				if (Beam::be.isValid())
 				{
-					for (int i=M_GAMESQUARE_LEFT_(playerindex); i<M_GAMESQUARE_RIGHT_(playerindex); i++)
+					for (int i=M_GAMESQUARE_LEFT_(); i<M_GAMESQUARE_RIGHT_(); i++)
 					{
 						for (int j=M_GAMESQUARE_TOP; j<M_GAMESQUARE_BOTTOM; j++)
 						{
-							if ((*(Beam::be[playerindex])).isInRect(i, j, 1))
+							if ((*(Beam::be)).isInRect(i, j, 1))
 							{
 								hge->Gfx_RenderLine(i, j, i+1, j, 0xffffff00);
 							}
@@ -90,22 +88,19 @@ void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 		*/
 		//
 	}
-	BGLayer::RenderFG(playerindex);
+	BGLayer::RenderFG();
 }
 
 void Process::_RenderTar()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	if (rendertar)
 	{
-		if (rendertar[i])
+		if (sprendertar)
 		{
-			if (sprendertar[i])
-			{
-				delete sprendertar[i];
-			}
-			sprendertar[i] = new hgeSprite(hge->Target_GetTexture(rendertar[i]), M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_TOP, M_GAMESQUARE_WIDTH, M_GAMESQUARE_HEIGHT);
-			SpriteItemManager::RenderSprite(sprendertar[i], M_GAMESQUARE_CENTER_X_(i), M_GAMESQUARE_CENTER_Y);
+			delete sprendertar;
 		}
+		sprendertar = new hgeSprite(hge->Target_GetTexture(rendertar), M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP, M_GAMESQUARE_WIDTH, M_GAMESQUARE_HEIGHT);
+		SpriteItemManager::RenderSprite(sprendertar, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_CENTER_Y);
 	}
 }
 
@@ -120,7 +115,7 @@ int Process::render()
 	if (isingame)
 	{
 #if defined __WIN32
-		hge->Gfx_BeginScene(rendertar[0]);
+		hge->Gfx_BeginScene(rendertar);
 		hge->Gfx_Clear(0x00000000);
 #elif defined __PSP
 		hge->Gfx_SetClipping(M_SIDE_EDGE, 0, SCREEN_WIDTH/2-M_SIDE_EDGE, SCREEN_HEIGHT);

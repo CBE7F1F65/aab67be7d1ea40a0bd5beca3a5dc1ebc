@@ -12,7 +12,7 @@ int Process::processPlayerSelect()
 	}
 #if defined __IPHONE
 	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++) {
-		GameInput::SetKey(i, KSI_SLOW, true);
+		GameInput::SetKey(KSI_SLOW, true);
 	}
 #endif
 	retvalue = PGO;

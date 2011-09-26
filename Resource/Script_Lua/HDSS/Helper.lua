@@ -121,18 +121,12 @@ function helper_GetEnemyBasicData(nowpattern, nowlinenum, nowdirection, playerin
 	
 end
 
-function helper_GetCenterX(playerindex)
-	if playerindex == 1 then
-		return CenterX_1;
-	end
-	return CenterX_0;
+function helper_GetCenterX()
+	return CenterX;
 end
 
-function helper_GetCenterBossX(playerindex)
-	if playerindex == 1 then
-		return CenterBossX_1;
-	end
-	return CenterBossX_0;
+function helper_GetCenterBossX()
+	return CenterBossX;
 end
 
 function helper_GetRandomItem(itemid)

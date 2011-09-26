@@ -16,17 +16,11 @@ int Process::processStart()
 		replayend = true;
 		replaymode = false;
 		gametime = 0;
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			BGLayer::KillOtherLayer(i);
-			BGLayer::ubg[i][UBGID_BGMASK].exist = false;
-		}
+		BGLayer::KillOtherLayer();
+		BGLayer::ubg[UBGID_BGMASK].exist = false;
 		SelectSystem::ClearAll();
 //		FrontDisplay::fdisp.SetState(FDISP_PANEL, 0);
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			Player::p[i].exist = false;
-		}
+		Player::p.exist = false;
 		state = STATE_REPLAY;
 		return PTURN;
 	}

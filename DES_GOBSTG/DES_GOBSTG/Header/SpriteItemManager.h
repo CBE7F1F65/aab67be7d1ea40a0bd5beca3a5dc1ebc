@@ -119,9 +119,9 @@ public:
 	static void InitFrontTouchButton();
 	static void ReleaseFrontTouchButton();
 	static void RenderFrontTouchButton();
-	static FrontTouchButton * GetFrontTouchButton(BYTE playerindex, BYTE buttontype);
+	static FrontTouchButton * GetFrontTouchButton(BYTE buttontype);
 	static void FrontTouchButtonHide();
-	static FrontTouchButton ftbutton[M_PL_MATCHMAXPLAYER][FTBUTTON_MAX];
+	static FrontTouchButton ftbutton[FTBUTTON_MAX];
 #endif
 };
 

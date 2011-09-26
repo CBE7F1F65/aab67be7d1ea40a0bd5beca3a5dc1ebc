@@ -11,7 +11,7 @@ int SpriteItemManager::confirmIndex = 0;
 FrontSprite SpriteItemManager::frontsprite[FRONTSPRITEMAX];
 
 #if defined __IPHONE
-FrontTouchButton SpriteItemManager::ftbutton[M_PL_MATCHMAXPLAYER][FTBUTTON_MAX];
+FrontTouchButton SpriteItemManager::ftbutton[FTBUTTON_MAX];
 #endif
 
 SpriteItemManager::SpriteItemManager()
@@ -76,10 +76,10 @@ void SpriteItemManager::ReleaseFrontTouchButton()
 	}
 }
 
-FrontTouchButton * SpriteItemManager::GetFrontTouchButton(BYTE playerindex, BYTE buttontype)
+FrontTouchButton * SpriteItemManager::GetFrontTouchButton(BYTE buttontype)
 {
-	if (playerindex < M_PL_MATCHMAXPLAYER && buttontype < FTBUTTON_MAX) {
-		return &(ftbutton[playerindex][buttontype]);
+	if ( < M_PL_MATCHMAXPLAYER && buttontype < FTBUTTON_MAX) {
+		return &(ftbutton[buttontype]);
 	}
 	return NULL;
 }

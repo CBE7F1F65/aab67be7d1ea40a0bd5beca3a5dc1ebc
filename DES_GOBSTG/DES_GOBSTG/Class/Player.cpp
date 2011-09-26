@@ -33,13 +33,13 @@
 #define _PLAYER_LIFECOSTMAX	2880
 #define _PLAYER_COMBOHITMAX	999
 
-#define _PLAYER_SHOOTNOTPUSHOVER	9
+#define _PLAYER_SHOOTNOTPUSHOVER	0
 
 #define _PL_SPELLBONUS_BOSS_1	100000
 #define _PL_SPELLBONUS_BOSS_2	300000
 #define _PL_SPELLBONUS_BOSS_3	500000
 
-Player Player::p[M_PL_MATCHMAXPLAYER];
+Player Player::p;
 bool Player::able = false;
 
 BYTE Player::rank = _GAMERANK_MIN;
@@ -48,7 +48,7 @@ DWORD Player::alltime = 0;
 
 BYTE Player::round = 0;
 
-#define _PL_MERGETOPOS_X_(X)	(M_GAMESQUARE_CENTER_X_(X))
+#define _PL_MERGETOPOS_X	(M_GAMESQUARE_CENTER_X)
 #define _PL_MERGETOPOS_Y		(M_GAMESQUARE_BOTTOM - 64)
 
 #define _PL_SHOOTINGCHARGE_1	0x01
@@ -89,7 +89,7 @@ Player::~Player()
 
 void Player::ClearSet(BYTE _round)
 {
-	x			=	PL_MERGEPOS_X_(playerindex);
+	x			=	PL_MERGEPOS_X;
 	y			=	PL_MERGEPOS_Y;
 	round	=	_round;
 
@@ -104,6 +104,7 @@ void Player::ClearSet(BYTE _round)
 	angle		=	0;
 	flag		=	PLAYER_MERGE;
 	bSlow		=	false;
+	bLaser		=	false;
 	bInfi		=	true;
 	hscale		=	1.0f;
 	vscale		=	1.0f;
@@ -187,14 +188,14 @@ void Player::ClearSet(BYTE _round)
 
 	esChange.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERCHANGE, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y, 0, 3.0f);
 	esChange.colorSet(0x7fffffff, BLEND_ALPHAADD);
-	esChange.chaseSet(EFFSP_CHASE_PLAYER_(playerindex), 0, 0);
+	esChange.chaseSet(EFFSP_CHASE_PLAYER, 0, 0);
 
 	esShot.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERSHOT, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y, 0, 1.2f);
 	esShot.colorSet(0xccff0000);
-	esShot.chaseSet(EFFSP_CHASE_PLAYER_(playerindex), 0, 0);
+	esShot.chaseSet(EFFSP_CHASE_PLAYER, 0, 0);
 
 	esPoint.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERPOINT, SpriteItemManager::GetIndexByName(SI_PLAYER_POINT), x, y);
-	esPoint.chaseSet(EFFSP_CHASE_PLAYER_(playerindex), 0, 0);
+	esPoint.chaseSet(EFFSP_CHASE_PLAYER, 0, 0);
 
 	esCollapse.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERCOLLAPSE, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y);
 	esCollapse.actionSet(0, 0, 160);
@@ -202,10 +203,8 @@ void Player::ClearSet(BYTE _round)
 }
 
 
-void Player::valueSet(BYTE _playerindex, BYTE round)
+void Player::valueSet(BYTE round)
 {
-	_playerindex = 0;
-	playerindex = _playerindex;
 	nowID		= ID;
 	ClearSet(round);
 	initFrameIndex();
@@ -220,21 +219,21 @@ void Player::valueSet(BYTE _playerindex, BYTE round)
 
 	setFrame(PLAYER_FRAME_STAND);
 
-	effGraze.valueSet(EFF_PL_GRAZE, playerindex, *this);
+	effGraze.valueSet(EFF_PL_GRAZE, *this);
 	effGraze.Stop();
-	effChange.valueSet(EFF_PL_CHANGE, playerindex, *this);
+	effChange.valueSet(EFF_PL_CHANGE, *this);
 	effChange.Stop();
-	effInfi.valueSet(EFF_PL_INFI, playerindex, *this);
+	effInfi.valueSet(EFF_PL_INFI, *this);
 	effInfi.Stop();
-	effCollapse.valueSet(EFF_PL_COLLAPSE, playerindex, *this);
+	effCollapse.valueSet(EFF_PL_COLLAPSE, *this);
 	effCollapse.Stop();
-	effMerge.valueSet(EFF_PL_MERGE, playerindex, *this);
+	effMerge.valueSet(EFF_PL_MERGE, *this);
 	effMerge.Stop();
-	effBorder.valueSet(EFF_PL_BORDER, playerindex, *this);
+	effBorder.valueSet(EFF_PL_BORDER, *this);
 	effBorder.Stop();
-	effBorderOn.valueSet(EFF_PL_BORDERON, playerindex, *this);
+	effBorderOn.valueSet(EFF_PL_BORDERON, *this);
 	effBorderOn.Stop();
-	effBorderOff.valueSet(EFF_PL_BORDEROFF, playerindex, *this);
+	effBorderOff.valueSet(EFF_PL_BORDEROFF, *this);
 	effBorderOff.Stop();
 
 	SetAble(true);
@@ -244,35 +243,32 @@ bool Player::Action()
 {
 	alltime++;
 	Replay::AddLostStack();
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	if (gametime % _CARDLEVEL_ADDINTERVAL == 0)
 	{
-		if (gametime % _CARDLEVEL_ADDINTERVAL == 0)
+	}
+	if (gametime % _BOSSLEVEL_ADDINTERVAL == 0)
+	{
+	}
+	DWORD stopflag = Process::mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYER);
+	bool binspellstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYERSPELL);
+	GameInput::gameinput.updateActiveInput(binspellstop);
+	if (p.exist)
+	{
+		if (!binstop && !binspellstop)
+		{
+			p.action();
+		}
+		else if (binspellstop)
 		{
 		}
-		if (gametime % _BOSSLEVEL_ADDINTERVAL == 0)
+		else
 		{
+			p.actionInStop();
 		}
-		DWORD stopflag = Process::mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, i, FRAME_STOPFLAG_PLAYER);
-		bool binspellstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, i, FRAME_STOPFLAG_PLAYERSPELL);
-		GameInput::gameinput[i].updateActiveInput(binspellstop);
-		if (p[i].exist)
+		if (!p.exist)
 		{
-			if (!binstop && !binspellstop)
-			{
-				p[i].action();
-			}
-			else if (binspellstop)
-			{
-			}
-			else
-			{
-				p[i].actionInStop();
-			}
-			if (!p[i].exist)
-			{
-				return false;
-			}
+			return false;
 		}
 	}
 	return true;
@@ -283,17 +279,17 @@ void Player::action()
 	
 #if defined __IPHONE
 #define _M_MOVINGMIN	1
-	if (!GameAI::ai[playerindex].able) {
+	if (!GameAI::ai.able) {
 		if (!(flag & PLAYER_SHOT)) {
-			float tx = Process::mp.touchdirectmove[playerindex].x;
+			float tx = Process::mp.touchdirectmove.x;
 			if (tx > _M_MOVINGMIN) {
-				GameInput::SetKey(playerindex, KSI_RIGHT, true);
+				GameInput::SetKey(KSI_RIGHT, true);
 			}
 			else if (tx < -_M_MOVINGMIN){
-				GameInput::SetKey(playerindex, KSI_LEFT, true);
+				GameInput::SetKey(KSI_LEFT, true);
 			}
 			if (fabsf(tx) <= slowspeed) {
-				GameInput::SetKey(playerindex, KSI_SLOW, true);
+				GameInput::SetKey(KSI_SLOW, true);
 			}
 		}
 	}
@@ -326,8 +322,8 @@ void Player::action()
 	lasty[0] = y;
 
 	//AI
-	//	GameAI::ai[playerindex].UpdateBasicInfo(x, y, speed, slowspeed, BResource::bres.playerdata[nowID].collision_r);
-	GameAI::ai[playerindex].SetMove();
+	//	GameAI::ai.UpdateBasicInfo(x, y, speed, slowspeed, BResource::bres.playerdata[nowID].collision_r);
+	GameAI::ai.SetMove();
 	//
 	
 	if(flag & PLAYER_MERGE)
@@ -439,7 +435,7 @@ void Player::action()
 		}
 	}
 
-	for (list<EventZone>::iterator it=EventZone::ezone[playerindex].begin(); it!=EventZone::ezone[playerindex].end(); it++)
+	for (list<EventZone>::iterator it=EventZone::ezone.begin(); it!=EventZone::ezone.end(); it++)
 	{
 		if (it->timer < 0)
 		{
@@ -467,11 +463,11 @@ void Player::action()
 	//input
 	if(!(flag & PLAYER_SHOT || flag & PLAYER_COLLAPSE))
 	{
-		if (GameInput::GetKey(playerindex, KSI_SLOW))
+		if (GameInput::GetKey(KSI_SLOW))
 		{
 			bSlow = true;
 			flag &= ~PLAYER_FASTCHANGE;
-			if (GameInput::GetKey(playerindex, KSI_SLOW, DIKEY_DOWN))
+			if (GameInput::GetKey(KSI_SLOW, DIKEY_DOWN))
 			{
 				if (!(flag & PLAYER_SLOWCHANGE))
 				{
@@ -484,7 +480,7 @@ void Player::action()
 		{
 			bSlow = false;
 			flag &= ~PLAYER_SLOWCHANGE;
-			if (GameInput::GetKey(playerindex, KSI_SLOW, DIKEY_UP))
+			if (GameInput::GetKey(KSI_SLOW, DIKEY_UP))
 			{
 				if (!(flag & PLAYER_FASTCHANGE))
 				{
@@ -503,7 +499,7 @@ void Player::action()
 		}
 		nowspeed *= speedfactor;
 
-		if(GameInput::GetKey(playerindex, KSI_FIRE))
+		if(GameInput::GetKey(KSI_FIRE))
 		{
 			if (!Chat::chatitem.IsChatting())
 			{
@@ -520,29 +516,32 @@ void Player::action()
 		}
 		if (shootpushtimer < PLAYER_SHOOTPUSHOVER)
 		{
-			if (GameInput::GetKey(playerindex, KSI_FIRE))
+			if (GameInput::GetKey(KSI_FIRE))
 			{
 				shootpushtimer++;
 			}
 			else
 			{
 				shootpushtimer = 0;
+				bLaser = false;
 			}
 		}
 		else
 		{
-			if (!GameInput::GetKey(playerindex, KSI_FIRE))
+			if (!GameInput::GetKey(KSI_FIRE))
 			{
 				shootpushtimer = 0;
+				bLaser = false;
 			}
 			else
 			{
+				bLaser = true;
 			}
 		}
-		if (GameInput::GetKey(playerindex, KSI_DRAIN))
+		if (GameInput::GetKey(KSI_DRAIN))
 		{
 			bDrain = true;
-			if (GameInput::GetKey(playerindex, KSI_DRAIN, DIKEY_DOWN))
+			if (GameInput::GetKey(KSI_DRAIN, DIKEY_DOWN))
 			{
 				if (!(flag & PLAYER_DRAIN))
 				{
@@ -558,26 +557,26 @@ void Player::action()
 		}
 
 #if defined __IPHONE
-		if (!GameAI::ai[playerindex].able) {
-			if (Process::mp.touchMoveID[playerindex] != 0xff && !(flag & PLAYER_COSTLIFE)) {
-				x += Process::mp.touchdirectmove[playerindex].x * speedfactor;
-				y += Process::mp.touchdirectmove[playerindex].y * speedfactor;
+		if (!GameAI::ai.able) {
+			if (Process::mp.touchMoveID != 0xff && !(flag & PLAYER_COSTLIFE)) {
+				x += Process::mp.touchdirectmove.x * speedfactor;
+				y += Process::mp.touchdirectmove.y * speedfactor;
 			}
 		}
 		else {
 #endif
-		if((GameInput::GetKey(playerindex, KSI_UP) ^ GameInput::GetKey(playerindex, KSI_DOWN)) &&
-			GameInput::GetKey(playerindex, KSI_LEFT) ^ GameInput::GetKey(playerindex, KSI_RIGHT))
+		if((GameInput::GetKey(KSI_UP) ^ GameInput::GetKey(KSI_DOWN)) &&
+			GameInput::GetKey(KSI_LEFT) ^ GameInput::GetKey(KSI_RIGHT))
 			nowspeed *= M_SQUARE_2;
-		if(GameInput::GetKey(playerindex, KSI_UP))
+		if(GameInput::GetKey(KSI_UP))
 			y -= nowspeed;
-		if(GameInput::GetKey(playerindex, KSI_DOWN))
+		if(GameInput::GetKey(KSI_DOWN))
 			y += nowspeed;
-		if(GameInput::GetKey(playerindex, KSI_LEFT))
+		if(GameInput::GetKey(KSI_LEFT))
 		{
 			x -= nowspeed;
 		}
-		if(GameInput::GetKey(playerindex, KSI_RIGHT))
+		if(GameInput::GetKey(KSI_RIGHT))
 		{
 			x += nowspeed;
 		}
@@ -585,13 +584,13 @@ void Player::action()
 		}
 #endif
 
-		if(GameInput::GetKey(playerindex, KSI_LEFT))
+		if(GameInput::GetKey(KSI_LEFT))
 		{
 			updateFrame(PLAYER_FRAME_LEFTPRE);
 		}
-		if(GameInput::GetKey(playerindex, KSI_RIGHT))
+		if(GameInput::GetKey(KSI_RIGHT))
 		{
-			if (!GameInput::GetKey(playerindex, KSI_LEFT))
+			if (!GameInput::GetKey(KSI_LEFT))
 			{
 				updateFrame(PLAYER_FRAME_RIGHTPRE);
 			}
@@ -600,44 +599,44 @@ void Player::action()
 				updateFrame(PLAYER_FRAME_STAND);
 			}
 		}
-		if (!GameInput::GetKey(playerindex, KSI_LEFT) && !GameInput::GetKey(playerindex, KSI_RIGHT))
+		if (!GameInput::GetKey(KSI_LEFT) && !GameInput::GetKey(KSI_RIGHT))
 		{
 			updateFrame(PLAYER_FRAME_STAND);
 		}
 	}
-	if(GameInput::GetKey(playerindex, KSI_QUICK) && !(flag & PLAYER_MERGE))
+	if(GameInput::GetKey(KSI_QUICK) && !(flag & PLAYER_MERGE))
 	{
 		callBomb();
 	}
 
 	if (!(flag & PLAYER_MERGE) || mergetimer >= 32)
 	{
-		if(x > PL_MOVABLE_RIGHT_(playerindex))
-			x = PL_MOVABLE_RIGHT_(playerindex);
-		else if(x < PL_MOVABLE_LEFT_(playerindex))
-			x = PL_MOVABLE_LEFT_(playerindex);
+		if(x > PL_MOVABLE_RIGHT)
+			x = PL_MOVABLE_RIGHT;
+		else if(x < PL_MOVABLE_LEFT)
+			x = PL_MOVABLE_LEFT;
 		if(y > PL_MOVABLE_BOTTOM)
 			y = PL_MOVABLE_BOTTOM;
 		else if(y < PL_MOVABLE_TOP)
 			y = PL_MOVABLE_TOP;
 	}
 	//AI
-	GameAI::ai[playerindex].UpdateBasicInfo(x, y, speed*speedfactor, slowspeed*speedfactor, r, BResource::bres.playerdata[nowID].aidraintime);
-	float aiaimx = _PL_MERGETOPOS_X_(playerindex);
+	GameAI::ai.UpdateBasicInfo(x, y, speed*speedfactor, slowspeed*speedfactor, r, BResource::bres.playerdata[nowID].aidraintime);
+	float aiaimx = _PL_MERGETOPOS_X;
 	float aiaimy = _PL_MERGETOPOS_Y;
 	bool tobelow = false;
-	if (PlayerBullet::activelocked[playerindex] != PBLOCK_LOST)
+	if (PlayerBullet::activelocked != PBLOCK_LOST)
 	{
-		aiaimx = Enemy::en[playerindex][PlayerBullet::activelocked[playerindex]].x;
-		aiaimy = Enemy::en[playerindex][PlayerBullet::activelocked[playerindex]].y + 120;
+		aiaimx = Enemy::en[PlayerBullet::activelocked].x;
+		aiaimy = Enemy::en[PlayerBullet::activelocked].y + 120;
 		tobelow = true;
 	}
-	else if (PlayerBullet::locked[playerindex] != PBLOCK_LOST)
+	else if (PlayerBullet::locked != PBLOCK_LOST)
 	{
-		aiaimx = Enemy::en[playerindex][PlayerBullet::locked[playerindex]].x;
-		aiaimy = Enemy::en[playerindex][PlayerBullet::locked[playerindex]].y;
+		aiaimx = Enemy::en[PlayerBullet::locked].x;
+		aiaimy = Enemy::en[PlayerBullet::locked].y;
 	}
-	GameAI::ai[playerindex].SetAim(aiaimx, aiaimy, tobelow);
+	GameAI::ai.SetAim(aiaimx, aiaimy, tobelow);
 	//
 	//
 	speedfactor = 1.0f;
@@ -673,7 +672,7 @@ void Player::action()
 
 void Player::actionInStop()
 {
-//	Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERINSTOP, playerindex);
+//	Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERINSTOP);
 }
 
 bool Player::Merge()
@@ -682,7 +681,7 @@ bool Player::Merge()
 	if(mergetimer == 1)
 	{
 		SetInfi(PLAYERINFI_MERGE, 60);
-		if(GameInput::GetKey(playerindex, KSI_SLOW))
+		if(GameInput::GetKey(KSI_SLOW))
 		{
 			flag |= PLAYER_SLOWCHANGE;
 			slowtimer = 0;
@@ -698,7 +697,7 @@ bool Player::Merge()
 	else if (mergetimer <= 24)
 	{
 		float interval = mergetimer / 24.0f;
-		x = INTER(PL_MERGEPOS_X_(playerindex), _PL_MERGETOPOS_X_(playerindex), interval);
+		x = INTER(PL_MERGEPOS_X, _PL_MERGETOPOS_X, interval);
 		y = INTER(PL_MERGEPOS_Y, _PL_MERGETOPOS_Y, interval);
 		flag &= ~PLAYER_SHOOT;
 		alpha = INTER(0, 0xff, interval);
@@ -738,7 +737,6 @@ bool Player::Shot()
 	}
 
 	esShot.hscale = (shotdelay - shottimer) * 4.0f / shotdelay;
-	Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSHOT, playerindex);
 	return false;
 }
 
@@ -761,7 +759,6 @@ bool Player::CostLife()
 		}
 		else
 		{
-			FrontDisplay::fdisp.gameinfodisplay.lastlifecountdown[playerindex] = FDISP_COUNTDOWNTIME;
 			SE::push(SE_PLAYER_ALERT, x);
 			nLife = 1;
 		}
@@ -780,7 +777,7 @@ bool Player::CostLife()
 	}
 	else if (costlifetimer == 50)
 	{
-		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, playerindex, x, y, 10, 0, 0, 10, EVENTZONE_EVENT_NULL, 15.6);
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, x, y, 10, 0, 0, 10, EVENTZONE_EVENT_NULL, 15.6);
 	}
 	else if (costlifetimer == 60)
 	{
@@ -789,14 +786,14 @@ bool Player::CostLife()
 	}
 	else
 	{
-		GameInput::SetKey(playerindex, KSI_UP, false);
-		GameInput::SetKey(playerindex, KSI_DOWN, false);
-		GameInput::SetKey(playerindex, KSI_LEFT, false);
-		GameInput::SetKey(playerindex, KSI_RIGHT, false);
-//		GameInput::SetKey(playerindex, KSI_FIRE, false);
-		GameInput::SetKey(playerindex, KSI_QUICK, false);
-		GameInput::SetKey(playerindex, KSI_SLOW, false);
-		GameInput::SetKey(playerindex, KSI_DRAIN, false);
+		GameInput::SetKey(KSI_UP, false);
+		GameInput::SetKey(KSI_DOWN, false);
+		GameInput::SetKey(KSI_LEFT, false);
+		GameInput::SetKey(KSI_RIGHT, false);
+//		GameInput::SetKey(KSI_FIRE, false);
+		GameInput::SetKey(KSI_QUICK, false);
+		GameInput::SetKey(KSI_SLOW, false);
+		GameInput::SetKey(KSI_DRAIN, false);
 	}
 	return false;
 }
@@ -806,11 +803,8 @@ bool Player::Collapse()
 	collapsetimer++;
 	if(collapsetimer == 1)
 	{
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, i, p[i].x, p[i].y, 64, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
-			p[i].SetInfi(PLAYERINFI_COLLAPSE, 64);
-		}
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y, 64, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
+		p.SetInfi(PLAYERINFI_COLLAPSE, 64);
 
 		esCollapse.x = x;
 		esCollapse.y = y;
@@ -821,7 +815,7 @@ bool Player::Collapse()
 	}
 	else if(collapsetimer == 64)
 	{
-		x = PL_MERGEPOS_X_(playerindex);
+		x = PL_MERGEPOS_X;
 		y = PL_MERGEPOS_Y;
 		for(int i=0;i<PL_SAVELASTMAX;i++)
 		{
@@ -839,7 +833,7 @@ bool Player::Collapse()
 //		SetInfi(PLAYERINFI_COLLAPSE);
 		exist = false;
 
-		if(GameInput::GetKey(playerindex, KSI_SLOW))
+		if(GameInput::GetKey(KSI_SLOW))
 		{
 			flag |= PLAYER_SLOWCHANGE;
 			slowtimer = 0;
@@ -876,7 +870,7 @@ bool Player::Shoot()
 
 	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COSTLIFE))
 	{
-		PlayerBullet::BuildShoot(playerindex, nowID, shoottimer);
+		PlayerBullet::BuildShoot(nowID, shoottimer);
 	}
 	shoottimer++;
 	//
@@ -892,7 +886,6 @@ bool Player::Drain()
 {
 	draintimer++;
 	bDrain = true;
-	Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERDRAIN, playerindex);
 	return false;
 }
 
@@ -903,7 +896,7 @@ bool Player::Bomb()
 
 bool Player::SlowChange()
 {
-	if(GameInput::GetKey(playerindex, KSI_SLOW, DIKEY_DOWN))
+	if(GameInput::GetKey(KSI_SLOW, DIKEY_DOWN))
 		slowtimer = 0;
 	bSlow = true;
 	slowtimer++;
@@ -930,7 +923,7 @@ bool Player::SlowChange()
 
 bool Player::FastChange()
 {
-	if(GameInput::GetKey(playerindex, KSI_SLOW, DIKEY_UP))
+	if(GameInput::GetKey(KSI_SLOW, DIKEY_UP))
 		fasttimer = 0;
 	bSlow = false;
 	fasttimer++;
@@ -955,7 +948,7 @@ bool Player::FastChange()
 
 bool Player::PlayerChange()
 {
-	if(GameInput::GetKey(playerindex, KSI_DRAIN, DIKEY_DOWN))
+	if(GameInput::GetKey(KSI_DRAIN, DIKEY_DOWN))
 		playerchangetimer = 0;
 	playerchangetimer++;
 	if(playerchangetimer == 1)
@@ -1095,8 +1088,6 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 	case ITEM_GAUGE:
 		break;
 	case ITEM_BULLET:
-		Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERSENDITEMBULLET, playerindex);
-//		Item::SendBullet(1-playerindex, _x, _y, EFFSPSET_SYSTEM_SENDITEMBULLET);
 		break;
 	case ITEM_EX:
 		AddBulletPoint(1, _x, _y);
@@ -1116,7 +1107,7 @@ void Player::ResetPlayerGhost(bool move /* = false */)
 	}
 	for (int i=0; i<DATASTRUCT_PLAYERGHOSTMAX; i++)
 	{
-		pg[i].valueSet(playerindex, tid+i, move);
+		pg[i].valueSet(tid+i, move);
 	}
 }
 
@@ -1186,11 +1177,11 @@ void Player::callSlowFastChange(bool toslow)
 {
 	if (toslow)
 	{
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_SLOW);
 	}
 	else
 	{
-		GameInput::SetKey(playerindex, KSI_SLOW, false);
+		GameInput::SetKey(KSI_SLOW, false);
 	}
 }
 
@@ -1212,8 +1203,6 @@ void Player::AddBulletPoint(int bulletpoint, float x, float y)
 		{
 			setID = EFFSPSET_SYSTEM_SENDREDBULLET;
 		}
-		Bullet::SendBullet(playerindex, x, y, setID);
-//		Bullet::SendBullet(1-playerindex, x, y, setID);
 	}
 }
 

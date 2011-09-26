@@ -38,11 +38,11 @@ bool FrameFunc()
 #ifdef __IPHONE
 #endif
 	Process::mp.SyncInput();
-	if (GameInput::GetKey(0, KSI_ESCAPE))
+	if (GameInput::GetKey(KSI_ESCAPE))
 	{
 		return true;
 	}
-	if(GameInput::GetKey(0, KSI_CAPTURE, DIKEY_DOWN))
+	if(GameInput::GetKey(KSI_CAPTURE, DIKEY_DOWN))
 	{
 		Process::mp.SnapShot();
 	}

@@ -79,7 +79,7 @@ public:
 
 public:
 
-	BYTE playerindex;
+
 	float slowspeed;
 	float r;
 	GameAIPosition moveablepos[GAMEAI_ABLEPOSITIONNUM];
@@ -100,7 +100,7 @@ public:
 
 	int checkorderlist[GAMEAI_ABLEPOSITIONNUM];
 
-	static GameAI ai[M_PL_MATCHMAXPLAYER];
+	static GameAI ai;
 };
 
 #endif

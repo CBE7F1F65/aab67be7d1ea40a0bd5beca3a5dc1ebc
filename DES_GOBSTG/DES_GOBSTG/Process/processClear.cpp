@@ -15,11 +15,7 @@ int Process::processClear()
 	if (!alltime)
 	{
 		alltime = gametime;
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-//			Player::SetAble(false);
-			Player::p[i].exist = false;
-		}
+		Player::p.exist = false;
 	}
 	processStart();
 	Scripter::scr.Execute(SCR_CONTROL, STATE_CLEAR, gametime-alltime);

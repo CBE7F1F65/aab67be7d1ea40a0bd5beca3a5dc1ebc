@@ -599,7 +599,7 @@ int Export_Lua_HGE::LuaFn_hge_System_Transform3DPoint(LuaState * ls)
 			_renderflag = args[4].GetInteger();
 		}
 	}
-	fret = hge->Math_Transform3DPoint(&pt, Export::GetFarPoint(_renderflag));
+	fret = hge->Math_Transform3DPoint(&pt, Export::GetFarPoint());
 
 	ls->PushNumber(fret);
 	return 1;

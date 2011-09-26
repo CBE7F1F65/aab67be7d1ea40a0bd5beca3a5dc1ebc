@@ -108,8 +108,7 @@ int _HDSSCallGet::Call_SETCHARA(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		WORD _id = _INEXT_HDSS_LUAPARA;
 		WORD _id_sub_1 = 0xffff;
 		WORD _id_sub_2 = 0xffff;
@@ -129,10 +128,10 @@ int _HDSSCallGet::Call_SETCHARA(LuaState * ls)
 				}
 			}
 		}
-		Player::p[_playerindex].SetChara(_id, _id_sub_1, _id_sub_2);
+		Player::p.SetChara(_id, _id_sub_1, _id_sub_2);
 		if (_bsavelastmatch)
 		{
-			Process::mp.SetLastMatchChara(_playerindex, _id, _id_sub_1, _id_sub_2);
+			Process::mp.SetLastMatchChara(_id, _id_sub_1, _id_sub_2);
 		}
 	}
 	return 0;
@@ -173,8 +172,8 @@ int _HDSSCallGet::Call_SETKEY(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _ksi = _INEXT_HDSS_LUAPARA;
 		bool _set = true;
 		_JNEXT_HDSS_LUAPARA;
@@ -182,7 +181,7 @@ int _HDSSCallGet::Call_SETKEY(LuaState * ls)
 		{
 			_set = _BOBJ_HDSS_LUA;
 		}
-		GameInput::SetKey(_playerindex, _ksi, _set);
+		GameInput::SetKey(_ksi, _set);
 	}
 	return 0;
 }
@@ -193,16 +192,16 @@ int _HDSSCallGet::Call_DISABLEALLKEY(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
-		GameInput::SetKey(_playerindex, KSI_UP, false);
-		GameInput::SetKey(_playerindex, KSI_DOWN, false);
-		GameInput::SetKey(_playerindex, KSI_LEFT, false);
-		GameInput::SetKey(_playerindex, KSI_RIGHT, false);
-		GameInput::SetKey(_playerindex, KSI_FIRE, false);
-		GameInput::SetKey(_playerindex, KSI_QUICK, false);
-		GameInput::SetKey(_playerindex, KSI_SLOW, false);
-		GameInput::SetKey(_playerindex, KSI_DRAIN, false);
+		_INEXT_HDSS_LUAPARA;
+
+		GameInput::SetKey(KSI_UP, false);
+		GameInput::SetKey(KSI_DOWN, false);
+		GameInput::SetKey(KSI_LEFT, false);
+		GameInput::SetKey(KSI_RIGHT, false);
+		GameInput::SetKey(KSI_FIRE, false);
+		GameInput::SetKey(KSI_QUICK, false);
+		GameInput::SetKey(KSI_SLOW, false);
+		GameInput::SetKey(KSI_DRAIN, false);
 	}
 	return 0;
 }
@@ -214,8 +213,7 @@ int _HDSSCallGet::Call_SETPUSHEVENT(LuaState * ls)
 	if (true)
 	{
 		BYTE _index = _INEXT_HDSS_LUAPARA;
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		int _pushkey_1 = PUSHKEY_KEYNULL;
 		int _pushkey_2 = PUSHKEY_KEYNULL;
 		int _pushkey_3 = PUSHKEY_KEYNULL;
@@ -252,7 +250,7 @@ int _HDSSCallGet::Call_SETPUSHEVENT(LuaState * ls)
 				}
 			}
 		}
-		bool bret = PushKey::SetPushEvent(_index, _playerindex, _pushkey_1, _pushkey_2, _pushkey_3, _pushkey_4, _pushfirst, _pushrollto);
+		bool bret = PushKey::SetPushEvent(_index, _pushkey_1, _pushkey_2, _pushkey_3, _pushkey_4, _pushfirst, _pushrollto);
 		ls->PushBoolean(bret);
 		return 1;
 	}
@@ -266,14 +264,13 @@ int _HDSSCallGet::Call_UPDATEPUSHEVENT(LuaState * ls)
 	if (true)
 	{
 		BYTE _index = _INEXT_HDSS_LUAPARA;
-		BYTE _playerindex = 0xff;
 		_JNEXT_HDSS_LUAPARA;
 		if (bhavenext)
 		{
-			_playerindex = _IOBJ_HDSS_LUA;
-			_playerindex = 0;
+			_IOBJ_HDSS_LUA;
+	
 		}
-		bool bret = PushKey::UpdatePushEvent(_index, _playerindex);
+		bool bret = PushKey::UpdatePushEvent(_index);
 		ls->PushBoolean(bret);
 		return 1;
 	}
@@ -603,8 +600,7 @@ int _HDSSCallGet::Call_ENBUILD(LuaState * ls)
 	if (true)
 	{
 		WORD _eID = _INEXT_HDSS_LUAPARA;
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -619,13 +615,13 @@ int _HDSSCallGet::Call_ENBUILD(LuaState * ls)
 			_infitimer = _IOBJ_HDSS_LUA;
 		}
 
-		int _enindex = Enemy::Build(_eID, _playerindex, _x, _y, _angle, _speed, _type, _life, _infitimer);
+		int _enindex = Enemy::Build(_eID, _x, _y, _angle, _speed, _type, _life, _infitimer);
 
 		if (_enindex >= 0)
 		{
 			if (argscount > 2)
 			{
-				Enemy * _pen = &(Enemy::en[_playerindex][_enindex]);
+				Enemy * _pen = &(Enemy::en[_enindex]);
 				_GETPARAS_HDSS_LUAPARA(3);
 				BYTE _tarID = _INEXT_HDSS_LUAPARA;
 				_pen->setTar(_tarID);
@@ -650,8 +646,8 @@ int _HDSSCallGet::Call_ENACTIONSET(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		WORD _ac = _INEXT_HDSS_LUAPARA;
 		float _para_x = 0;
 		float _para_y = 0;
@@ -701,7 +697,7 @@ int _HDSSCallGet::Call_ENACTIONSET(LuaState * ls)
 				}
 			}
 		}
-		(*Enemy::en[_playerindex]).setAction(_ac, _para_x, _para_y, _para_speed, _para_friction, _para_angle, _para_time, _para_counter, _para_endtime);
+		(*Enemy::en).setAction(_ac, _para_x, _para_y, _para_speed, _para_friction, _para_angle, _para_time, _para_counter, _para_endtime);
 	}
 	return 0;
 }
@@ -711,8 +707,8 @@ int _HDSSCallGet::Call_ENSAIM(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _level = 0;
 		float _aimx = 0;
 		float _aimy = 0;
@@ -737,7 +733,7 @@ int _HDSSCallGet::Call_ENSAIM(LuaState * ls)
 				}
 			}
 		}
-		(*Enemy::en[_playerindex]).setLevelAim(_level, _aimx, _aimy, _aimangle);
+		(*Enemy::en).setLevelAim(_level, _aimx, _aimy, _aimangle);
 	}
 	return 0;
 }
@@ -747,10 +743,10 @@ int _HDSSCallGet::Call_ENTOI(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _index = _INEXT_HDSS_LUAPARA;
-		Enemy::en[_playerindex].toIndex(_index);
+		Enemy::en.toIndex(_index);
 	}
 	return 0;
 }
@@ -760,8 +756,8 @@ int _HDSSCallGet::Call_ENAZBUILD(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		BYTE _flag = _INEXT_HDSS_LUAPARA;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
@@ -778,7 +774,7 @@ int _HDSSCallGet::Call_ENAZBUILD(LuaState * ls)
 				_angle = _IOBJ_HDSS_LUA;
 			}
 		}
-		Enemy::BuildENAZ(_playerindex, _flag, _x, _y, _rPrep, _rParal, _angle);
+		Enemy::BuildENAZ(_flag, _x, _y, _rPrep, _rParal, _angle);
 	}
 	return 0;
 }
@@ -869,8 +865,8 @@ int _HDSSCallGet::Call_EZONEBUILD(LuaState * ls)
 	if (true)
 	{
 		DWORD _type = _INEXT_HDSS_LUAPARA;
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 
@@ -930,7 +926,7 @@ int _HDSSCallGet::Call_EZONEBUILD(LuaState * ls)
 			}
 		}
 
-		EventZone::Build(_type, _playerindex, _x, _y, _maxtime, _rx, _ry, _power, _eventID, _rspeed, _inittimer, _siid, _turnangle);
+		EventZone::Build(_type, _x, _y, _maxtime, _rx, _ry, _power, _eventID, _rspeed, _inittimer, _siid, _turnangle);
 	}
 	return 0;
 }
@@ -941,8 +937,8 @@ int _HDSSCallGet::Call_EFFSETUP(LuaState * ls)
 	if (true)
 	{
 		WORD _ID = _INEXT_HDSS_LUAPARA;
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 
@@ -984,7 +980,7 @@ int _HDSSCallGet::Call_EFFSETUP(LuaState * ls)
 			}
 		}
 
-		int _index = Effectsys::Build(_ID, _playerindex, _x, _y, _z, _lifetime, _tarID, _angle, _speed, _zSpeed);
+		int _index = Effectsys::Build(_ID, _x, _y, _z, _lifetime, _tarID, _angle, _speed, _zSpeed);
 		if (_index >= 0)
 		{
 			if (argscount > 2)
@@ -992,10 +988,10 @@ int _HDSSCallGet::Call_EFFSETUP(LuaState * ls)
 				_GETPARAS_HDSS_LUAPARA(3);
 				int _chasetimer = _INEXT_HDSS_LUAFUNC;
 				BYTE _tarAim = _INEXT_HDSS_LUAFUNC;
-				Effectsys::effsys[_playerindex][_index].chaseSet(_chasetimer, _tarAim);
+				Effectsys::effsys[_index].chaseSet(_chasetimer, _tarAim);
 			}
 		}
-		Effectsys::effsys[_playerindex][_index].MoveTo(_x, _y, _z);
+		Effectsys::effsys[_index].MoveTo(_x, _y, _z);
 		_PI_HDSS_LUA(_index);
 		return 1;
 	}
@@ -1007,8 +1003,8 @@ int _HDSSCallGet::Call_EFFMOVETO(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		BYTE _effindex = _INEXT_HDSS_LUAPARA;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
@@ -1027,7 +1023,7 @@ int _HDSSCallGet::Call_EFFMOVETO(LuaState * ls)
 			}
 		}
 
-		Effectsys::effsys[_playerindex][_effindex].MoveTo(_x, _y, _z, _bForce);
+		Effectsys::effsys[_effindex].MoveTo(_x, _y, _z, _bForce);
 		return 0;
 	}
 	return 0;
@@ -1038,10 +1034,9 @@ int _HDSSCallGet::Call_SETPINITLIFE(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		BYTE _initlife = _INEXT_HDSS_LUAPARA;
-		Player::p[_playerindex].SetInitLife(_initlife);
+		Player::p.SetInitLife(_initlife);
 	}
 	return 0;
 }
@@ -1051,8 +1046,7 @@ int _HDSSCallGet::Call_ADDPNCHARGE(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		float _addcharge = 0;
 		float _addchargemax = 0;
 		_JNEXT_HDSS_LUAPARA;
@@ -1074,8 +1068,8 @@ int _HDSSCallGet::Call_SETPBINFI(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		BYTE _reasonflag = _INEXT_HDSS_LUAPARA;
 		int _infitimer = PLAYER_INFIMAX;
 
@@ -1085,7 +1079,7 @@ int _HDSSCallGet::Call_SETPBINFI(LuaState * ls)
 			_infitimer = _IOBJ_HDSS_LUA;
 		}
 
-		Player::p[_playerindex].SetInfi(_reasonflag, _infitimer);
+		Player::p.SetInfi(_reasonflag, _infitimer);
 	}
 	return 0;
 }
@@ -1095,8 +1089,8 @@ int _HDSSCallGet::Call_BUBUILD(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -1123,7 +1117,7 @@ int _HDSSCallGet::Call_BUBUILD(LuaState * ls)
 			}
 		}
 
-		int iret = Bullet::Build(_playerindex, _x, _y, _angle, _speed, _type, _color, _fadeintime, _avoid, _tarID);
+		int iret = Bullet::Build(_x, _y, _angle, _speed, _type, _color, _fadeintime, _avoid, _tarID);
 		_PI_HDSS_LUA(iret);
 		return 1;
 	}
@@ -1135,8 +1129,8 @@ int _HDSSCallGet::Call_BUACTIONSET(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _i = 0;
 		if (argscount > 2)
 		{
@@ -1146,12 +1140,12 @@ int _HDSSCallGet::Call_BUACTIONSET(LuaState * ls)
 			_i = 0;
 			while (bhavenext)
 			{
-				Bullet::_actionList[_playerindex][_i] = _IOBJ_HDSS_LUA;
+				Bullet::_actionList[_i] = _IOBJ_HDSS_LUA;
 				_i++;
 				_JNEXT_HDSS_LUAPARA;
 			}
 		}
-		Bullet::_actionList[_playerindex][_i] = 0;
+		Bullet::_actionList[_i] = 0;
 	}
 	return 0;
 }
@@ -1161,8 +1155,8 @@ int _HDSSCallGet::Call_BUBUILDCIRCLE(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _num = _INEXT_HDSS_LUAPARA;
 		int _baseangle = _INEXT_HDSS_LUAPARA;
 		float _baser = _FNEXT_HDSS_LUAPARA;
@@ -1186,7 +1180,7 @@ int _HDSSCallGet::Call_BUBUILDCIRCLE(LuaState * ls)
 			}
 		}
 
-		Bullet::BuildCircle(_playerindex, _num, _baseangle, _baser, _x, _y, _speed, _type, _color, _fadeintime, _avoid);
+		Bullet::BuildCircle(_num, _baseangle, _baser, _x, _y, _speed, _type, _color, _fadeintime, _avoid);
 	}
 	return 0;
 }
@@ -1196,8 +1190,8 @@ int _HDSSCallGet::Call_BUBUILDLINE(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _num = _INEXT_HDSS_LUAPARA;
 		int _baseangle = _INEXT_HDSS_LUAPARA;
 		float _space = _FNEXT_HDSS_LUAPARA;
@@ -1225,7 +1219,7 @@ int _HDSSCallGet::Call_BUBUILDLINE(LuaState * ls)
 			}
 		}
 
-		Bullet::BuildLine(_playerindex, _num, _baseangle, _space, _baseindex, _x, _y, _angle, _anglefactor, _speed, _speedfactor, _type, _color, _fadeintime, _avoid);
+		Bullet::BuildLine(_num, _baseangle, _space, _baseindex, _x, _y, _angle, _anglefactor, _speed, _speedfactor, _type, _color, _fadeintime, _avoid);
 	}
 	return 0;
 }
@@ -1235,15 +1229,15 @@ int _HDSSCallGet::Call_BUDECANCEL(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
-		int _buindex = Bullet::bu[_playerindex].getIndex();
+		_INEXT_HDSS_LUAPARA;
+
+		int _buindex = Bullet::bu.getIndex();
 		_JNEXT_HDSS_LUAPARA;
 		if (bhavenext)
 		{
 			_buindex = _IOBJ_HDSS_LUA;
 		}
-		Bullet::bu[_playerindex][_buindex].cancelable = false;
+		Bullet::bu[_buindex].cancelable = false;
 		return 0;
 	}
 	return 0;
@@ -1254,8 +1248,8 @@ int _HDSSCallGet::Call_BEBUILD(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -1296,7 +1290,7 @@ int _HDSSCallGet::Call_BEBUILD(LuaState * ls)
 			}
 		}
 
-		int iret = Beam::Build(_playerindex, _x, _y, _angle, _speed, _type, _color, _length, _width, _flag, _fadeintime, _fadeouttime, _tarID);
+		int iret = Beam::Build(_x, _y, _angle, _speed, _type, _color, _length, _width, _flag, _fadeintime, _fadeouttime, _tarID);
 		_PI_HDSS_LUA(iret);
 		return 1;
 	}
@@ -1308,8 +1302,8 @@ int _HDSSCallGet::Call_BGVALUE(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _siid = _INEXT_HDSS_LUAPARA;
 		float _cenx = _FNEXT_HDSS_LUAPARA;
@@ -1334,7 +1328,7 @@ int _HDSSCallGet::Call_BGVALUE(LuaState * ls)
 			}
 		}
 
-		BGLayer::ubg[_playerindex][_index].valueSet(_siid, _cenx, _ceny, _w, _h, _col);
+		BGLayer::ubg[_index].valueSet(_siid, _cenx, _ceny, _w, _h, _col);
 	}
 	return 0;
 }
@@ -1344,8 +1338,8 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 	_ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
+
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _siid = _INEXT_HDSS_LUAPARA;
 
@@ -1356,7 +1350,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 			_col = _COBJ_HDSS_LUA;
 		}
 
-		BGLayer::ubg[_playerindex][_index].valueSet(_siid, 0, 0, -1, -1, _col);
+		BGLayer::ubg[_index].valueSet(_siid, 0, 0, -1, -1, _col);
 
 		if (argscount > 2)
 		{
@@ -1398,7 +1392,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 				}
 			}
 
-			BGLayer::ubg[_playerindex][_index].rectSet(_x, _y, _z, _w, _h, _rotx, _roty, _rotz);
+			BGLayer::ubg[_index].rectSet(_x, _y, _z, _w, _h, _rotx, _roty, _rotz);
 
 			if (argscount > 3)
 			{
@@ -1431,7 +1425,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 						}
 					}
 				}
-				BGLayer::ubg[_playerindex][_index].moveSet(_speed, _zSpeed, _angle, _move, _rotate);
+				BGLayer::ubg[_index].moveSet(_speed, _zSpeed, _angle, _move, _rotate);
 
 				if (argscount > 4)
 				{
@@ -1456,7 +1450,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 						}
 					}
 
-					BGLayer::ubg[_playerindex][_index].parallelogram(_paral, _flipx, _flipy);
+					BGLayer::ubg[_index].parallelogram(_paral, _flipx, _flipy);
 				}
 			}
 		}
@@ -1470,8 +1464,7 @@ int _HDSSCallGet::Call_BGFLAG(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		int _index = _INEXT_HDSS_LUAPARA;
 		BYTE _flag = _INEXT_HDSS_LUAPARA;
 		int _maxtime = -1;
@@ -1480,7 +1473,7 @@ int _HDSSCallGet::Call_BGFLAG(LuaState * ls)
 		{
 			_maxtime = _IOBJ_HDSS_LUA;
 		}
-		BGLayer::ubg[_playerindex][_index].SetFlag(_flag, _maxtime);
+		BGLayer::ubg[_index].SetFlag(_flag, _maxtime);
 	}
 	return 0;
 }
@@ -1491,8 +1484,7 @@ int _HDSSCallGet::Call_BGCOLOR(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		int _index = _INEXT_HDSS_LUAPARA;
 		DWORD col[4];
 		int _blend = BLEND_DEFAULT;
@@ -1502,12 +1494,12 @@ int _HDSSCallGet::Call_BGCOLOR(LuaState * ls)
 			col[i] = _COBJ_HDSS_LUA;
 		}
 
-		BGLayer::ubg[_playerindex][_index].colorSet(col[0], col[1], col[2], col[3]);
+		BGLayer::ubg[_index].colorSet(col[0], col[1], col[2], col[3]);
 		_JNEXT_HDSS_LUAPARA;
 		if (bhavenext)
 		{
 			_blend = _IOBJ_HDSS_LUA;
-			BGLayer::ubg[_playerindex][_index].SetBlend(_blend);
+			BGLayer::ubg[_index].SetBlend(_blend);
 		}
 	}
 	return 0;
@@ -1519,11 +1511,10 @@ int _HDSSCallGet::Call_BGBLEND(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _blend = _INEXT_HDSS_LUAPARA;
-		BGLayer::ubg[_playerindex][_index].SetBlend(_blend);
+		BGLayer::ubg[_index].SetBlend(_blend);
 	}
 	return 0;
 }
@@ -1534,16 +1525,15 @@ int _HDSSCallGet::Call_BGOFF(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		int _index = _INEXT_HDSS_LUAPARA;
 		if (_index < 0)
 		{
-			BGLayer::KillOtherLayer(_playerindex);
+			BGLayer::KillOtherLayer();
 		}
 		else
 		{
-			BGLayer::ubg[_playerindex][_index].exist = false;
+			BGLayer::ubg[_index].exist = false;
 		}
 	}
 	return 0;
@@ -1555,8 +1545,7 @@ int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 
 	if (true)
 	{
-		BYTE _playerindex = _INEXT_HDSS_LUAPARA;
-		_playerindex = 0;
+		_INEXT_HDSS_LUAPARA;
 		BYTE _setID = _INEXT_HDSS_LUAPARA;
 
 		WORD _sID = BGLAYERSET_NONE;
@@ -1573,7 +1562,7 @@ int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 			}
 		}
 
-		BGLayer::BGLayerSetup(_playerindex, _setID, _sID, _bForce);
+		BGLayer::BGLayerSetup(_setID, _sID, _bForce);
 	}
 	return 0;
 }
@@ -1830,7 +1819,6 @@ int _HDSSCallGet::Call_SELSETUP(LuaState * ls)
 		int _nselect = _INEXT_HDSS_LUAPARA;
 		int _select = _INEXT_HDSS_LUAPARA;
 
-		BYTE _playerindex = 0;
 		BYTE _keyplus = PUSHKEY_KEYNULL;
 		BYTE _keyminus = PUSHKEY_KEYNULL;
 		BYTE _keyok = PUSHKEY_KEYNULL;
@@ -1839,8 +1827,8 @@ int _HDSSCallGet::Call_SELSETUP(LuaState * ls)
 		_JNEXT_HDSS_LUAPARA;
 		if (bhavenext)
 		{
-			_playerindex = _IOBJ_HDSS_LUA;
-			_playerindex = 0;
+			_IOBJ_HDSS_LUA;
+	
 			_JNEXT_HDSS_LUAPARA;
 			if (bhavenext)
 			{
@@ -1867,7 +1855,7 @@ int _HDSSCallGet::Call_SELSETUP(LuaState * ls)
 				}
 			}
 		}
-		SelectSystem::selsys[_selsys].Setup(_selsys, _nselect, _select, _playerindex, _keyplus, _keyminus, _keyok, _keycancel, _maxtime);
+		SelectSystem::selsys[_selsys].Setup(_selsys, _nselect, _select, _keyplus, _keyminus, _keyok, _keycancel, _maxtime);
 
 		if (argscount > 2)
 		{

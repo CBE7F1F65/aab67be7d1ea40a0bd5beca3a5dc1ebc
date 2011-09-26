@@ -13,8 +13,8 @@ int Export::password = 0;
 
 D3DXMATRIX Export::matView2DMode;
 D3DXMATRIX Export::matProj2DMode;
-D3DXMATRIX Export::matView[M_PL_MATCHMAXPLAYER];
-D3DXMATRIX Export::matProj[M_PL_MATCHMAXPLAYER];
+D3DXMATRIX Export::matView;
+D3DXMATRIX Export::matProj;
 D3DXMATRIX Export::matViewSuper;
 D3DXMATRIX Export::matProjSuper;
 
@@ -172,96 +172,93 @@ bool Export::clientResetMatrix(float screenscale)
 	 }
 	 }
 	 */
-	
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
+
 #if defined __WIN32
-		D3DXMATRIX _matView(
-							1.0f, 0.0f, 0.0f, 0.0f,
-							0.0f, -1.0f, 0.0f, 0.0f,
-							0.0f, 0.0f, -1.0f, 0.0f,
-							-M_GAMESQUARE_CENTER_X_(i), M_GAMESQUARE_CENTER_Y, M_GAMESQUARE_HEIGHT/2.0f, 1.0f
-							);
-		D3DXMATRIX _matProj(
-							M_CLIENT_HEIGHT/M_CLIENT_WIDTH, 0.0f, 0.0f, 0.0f,
-							0.0f, 1.0f, 0.0f, 0.0f,
-							(M_GAMESQUARE_CENTER_X_(i)-M_CLIENT_CENTER_X)/(M_CLIENT_WIDTH/2), 0.0f, 0.0f, 1.0f,
-							-M_PROJECTIONMATRIX_OFFSET*(M_CLIENT_HEIGHT/M_CLIENT_HEIGHT), M_PROJECTIONMATRIX_OFFSET, 0.0f, -0.55f
-							);
+	D3DXMATRIX _matView(
+		1.0f, 0.0f, 0.0f, 0.0f,
+		0.0f, -1.0f, 0.0f, 0.0f,
+		0.0f, 0.0f, -1.0f, 0.0f,
+		-M_GAMESQUARE_CENTER_X, M_GAMESQUARE_CENTER_Y, M_GAMESQUARE_HEIGHT/2.0f, 1.0f
+		);
+	D3DXMATRIX _matProj(
+		M_CLIENT_HEIGHT/M_CLIENT_WIDTH, 0.0f, 0.0f, 0.0f,
+		0.0f, 1.0f, 0.0f, 0.0f,
+		(M_GAMESQUARE_CENTER_X-M_CLIENT_CENTER_X)/(M_CLIENT_WIDTH/2), 0.0f, 0.0f, 1.0f,
+		-M_PROJECTIONMATRIX_OFFSET*(M_CLIENT_HEIGHT/M_CLIENT_HEIGHT), M_PROJECTIONMATRIX_OFFSET, 0.0f, -0.55f
+		);
 #else
-		D3DXMATRIX _matView;
-		D3DXMATRIX _matProj;
+	D3DXMATRIX _matView;
+	D3DXMATRIX _matProj;
 #if defined __PSP
-		_matView.m[0][0] = scaleval;
-		_matView.m[0][1] = 0.0f;
-		_matView.m[0][2] = 0.0f;
-		_matView.m[0][3] = 0.0f;
-		
-		_matView.m[1][0] = 0.0f;
-		_matView.m[1][1] = scaleval;
-		_matView.m[1][2] = 0.0f;
-		_matView.m[1][3] = 0.0f;
-		
-		_matView.m[2][0] = 0.0f;
-		_matView.m[2][1] = 0.0f;
-		_matView.m[2][2] = scaleval;
-		_matView.m[2][3] = 0.0f;
-		
-		_matView.m[3][0] = offsetval;
-		_matView.m[3][1] = 0.0f;
-		_matView.m[3][2] = 0.0f;
-		_matView.m[3][3] = 1.0f;
+	_matView.m[0][0] = scaleval;
+	_matView.m[0][1] = 0.0f;
+	_matView.m[0][2] = 0.0f;
+	_matView.m[0][3] = 0.0f;
+
+	_matView.m[1][0] = 0.0f;
+	_matView.m[1][1] = scaleval;
+	_matView.m[1][2] = 0.0f;
+	_matView.m[1][3] = 0.0f;
+
+	_matView.m[2][0] = 0.0f;
+	_matView.m[2][1] = 0.0f;
+	_matView.m[2][2] = scaleval;
+	_matView.m[2][3] = 0.0f;
+
+	_matView.m[3][0] = offsetval;
+	_matView.m[3][1] = 0.0f;
+	_matView.m[3][2] = 0.0f;
+	_matView.m[3][3] = 1.0f;
 #elif defined __IPHONE
-		memcpy(&_matView, &matView2DMode, sizeof(D3DXMATRIX));
+	memcpy(&_matView, &matView2DMode, sizeof(D3DXMATRIX));
 #endif
-		
+
 #if defined __PSP
-		_matProj.m[0][0] = scaleval;
-		_matProj.m[0][1] = 0.0f;
-		_matProj.m[0][2] = 0.0f;
-		_matProj.m[0][3] = 0.0f;
-		
-		_matProj.m[1][0] = 0.0f;
-		_matProj.m[1][1] = -1.0f;
-		_matProj.m[1][2] = 0.0f;
-		_matProj.m[1][3] = 0.0f;
-		
-		_matProj.m[2][0] = (M_CLIENT_CENTER_X-M_GAMESQUARE_CENTER_X_(i))/(M_CLIENT_HEIGHT/2)*scaleval;
-		_matProj.m[2][1] = 0.0f;
-		_matProj.m[2][2] = -1.0f;
-		_matProj.m[2][3] = -1.0f;
-		
-		_matProj.m[3][0] = -SCREEN_HEIGHT/2;
-		_matProj.m[3][1] = SCREEN_HEIGHT/2;
-		_matProj.m[3][2] = SCREEN_HEIGHT/2;
-		_matProj.m[3][3] = SCREEN_HEIGHT/2;
+	_matProj.m[0][0] = scaleval;
+	_matProj.m[0][1] = 0.0f;
+	_matProj.m[0][2] = 0.0f;
+	_matProj.m[0][3] = 0.0f;
+
+	_matProj.m[1][0] = 0.0f;
+	_matProj.m[1][1] = -1.0f;
+	_matProj.m[1][2] = 0.0f;
+	_matProj.m[1][3] = 0.0f;
+
+	_matProj.m[2][0] = (M_CLIENT_CENTER_X-M_GAMESQUARE_CENTER_X(i))/(M_CLIENT_HEIGHT/2)*scaleval;
+	_matProj.m[2][1] = 0.0f;
+	_matProj.m[2][2] = -1.0f;
+	_matProj.m[2][3] = -1.0f;
+
+	_matProj.m[3][0] = -SCREEN_HEIGHT/2;
+	_matProj.m[3][1] = SCREEN_HEIGHT/2;
+	_matProj.m[3][2] = SCREEN_HEIGHT/2;
+	_matProj.m[3][3] = SCREEN_HEIGHT/2;
 #elif defined __IPHONE
-		_matProj.m[0][0] = SCREEN_HEIGHT/SCREEN_WIDTH;
-		_matProj.m[0][1] = 0.0f;
-		_matProj.m[0][2] = 0.0f;
-		_matProj.m[0][3] = 0.0f;
-		
-		_matProj.m[1][0] = 0.0f;
-		_matProj.m[1][1] = -1.0f;
-		_matProj.m[1][2] = 0.0f;
-		_matProj.m[1][3] = 0.0f;
-		
-		_matProj.m[2][0] = 0.0f;
-		_matProj.m[2][1] = -(M_CLIENT_CENTER_X-M_GAMESQUARE_CENTER_X_(i))/(M_CLIENT_HEIGHT/2)*scaleval;
-		_matProj.m[2][2] = -1.0f;
-		_matProj.m[2][3] = -1.0f;
-		
-		_matProj.m[3][0] = -SCREEN_HEIGHT/2;
-		_matProj.m[3][1] = SCREEN_HEIGHT/2;
-		_matProj.m[3][2] = SCREEN_HEIGHT/2;
-		_matProj.m[3][3] = SCREEN_HEIGHT/2;
+	_matProj.m[0][0] = SCREEN_HEIGHT/SCREEN_WIDTH;
+	_matProj.m[0][1] = 0.0f;
+	_matProj.m[0][2] = 0.0f;
+	_matProj.m[0][3] = 0.0f;
+
+	_matProj.m[1][0] = 0.0f;
+	_matProj.m[1][1] = -1.0f;
+	_matProj.m[1][2] = 0.0f;
+	_matProj.m[1][3] = 0.0f;
+
+	_matProj.m[2][0] = 0.0f;
+	_matProj.m[2][1] = -(M_CLIENT_CENTER_X-M_GAMESQUARE_CENTER_X(i))/(M_CLIENT_HEIGHT/2)*scaleval;
+	_matProj.m[2][2] = -1.0f;
+	_matProj.m[2][3] = -1.0f;
+
+	_matProj.m[3][0] = -SCREEN_HEIGHT/2;
+	_matProj.m[3][1] = SCREEN_HEIGHT/2;
+	_matProj.m[3][2] = SCREEN_HEIGHT/2;
+	_matProj.m[3][3] = SCREEN_HEIGHT/2;
 #endif
-		
+
 #endif // __WIN32
-		
-		matView[i] = _matView;
-		matProj[i] = _matProj;
-	}
+
+	matView = _matView;
+	matProj = _matProj;
 	
 	return true;
 }
@@ -307,8 +304,8 @@ void Export::clientSetMatrix(float _worldx, float _worldy, float _worldz, BYTE r
 	{
 		index = 1;
 	}
-	hge->Gfx_SetTransform( D3DTS_VIEW, &matView[index] );
-	hge->Gfx_SetTransform( D3DTS_PROJECTION, &matProj[index] );
+	hge->Gfx_SetTransform( D3DTS_VIEW, &matView );
+	hge->Gfx_SetTransform( D3DTS_PROJECTION, &matProj );
 }
 
 bool Export::clientSet2DMode()
@@ -322,27 +319,11 @@ bool Export::clientSet2DMode()
 	return true;
 }
 
-hge3DPoint * Export::GetFarPoint(BYTE renderflag)
+hge3DPoint * Export::GetFarPoint()
 {
 	ptfar.z = M_CLIENT_HEIGHT;
-	switch (renderflag)
-	{
-	case M_RENDER_NULL:
-		ptfar.x = M_CLIENT_CENTER_X;
-		ptfar.y = M_CLIENT_CENTER_Y;
-		break;
-	case M_RENDER_LEFT:
-	case M_RENDER_RIGHT:
-		ptfar.x = M_GAMESQUARE_CENTER_X_0;
-		ptfar.y = M_GAMESQUARE_CENTER_Y;
-		break;
-/*
-	case M_RENDER_RIGHT:
-		ptfar.x = M_GAMESQUARE_CENTER_X_1;
-		ptfar.y = M_GAMESQUARE_CENTER_Y;
-		break;
-		*/
-	}
+	ptfar.x = M_GAMESQUARE_CENTER_X;
+	ptfar.y = M_GAMESQUARE_CENTER_Y;
 	return &ptfar;
 }
 
@@ -378,33 +359,6 @@ void Export::clientAdjustWindow()
 		SetWindowPos(hge->System_GetState(HGE_HWND), windowtopmost, windowleft, windowtop, windowwidth, windowheight, SWP_FRAMECHANGED);
 	}
 #endif // __WIN32
-}
-
-BYTE Export::GetPlayerIndexByRenderFlag(BYTE renderflag)
-{
-	if (renderflag == M_RENDER_LEFT)
-	{
-		return 0;
-	}
-	else if (renderflag == M_RENDER_RIGHT)
-	{
-		return 1;
-	}
-	return 0;
-}
-
-BYTE Export::GetRenderFlagByPlayerIndex(BYTE playerindex)
-{
-	playerindex = 0;
-	if (playerindex == 0)
-	{
-		return M_RENDER_LEFT;
-	}
-	else if (playerindex == 1)
-	{
-		return M_RENDER_RIGHT;
-	}
-	return M_RENDER_NULL;
 }
 
 bool Export::GetResourceFile(bool readbin)

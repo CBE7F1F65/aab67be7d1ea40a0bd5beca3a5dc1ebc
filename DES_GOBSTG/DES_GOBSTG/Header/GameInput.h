@@ -21,47 +21,26 @@
 #define KSI_ESCAPE	11
 #define KSI_CAPTURE	12
 
-#define KS_UP_(X)		gameinput[(0)].keyKS.keyUp
-#define KS_DOWN_(X)		gameinput[(0)].keyKS.keyDown
-#define KS_LEFT_(X)		gameinput[(0)].keyKS.keyLeft
-#define KS_RIGHT_(X)	gameinput[(0)].keyKS.keyRight
-#define KS_FIRE_(X)		gameinput[(0)].keyKS.keyFire
-#define KS_QUICK_(X)	gameinput[(0)].keyKS.keyQuick
-#define KS_SLOW_(X)		gameinput[(0)].keyKS.keySlow
-#define KS_DRAIN_(X)	gameinput[(0)].keyKS.keyDrain
-#define KS_PAUSE_(X)	gameinput[(0)].keyKS.keyPause
-#define KS_SKIP_(X)		gameinput[(0)].keyKS.keySkip
-#define KS_ENTER_(X)	gameinput[(0)].keyKS.keyEnter
-#define KS_ESCAPE_(X)	gameinput[(0)].keyKS.keyEscape
-#define KS_CAPTURE_(X)	gameinput[(0)].keyKS.keyCapture
+#define KS_UP		gameinput.keyKS.keyUp
+#define KS_DOWN		gameinput.keyKS.keyDown
+#define KS_LEFT		gameinput.keyKS.keyLeft
+#define KS_RIGHT	gameinput.keyKS.keyRight
+#define KS_FIRE		gameinput.keyKS.keyFire
+#define KS_QUICK	gameinput.keyKS.keyQuick
+#define KS_SLOW		gameinput.keyKS.keySlow
+#define KS_DRAIN	gameinput.keyKS.keyDrain
+#define KS_PAUSE	gameinput.keyKS.keyPause
+#define KS_SKIP		gameinput.keyKS.keySkip
+#define KS_ENTER	gameinput.keyKS.keyEnter
+#define KS_ESCAPE	gameinput.keyKS.keyEscape
+#define KS_CAPTURE	gameinput.keyKS.keyCapture
 
-#define KS_UP		KS_UP_(0)
-#define KS_DOWN		KS_DOWN_(0)
-#define KS_LEFT		KS_LEFT_(0)
-#define KS_RIGHT	KS_RIGHT_(0)
-#define KS_FIRE		KS_FIRE_(0)
-#define KS_QUICK	KS_QUICK_(0)
-#define KS_SLOW		KS_SLOW_(0)
-#define KS_DRAIN	KS_DRAIN_(0)
-#define KS_PAUSE	KS_PAUSE_(0)
-#define KS_SKIP		KS_SKIP_(0)
-#define KS_ENTER	KS_ENTER_(0)
-#define KS_ESCAPE	KS_ESCAPE_(0)
-#define KS_CAPTURE	KS_CAPTURE_(0)
-
-#define JS_FIRE_(X)				gameinput[(0)].keyJS.joyFire
-#define JS_QUICK_(X)			gameinput[(0)].keyJS.joyQuick
-#define JS_SLOW_(X)				gameinput[(0)].keyJS.joySlow
-#define JS_DRAIN_(X)			gameinput[(0)].keyJS.joyDrain
-#define JS_PAUSE_(X)			gameinput[(0)].keyJS.joyPause
-#define JS_DEBUG_SPEEDUP_(X)	gameinput[(0)].keyJS.debug_joySpeedUp
-
-#define JS_FIRE		JS_FIRE_(0)
-#define JS_QUICK	JS_QUICK_(0)
-#define JS_SLOW		JS_SLOW_(0)
-#define JS_DRAIN	JS_DRAIN_(0)
-#define JS_PAUSE	JS_PAUSE_(0)
-#define JS_DEBUG_SPEEDUP	JS_DEBUG_SPEEDUP_(0)
+#define JS_FIRE				gameinput.keyJS.joyFire
+#define JS_QUICK			gameinput.keyJS.joyQuick
+#define JS_SLOW				gameinput.keyJS.joySlow
+#define JS_DRAIN			gameinput.keyJS.joyDrain
+#define JS_PAUSE			gameinput.keyJS.joyPause
+#define JS_DEBUG_SPEEDUP	gameinput.keyJS.debug_joySpeedUp
 
 class GameInput
 {
@@ -80,8 +59,8 @@ private:
 	bool getKey(int ksi, int type=DIKEY_PRESSED);
 	void setKey(int ksi, bool set=true);
 public:
-	static bool GetKey(BYTE playerindex, int ksi, int type=DIKEY_PRESSED);
-	static void SetKey(BYTE playerindex, int ksi, bool set=true);
+	static bool GetKey(int ksi, int type=DIKEY_PRESSED);
+	static void SetKey(int ksi, bool set=true);
 
 	static WORD GetNowInput();
 	static void SetNowInput(WORD nowinput);
@@ -125,8 +104,7 @@ public:
 	WORD lastInput;
 
 	static HGE * hge;
-	static GameInput gameinput[M_PL_MATCHMAXPLAYER];
-	static bool swapinput;
+	static GameInput gameinput;
 };
 
 #endif

@@ -25,11 +25,8 @@ FrontDisplay::FrontDisplay()
 	postprintlist.clear();
 
 	panelstate = FDISPSTATE_OFF;
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		spellnamestate[i] = FDISPSTATE_OFF;
-		spellnameclass[i] = 0;
-	}
+	spellnamestate = FDISPSTATE_OFF;
+	spellnameclass = 0;
 	musicstate = FDISPSTATE_OFF;
 }
 
@@ -104,22 +101,13 @@ void FrontDisplay::SetState(BYTE type, BYTE state/* =FDISPSTATE_ON */)
 	case FDISP_PANEL:
 		panelstate = state;
 		break;
-	case FDISP_SPELLNAME_0:
-	case FDISP_SPELLNAME_1:
-		spellnamestate[0] = state;
+	case FDISP_SPELLNAME:
+		spellnamestate = state;
 		if (state == FDISPSTATE_OFF)
 		{
-			spellnameclass[0] = 0;
+			spellnameclass = 0;
 		}
 		break;
-		/*
-		spellnamestate[1] = state;
-		if (state == FDISPSTATE_OFF)
-		{
-			spellnameclass[1] = 0;
-		}
-		break;
-		*/
 	case FDISP_MUSICNAME:
 		musicstate = state;
 		break;
@@ -134,39 +122,6 @@ void FrontDisplay::OnChangeMusic(int musicID)
 
 void FrontDisplay::action()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		if (gameinfodisplay.lastlifecountdown[i])
-		{
-			gameinfodisplay.lastlifecountdown[i]--;
-		}
-		if (gameinfodisplay.gaugefilledcountdown[i])
-		{
-			gameinfodisplay.gaugefilledcountdown[i]--;
-		}
-	}
-	if (gameinfodisplay.lilycountdown)
-	{
-		gameinfodisplay.lilycountdown--;
-	}
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		if (spellnamestate[i])
-		{
-			if (spellnamestate[i] < 180)
-			{
-				spellnamestate[i]++;
-			}
-
-			if (spellnameclass[i] < 3 && spellnamestate[i] >= 180/*
-			 ||
-							spellnameclass[i] >= 3 && Enemy::bossindex[1-i] == 0xff && spellnamestate[i] >= 60*/
-			)
-			{
-				SetState(FDISP_SPELLNAME_0+i, FDISPSTATE_OFF);
-			}
-		}
-	}
 	if (musicstate)
 	{
 		if (musicstate < 180)
@@ -181,7 +136,7 @@ void FrontDisplay::action()
 	panel.winindiheadangle += 400;
 }
 
-void FrontDisplay::RenderHeadInfo(BYTE playerindex)
+void FrontDisplay::RenderHeadInfo()
 {
 }
 
@@ -190,85 +145,77 @@ void FrontDisplay::RenderPanel()
 	float displayscale = Process::mp.infodisplayscale/Process::mp.screenscale;
 	if (panelstate)
 	{
-		float spellpointx[M_PL_MATCHMAXPLAYER];
-		spellpointx[0] = M_GAMESQUARE_RIGHT_0-panel.spellpoint->GetWidth()*displayscale;
-//		spellpointx[1] = M_GAMESQUARE_LEFT_1;
-		float winindix[M_PL_MATCHMAXPLAYER][2];
+		float spellpointx;
+		spellpointx = M_GAMESQUARE_RIGHT-panel.spellpoint->GetWidth()*displayscale;
+		float winindix[2];
 		float winindiw = panel.winindi->GetWidth();
 		float winindih = panel.winindi->GetHeight();
 		for (int i=0; i<2; i++)
 		{
-			winindix[0][i] = M_GAMESQUARE_LEFT_0 + winindiw * (i+1);
-//			winindix[1][i] = M_GAMESQUARE_RIGHT_1 - winindiw * (i+1);
+			winindix[i] = M_GAMESQUARE_LEFT + winindiw * (i+1);
 		}
 
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+		SpriteItemManager::RenderSpriteEx(panel.spellpoint, spellpointx, M_GAMESQUARE_TOP, 0, displayscale);
+		spriteData * _spd = SpriteItemManager::CastSprite(panel.combobarindex);
+		float fcombogage = ((float)Player::p.nComboGage) / PLAYER_COMBOGAGEMAX;
+		SpriteItemManager::SetSpriteTextureRect(panel.combobar, _spd->tex_x, _spd->tex_y, _spd->tex_w*fcombogage, _spd->tex_h);
+		SpriteItemManager::SetSpriteHotSpot(panel.combobar, 0, 0);
+		SpriteItemManager::RenderSpriteEx(panel.combobar, spellpointx+2*displayscale, M_GAMESQUARE_TOP+30*displayscale, 0, displayscale);
+
+		bool usered = true;
+		if (Player::p.nComboGage < PLAYER_COMBOALERT && Player::p.nComboGage > PLAYER_COMBORESET)
 		{
-			SpriteItemManager::RenderSpriteEx(panel.spellpoint, spellpointx[i], M_GAMESQUARE_TOP, 0, displayscale);
-			spriteData * _spd = SpriteItemManager::CastSprite(panel.combobarindex);
-			float fcombogage = ((float)Player::p[i].nComboGage) / PLAYER_COMBOGAGEMAX;
-			SpriteItemManager::SetSpriteTextureRect(panel.combobar, _spd->tex_x, _spd->tex_y, _spd->tex_w*fcombogage, _spd->tex_h);
-			SpriteItemManager::SetSpriteHotSpot(panel.combobar, 0, 0);
-			SpriteItemManager::RenderSpriteEx(panel.combobar, spellpointx[i]+2*displayscale, M_GAMESQUARE_TOP+30*displayscale, 0, displayscale);
-
-			bool usered = true;
-			if (Player::p[i].nComboGage < PLAYER_COMBOALERT && Player::p[i].nComboGage > PLAYER_COMBORESET)
+			if (gametime % 8 < 4)
 			{
-				if (gametime % 8 < 4)
-				{
-					usered = false;
-				}
-			}
-			int nComboHit = Player::p[i].nComboHit;
-			char buffer[M_STRITOAMAX];
-			sprintf(buffer, "%d%c", nComboHit, '0'+(usered?21:20));
-			if (usered)
-			{
-				for (int j=0; j<strlen(buffer)-1; j++)
-				{
-					buffer[j] += 10;
-				}
-			}
-			SpriteItemManager::FontPrintf(info.spellpointdigitfont, spellpointx[i]+38*displayscale, M_GAMESQUARE_TOP+16*displayscale, HGETEXT_RIGHT, buffer);
-
-			SpriteItemManager::RenderSprite(panel.slot, M_GAMESQUARE_LEFT_(i)+16, M_GAMESQUARE_BOTTOM);
-			SpriteItemManager::RenderSprite(panel.slotback, M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_BOTTOM);
-			float tempx;
-			for (int j=0; j<PLAYER_DEFAULTINITLIFE/2; j++)
-			{
-				tempx = panel.lifeindi[FDISP_LIFEINDI_FULL]->GetWidth() * (j-(PLAYER_DEFAULTINITLIFE/2)/2) + M_GAMESQUARE_CENTER_X_(i);
-				if (Player::p[i].nLife > j * 2 + 1)
-				{
-					SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_FULL], tempx, M_GAMESQUARE_TOP);
-				}
-				else if (Player::p[i].nLife > j * 2)
-				{
-					SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_HALF], tempx, M_GAMESQUARE_TOP);
-				}
-				else
-				{
-					SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_EMPTY], tempx, M_GAMESQUARE_TOP);
-				}
+				usered = false;
 			}
 		}
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+		int nComboHit = Player::p.nComboHit;
+		char buffer[M_STRITOAMAX];
+		sprintf(buffer, "%d%c", nComboHit, '0'+(usered?21:20));
+		if (usered)
 		{
-			SpriteItemManager::RenderSprite(panel.leftedge[i], M_GAMESQUARE_LEFT_(i)-M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
-			SpriteItemManager::RenderSprite(panel.rightedge[i], M_GAMESQUARE_RIGHT_(i)+M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
-			SpriteItemManager::RenderSprite(panel.topedge[i], M_GAMESQUARE_CENTER_X_(i), M_GAMESQUARE_TOP-M_GAMESQUARE_EDGE/2);
-			SpriteItemManager::RenderSprite(panel.bottomedge[i], M_GAMESQUARE_CENTER_X_(i), M_GAMESQUARE_BOTTOM+M_GAMESQUARE_EDGE/2);
-			if (Player::p[i].flag & PLAYER_COSTLIFE)
+			for (int j=0; j<strlen(buffer)-1; j++)
 			{
-				DWORD col = 0xffffffff;
-				if (gametime % 2)
-				{
-					col = 0xffff0000;
-				}
-				hge->Gfx_RenderLine(M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_TOP, M_GAMESQUARE_RIGHT_(i), M_GAMESQUARE_TOP, col);
-				hge->Gfx_RenderLine(M_GAMESQUARE_RIGHT_(i), M_GAMESQUARE_TOP, M_GAMESQUARE_RIGHT_(i), M_GAMESQUARE_BOTTOM, col);
-				hge->Gfx_RenderLine(M_GAMESQUARE_RIGHT_(i), M_GAMESQUARE_BOTTOM, M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_BOTTOM, col);
-				hge->Gfx_RenderLine(M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_BOTTOM, M_GAMESQUARE_LEFT_(i), M_GAMESQUARE_TOP, col);
+				buffer[j] += 10;
 			}
+		}
+		SpriteItemManager::FontPrintf(info.spellpointdigitfont, spellpointx+38*displayscale, M_GAMESQUARE_TOP+16*displayscale, HGETEXT_RIGHT, buffer);
+
+		SpriteItemManager::RenderSprite(panel.slot, M_GAMESQUARE_LEFT+16, M_GAMESQUARE_BOTTOM);
+		SpriteItemManager::RenderSprite(panel.slotback, M_GAMESQUARE_LEFT, M_GAMESQUARE_BOTTOM);
+		float tempx;
+		for (int j=0; j<PLAYER_DEFAULTINITLIFE/2; j++)
+		{
+			tempx = panel.lifeindi[FDISP_LIFEINDI_FULL]->GetWidth() * (j-(PLAYER_DEFAULTINITLIFE/2)/2) + M_GAMESQUARE_CENTER_X;
+			if (Player::p.nLife > j * 2 + 1)
+			{
+				SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_FULL], tempx, M_GAMESQUARE_TOP);
+			}
+			else if (Player::p.nLife > j * 2)
+			{
+				SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_HALF], tempx, M_GAMESQUARE_TOP);
+			}
+			else
+			{
+				SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_EMPTY], tempx, M_GAMESQUARE_TOP);
+			}
+		}
+		SpriteItemManager::RenderSprite(panel.leftedge, M_GAMESQUARE_LEFT-M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
+		SpriteItemManager::RenderSprite(panel.rightedge, M_GAMESQUARE_RIGHT+M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
+		SpriteItemManager::RenderSprite(panel.topedge, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_TOP-M_GAMESQUARE_EDGE/2);
+		SpriteItemManager::RenderSprite(panel.bottomedge, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_BOTTOM+M_GAMESQUARE_EDGE/2);
+		if (Player::p.flag & PLAYER_COSTLIFE)
+		{
+			DWORD col = 0xffffffff;
+			if (gametime % 2)
+			{
+				col = 0xffff0000;
+			}
+			hge->Gfx_RenderLine(M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP, M_GAMESQUARE_RIGHT, M_GAMESQUARE_TOP, col);
+			hge->Gfx_RenderLine(M_GAMESQUARE_RIGHT, M_GAMESQUARE_TOP, M_GAMESQUARE_RIGHT, M_GAMESQUARE_BOTTOM, col);
+			hge->Gfx_RenderLine(M_GAMESQUARE_RIGHT, M_GAMESQUARE_BOTTOM, M_GAMESQUARE_LEFT, M_GAMESQUARE_BOTTOM, col);
+			hge->Gfx_RenderLine(M_GAMESQUARE_LEFT, M_GAMESQUARE_BOTTOM, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP, col);
 		}
 		if (musicstate)
 		{
@@ -326,66 +273,24 @@ void FrontDisplay::RenderPanel()
 	}
 }
 
-void FrontDisplay::RenderSpellName(BYTE playerindex)
+void FrontDisplay::RenderEnemyX()
 {
-/*
-	playerindex = 0;
-	if (spellnamestate[1-playerindex])
+	if (Enemy::bossindex != 0xff)
 	{
-		float aimx = M_GAMESQUARE_LEFT_(playerindex) + 120;
-		float x;
-		if (spellnamestate[1-playerindex] < 45)
+		float bossx = Enemy::en[Enemy::bossindex].x;
+		float px = Player::p.x;
+		float xdiff = fabsf(bossx-px);
+		if (xdiff < 48)
 		{
-			x = INTER(M_GAMESQUARE_LEFT_(playerindex)-160, aimx, spellnamestate[1-playerindex]/45.0f);
+			BYTE alpha = INTER(0x60, 0xff, xdiff/48.0);
+			info.enemyx->SetColor((alpha<<24)|0xffffff);
 		}
 		else
 		{
-			x = aimx;
+			info.enemyx->SetColor(0xffffffff);
 		}
-		BYTE alpha = 0xff;
-		BYTE spellclass = spellnameclass[1-playerindex];
-		if (spellclass < 3 && spellnamestate[1-playerindex] > 148)
-		{
-			alpha = INTER(0xff, 0, (spellnamestate[1-playerindex]-148)/32.0f);
-		}
-		float y = M_GAMESQUARE_TOP + 60;
-		gameinfodisplay.spellline->SetColor((alpha<<24)|0xffffff);
-		SpriteItemManager::RenderSprite(gameinfodisplay.spellline, x, y);
-		DWORD ucol = (alpha<<24)|0xFF0000;
-		DWORD dcol = (alpha<<24)|0xFFFFFF;
-		gameinfodisplay.fsSpell[1-playerindex][spellclass-1].SetColor(ucol, ucol, dcol, dcol);
-		gameinfodisplay.fsSpell[1-playerindex][spellclass-1].Render(x-100, y, FONTSYS_DEFAULT_SHADOW);
-	}
-	*/
-}
-
-void FrontDisplay::RenderEnemyX()
-{
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		if (Enemy::bossindex[i] != 0xff)
-		{
-			float bossx = Enemy::en[i][Enemy::bossindex[i]].x;
-			float px = Player::p[i].x;
-			float xdiff = fabsf(bossx-px);
-			if (xdiff < 48)
-			{
-				BYTE alpha = INTER(0x60, 0xff, xdiff/48.0);
-				info.enemyx->SetColor((alpha<<24)|0xffffff);
-			}
-			else
-			{
-				info.enemyx->SetColor(0xffffffff);
-			}
-			SpriteItemManager::RenderSprite(info.enemyx, bossx, M_CLIENT_BOTTOM);
-		}
-	}
-/*
-		if (BossInfo::flag)
-		{
-			info.enemyx->Render(Enemy::en[ENEMY_MAINBOSSINDEX].x, 472);
-		}*/
-	
+		SpriteItemManager::RenderSprite(info.enemyx, bossx, M_CLIENT_BOTTOM);
+	}	
 }
 
 bool FrontDisplay::Init()
@@ -404,10 +309,10 @@ bool FrontDisplay::Init()
 	SpriteItemManager::confirmIndex = SpriteItemManager::GetIndexByName(SI_CONFIRM);
 
 	//panel
-	panel.leftedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LEFT_0);
-	panel.rightedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_RIGHT_0);
-	panel.topedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TOP_0);
-	panel.bottomedge[0] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOTTOM_0);
+	panel.leftedge = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LEFT_0);
+	panel.rightedge = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_RIGHT_0);
+	panel.topedge = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TOP_0);
+	panel.bottomedge = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOTTOM_0);
 	/*
 	panel.leftedge[1] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LEFT_1);
 	panel.rightedge[1] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_RIGHT_1);
@@ -500,13 +405,6 @@ bool FrontDisplay::Init()
 	gameinfodisplay.lastlife = SpriteItemManager::CreateSpriteByName(SI_GAMEINFO_LASTLIFE);
 	gameinfodisplay.lily = SpriteItemManager::CreateSpriteByName(SI_GAMEINFO_LILY);
 	gameinfodisplay.spellline = SpriteItemManager::CreateSpriteByName(SI_GAMEINFO_SPELLLINE);
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
-	{
-		for (int i=0; i<3; i++)
-		{
-			gameinfodisplay.fsSpell[j][i].SignUp("");
-		}
-	}
 	gameinfodisplay.fsMusic.SignUp("");
 
 	//ascii
@@ -560,13 +458,11 @@ bool FrontDisplay::Init()
 
 void FrontDisplay::Release()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		SpriteItemManager::FreeSprite(&panel.leftedge[i]);
-		SpriteItemManager::FreeSprite(&panel.rightedge[i]);
-		SpriteItemManager::FreeSprite(&panel.topedge[i]);
-		SpriteItemManager::FreeSprite(&panel.bottomedge[i]);
-	}
+	SpriteItemManager::FreeSprite(&panel.leftedge);
+	SpriteItemManager::FreeSprite(&panel.rightedge);
+	SpriteItemManager::FreeSprite(&panel.topedge);
+	SpriteItemManager::FreeSprite(&panel.bottomedge);
+
 	SpriteItemManager::FreeSprite(&panel.spellpoint);
 	SpriteItemManager::FreeSprite(&panel.combobar);
 	SpriteItemManager::FreeSprite(&panel.winindi);

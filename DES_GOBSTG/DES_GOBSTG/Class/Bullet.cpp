@@ -18,14 +18,14 @@
 #define _BULLETRENDERFLAG_NONE	0
 #define _BULLETRENDERFLAG_ROUND	1
 
-RenderDepth Bullet::renderDepth[M_PL_MATCHMAXPLAYER][DATASTRUCT_BULLETTYPEMAX];
+RenderDepth Bullet::renderDepth[DATASTRUCT_BULLETTYPEMAX];
 
-int Bullet::_actionList[M_PL_MATCHMAXPLAYER][BULLETACTIONMAX];
+int Bullet::_actionList[BULLETACTIONMAX];
 hgeSprite * Bullet::sprite[BULLETTYPECOLORMAX];
 
-VectorList<Bullet> Bullet::bu[M_PL_MATCHMAXPLAYER];
+VectorList<Bullet> Bullet::bu;
 
-int Bullet::bulletcount[M_PL_MATCHMAXPLAYER];
+int Bullet::bulletcount;
 
 WORD Bullet::index;
 
@@ -43,11 +43,8 @@ void Bullet::Init()
 {
 	Release();
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		ZeroMemory(renderDepth[i], sizeof(RenderDepth) * DATASTRUCT_BULLETTYPEMAX);
-		bu[i].init(BULLETMAX);
-	}
+	ZeroMemory(renderDepth, sizeof(RenderDepth) * DATASTRUCT_BULLETTYPEMAX);
+	bu.init(BULLETMAX);
 	for (int i=0; i<DATASTRUCT_BULLETTYPEMAX; i++)
 	{
 		bulletData * tbd = &BResource::bres.bulletdata[i];
@@ -80,9 +77,8 @@ void Bullet::Init()
 	index = 0;
 }
 
-void Bullet::BuildCircle(BYTE playerindex, int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime, float avoid)
+void Bullet::BuildCircle(int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime, float avoid)
 {
-	playerindex = 0;
 	if (num <= 0)
 	{
 		return;
@@ -93,13 +89,12 @@ void Bullet::BuildCircle(BYTE playerindex, int num, int baseangle, float baser, 
 		int tnowangle = baseangle + i * anglestep;
 		float tx = x + cost(tnowangle) * baser;
 		float ty = y + sint(tnowangle) * baser;
-		Build(playerindex, tx, ty, tnowangle, speed, type, color, fadeinTime, avoid, 0xff);
+		Build(tx, ty, tnowangle, speed, type, color, fadeinTime, avoid, 0xff);
 	}
 }
 
-void Bullet::BuildLine(BYTE playerindex, int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime, float avoid)
+void Bullet::BuildLine(int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime, float avoid)
 {
-	playerindex = 0;
 	if (num <= 0)
 	{
 		return;
@@ -109,40 +104,36 @@ void Bullet::BuildLine(BYTE playerindex, int num, int baseangle, float space, in
 		int tindex = i - baseindex;
 		float tx = x + tindex * cost(baseangle) * space;
 		float ty = y + tindex * sint(baseangle) * space;
-		Build(playerindex, tx, ty, angle + anglefactor * tindex, speed + speedfactor * abs(tindex), type, color, fadeinTime, avoid, 0xff);
+		Build(tx, ty, angle + anglefactor * tindex, speed + speedfactor * abs(tindex), type, color, fadeinTime, avoid, 0xff);
 	}
 }
 
-int Bullet::Build(BYTE playerindex, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid, BYTE tarID)
+int Bullet::Build(float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid, BYTE tarID)
 {
-	playerindex = 0;
-	if (bu[playerindex].getSize() == BULLETMAX)
+	if (bu.getSize() == BULLETMAX)
 	{
 		return -1;
 	}
-	if (bulletcount[playerindex] >= Process::mp.bulletcountmax)
+	if (bulletcount >= Process::mp.bulletcountmax)
 	{
 		return -1;
 	}
 	Bullet * _tbu = NULL;
-	_tbu = bu[playerindex].push_back();
-	int _index = bu[playerindex].getEndIndex();
-	if (!_tbu->valueSet(playerindex, _index, x, y, angle, speed, type, color, fadeinTime, avoid, tarID))
+	_tbu = bu.push_back();
+	int _index = bu.getEndIndex();
+	if (!_tbu->valueSet(_index, x, y, angle, speed, type, color, fadeinTime, avoid, tarID))
 	{
-		bu[playerindex].pop(_index);
+		bu.pop(_index);
 		return -1;
 	}
-	bulletcount[playerindex]++;
-	memcpy(_tbu->actionList, _actionList[playerindex], BULLETACTIONMAX*sizeof(int));
+	bulletcount++;
+	memcpy(_tbu->actionList, _actionList, BULLETACTIONMAX*sizeof(int));
 	return _index;
 }
 
 void Bullet::Release()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		bu[i].clear();
-	}
+	bu.clear();
 	for(int i=0;i<BULLETTYPECOLORMAX;i++)
 	{
 		SpriteItemManager::FreeSprite(&sprite[i]);
@@ -151,72 +142,65 @@ void Bullet::Release()
 
 void Bullet::ClearItem()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		bu[i].clear_item();
-		ZeroMemory(_actionList[i], sizeof(int) * BULLETACTIONMAX);
-	}
+	bu.clear_item();
+	ZeroMemory(_actionList, sizeof(int) * BULLETACTIONMAX);
 	index = 0;
 }
 
 void Bullet::Action()
 {
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
+	bulletcount = 0;
+	if (bu.getSize())
 	{
-		bulletcount[j] = 0;
-		if (bu[j].getSize())
+		ZeroMemory(Bullet::renderDepth, sizeof(RenderDepth) * DATASTRUCT_BULLETTYPEMAX);
+		DWORD i = 0;
+		DWORD size = bu.getSize();
+		DWORD stopflag = Process::mp.GetStopFlag();
+		bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_BULLET);
+		for (bu.toBegin(); i<size; bu.toNext(), i++)
 		{
-			ZeroMemory(Bullet::renderDepth[j], sizeof(RenderDepth) * DATASTRUCT_BULLETTYPEMAX);
-			DWORD i = 0;
-			DWORD size = bu[j].getSize();
-			DWORD stopflag = Process::mp.GetStopFlag();
-			bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, j, FRAME_STOPFLAG_BULLET);
-			for (bu[j].toBegin(); i<size; bu[j].toNext(), i++)
+			if (!bu.isValid())
 			{
-				if (!bu[j].isValid())
+				continue;
+			}
+			if ((*bu).exist)
+			{
+				DWORD _index = bu.getIndex();
+				if (!binstop)
 				{
-					continue;
-				}
-				if ((*bu[j]).exist)
-				{
-					DWORD _index = bu[j].getIndex();
-					if (!binstop)
-					{
-						(*bu[j]).action();
-					}
-					else
-					{
-						(*bu[j]).actionInStop();
-					}
-					bu[j].toIndex(_index);
-					GameAI::ai[j].CheckBulletCollision(&(*bu[j]));
-					bulletcount[j]++;
+					(*bu).action();
 				}
 				else
 				{
-					bu[j].pop();
+					(*bu).actionInStop();
 				}
+				bu.toIndex(_index);
+				GameAI::ai.CheckBulletCollision(&(*bu));
+				bulletcount++;
+			}
+			else
+			{
+				bu.pop();
 			}
 		}
 	}
 }
 
-void Bullet::RenderAll(BYTE playerindex)
+void Bullet::RenderAll()
 {
-	playerindex = 0;
-	if (bu[playerindex].getSize())
+	if (bu.getSize())
 	{
 		for (int i=0; i<DATASTRUCT_BULLETTYPEMAX; i++)
 		{
-			if (Bullet::renderDepth[playerindex][i].haveType)
+			if (Bullet::renderDepth[i].haveType)
 			{
 				bool bentered = false;
-				for (bu[playerindex].toIndex(Bullet::renderDepth[playerindex][i].startIndex); !bentered || bu[playerindex].getIndex() != Bullet::renderDepth[playerindex][i].endIndex; bu[playerindex].toNext())
+				for (bu.toIndex(Bullet::renderDepth[i].startIndex); !bentered || bu.getIndex() != Bullet::renderDepth[i].endIndex; bu.toNext())
 				{
 					bentered = true;
-					if (bu[playerindex].isValid() && (*bu[playerindex]).getRenderDepth() == i)
+					if (bu.isValid() && (*bu).getRenderDepth() == i)
 					{
-						(*bu[playerindex]).Render();
+						(*bu).Render();
 					}
 				}
 			}
@@ -309,10 +293,8 @@ void Bullet::matchFadeOutColorType()
 	}
 }
 
-bool Bullet::valueSet(BYTE _playerindex, WORD _ID, float _x, float _y, int _angle, float _speed, BYTE _type, BYTE _color, int _fadeinTime, float avoid, BYTE _tarID)
+bool Bullet::valueSet(WORD _ID, float _x, float _y, int _angle, float _speed, BYTE _type, BYTE _color, int _fadeinTime, float avoid, BYTE _tarID)
 {
-	_playerindex = 0;
-	playerindex	= _playerindex;
 	ID			=	_ID;
 	x			=	_x;
 	y			=	_y;
@@ -320,7 +302,7 @@ bool Bullet::valueSet(BYTE _playerindex, WORD _ID, float _x, float _y, int _angl
 //	type		=	_type;
 	if(avoid)
 	{
-		if(isInRect(Player::p[playerindex].x, Player::p[playerindex].y, avoid))
+		if(isInRect(Player::p.x, Player::p.y, avoid))
 			return false;
 	}
 	angle	=	_angle;
@@ -381,7 +363,7 @@ int Bullet::DoIze()
 	int sendbonus = 0;
 	if (cancelable || BossInfo::bossinfo.flag>=BOSSINFO_COLLAPSE)
 	{
-		for (list<EventZone>::iterator it=EventZone::ezone[playerindex].begin(); it!=EventZone::ezone[playerindex].end(); it++)
+		for (list<EventZone>::iterator it=EventZone::ezone.begin(); it!=EventZone::ezone.end(); it++)
 		{
 			if (it->timer < 0)
 			{
@@ -425,7 +407,7 @@ int Bullet::DoIze()
 							timer = 0;
 							speed = 0;
 							fadeinTime = -1;
-							memcpy(actionList, EventZone::bulletActionList[playerindex], BULLETACTIONMAX*sizeof(int));
+							memcpy(actionList, EventZone::bulletActionList, BULLETACTIONMAX*sizeof(int));
 						}
 					}
 					if (it->type & EVENTZONE_TYPE_BULLETSTUPA)
@@ -434,9 +416,9 @@ int Bullet::DoIze()
 						{
 							if (timer >= fadeinTime && type != it->eventID)
 							{
-								DWORD _tindex = bu[playerindex].getIndex();
-								Build(playerindex, x, y, angle, speed+it->power, it->eventID, 0);
-								bu[playerindex].toIndex(_tindex);
+								DWORD _tindex = bu.getIndex();
+								Build(x, y, angle, speed+it->power, it->eventID, 0);
+								bu.toIndex(_tindex);
 								passEvent(EVENTZONE_TYPE_BULLETSTUPA);
 							}
 						}
@@ -447,19 +429,17 @@ int Bullet::DoIze()
 						{
 							if (timer >= fadeinTime && type != it->eventID)
 							{
-								DWORD _tindex = bu[playerindex].getIndex();
+								DWORD _tindex = bu.getIndex();
 								if (speed < it->power)
 								{
 									speed = it->power;
 								}
-								int iret = Build(playerindex, x - SIGN(playerindex) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
-//								int iret = Build(1-playerindex, x - SIGN(playerindex) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
+								int iret = Build(x - SIGN(0) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
 								if (iret >= 0)
 								{
-									(*(bu[playerindex])).passEvent(EVENTZONE_TYPE_BULLETWARP);
-//									(*(bu[1-playerindex])).passEvent(EVENTZONE_TYPE_BULLETWARP);
+									(*(bu)).passEvent(EVENTZONE_TYPE_BULLETWARP);
 								}
-								bu[playerindex].toIndex(_tindex);
+								bu.toIndex(_tindex);
 								passEvent(EVENTZONE_TYPE_BULLETWARP);
 							}
 						}
@@ -484,9 +464,9 @@ void Bullet::DoGraze()
 {
 	if(!grazed && BResource::bres.bulletdata[type].collisiontype != BULLET_COLLISION_NONE)
 	{
-		if (isInRect(Player::p[playerindex].x, Player::p[playerindex].y, PLAYER_GRAZE_R))
+		if (isInRect(Player::p.x, Player::p.y, PLAYER_GRAZE_R))
 		{
-			Player::p[playerindex].DoGraze(x, y);
+			Player::p.DoGraze(x, y);
 			grazed = true;
 		}
 	}
@@ -494,7 +474,7 @@ void Bullet::DoGraze()
 
 bool Bullet::DoCollision()
 {
-	if(isInRect(Player::p[playerindex].x, Player::p[playerindex].y, Player::p[playerindex].r))
+	if(isInRect(Player::p.x, Player::p.y, Player::p.r))
 	{
 		/*
 		if (cancelable)
@@ -504,7 +484,7 @@ bool Bullet::DoCollision()
 			timer = 0;
 		}
 		*/
-		Player::p[playerindex].DoShot();
+		Player::p.DoShot();
 		return true;
 	}
 	return false;
@@ -515,15 +495,15 @@ void Bullet::DoUpdateRenderDepth()
 	if (exist)
 	{
 		BYTE rdtype = getRenderDepth();
-		if (!renderDepth[playerindex][rdtype].haveType)
+		if (!renderDepth[rdtype].haveType)
 		{
-			renderDepth[playerindex][rdtype].haveType = true;
-			renderDepth[playerindex][rdtype].startIndex = index;
+			renderDepth[rdtype].haveType = true;
+			renderDepth[rdtype].startIndex = index;
 		}
-		renderDepth[playerindex][rdtype].endIndex = index + 1;
-		if (renderDepth[playerindex][rdtype].endIndex >= BULLETMAX)
+		renderDepth[rdtype].endIndex = index + 1;
+		if (renderDepth[rdtype].endIndex >= BULLETMAX)
 		{
-			renderDepth[playerindex][rdtype].endIndex = 0;
+			renderDepth[rdtype].endIndex = 0;
 		}
 	}
 }
@@ -585,40 +565,6 @@ void Bullet::passEvent(DWORD _eventID)
 	eventID[0] = _eventID;
 }
 
-void Bullet::SendBullet(BYTE playerindex, float x, float y, BYTE setID, BYTE * sendtime, float * speed, int sendbonus)
-{
-	playerindex = 0;
-	int siidindex = EFFSPSEND_COLOR_RED;
-	if (playerindex)
-	{
-		siidindex = EFFSPSEND_COLOR_BLUE;
-	}
-	if (sendtime)
-	{
-	}
-	float _hscale = randtf(0.6f, 0.8f);
-	int esindex = EffectSp::Build(setID, playerindex, EffectSp::senditemsiid[siidindex][0], x, y, 0, _hscale);
-	if (esindex >= 0)
-	{
-		EffectSp * _peffsp = &(EffectSp::effsp[playerindex][esindex]);
-		_peffsp->colorSet(0x80ffffff, BLEND_ALPHAADD);
-		float aimx;
-		float aimy;
-		aimx = randtf(M_GAMESQUARE_LEFT_(playerindex) + 8, M_GAMESQUARE_RIGHT_(playerindex) - 8);
-		aimy = randtf(M_GAMESQUARE_TOP, M_GAMESQUARE_TOP + 128);
-		_peffsp->chaseSet(EFFSP_CHASE_FREE, aimx, aimy, randt(45, 60));
-		_peffsp->animationSet(EFFSPSEND_ANIMATIONMAX);
-		if (sendtime && speed)
-		{
-			_peffsp->AppendData(*sendtime, *speed);
-		}
-		else
-		{
-			_peffsp->AppendData(-1, -1);
-		}
-	}
-}
-
 void Bullet::AddSendInfo(BYTE _sendsetID, BYTE _sendtime)
 {
 	sendtime = _sendtime;
@@ -634,7 +580,7 @@ void Bullet::changeType(BYTE totype)
 		BYTE effID = BResource::bres.bulletdata[type].effID;
 		if (effID)
 		{
-			eff.valueSet(effID, playerindex, *this);
+			eff.valueSet(effID, *this);
 		}
 	}
 }
@@ -780,7 +726,7 @@ void Bullet::action()
 
 		if(!remain && timer > fadeinTime)
 		{
-			if(x > M_DELETECLIENT_RIGHT_(playerindex) || x < M_DELETECLIENT_LEFT_(playerindex) || y > M_DELETECLIENT_BOTTOM || y < M_DELETECLIENT_TOP)
+			if(x > M_DELETECLIENT_RIGHT || x < M_DELETECLIENT_LEFT || y > M_DELETECLIENT_BOTTOM || y < M_DELETECLIENT_TOP)
 				exist = false;
 		}
 		remain = false;
@@ -799,8 +745,6 @@ void Bullet::action()
 						sendsetID += 2;
 					}
 				}
-				SendBullet(playerindex, x, y, sendsetID, &sendtime, &speed, sendbonus);
-//				SendBullet(1-playerindex, x, y, sendsetID, &sendtime, &speed, sendbonus);
 			}
 		}
 		else if(timer == 32)
@@ -1273,7 +1217,7 @@ bool Bullet::ChangeAction(int nextstep)
 				case ANGLESETRMAP:
 					if(doit)
 					{
-						angle = rMainAngle(Player::p[playerindex].x, Player::p[playerindex].y, _EXEACL_(1)*1.0f);
+						angle = rMainAngle(Player::p.x, Player::p.y, _EXEACL_(1)*1.0f);
 						SE::push(SE_BULLET_CHANGE_1, x);
 					}
 					++i;
@@ -1300,7 +1244,7 @@ bool Bullet::ChangeAction(int nextstep)
 				case ANGLESETAMAP:
 					if(doit)
 					{
-						angle = aMainAngle(Player::p[playerindex].x, Player::p[playerindex].y, _EXEACL_(1));
+						angle = aMainAngle(Player::p.x, Player::p.y, _EXEACL_(1));
 						SE::push(SE_BULLET_CHANGE_1, x);
 					}
 					++i;
@@ -1509,7 +1453,7 @@ bool Bullet::ChangeAction(int nextstep)
 					{
 						if (bouncetime < _EXEACL_(2))
 						{
-							if (x < M_GAMESQUARE_LEFT_(playerindex) + _EXEACL_(1) || x > M_GAMESQUARE_RIGHT_(playerindex) - _EXEACL_(1))
+							if (x < M_GAMESQUARE_LEFT + _EXEACL_(1) || x > M_GAMESQUARE_RIGHT - _EXEACL_(1))
 							{
 //								_SAVEEXE_(2, _EXEACL_(2)-1);
 								bouncetime++;
@@ -1533,7 +1477,7 @@ bool Bullet::ChangeAction(int nextstep)
 					{
 						if (bouncetime < _EXEACL_(2))
 						{
-							if (x < M_GAMESQUARE_LEFT_(playerindex) + _EXEACL_(1) || x > M_GAMESQUARE_RIGHT_(playerindex) - _EXEACL_(1))
+							if (x < M_GAMESQUARE_LEFT + _EXEACL_(1) || x > M_GAMESQUARE_RIGHT - _EXEACL_(1))
 							{
 //								_SAVEEXE_(2, _EXEACL_(2)-1);
 								bouncetime++;

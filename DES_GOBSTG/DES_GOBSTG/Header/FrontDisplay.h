@@ -33,10 +33,10 @@ struct fdPostPrint
 
 struct ftPanelSet 
 {
-	hgeSprite * leftedge[M_PL_MATCHMAXPLAYER];
-	hgeSprite * rightedge[M_PL_MATCHMAXPLAYER];
-	hgeSprite * topedge[M_PL_MATCHMAXPLAYER];
-	hgeSprite * bottomedge[M_PL_MATCHMAXPLAYER];
+	hgeSprite * leftedge;
+	hgeSprite * rightedge;
+	hgeSprite * topedge;
+	hgeSprite * bottomedge;
 	hgeSprite * spellpoint;
 	hgeSprite * combobar;
 	hgeSprite * winindi;
@@ -200,10 +200,6 @@ struct ftGameInfoDisplaySet
 		};
 		hgeSprite * gameinfodisplay[21];
 	};
-	BYTE gaugefilledcountdown[M_PL_MATCHMAXPLAYER];
-	BYTE lastlifecountdown[M_PL_MATCHMAXPLAYER];
-	BYTE lilycountdown;
-	Fontsys fsSpell[M_PL_MATCHMAXPLAYER][3];
 	Fontsys fsMusic;
 };
 
@@ -316,8 +312,7 @@ struct ftAscIISet
 
 
 #define FDISP_PANEL			0
-#define FDISP_SPELLNAME_0	1
-#define FDISP_SPELLNAME_1	2
+#define FDISP_SPELLNAME		1
 #define FDISP_MUSICNAME		3
 
 #define FDISPSTATE_ON	1
@@ -335,8 +330,7 @@ public:
 	void action();
 
 	void RenderPanel();
-	void RenderHeadInfo(BYTE playerindex);
-	void RenderSpellName(BYTE playerindex);
+	void RenderHeadInfo();
 
 	void RenderEnemyX();
 
@@ -364,8 +358,8 @@ public:
 	bool bval;
 
 	BYTE panelstate;
-	BYTE spellnamestate[M_PL_MATCHMAXPLAYER];
-	BYTE spellnameclass[M_PL_MATCHMAXPLAYER];
+	BYTE spellnamestate;
+	BYTE spellnameclass;
 	BYTE musicstate;
 
 	static FrontDisplay fdisp;

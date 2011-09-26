@@ -11,10 +11,10 @@
 #include "../header/ProcessDefine.h"
 #include "../header/Process.h"
 
-VectorList<PlayerBullet> PlayerBullet::pb[M_PL_MATCHMAXPLAYER];
+VectorList<PlayerBullet> PlayerBullet::pb;
 
-int PlayerBullet::locked[M_PL_MATCHMAXPLAYER];
-int PlayerBullet::activelocked[M_PL_MATCHMAXPLAYER];
+int PlayerBullet::locked;
+int PlayerBullet::activelocked;
 
 hgeSprite * PlayerBullet::sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
 
@@ -35,8 +35,8 @@ WORD PlayerBullet::beams;
 #define _PBDELAY_SPEEDDOWN		0.9f
 
 #define _PB_DELETEBOLDER		M_GAMESQUARE_HEIGHT
-#define _PB_DELETE_LEFT_(X)		M_DELETECLIENT_LEFT_(X) - _PB_DELETEBOLDER
-#define _PB_DELETE_RIGHT_(X)	M_DELETECLIENT_RIGHT_(X) + _PB_DELETEBOLDER
+#define _PB_DELETE_LEFT		M_DELETECLIENT_LEFT - _PB_DELETEBOLDER
+#define _PB_DELETE_RIGHT	M_DELETECLIENT_RIGHT + _PB_DELETEBOLDER
 #define _PB_DELETE_TOP			M_DELETECLIENT_TOP - _PB_DELETEBOLDER
 #define _PB_DELETE_BOTTOM		M_DELETECLIENT_BOTTOM + _PB_DELETEBOLDER
 
@@ -59,12 +59,9 @@ void PlayerBullet::Init()
 {
 	Release();
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		pb[i].init(PLAYERBULLETMAX);
-		locked[i] = PBLOCK_LOST;
-		activelocked[i] = PBLOCK_LOST;
-	}
+	pb.init(PLAYERBULLETMAX);
+	locked = PBLOCK_LOST;
+	activelocked = PBLOCK_LOST;
 
 	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
 	{
@@ -85,77 +82,66 @@ void PlayerBullet::Release()
 		}
 
 	}
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		pb[i].clear();
-	}
+	pb.clear();
 }
 
 void PlayerBullet::ClearItem()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		pb[i].clear_item();
-		locked[i] = PBLOCK_LOST;
-		activelocked[i] = PBLOCK_LOST;
-	}
+	pb.clear_item();
+	locked = PBLOCK_LOST;
+	activelocked = PBLOCK_LOST;
 }
 
 void PlayerBullet::Action()
 {
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
+	DWORD stopflag = Process::mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYERBULLET);
+	if (!binstop)
 	{
-		DWORD stopflag = Process::mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, j, FRAME_STOPFLAG_PLAYERBULLET);
-		if (!binstop)
+		if (pb.getSize())
 		{
-			if (pb[j].getSize())
+			DWORD i = 0;
+			DWORD size = pb.getSize();
+			for (pb.toBegin(); i<size; pb.toNext(), i++)
 			{
-				DWORD i = 0;
-				DWORD size = pb[j].getSize();
-				for (pb[j].toBegin(); i<size; pb[j].toNext(), i++)
+				if (!pb.isValid())
 				{
-					if (!pb[j].isValid())
-					{
-						continue;
-					}
-					DWORD _index = pb[j].getIndex();
-					if ((*pb[j]).exist)
-					{
-						(*pb[j]).action();
-					}
-					else
-					{
-						pb[j].pop();
-					}
-					pb[j].toIndex(_index);
+					continue;
 				}
+				DWORD _index = pb.getIndex();
+				if ((*pb).exist)
+				{
+					(*pb).action();
+				}
+				else
+				{
+					pb.pop();
+				}
+				pb.toIndex(_index);
 			}
 		}
 	}
 }
 
-void PlayerBullet::RenderAll(BYTE playerindex)
+void PlayerBullet::RenderAll()
 {
-	playerindex = 0;
-	if (pb[playerindex].getSize())
+	if (pb.getSize())
 	{
 		DWORD i = 0;
-		DWORD size = pb[playerindex].getSize();
-		for (pb[playerindex].toBegin(); i<size; pb[playerindex].toNext(), i++)
+		DWORD size = pb.getSize();
+		for (pb.toBegin(); i<size; pb.toNext(), i++)
 		{
-			if (pb[playerindex].isValid())
+			if (pb.isValid())
 			{
-				(*pb[playerindex]).Render();
+				(*pb).Render();
 			}
 
 		}
 	}
 }
 
-void PlayerBullet::BuildShoot(BYTE playerindex, BYTE playerID, int usetimer, bool bchargeshoot/* =false */)
+void PlayerBullet::BuildShoot(BYTE playerID, int usetimer, bool bchargeshoot/* =false */)
 {
-	playerindex = 0;
 	playershootData * item;
 	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
 	{
@@ -168,15 +154,15 @@ void PlayerBullet::BuildShoot(BYTE playerindex, BYTE playerID, int usetimer, boo
 			}
 			if (item->timeMod && (item->timeMod == 1 || !(usetimer % item->timeMod)))
 			{
-				Build(playerindex, i);
+				Build(i);
 			}
 		}
 	}
 }
 
-int PlayerBullet::Build(BYTE playerindex, int shootdataID, bool explode/* =false */, float xoffset/* =0 */, float yoffset/* =0 */)
+int PlayerBullet::Build(int shootdataID, bool explode/* =false */, float xoffset/* =0 */, float yoffset/* =0 */)
 {
-	if (pb[playerindex].getSize() == PLAYERBULLETMAX)
+	if (pb.getSize() == PLAYERBULLETMAX)
 	{
 		return -1;
 	}
@@ -186,16 +172,14 @@ int PlayerBullet::Build(BYTE playerindex, int shootdataID, bool explode/* =false
 	{
 		return -1;
 	}
-	pb[playerindex].push_back(_pb)->valueSet(playerindex, shootdataID, item->arrange, item->xbias+xoffset, item->ybias+yoffset, 
+	pb.push_back(_pb)->valueSet(shootdataID, item->arrange, item->xbias+xoffset, item->ybias+yoffset, 
 		item->scale, item->angle, item->addangle, item->speed, item->accelspeed, 
 		item->power, item->hitonfactor, item->flag, item->seID, item->deletetime);
-	return pb[playerindex].getEndIndex();
+	return pb.getEndIndex();
 }
 
-void PlayerBullet::valueSet(BYTE _playerindex, WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, int _hitonfactor, WORD _flag, BYTE seID, int _deletetime)
+void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, int _hitonfactor, WORD _flag, BYTE seID, int _deletetime)
 {
-	_playerindex = 0;
-	playerindex = _playerindex;
 	ID		=	_ID;
 	angle	=	_angle;
 	addangle =	_addangle;
@@ -229,13 +213,13 @@ void PlayerBullet::valueSet(BYTE _playerindex, WORD _ID, BYTE _arrange, float _x
 	}
 	if (arrange)
 	{
-		angle += Player::p[playerindex].pg[arrange-1].shootangle;
+		angle += Player::p.pg[arrange-1].shootangle;
 	}
 	if (flag & PBFLAG_ANTISHOOTER)
 	{
 		if (!arrange)
 		{
-			angle += Player::p[playerindex].aMainAngle(Player::p[playerindex].lastmx[0], Player::p[playerindex].lastmy[0]);
+			angle += Player::p.aMainAngle(Player::p.lastmx[0], Player::p.lastmy[0]);
 		}
 	}
 	else
@@ -281,13 +265,13 @@ void PlayerBullet::valueSet(BYTE _playerindex, WORD _ID, BYTE _arrange, float _x
 
 	if(arrange)
 	{
-		x = Player::p[playerindex].pg[arrange-1].x;
-		y = Player::p[playerindex].pg[arrange-1].y;
+		x = Player::p.pg[arrange-1].x;
+		y = Player::p.pg[arrange-1].y;
 	}
 	else
 	{
-		x = Player::p[playerindex].x;
-		y = Player::p[playerindex].y;
+		x = Player::p.x;
+		y = Player::p.y;
 	}
 
 	x += xbias;
@@ -314,43 +298,38 @@ void PlayerBullet::Render()
 
 void PlayerBullet::ClearLock()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		locked[i] = PBLOCK_LOST;
-		activelocked[i] = PBLOCK_LOST;
-	}
+	locked = PBLOCK_LOST;
+	activelocked = PBLOCK_LOST;
 }
 
-bool PlayerBullet::CheckAndSetLock(BObject * pbobj, BYTE playerindex, int lockedid, bool active)
+bool PlayerBullet::CheckAndSetLock(BObject * pbobj, int lockedid, bool active)
 {
-	playerindex = 0;
-	if (locked[playerindex] != PBLOCK_LOST && activelocked[playerindex] != PBLOCK_LOST)
+	if (locked != PBLOCK_LOST && activelocked != PBLOCK_LOST)
 	{
 		return false;
 	}
-	if (pbobj->x >= M_GAMESQUARE_LEFT_(playerindex) && pbobj->y <= M_GAMESQUARE_RIGHT_(playerindex) &&
+	if (pbobj->x >= M_GAMESQUARE_LEFT && pbobj->y <= M_GAMESQUARE_RIGHT &&
 		pbobj->y >= M_GAMESQUARE_TOP && pbobj->y <= M_GAMESQUARE_BOTTOM)
 	{
-		if (locked[playerindex] == PBLOCK_LOST)
+		if (locked == PBLOCK_LOST)
 		{
-			locked[playerindex] = lockedid;
+			locked = lockedid;
 		}
-		if (activelocked[playerindex] == PBLOCK_LOST && active && pbobj->y <= M_GAMESQUARE_BOTTOM-64)
+		if (activelocked == PBLOCK_LOST && active && pbobj->y <= M_GAMESQUARE_BOTTOM-64)
 		{
-			activelocked[playerindex] = lockedid;
+			activelocked = lockedid;
 		}
 		return true;
 	}
 	return false;
 }
 
-bool PlayerBullet::GetLockAim(BObject ** ppbobj, BYTE playerindex)
+bool PlayerBullet::GetLockAim(BObject ** ppbobj)
 {
-	playerindex = 0;
-	int lockedid = activelocked[playerindex];
-	if (activelocked[playerindex] == PBLOCK_LOST)
+	int lockedid = activelocked;
+	if (activelocked == PBLOCK_LOST)
 	{
-		lockedid = locked[playerindex];
+		lockedid = locked;
 	}
 	if (lockedid == PBLOCK_LOST)
 	{
@@ -358,7 +337,7 @@ bool PlayerBullet::GetLockAim(BObject ** ppbobj, BYTE playerindex)
 	}
 	if (ppbobj)
 	{
-		*ppbobj = &(Enemy::en[playerindex][lockedid]);
+		*ppbobj = &(Enemy::en[lockedid]);
 		return true;
 	}
 	return false;
@@ -369,7 +348,7 @@ void PlayerBullet::Lock()
 	locktimer++;
 	BObject * _tpbobj;
 
-	if (!GetLockAim(&_tpbobj, playerindex))
+	if (!GetLockAim(&_tpbobj))
 	{
 		if(speed < oldspeed)
 			speed += _PBLOCK_ACCSPEED;
@@ -447,7 +426,7 @@ void PlayerBullet::Lock()
 
 void PlayerBullet::hitOn()
 {
-//	Player::p[playerindex].DoPlayerBulletHit(hitonfactor);
+//	Player::p.DoPlayerBulletHit(hitonfactor);
 	if (flag & PBFLAG_ZONELIKE)
 	{
 		return;
@@ -483,7 +462,7 @@ bool PlayerBullet::isInRange(float aimx, float aimy, float w, float h)
 		}
 		else if ((flag & PBFLAG_BEAM)/* && !(timer % 24)*/)
 		{
-//			Player::p[playerindex].DoPlayerBulletHit(hitonfactor);
+//			Player::p.DoPlayerBulletHit(hitonfactor);
 		}
 		return true;
 	}
@@ -494,7 +473,7 @@ bool PlayerBullet::isInRange(float aimx, float aimy, float w, float h)
 void PlayerBullet::DelayShoot()
 {
 	BObject * _tpbobj = NULL;
-	GetLockAim(&_tpbobj, playerindex);
+	GetLockAim(&_tpbobj);
 	if(timer == 1)
 	{
 		speed = -speed;
@@ -533,11 +512,11 @@ void PlayerBullet::action()
 		{
 			if (arrange)
 			{
-				y = Player::p[playerindex].pg[arrange-1].y;
+				y = Player::p.pg[arrange-1].y;
 			}
 			else
 			{
-				y = Player::p[playerindex].y;
+				y = Player::p.y;
 			}
 			y += - M_CLIENT_HEIGHT / 2 + ybias;
 			xplus = 0;
@@ -606,13 +585,13 @@ void PlayerBullet::action()
 				float basey;
 				if (arrange)
 				{
-					basex = Player::p[playerindex].pg[arrange-1].x;
-					basey = Player::p[playerindex].pg[arrange-1].y;
+					basex = Player::p.pg[arrange-1].x;
+					basey = Player::p.pg[arrange-1].y;
 				}
 				else
 				{
-					basex = Player::p[playerindex].x;
-					basex = Player::p[playerindex].y;
+					basex = Player::p.x;
+					basex = Player::p.y;
 				}
 				x = basex + xplus*timer;
 				y = basey + yplus*timer;
@@ -632,7 +611,7 @@ void PlayerBullet::action()
 		{
 			alpha = (deletetime-timer)*0x0C;
 		}
-		if (deletetime && timer >= deletetime || x < _PB_DELETE_LEFT_(playerindex) || x > _PB_DELETE_RIGHT_(playerindex) || y < _PB_DELETE_TOP || y > _PB_DELETE_BOTTOM)
+		if (deletetime && timer >= deletetime || x < _PB_DELETE_LEFT || x > _PB_DELETE_RIGHT || y < _PB_DELETE_TOP || y > _PB_DELETE_BOTTOM)
 		{
 			exist = false;
 		}
@@ -674,11 +653,11 @@ void PlayerBullet::action()
 		{
 			if (timer == 1)
 			{
-				Build(playerindex, ID+1, true, x-Player::p[playerindex].x, y-Player::p[playerindex].y);
+				Build(ID+1, true, x-Player::p.x, y-Player::p.y);
 //				SE::push(SE_PLAYER_EXPLODE, x);
 			}
 
-//			EventZone::Build(EVENTZONE_TYPE_ENEMYDAMAGE, playerindex, x, y, 32/BResource::bres.playershootdata[ID].timeMod, SpriteItemManager::GetTexW(BResource::bres.playershootdata[ID].siid), power);
+//			EventZone::Build(EVENTZONE_TYPE_ENEMYDAMAGE, x, y, 32/BResource::bres.playershootdata[ID].timeMod, SpriteItemManager::GetTexW(BResource::bres.playershootdata[ID].siid), power);
 		}
 		if (flag & PBFLAG_SCALEUP)
 		{
@@ -687,15 +666,15 @@ void PlayerBullet::action()
 		}
 		if (flag & PBFLAG_BEAM)
 		{
-			float taimx = Player::p[playerindex].x;
+			float taimx = Player::p.x;
 			if (arrange)
 			{
-				taimx = Player::p[playerindex].pg[arrange-1].x;
+				taimx = Player::p.pg[arrange-1].x;
 			}
-			float taimy = Player::p[playerindex].y;
+			float taimy = Player::p.y;
 			if (arrange)
 			{
-				taimy = Player::p[playerindex].pg[arrange-1].y;
+				taimy = Player::p.pg[arrange-1].y;
 			}
 			taimx += xbias;
 			taimy += -M_CLIENT_HEIGHT / 2 + ybias;
@@ -708,27 +687,25 @@ void PlayerBullet::action()
 	able = exist && !fadeout;
 }
 
-bool PlayerBullet::CheckShoot(BYTE playerindex, Enemy * en, float aimx, float aimy, float aimw, float aimh)
+bool PlayerBullet::CheckShoot(Enemy * en, float aimx, float aimy, float aimw, float aimh)
 {
-	playerindex = 0;
-//	float totalpower = 0.0f;
 	bool hit = false;
-	if (pb[playerindex].getSize())
+	if (pb.getSize())
 	{
 		DWORD i = 0;
-		DWORD size = pb[playerindex].getSize();
-		for (pb[playerindex].toBegin(); i<size; pb[playerindex].toNext(), i++)
+		DWORD size = pb.getSize();
+		for (pb.toBegin(); i<size; pb.toNext(), i++)
 		{
-			if (pb[playerindex].isValid() && (*pb[playerindex]).able)
+			if (pb.isValid() && (*pb).able)
 			{
-				if ((*pb[playerindex]).isInRange(aimx, aimy, aimw, aimh))
+				if ((*pb).isInRange(aimx, aimy, aimw, aimh))
 				{
 					hit = true;
-//					totalpower += (*pb[playerindex]).power;
-					if (en->CostLife((*pb[playerindex]).power))
+//					totalpower += (*pb).power;
+					if (en->CostLife((*pb).power))
 					{
-						Player::p[playerindex].DoPlayerBulletHit((*pb[playerindex]).hitonfactor);
-						if ((*pb[playerindex]).hitonfactor >= 0)
+						Player::p.DoPlayerBulletHit((*pb).hitonfactor);
+						if ((*pb).hitonfactor >= 0)
 						{
 							en->ForceActive();
 						}

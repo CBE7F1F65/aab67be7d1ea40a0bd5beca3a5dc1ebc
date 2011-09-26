@@ -82,12 +82,10 @@ Selector * SelectSystem::BuildSelector(BYTE ID, int siID, float cenx, float ceny
 	return _pselector;
 }
 
-void SelectSystem::Setup(BYTE _pushid, int _nselect, int _select, BYTE _playerindex, int _keyminus, int _keyplus, int _keyok, int _keycancel, int maxtime/* =-1 */)
+void SelectSystem::Setup(BYTE _pushid, int _nselect, int _select, int _keyminus, int _keyplus, int _keyok, int _keycancel, int maxtime/* =-1 */)
 {
-	_playerindex = 0;
 	nselect = _nselect;
 	select = _select;
-	playerindex = _playerindex;
 	if (keyplus == PUSHKEY_KEYNULL && _keyplus != PUSHKEY_KEYNULL)
 		keyplus = _keyplus;
 	if (keyminus == PUSHKEY_KEYNULL && _keyminus != PUSHKEY_KEYNULL)
@@ -238,10 +236,10 @@ void SelectSystem::action()
 
 	if(fvselector != NULL)
 	{
-		PushKey::UpdatePushEvent(pushid, playerindex);
+		PushKey::UpdatePushEvent(pushid);
 		if (keyplus != PUSHKEY_KEYNULL)
 		{
-			if(GameInput::GetKey(playerindex, keyplus, DIKEY_DOWN))
+			if(GameInput::GetKey(keyplus, DIKEY_DOWN))
 			{
 				plus = true;
 				SE::push(SE_SYSTEM_SELECT);
@@ -252,7 +250,7 @@ void SelectSystem::action()
 		}
 		if (keyminus != PUSHKEY_KEYNULL)
 		{
-			if(GameInput::GetKey(playerindex, keyminus, DIKEY_DOWN))
+			if(GameInput::GetKey(keyminus, DIKEY_DOWN))
 			{
 				plus = false;
 				SE::push(SE_SYSTEM_SELECT);
@@ -273,7 +271,7 @@ void SelectSystem::action()
 				shift(select - lastID);
 			}
 		}
-		if(keyok != PUSHKEY_KEYNULL && GameInput::GetKey(playerindex, keyok, DIKEY_DOWN))
+		if(keyok != PUSHKEY_KEYNULL && GameInput::GetKey(keyok, DIKEY_DOWN))
 		{
 			bool benter = false;
 			for(list<Selector>::iterator it = sel.begin(); it != sel.end(); it++)
@@ -306,7 +304,7 @@ void SelectSystem::action()
 		}
 	}
 
-	if (keycancel != PUSHKEY_KEYNULL && GameInput::GetKey(playerindex, keycancel, DIKEY_DOWN))
+	if (keycancel != PUSHKEY_KEYNULL && GameInput::GetKey(keycancel, DIKEY_DOWN))
 	{
 		SE::push(SE_SYSTEM_CANCEL);
 		for(list<Selector>::iterator it = sel.begin(); it != sel.end(); it++)
@@ -390,7 +388,7 @@ bool SelectSystem::Confirm(BYTE _pushid, int _keyminus, int _keyplus, int _keyok
 		_sel->actionSet(SELINFO_ENTER, cenx, ceny);
 		_sel->actionSet(SELINFO_LEAVE, cenx, ceny);
 
-		Setup(_pushid, 2, settrue?0:1, playerindex, _keyplus, _keyminus, _keyok, _keycancel);
+		Setup(_pushid, 2, settrue?0:1, _keyplus, _keyminus, _keyok, _keycancel);
 		confirminit = true;
 	}
 	if(complete)

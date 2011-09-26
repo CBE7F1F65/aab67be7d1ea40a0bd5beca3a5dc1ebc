@@ -22,12 +22,12 @@
 
 #define PL_MOVABLEDGE_X		8
 #define PL_MOVABLEDGE_Y		16
-#define PL_MOVABLE_LEFT_(X)		(M_GAMESQUARE_LEFT_(X)+PL_MOVABLEDGE_X)
-#define PL_MOVABLE_RIGHT_(X)	(M_GAMESQUARE_RIGHT_(X)-PL_MOVABLEDGE_X)
+#define PL_MOVABLE_LEFT		(M_GAMESQUARE_LEFT+PL_MOVABLEDGE_X)
+#define PL_MOVABLE_RIGHT	(M_GAMESQUARE_RIGHT-PL_MOVABLEDGE_X)
 #define PL_MOVABLE_TOP		(M_GAMESQUARE_TOP+PL_MOVABLEDGE_Y)
 #define PL_MOVABLE_BOTTOM	(M_GAMESQUARE_BOTTOM-PL_MOVABLEDGE_Y)
 
-#define PL_MERGEPOS_X_(X)	((X)?M_GAMESQUARE_RIGHT_(X):M_GAMESQUARE_LEFT_(X))
+#define PL_MERGEPOS_X	(M_GAMESQUARE_CENTER_X)
 #define PL_MERGEPOS_Y		(M_GAMESQUARE_BOTTOM)
 
 #define PL_SAVELASTMAX		0x20
@@ -76,7 +76,7 @@ public:
 	Player();
 	~Player();
 
-	void valueSet(BYTE playerindex, BYTE round = 0);
+	void valueSet(BYTE round = 0);
 	void ClearSet(BYTE round=0);
 	void UpdatePlayerData();       
 	void ResetPlayerGhost(bool move = false);
@@ -131,7 +131,7 @@ public:
 
 	static void Init();
 	static bool Action();
-	static void RenderAll(BYTE playerindex);
+	static void RenderAll();
 	static int IsEnd();
 
 public:
@@ -173,6 +173,7 @@ public:
 	bool	bSlow;
 	bool	bDrain;
 	bool	bInfi;
+	bool	bLaser;
 
 	int nBulletPoint;
 	int nComboHit;
@@ -211,7 +212,7 @@ public:
 
 	// add
 	BYTE	initlife;
-	BYTE	playerindex;
+
 
 	static BYTE rank;
 
@@ -220,7 +221,7 @@ public:
 	static DWORD alltime;
 	static BYTE round;
 
-	static Player p[M_PL_MATCHMAXPLAYER];
+	static Player p;
 
 };
 #endif

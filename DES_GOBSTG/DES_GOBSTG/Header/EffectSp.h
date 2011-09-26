@@ -28,9 +28,7 @@
 #define	EFFSP_PLAYERCOLLAPSE	0x06
 
 #define EFFSP_CHASE_NULL		0x00
-#define EFFSP_CHASE_PLAYER_0	0x01
-//#define EFFSP_CHASE_PLAYER_1	0x02
-#define EFFSP_CHASE_PLAYER_(X)	(EFFSP_CHASE_PLAYER_0)
+#define EFFSP_CHASE_PLAYER		0x01
 #define EFFSP_CHASE_TARGET		0x10
 #define EFFSP_CHASE_FREE		0x20
 
@@ -65,7 +63,7 @@ public:
 
 	void AppendData(int ival, float fval);
 
-	void EffectSpOff(BYTE playerindex, int setID, int ID=-1);
+	void EffectSpOff(int setID, int ID=-1);
 
 	void action();
 	void Render();
@@ -95,7 +93,7 @@ public:
 	static int senditemexsiid;
 	static hgeSprite * sprite;
 
-	static VectorList<EffectSp> effsp[M_PL_MATCHMAXPLAYER];
+	static VectorList<EffectSp> effsp;
 };
 
 #endif

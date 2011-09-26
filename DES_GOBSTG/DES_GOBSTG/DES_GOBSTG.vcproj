@@ -517,6 +517,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\Class\PlayerLaser.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\Class\PlayerOtherAction.cpp"
 					>
 				</File>
@@ -860,6 +864,10 @@
 				</File>
 				<File
 					RelativePath=".\Header\PlayerGhost.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Header\PlayerLaser.h"
 					>
 				</File>
 				<File

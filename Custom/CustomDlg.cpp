@@ -224,15 +224,8 @@ BEGIN_MESSAGE_MAP(CCustomDlg, CDialog)
 	ON_EN_CHANGE(IDC_JOY_DRAIN, OnEnChangeJoyDrain)
 	ON_EN_CHANGE(IDC_JOY_PAUSE, OnEnChangeJoyPause)
 	ON_WM_HELPINFO()
-	ON_EN_CHANGE(IDC_JOY_FIRE_2, &CCustomDlg::OnEnChangeJoyFire2)
-	ON_EN_CHANGE(IDC_JOY_QUICK_2, &CCustomDlg::OnEnChangeJoyQuick2)
-	ON_EN_CHANGE(IDC_JOY_SLOW_2, &CCustomDlg::OnEnChangeJoySlow2)
-	ON_EN_CHANGE(IDC_JOY_DRAIN_2, &CCustomDlg::OnEnChangeJoyDrain2)
-	ON_EN_CHANGE(IDC_JOY_PAUSE_2, &CCustomDlg::OnEnChangeJoyPause2)
 	ON_BN_CLICKED(IDC_KEYCOMBINESLOWDRAIN, &CCustomDlg::OnBnClickedKeyCombineSlowDrain)
-	ON_BN_CLICKED(IDC_KEYCOMBINESLOWDRAIN2, &CCustomDlg::OnBnClickedKeyCombineSlowDrain2)
 	ON_BN_CLICKED(IDC_JOYCOMBINESLOWDRAIN, &CCustomDlg::OnBnClickedJoyCombineSlowDrain)
-	ON_BN_CLICKED(IDC_JOYCOMBINESLOWDRAIN2, &CCustomDlg::OnBnClickedJoyCombineSlowDrain2)
 	ON_EN_CHANGE(IDC_MUSICVOL, &CCustomDlg::OnEnChangeMusicvol)
 	ON_EN_CHANGE(IDC_SEVOL, &CCustomDlg::OnEnChangeSevol)
 	ON_EN_CHANGE(IDC_LEFTX, &CCustomDlg::OnEnChangeLeftX)
@@ -245,50 +238,28 @@ END_MESSAGE_MAP()
 
 void CCustomDlg::LoadIniValue()
 {
-	keyKey[0][0]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYUP, RESCONFIGDEFAULT_KEYUP_1);
-	keyKey[0][1]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYDOWN, RESCONFIGDEFAULT_KEYDOWN_1);
-	keyKey[0][2]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYLEFT, RESCONFIGDEFAULT_KEYLEFT_1);
-	keyKey[0][3]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYRIGHT, RESCONFIGDEFAULT_KEYRIGHT_1);
-	keyKey[0][4]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYFIRE, RESCONFIGDEFAULT_KEYFIRE_1);
-	keyKey[0][5]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYQUICK, RESCONFIGDEFAULT_KEYQUICK_1);
-	keyKey[0][6]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYSLOW, RESCONFIGDEFAULT_KEYSLOW_1);
-	keyKey[0][7]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYDRAIN, RESCONFIGDEFAULT_KEYDRAIN_1);
-	keyKey[0][8]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYPAUSE, RESCONFIGDEFAULT_KEYPAUSE);
-	keyKey[0][9]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYSKIP, RESCONFIGDEFAULT_KEYSKIP);
-	keyKey[0][10]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYENTER, RESCONFIGDEFAULT_KEYENTER);
-	keyKey[0][11]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYESCAPE, RESCONFIGDEFAULT_KEYESCAPE);
-	keyKey[0][12]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYCAPTURE, RESCONFIGDEFAULT_KEYCAPTURE);
+	keyKey[0]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYUP, RESCONFIGDEFAULT_KEYUP_1);
+	keyKey[1]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYDOWN, RESCONFIGDEFAULT_KEYDOWN_1);
+	keyKey[2]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYLEFT, RESCONFIGDEFAULT_KEYLEFT_1);
+	keyKey[3]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYRIGHT, RESCONFIGDEFAULT_KEYRIGHT_1);
+	keyKey[4]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYFIRE, RESCONFIGDEFAULT_KEYFIRE_1);
+	keyKey[5]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYQUICK, RESCONFIGDEFAULT_KEYQUICK_1);
+	keyKey[6]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYSLOW, RESCONFIGDEFAULT_KEYSLOW_1);
+	keyKey[7]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYDRAIN, RESCONFIGDEFAULT_KEYDRAIN_1);
+	keyKey[8]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYPAUSE, RESCONFIGDEFAULT_KEYPAUSE);
+	keyKey[9]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYSKIP, RESCONFIGDEFAULT_KEYSKIP);
+	keyKey[10]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYENTER, RESCONFIGDEFAULT_KEYENTER);
+	keyKey[11]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYESCAPE, RESCONFIGDEFAULT_KEYESCAPE);
+	keyKey[12]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCAPTURE, RESCONFIGDEFAULT_KEYCAPTURE);
 
-	keyKey[1][0]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYUP, RESCONFIGDEFAULT_KEYUP_2);
-	keyKey[1][1]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYDOWN, RESCONFIGDEFAULT_KEYDOWN_2);
-	keyKey[1][2]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYLEFT, RESCONFIGDEFAULT_KEYLEFT_2);
-	keyKey[1][3]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYRIGHT, RESCONFIGDEFAULT_KEYRIGHT_2);
-	keyKey[1][4]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYFIRE, RESCONFIGDEFAULT_KEYFIRE_2);
-	keyKey[1][5]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYQUICK, RESCONFIGDEFAULT_KEYQUICK_2);
-	keyKey[1][6]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYSLOW, RESCONFIGDEFAULT_KEYSLOW_2);
-	keyKey[1][7]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYDRAIN, RESCONFIGDEFAULT_KEYDRAIN_2);
-	keyKey[1][8]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYPAUSE, RESCONFIGDEFAULT_KEYPAUSE);
-	keyKey[1][9]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYSKIP, RESCONFIGDEFAULT_KEYSKIP);
-	keyKey[1][10]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYENTER, RESCONFIGDEFAULT_KEYENTER);
-	keyKey[1][11]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYESCAPE, RESCONFIGDEFAULT_KEYESCAPE);
-	keyKey[1][12]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCAPTURE, RESCONFIGDEFAULT_KEYCAPTURE);
+	joyKey[0]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYFIRE, RESCONFIGDEFAULT_JOYFIRE);
+	joyKey[1]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYQUICK, RESCONFIGDEFAULT_JOYQUICK);
+	joyKey[2]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYSLOW, RESCONFIGDEFAULT_JOYSLOW);
+	joyKey[3]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYDRAIN, RESCONFIGDEFAULT_JOYDRAIN);
+	joyKey[4]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYPAUSE, RESCONFIGDEFAULT_JOYPAUSE);
 
-	joyKey[0][0]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYFIRE, RESCONFIGDEFAULT_JOYFIRE);
-	joyKey[0][1]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYQUICK, RESCONFIGDEFAULT_JOYQUICK);
-	joyKey[0][2]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYSLOW, RESCONFIGDEFAULT_JOYSLOW);
-	joyKey[0][3]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYDRAIN, RESCONFIGDEFAULT_JOYDRAIN);
-	joyKey[0][4]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYPAUSE, RESCONFIGDEFAULT_JOYPAUSE);
-
-	joyKey[1][0]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYFIRE, RESCONFIGDEFAULT_JOYFIRE);
-	joyKey[1][1]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYQUICK, RESCONFIGDEFAULT_JOYQUICK);
-	joyKey[1][2]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYSLOW, RESCONFIGDEFAULT_JOYSLOW);
-	joyKey[1][3]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYDRAIN, RESCONFIGDEFAULT_JOYDRAIN);
-	joyKey[1][4]		= hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYPAUSE, RESCONFIGDEFAULT_JOYPAUSE);
-
-	keycombineslowdrain[0] = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN);
-	keycombineslowdrain[1] = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN);
-	joycombineslowdrain[0] = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN);
-	joycombineslowdrain[1] = hge->Ini_GetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN);
+	keycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN);
+	joycombineslowdrain = hge->Ini_GetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYCOMBINESLOWDRAIN, RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN);
 
 	screenmode		= hge->Ini_GetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, RESCONFIGDEFAULT_SCREENMODE);
 	renderskip		= hge->Ini_GetInt(RESCONFIGS_CUSTOM, RESCONFIGN_RENDERSKIP, RESCONFIGDEFAULT_RENDERSKIP);
@@ -313,51 +284,31 @@ void CCustomDlg::LoadIniValue()
 
 void CCustomDlg::LoadDefaultValue()
 {
-	keyKey[0][0]		= RESCONFIGDEFAULT_KEYUP_1;
-	keyKey[0][1]		= RESCONFIGDEFAULT_KEYDOWN_1;
-	keyKey[0][2]		= RESCONFIGDEFAULT_KEYLEFT_1;
-	keyKey[0][3]		= RESCONFIGDEFAULT_KEYRIGHT_1;	
-	keyKey[0][4]		= RESCONFIGDEFAULT_KEYFIRE_1;
-	keyKey[0][5]		= RESCONFIGDEFAULT_KEYQUICK_1;
-	keyKey[0][6]		= RESCONFIGDEFAULT_KEYSLOW_1;
-	keyKey[0][7]		= RESCONFIGDEFAULT_KEYDRAIN_1;	
-	keyKey[0][8]		= RESCONFIGDEFAULT_KEYPAUSE;	
-	keyKey[0][9]		= RESCONFIGDEFAULT_KEYSKIP;
-	keyKey[0][10]		= RESCONFIGDEFAULT_KEYENTER;	
-	keyKey[0][11]		= RESCONFIGDEFAULT_KEYESCAPE;	
-	keyKey[0][12]		= RESCONFIGDEFAULT_KEYCAPTURE;
-
-	keyKey[1][0]		= RESCONFIGDEFAULT_KEYUP_2;
-	keyKey[1][1]		= RESCONFIGDEFAULT_KEYDOWN_2;
-	keyKey[1][2]		= RESCONFIGDEFAULT_KEYLEFT_2;
-	keyKey[1][3]		= RESCONFIGDEFAULT_KEYRIGHT_2;	
-	keyKey[1][4]		= RESCONFIGDEFAULT_KEYFIRE_2;
-	keyKey[1][5]		= RESCONFIGDEFAULT_KEYQUICK_2;
-	keyKey[1][6]		= RESCONFIGDEFAULT_KEYSLOW_2;
-	keyKey[1][7]		= RESCONFIGDEFAULT_KEYDRAIN_2;	
-	keyKey[1][8]		= RESCONFIGDEFAULT_KEYPAUSE;	
-	keyKey[1][9]		= RESCONFIGDEFAULT_KEYSKIP;
-	keyKey[1][10]		= RESCONFIGDEFAULT_KEYENTER;	
-	keyKey[1][11]		= RESCONFIGDEFAULT_KEYESCAPE;	
-	keyKey[1][12]		= RESCONFIGDEFAULT_KEYCAPTURE;	
-
-	joyKey[0][0]		= RESCONFIGDEFAULT_JOYFIRE;
-	joyKey[0][1]		= RESCONFIGDEFAULT_JOYQUICK;
-	joyKey[0][2]		= RESCONFIGDEFAULT_JOYSLOW;
-	joyKey[0][3]		= RESCONFIGDEFAULT_JOYDRAIN;
-	joyKey[0][4]		= RESCONFIGDEFAULT_JOYPAUSE;
-
-	joyKey[1][0]		= RESCONFIGDEFAULT_JOYFIRE;
-	joyKey[1][1]		= RESCONFIGDEFAULT_JOYQUICK;
-	joyKey[1][2]		= RESCONFIGDEFAULT_JOYSLOW;
-	joyKey[1][3]		= RESCONFIGDEFAULT_JOYDRAIN;
-	joyKey[1][4]		= RESCONFIGDEFAULT_JOYPAUSE;
+	keyKey[0]		= RESCONFIGDEFAULT_KEYUP_1;
+	keyKey[1]		= RESCONFIGDEFAULT_KEYDOWN_1;
+	keyKey[2]		= RESCONFIGDEFAULT_KEYLEFT_1;
+	keyKey[3]		= RESCONFIGDEFAULT_KEYRIGHT_1;	
+	keyKey[4]		= RESCONFIGDEFAULT_KEYFIRE_1;
+	keyKey[5]		= RESCONFIGDEFAULT_KEYQUICK_1;
+	keyKey[6]		= RESCONFIGDEFAULT_KEYSLOW_1;
+	keyKey[7]		= RESCONFIGDEFAULT_KEYDRAIN_1;	
+	keyKey[8]		= RESCONFIGDEFAULT_KEYPAUSE;	
+	keyKey[9]		= RESCONFIGDEFAULT_KEYSKIP;
+	keyKey[10]		= RESCONFIGDEFAULT_KEYENTER;	
+	keyKey[11]		= RESCONFIGDEFAULT_KEYESCAPE;	
+	keyKey[12]		= RESCONFIGDEFAULT_KEYCAPTURE;
 
 
-	keycombineslowdrain[0] = RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN;
-	keycombineslowdrain[1] = RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN;
-	joycombineslowdrain[0] = RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN;
-	joycombineslowdrain[1] = RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN;
+	joyKey[0]		= RESCONFIGDEFAULT_JOYFIRE;
+	joyKey[1]		= RESCONFIGDEFAULT_JOYQUICK;
+	joyKey[2]		= RESCONFIGDEFAULT_JOYSLOW;
+	joyKey[3]		= RESCONFIGDEFAULT_JOYDRAIN;
+	joyKey[4]		= RESCONFIGDEFAULT_JOYPAUSE;
+
+
+
+	keycombineslowdrain = RESCONFIGDEFAULT_KEYCOMBINESLOWDRAIN;
+	joycombineslowdrain = RESCONFIGDEFAULT_JOYCOMBINESLOWDRAIN;
 
 	screenmode		= RESCONFIGDEFAULT_SCREENMODE;
 	renderskip		= RESCONFIGDEFAULT_RENDERSKIP;
@@ -377,59 +328,28 @@ void CCustomDlg::LoadDefaultValue()
 
 bool CCustomDlg::checkValid(bool reporterror)
 {
-	for (int k=0; k<2; k++)
+	for (int i=0; i<13; i++)
 	{
-		for (int i=0; i<13; i++)
+		if (keyKey[i] < 0 || keyKey[i] >= M_KEYKEYMAX)
 		{
-			if (keyKey[k][i] < 0 || keyKey[k][i] >= M_KEYKEYMAX)
+			if (reporterror)
 			{
-				if (reporterror)
-				{
-					MessageBox(STR_MSG_INVALID);
-					GetDlgItem(IDC_KEY_UP + i)->SetFocus();
-				}
-				return false;
-			}/*
-
-			 for (int j=i+1; j<13; j++)
-			 {
-			 if (keyKey[k][i] == keyKey[k][j])
-			 {
-			 if (reporterror)
-			 {
-			 MessageBox(STR_MSG_KEYUSED);
-			 GetDlgItem(IDC_KEY_UP + i)->SetFocus();
-			 }
-			 return false;
-			 }
-			 }*/
-
+				MessageBox(STR_MSG_INVALID);
+				GetDlgItem(IDC_KEY_UP + i)->SetFocus();
+			}
+			return false;
 		}
-		for (int i=0; i<5; i++)
+	}
+	for (int i=0; i<5; i++)
+	{
+		if(joyKey[i] < 0 || joyKey[i] >= M_JOYKEYMAX)
 		{
-			if(joyKey[k][i] < 0 || joyKey[k][i] >= M_JOYKEYMAX)
+			if (reporterror)
 			{
-				if (reporterror)
-				{
-					MessageBox(STR_MSG_INVALID);
-					GetDlgItem(IDC_JOY_FIRE + i)->SetFocus();
-				}
-				return false;
-			}/*
-
-			 for (int j=i+1; j<5; j++)
-			 {
-			 if (joyKey[k][i] == joyKey[k][j])
-			 {
-			 if (reporterror)
-			 {
-			 MessageBox(STR_MSG_KEYUSED);
-			 GetDlgItem(IDC_JOY_FIRE + i)->SetFocus();
-			 }
-			 return false;
-			 }
-			 }*/
-
+				MessageBox(STR_MSG_INVALID);
+				GetDlgItem(IDC_JOY_FIRE + i)->SetFocus();
+			}
+			return false;
 		}
 	}
 	if(screenmode < 0 || screenmode > 1)
@@ -467,49 +387,28 @@ bool CCustomDlg::saveFile()
 {
 	if (checkValid())
 	{
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYUP, keyKey[0][0]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYDOWN, keyKey[0][1]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYLEFT, keyKey[0][2]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYRIGHT, keyKey[0][3]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYFIRE, keyKey[0][4]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYQUICK, keyKey[0][5]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYSLOW, keyKey[0][6]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYDRAIN, keyKey[0][7]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYPAUSE, keyKey[0][8]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYSKIP, keyKey[0][9]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYENTER, keyKey[0][10]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYESCAPE, keyKey[0][11]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYCAPTURE, keyKey[0][12]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_KEYCOMBINESLOWDRAIN, keycombineslowdrain[0]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYUP, keyKey[0]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYDOWN, keyKey[1]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYLEFT, keyKey[2]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYRIGHT, keyKey[3]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYFIRE, keyKey[4]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYQUICK, keyKey[5]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYSLOW, keyKey[6]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYDRAIN, keyKey[7]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYPAUSE, keyKey[8]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYSKIP, keyKey[9]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYENTER, keyKey[10]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYESCAPE, keyKey[11]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCAPTURE, keyKey[12]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYCOMBINESLOWDRAIN, keycombineslowdrain);
 
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYUP, keyKey[1][0]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYDOWN, keyKey[1][1]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYLEFT, keyKey[1][2]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYRIGHT, keyKey[1][3]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYFIRE, keyKey[1][4]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYQUICK, keyKey[1][5]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYSLOW, keyKey[1][6]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYDRAIN, keyKey[1][7]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYPAUSE, keyKey[1][8]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYSKIP, keyKey[1][9]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYENTER, keyKey[1][10]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYESCAPE, keyKey[1][11]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCAPTURE, keyKey[1][12]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_KEYCOMBINESLOWDRAIN, keycombineslowdrain[1]);
 
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYFIRE, joyKey[0][0]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYQUICK, joyKey[0][1]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYSLOW, joyKey[0][2]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYDRAIN, joyKey[0][3]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYPAUSE, joyKey[0][4]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_1, RESCONFIGN_JOYCOMBINESLOWDRAIN, joycombineslowdrain[0]);
-
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYFIRE, joyKey[1][0]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYQUICK, joyKey[1][1]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYSLOW, joyKey[1][2]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYDRAIN, joyKey[1][3]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYPAUSE, joyKey[1][4]);
-		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING_2, RESCONFIGN_JOYCOMBINESLOWDRAIN, joycombineslowdrain[1]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYFIRE, joyKey[0]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYQUICK, joyKey[1]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYSLOW, joyKey[2]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYDRAIN, joyKey[3]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYPAUSE, joyKey[4]);
+		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_JOYCOMBINESLOWDRAIN, joycombineslowdrain);
 
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, screenmode);
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_RENDERSKIP, renderskip);
@@ -534,39 +433,22 @@ bool CCustomDlg::saveFile()
 void CCustomDlg::SetDisplay()
 {
 	TCHAR buffer[M_STRITOAMAX];
-	for (int k=0; k<2; k++)
+	for (int i=0; i<13; i++)
 	{
-		for (int i=0; i<13; i++)
+		int j = 0;
+		while (dvn[j].dik != -1)
 		{
-			int j = 0;
-			while (dvn[j].dik != -1)
+			if (dvn[j].dik == keyKey[i])
 			{
-				if (dvn[j].dik == keyKey[k][i])
-				{
-					if (k == 0)
-					{
-						SetDlgItemText(IDC_KEY_UP + i, dvn[j].name);
-					}
-					else
-					{
-						SetDlgItemText(IDC_KEY_UP_2 + i, dvn[j].name);
-					}
-					break;
-				}
-				j++;
+				SetDlgItemText(IDC_KEY_UP + i, dvn[j].name);
+				break;
 			}
+			j++;
 		}
-		for (int i=0; i<5; i++)
-		{
-			if (k == 0)
-			{
-				SetDlgItemText(IDC_JOY_FIRE + i, hge->Math_itoa(joyKey[k][i], buffer));
-			}
-			else
-			{
-				SetDlgItemText(IDC_JOY_FIRE_2 + i, hge->Math_itoa(joyKey[k][i], buffer));
-			}
-		}
+	}
+	for (int i=0; i<5; i++)
+	{
+		SetDlgItemText(IDC_JOY_FIRE + i, hge->Math_itoa(joyKey[i], buffer));
 	}
 
 	hge->Math_itoa(musicvol, buffer);
@@ -613,10 +495,8 @@ void CCustomDlg::SetDisplay()
 	SetDlgItemText(IDC_WINDOWW, hge->Math_itoa(windoww, buffer));
 	SetDlgItemText(IDC_WINDOWH, hge->Math_itoa(windowh, buffer));
 
-	CheckDlgButton(IDC_KEYCOMBINESLOWDRAIN, keycombineslowdrain[0] ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(IDC_KEYCOMBINESLOWDRAIN2, keycombineslowdrain[1] ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(IDC_JOYCOMBINESLOWDRAIN, joycombineslowdrain[0] ? BST_CHECKED : BST_UNCHECKED);
-	CheckDlgButton(IDC_JOYCOMBINESLOWDRAIN2, joycombineslowdrain[1] ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(IDC_KEYCOMBINESLOWDRAIN, keycombineslowdrain ? BST_CHECKED : BST_UNCHECKED);
+	CheckDlgButton(IDC_JOYCOMBINESLOWDRAIN, joycombineslowdrain ? BST_CHECKED : BST_UNCHECKED);
 }
 
 // CCustomDlg 消息处理程序
@@ -706,7 +586,6 @@ BOOL CCustomDlg::PreTranslateMessage(MSG* pMsg)
 	CWnd * wndnow = GetFocus();
 	bool checkinput = false;
 	int idcnow;
-	int leftrightindi=0;
 	int keyid;
 
 	for (int i=0; i<13; i++)
@@ -718,21 +597,6 @@ BOOL CCustomDlg::PreTranslateMessage(MSG* pMsg)
 			keyid = i;
 			checkinput = true;
 			break;
-		}
-	}
-	if (!checkinput)
-	{
-		leftrightindi = 1;
-		for (int i=0; i<13; i++)
-		{
-			idcnow = IDC_KEY_UP_2 + i;
-			wndinput[i] = GetDlgItem(idcnow);
-			if (wndinput[i] == wndnow)
-			{
-				keyid = i;
-				checkinput = true;
-				break;
-			}
 		}
 	}
 
@@ -763,7 +627,7 @@ BOOL CCustomDlg::PreTranslateMessage(MSG* pMsg)
 			}
 
 			CWnd::SetDlgItemText(idcnow, dvn[i].name);
-			keyKey[leftrightindi][keyid] = dvn[i].dik;
+			keyKey[keyid] = dvn[i].dik;
 
 			GetDlgItem(idcnow + 1)->SetFocus();
 			SetDisplay();
@@ -924,35 +788,35 @@ void CCustomDlg::OnEnChangeJoyFire()
 {
 	TCHAR buffer[M_STRMAX];
 	GetDlgItemText(IDC_JOY_FIRE, buffer, M_STRITOAMAX);
-	joyKey[0][0] = atoi(buffer);
+	joyKey[0] = atoi(buffer);
 }
 
 void CCustomDlg::OnEnChangeJoyQuick()
 {
 	TCHAR buffer[M_STRMAX];
 	GetDlgItemText(IDC_JOY_QUICK, buffer, M_STRITOAMAX);
-	joyKey[0][1] = atoi(buffer);
+	joyKey[1] = atoi(buffer);
 }
 
 void CCustomDlg::OnEnChangeJoySlow()
 {
 	TCHAR buffer[M_STRMAX];
 	GetDlgItemText(IDC_JOY_SLOW, buffer, M_STRITOAMAX);
-	joyKey[0][2] = atoi(buffer);
+	joyKey[2] = atoi(buffer);
 }
 
 void CCustomDlg::OnEnChangeJoyDrain()
 {
 	TCHAR buffer[M_STRMAX];
 	GetDlgItemText(IDC_JOY_DRAIN, buffer, M_STRITOAMAX);
-	joyKey[0][3] = atoi(buffer);
+	joyKey[3] = atoi(buffer);
 }
 
 void CCustomDlg::OnEnChangeJoyPause()
 {
 	TCHAR buffer[M_STRMAX];
 	GetDlgItemText(IDC_JOY_PAUSE, buffer, M_STRITOAMAX);
-	joyKey[0][4] = atoi(buffer);
+	joyKey[4] = atoi(buffer);
 }
 
 void CCustomDlg::OnBnClickedCheck1()
@@ -960,7 +824,7 @@ void CCustomDlg::OnBnClickedCheck1()
 	// TODO: 在此添加控件通知处理程序代码
 	TCHAR buffer[M_STRMAX];
 	GetDlgItemText(IDC_JOY_PAUSE, buffer, M_STRITOAMAX);
-	joyKey[0][4] = atoi(buffer);
+	joyKey[4] = atoi(buffer);
 }
 
 
@@ -971,61 +835,15 @@ BOOL CCustomDlg::OnHelpInfo(HELPINFO* pHelpInfo)
 	return TRUE;
 }
 
-void CCustomDlg::OnEnChangeJoyFire2()
-{
-	TCHAR buffer[M_STRMAX];
-	GetDlgItemText(IDC_JOY_FIRE_2, buffer, M_STRITOAMAX);
-	joyKey[1][0] = atoi(buffer);
-}
-
-void CCustomDlg::OnEnChangeJoyQuick2()
-{
-	TCHAR buffer[M_STRMAX];
-	GetDlgItemText(IDC_JOY_QUICK_2, buffer, M_STRITOAMAX);
-	joyKey[1][1] = atoi(buffer);
-}
-
-void CCustomDlg::OnEnChangeJoySlow2()
-{
-	TCHAR buffer[M_STRMAX];
-	GetDlgItemText(IDC_JOY_SLOW_2, buffer, M_STRITOAMAX);
-	joyKey[1][2] = atoi(buffer);
-}
-
-void CCustomDlg::OnEnChangeJoyDrain2()
-{
-	TCHAR buffer[M_STRMAX];
-	GetDlgItemText(IDC_JOY_DRAIN_2, buffer, M_STRITOAMAX);
-	joyKey[1][3] = atoi(buffer);
-}
-
-void CCustomDlg::OnEnChangeJoyPause2()
-{
-	TCHAR buffer[M_STRMAX];
-	GetDlgItemText(IDC_JOY_PAUSE_2, buffer, M_STRITOAMAX);
-	joyKey[1][4] = atoi(buffer);
-}
 void CCustomDlg::OnBnClickedKeyCombineSlowDrain()
 {
-	keycombineslowdrain[0] = IsDlgButtonChecked(IDC_KEYCOMBINESLOWDRAIN);
-	SetDisplay();
-}
-
-void CCustomDlg::OnBnClickedKeyCombineSlowDrain2()
-{
-	keycombineslowdrain[1] = IsDlgButtonChecked(IDC_KEYCOMBINESLOWDRAIN2);
+	keycombineslowdrain = IsDlgButtonChecked(IDC_KEYCOMBINESLOWDRAIN);
 	SetDisplay();
 }
 
 void CCustomDlg::OnBnClickedJoyCombineSlowDrain()
 {
-	joycombineslowdrain[0] = IsDlgButtonChecked(IDC_JOYCOMBINESLOWDRAIN);
-	SetDisplay();
-}
-
-void CCustomDlg::OnBnClickedJoyCombineSlowDrain2()
-{
-	joycombineslowdrain[1] = IsDlgButtonChecked(IDC_JOYCOMBINESLOWDRAIN2);
+	joycombineslowdrain = IsDlgButtonChecked(IDC_JOYCOMBINESLOWDRAIN);
 	SetDisplay();
 }
 

@@ -7,8 +7,8 @@
 #include "../header/Process.h"
 #include "../Header/BResource.h"
 
-BGLayerSet BGLayer::bglayerset[M_PL_MATCHMAXPLAYER][BGLAYERSETMAX];
-BGLayer BGLayer::ubg[M_PL_MATCHMAXPLAYER][UBGLAYERMAX];
+BGLayerSet BGLayer::bglayerset[BGLAYERSETMAX];
+BGLayer BGLayer::ubg[UBGLAYERMAX];
 
 WORD BGLayer::setindex = 0;
 
@@ -25,30 +25,26 @@ BGLayer::~BGLayer()
 
 void BGLayer::Init()
 {
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
+	for(int i=0; i<BGLAYERSETMAX; i++)
 	{
-		for(int i=0; i<BGLAYERSETMAX; i++)
-		{
-			bglayerset[j][i].sID = BGLAYERSET_NONE;
-			bglayerset[j][i].timer = 0;
-		}
-		for (int i=0; i<UBGLAYERMAX; i++)
-		{
-			ubg[j][i].exist = false;
-			ubg[j][i].timer = 0;
-			ubg[j][i].changetimer = 0;
-			ubg[j][i].flag = 0;
-		}
+		bglayerset[i].sID = BGLAYERSET_NONE;
+		bglayerset[i].timer = 0;
+	}
+	for (int i=0; i<UBGLAYERMAX; i++)
+	{
+		ubg[i].exist = false;
+		ubg[i].timer = 0;
+		ubg[i].changetimer = 0;
+		ubg[i].flag = 0;
 	}
 	setindex = 0;
 }
 
-void BGLayer::KillOtherLayer(BYTE playerindex)
+void BGLayer::KillOtherLayer()
 {
-	playerindex = 0;
 	for (int i=0; i<BGLAYERMAX+FGLAYERMAX; i++)
 	{
-		ubg[playerindex][i].exist = false;
+		ubg[i].exist = false;
 	}
 }
 
@@ -321,31 +317,28 @@ void BGLayer::SetFlag(BYTE _flag, int maxtime)
 
 void BGLayer::Action(bool active)
 {
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
+	DWORD stopflag = Process::mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag,FRAME_STOPFLAG_LAYER);
+	if (!binstop)
 	{
-		DWORD stopflag = Process::mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, j, FRAME_STOPFLAG_LAYER);
-		if (!binstop)
+		if (active)
 		{
-			if (active)
+			for(int i=0; i<BGLAYERSETMAX; i++)
 			{
-				for(int i=0; i<BGLAYERSETMAX; i++)
+				if(bglayerset[i].sID != BGLAYERSET_NONE)
 				{
-					if(bglayerset[j][i].sID != BGLAYERSET_NONE)
-					{
-						bglayerset[j][i].timer++;
-						setindex = i;
+					bglayerset[i].timer++;
+					setindex = i;
 
-						Scripter::scr.Execute(SCR_SCENE, bglayerset[j][i].sID+j*DATASTRUCT_PLAYERTYPEMAX, bglayerset[j][i].timer);
-					}
+					Scripter::scr.Execute(SCR_SCENE, bglayerset[i].sID, bglayerset[i].timer);
 				}
 			}
-			for (int i=0; i<BGFGLAYERMAX; i++)
+		}
+		for (int i=0; i<BGFGLAYERMAX; i++)
+		{
+			if (ubg[i].exist)
 			{
-				if (ubg[j][i].exist)
-				{
-					ubg[j][i].action();
-				}
+				ubg[i].action();
 			}
 		}
 	}
@@ -353,70 +346,61 @@ void BGLayer::Action(bool active)
 
 void BGLayer::ActionSpecial()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	if (ubg[UBGID_BGMASK].exist)
 	{
-		if (ubg[i][UBGID_BGMASK].exist)
-		{
-			ubg[i][UBGID_BGMASK].action();
-		}
-		if (ubg[i][UFGID_FGPAUSE].exist)
-		{
-			ubg[i][UFGID_FGPAUSE].action();
-		}
+		ubg[UBGID_BGMASK].action();
+	}
+	if (ubg[UFGID_FGPAUSE].exist)
+	{
+		ubg[UFGID_FGPAUSE].action();
 	}
 }
 
-void BGLayer::RenderBG(BYTE playerindex)
+void BGLayer::RenderBG()
 {
-	playerindex = 0;
 	for (int i=0; i<BGLAYERMAX; i++)
 	{
-		if (ubg[playerindex][i].exist)
+		if (ubg[i].exist)
 		{
-			ubg[playerindex][i].Render();
+			ubg[i].Render();
 		}
 	}
-	if (ubg[playerindex][UBGID_BGMASK].exist)
+	if (ubg[UBGID_BGMASK].exist)
 	{
-		ubg[playerindex][UBGID_BGMASK].Render();
+		ubg[UBGID_BGMASK].Render();
 	}
 }
 
-void BGLayer::RenderFG(BYTE playerindex)
+void BGLayer::RenderFG()
 {
-	playerindex = 0;
 	for (int i=BGLAYERMAX; i<BGFGLAYERMAX; i++)
 	{
-		if (ubg[playerindex][i].exist)
+		if (ubg[i].exist)
 		{
-			ubg[playerindex][i].Render();
+			ubg[i].Render();
 		}
 	}
 }
 
 void BGLayer::RenderFGPause()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	if (ubg[UFGID_FGPAUSE].exist)
 	{
-		if (ubg[i][UFGID_FGPAUSE].exist)
-		{
-			ubg[i][UFGID_FGPAUSE].Render();
-		}
+		ubg[UFGID_FGPAUSE].Render();
 	}
 }
 
-void BGLayer::BGLayerSetup(BYTE playerindex, BYTE setID, WORD sID/* =BGLAYERSET_NONE */, bool bForce/* =false */)
+void BGLayer::BGLayerSetup(BYTE setID, WORD sID/* =BGLAYERSET_NONE */, bool bForce/* =false */)
 {
-	playerindex = 0;
-	WORD osID = bglayerset[playerindex][setID].sID;
+	WORD osID = bglayerset[setID].sID;
 	if (bForce || osID != setID)
 	{
 		if (osID != BGLAYERSET_NONE && osID != setID)
 		{
-			Scripter::scr.Execute(SCR_SCENE, osID+playerindex*DATASTRUCT_PLAYERTYPEMAX, SCRIPT_CON_POST);
+			Scripter::scr.Execute(SCR_SCENE, osID*DATASTRUCT_PLAYERTYPEMAX, SCRIPT_CON_POST);
 		}
-		bglayerset[playerindex][setID].sID = sID;
-		bglayerset[playerindex][setID].timer = 0;
+		bglayerset[setID].sID = sID;
+		bglayerset[setID].timer = 0;
 	}
 }
 

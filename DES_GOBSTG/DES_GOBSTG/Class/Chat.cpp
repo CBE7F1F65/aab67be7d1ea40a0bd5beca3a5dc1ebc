@@ -94,7 +94,7 @@ bool Chat::chat(BYTE ID, BYTE chatsprite, const char * _text)
 		return true;
 	}
 
-	if(GameInput::GetKey(0, KSI_FIRE))
+	if(GameInput::GetKey(KSI_FIRE))
 	{
 		if(pushtimer < M_PUSH_FIRST)
 			pushtimer++;
@@ -106,7 +106,7 @@ bool Chat::chat(BYTE ID, BYTE chatsprite, const char * _text)
 		pushtimer = 0;
 	}
 
-	if(GameInput::GetKey(0, KSI_FIRE, DIKEY_DOWN) || pushtimer == M_PUSH_FIRST || timer == M_NOPUSH_SKIP)
+	if(GameInput::GetKey(KSI_FIRE, DIKEY_DOWN) || pushtimer == M_PUSH_FIRST || timer == M_NOPUSH_SKIP)
 	{
 		chatinit = false;
 		timer = 0;
@@ -169,13 +169,13 @@ bool Chat::chat(BYTE ID, BYTE chatsprite, const char * _text)
 		float timerscale = timer/16.0f;
 		if (chatsprite & CHATSPRITE_LEFT)
 		{
-			x[CHATTER_LEFT] = INTER(x[CHATTER_LEFT], M_GAMESQUARE_CENTER_X_(0)+40, timerscale);
-			x[CHATTER_RIGHT] = INTER(x[CHATTER_RIGHT], M_GAMESQUARE_CENTER_X_(1), timerscale);
+			x[CHATTER_LEFT] = INTER(x[CHATTER_LEFT], M_GAMESQUARE_CENTER_X+40, timerscale);
+			x[CHATTER_RIGHT] = INTER(x[CHATTER_RIGHT], M_GAMESQUARE_CENTER_X, timerscale);
 		}
 		else
 		{
-			x[CHATTER_LEFT] = INTER(x[CHATTER_LEFT], M_GAMESQUARE_CENTER_X_(0), timerscale);
-			x[CHATTER_RIGHT] = INTER(x[CHATTER_RIGHT], M_GAMESQUARE_CENTER_X_(1)-40, timerscale);
+			x[CHATTER_LEFT] = INTER(x[CHATTER_LEFT], M_GAMESQUARE_CENTER_X, timerscale);
+			x[CHATTER_RIGHT] = INTER(x[CHATTER_RIGHT], M_GAMESQUARE_CENTER_X-40, timerscale);
 		}
 	}
 	return false;
@@ -185,10 +185,7 @@ bool Chat::chatOn(BYTE leftID, BYTE rightID, BYTE chatsprite)
 {
 	timer++;
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		Player::p[i].SetInfi(PLAYERINFI_CHAT);
-	}
+	Player::p.SetInfi(PLAYERINFI_CHAT);
 	chatinit = false;
 	
 	if(timer == 1)
@@ -197,12 +194,8 @@ bool Chat::chatOn(BYTE leftID, BYTE rightID, BYTE chatsprite)
 
 		strcpy(text, "");
 		fschat.SignUp(text, 0.625f);
-		
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_CHECKTYPE_CIRCLE, i, Player::p[i].x, Player::p[i].y);
-//			Bullet::IzeBuild(i, BULLETIZE_FAITH, Player::p[i].x, Player::p[i].y);
-		}
+
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_CHECKTYPE_CIRCLE, Player::p.x, Player::p.y);
 
 		chatting = true;
 		if (leftID != 0xff)
@@ -238,9 +231,9 @@ bool Chat::chatOn(BYTE leftID, BYTE rightID, BYTE chatsprite)
 	if(timer <= 36)
 	{
 		float timerscale = timer / 36.0f;
-		x[CHATTER_LEFT] = INTER(M_CLIENT_LEFT-192, M_GAMESQUARE_CENTER_X_(0), timerscale);
+		x[CHATTER_LEFT] = INTER(M_CLIENT_LEFT-192, M_GAMESQUARE_CENTER_X, timerscale);
 		y[CHATTER_LEFT] = INTER(M_CLIENT_BOTTOM, M_CLIENT_CENTER_Y+108, timerscale);
-		x[CHATTER_RIGHT] = INTER(M_CLIENT_RIGHT+192, M_GAMESQUARE_CENTER_X_(1), timerscale);
+		x[CHATTER_RIGHT] = INTER(M_CLIENT_RIGHT+192, M_GAMESQUARE_CENTER_X, timerscale);
 		y[CHATTER_RIGHT] = INTER(M_CLIENT_BOTTOM, M_CLIENT_CENTER_Y+108, timerscale);
 
 		if(chatsprite & CHATSPRITE_LEFT)
@@ -289,10 +282,7 @@ bool Chat::chatOff()
 	}
 	else
 	{
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			Player::p[i].SetInfi(PLAYERINFI_CHAT, PLAYER_INFIUNSET);
-		}
+		Player::p.SetInfi(PLAYERINFI_CHAT, PLAYER_INFIUNSET);
 		timer = 0;
 		chatting = false;
 		chati = 0;

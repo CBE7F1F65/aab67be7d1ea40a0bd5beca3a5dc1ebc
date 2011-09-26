@@ -36,7 +36,7 @@
 
 struct replayInfo
 {
-	char username[M_PL_MATCHMAXPLAYER][RPYINFO_USERNAMEMAX];
+	char username[RPYINFO_USERNAMEMAX];
 
 	DWORD alltime;
 	DWORD offset;
@@ -52,15 +52,15 @@ struct replayInfo
 	BYTE matchmode;
 	BYTE scene;
 
-	BYTE usingchara[M_PL_MATCHMAXPLAYER][M_PL_ONESETPLAYER];
-	BYTE initlife[M_PL_MATCHMAXPLAYER];
+	BYTE usingchara[M_PL_ONESETPLAYER];
+	BYTE initlife;
 };
 
 struct partInfo
 {
 	DWORD offset;
 	DWORD seed;
-	WORD nowID[M_PL_MATCHMAXPLAYER];
+	WORD nowID;
 };
 
 struct replayFrame{
@@ -77,15 +77,13 @@ public:
 	static bool clientInitial(bool usesound = false, bool extuse = false);
 	static bool clientAfterInitial(float screenscale);
 	static bool clientResetMatrix(float screenscale);
-	static hge3DPoint * GetFarPoint(BYTE renderflag);
+	static hge3DPoint * GetFarPoint();
 	static void clientSetMatrix(float worldx = 0, float worldy = 0, float worldz = 0, BYTE renderflag=M_RENDER_NULL);
 	static void clientSetMatrixUser(D3DXMATRIX matWorld, D3DXMATRIX matView, D3DXMATRIX matProj);
 	static bool clientSet2DMode();
 	static bool clientSet3DMode();
 	static void clientAdjustWindow();
 	static void Release();
-	static BYTE GetPlayerIndexByRenderFlag(BYTE renderflag);
-	static BYTE GetRenderFlagByPlayerIndex(BYTE playerindex);
 	static bool SetIni(bool extuse = false);
 	static bool GetResourceFile(bool readbin = false);
 	static int GetPassword();
@@ -117,8 +115,8 @@ public:
 
 	static D3DXMATRIX matView2DMode;
 	static D3DXMATRIX matProj2DMode;
-	static D3DXMATRIX matView[M_PL_MATCHMAXPLAYER];
-	static D3DXMATRIX matProj[M_PL_MATCHMAXPLAYER];
+	static D3DXMATRIX matView;
+	static D3DXMATRIX matProj;
 	static D3DXMATRIX matViewSuper;
 	static D3DXMATRIX matProjSuper;
 	static hge3DPoint ptfar;

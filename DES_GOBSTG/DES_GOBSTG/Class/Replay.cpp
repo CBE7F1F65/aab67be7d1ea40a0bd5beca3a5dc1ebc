@@ -105,13 +105,10 @@ void Replay::Fill()
 
 //	rpyinfo.modeflag = (Process::mp.spellmode?M_RPYMODE_SPELL:0)|(Process::mp.practicemode?M_RPYMODE_PRACTICE:0);
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		rpyinfo.usingchara[i][0] = Player::p[i].ID;
-		rpyinfo.usingchara[i][1] = Player::p[i].ID_sub_1;
-		rpyinfo.usingchara[i][2] = Player::p[i].ID_sub_2;
-		rpyinfo.initlife[i] = Player::p[i].initlife;
-	}
+	rpyinfo.usingchara[0] = Player::p.ID;
+	rpyinfo.usingchara[1] = Player::p.ID_sub_1;
+	rpyinfo.usingchara[2] = Player::p.ID_sub_2;
+	rpyinfo.initlife = Player::p.initlife;
 
 	rpyinfo.scene = Process::mp.scene;
 	rpyinfo.alltime = Process::mp.alltime;
@@ -125,18 +122,13 @@ void Replay::Fill()
 	rpyinfo.matchmode = Process::mp.matchmode;
 	rpyinfo.offset = replayIndex;
 
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		// TODO:
-		strcpy(rpyinfo.username[i], Process::mp.username[i]);
-	}
+	strcpy(rpyinfo.username, Process::mp.username);
 	if (rpyinfo.matchmode == M_MATCHMODE_C2P || rpyinfo.matchmode == M_MATCHMODE_C2C)
 	{
-		strcpy(rpyinfo.username[0], RESCONFIGDEFAULT_USERNAME);
+		strcpy(rpyinfo.username, RESCONFIGDEFAULT_USERNAME);
 	}
 	else if (rpyinfo.matchmode == M_MATCHMODE_P2C || rpyinfo.matchmode == M_MATCHMODE_C2C)
 	{
-//		strcpy(rpyinfo.username[1], RESCONFIGDEFAULT_USERNAME);
 	}
 
 }
@@ -149,11 +141,10 @@ void Replay::partFill(BYTE part)
 		partinfo[part].seed = Process::mp.seed;
 	}
 	else
-		part = 0;
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
 	{
-		partinfo[part].nowID[i] = Player::p[i].nowID;
+		part = 0;
 	}
+	partinfo[part].nowID = Player::p.nowID;
 }
 
 bool Replay::Check(const char * _filename)

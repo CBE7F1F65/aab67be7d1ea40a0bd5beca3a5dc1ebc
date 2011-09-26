@@ -73,7 +73,7 @@ public:
 
 	void	SnapShot();
 
-	void	SetShake(BYTE playerindex, BYTE round, bool force=false);
+	void	SetShake(BYTE round, bool force=false);
 	void	WorldShake();
 
 	void	SyncInput();
@@ -81,7 +81,7 @@ public:
 	void	SetScene(BYTE scene);
 	void	SetReturnValue(int retval);
 	void	SetInputSwap();
-	void	SetLastMatchChara(BYTE playerindex, WORD ID, WORD ID_sub_1=0xffff, WORD ID_sub_2=0xffff);
+	void	SetLastMatchChara(WORD ID, WORD ID_sub_1=0xffff, WORD ID_sub_2=0xffff);
 
 	int		AccessIP();
 	bool	SetLatency(int latency);
@@ -111,8 +111,8 @@ public:
 			int keyEnter;
 			int keyEscape;
 			int keyCapture;
-		}		keyKS[M_PL_MATCHMAXPLAYER];
-		int		keyKey[M_PL_MATCHMAXPLAYER][13];
+		}		keyKS;
+		int		keyKey[13];
 	};
 	union{
 		struct{
@@ -122,19 +122,19 @@ public:
 			int	joyDrain;
 			int	joyPause;
 			int debug_joySpeedUp;
-		}		keyJS[M_PL_MATCHMAXPLAYER];
-		int		joyKey[M_PL_MATCHMAXPLAYER][6];
+		}		keyJS;
+		int		joyKey[6];
 	};
 
 	//read ini
-	char	username[M_PL_MATCHMAXPLAYER][RPYINFO_USERNAMEMAX];
+	char	username[RPYINFO_USERNAMEMAX];
 	int		screenmode;
 	float	screenscale;
 	float	touchmovescale;
 	float	infodisplayscale;
 	int		bgmvol;
 	int		sevol;
-	int		lastmatchchara[M_PL_MATCHMAXPLAYER][M_PL_ONESETPLAYER];
+	int		lastmatchchara[M_PL_ONESETPLAYER];
 	int		bulletcountmax;
 
 	//replay
@@ -155,11 +155,11 @@ public:
 	hgeChannelSyncInfo channelsyncinfo;
 
 	//shake
-	int worldshaketimer[M_PL_MATCHMAXPLAYER];
-	BYTE worldshakeround[M_PL_MATCHMAXPLAYER];
-	float worldx[M_PL_MATCHMAXPLAYER];
-	float worldy[M_PL_MATCHMAXPLAYER];
-	float worldz[M_PL_MATCHMAXPLAYER];
+	int worldshaketimer;
+	BYTE worldshakeround;
+	float worldx;
+	float worldy;
+	float worldz;
 
 	//main
 	int lasttime;
@@ -193,8 +193,8 @@ public:
 	int		latency;
 	BYTE	matchmode;
 	//
-	HTARGET	rendertar[M_PL_MATCHMAXPLAYER];
-	hgeSprite * sprendertar[M_PL_MATCHMAXPLAYER];
+	HTARGET	rendertar;
+	hgeSprite * sprendertar;
 	
 #if defined __IPHONE
 public:
@@ -203,12 +203,12 @@ public:
 	void TouchCallback_Move(float x, float y, int ID);
 	
 	TouchInfo touchinfo[TOUCHPOINT_MAX];
-	BYTE touchMoveID[M_PL_MATCHMAXPLAYER];
-	TouchDirectMove touchdirectmove[M_PL_MATCHMAXPLAYER];
+	BYTE touchMoveID;
+	TouchDirectMove touchdirectmove;
 	
-	bool shootTriger[M_PL_MATCHMAXPLAYER];
-	bool drainTriger[M_PL_MATCHMAXPLAYER];
-	int tapTimer[M_PL_MATCHMAXPLAYER];
+	bool shootTriger;
+	bool drainTriger;
+	int tapTimer;
 	
 #endif
 

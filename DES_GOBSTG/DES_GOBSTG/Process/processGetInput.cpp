@@ -146,61 +146,60 @@ int Process::getInput()
 #define M_PADSQUARE_RIGHT_0	(SCREEN_HEIGHT/2)
 #define M_PADSQUARE_LEFT_1	(M_PADSQUARE_RIGHT_0)
 #define M_PADSQUARE_RIGHT_1	(SCREEN_HEIGHT)
-#define M_PADSQUARE_LEFT_(playerindex)	((playerindex)?(M_PADSQUARE_LEFT_1):(M_PADSQUARE_LEFT_0))
-#define M_PADSQUARE_RIGHT_(playerindex)	((playerindex)?(M_PADSQUARE_RIGHT_1):(M_PADSQUARE_RIGHT_0))
+#define M_PADSQUARE_LEFT_()	(()?(M_PADSQUARE_LEFT_1):(M_PADSQUARE_LEFT_0))
+#define M_PADSQUARE_RIGHT_()	(()?(M_PADSQUARE_RIGHT_1):(M_PADSQUARE_RIGHT_0))
 #define M_PADSQUARE_NOCONTROL_LEFT_0	(0)
 #define M_PADSQUARE_NOCONTROL_RIGHT_0	(SCREEN_HEIGHT/2)
 #define M_PADSQUARE_NOCONTROL_LEFT_1	(M_PADSQUARE_RIGHT_0)
 #define M_PADSQUARE_NOCONTROL_RIGHT_1	(SCREEN_HEIGHT)
-#define M_PADSQUARE_NOCONTROL_LEFT_(playerindex)	((playerindex)?(M_PADSQUARE_NOCONTROL_LEFT_1):(M_PADSQUARE_NOCONTROL_LEFT_0))
-#define M_PADSQUARE_NOCONTROL_RIGHT_(playerindex)	((playerindex)?(M_PADSQUARE_NOCONTROL_RIGHT_1):(M_PADSQUARE_NOCONTROL_RIGHT_0))
-	
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++) {
-		bool tapChanged = false;
-		for (int j=0; j<FTBUTTON_MAX; j++) {
-			
-			
-			if (SpriteItemManager::ftbutton[i][j].flag) {
-				float ftbx = SpriteItemManager::ftbutton[i][j].x;
-				float ftby = SpriteItemManager::ftbutton[i][j].y;
-				float ftbxrange = SpriteItemManager::ftbutton[i][j].xrange;
-				float ftbyrange = SpriteItemManager::ftbutton[i][j].yrange;
-				for (int k=0; k<TOUCHPOINT_MAX; k++) {
-					
-					bool tocontinue = false;
-					for (int l=0; l<M_PL_MATCHMAXPLAYER; l++) {
-						if (k == touchMoveID[l]) {
-							tocontinue = true;
-							break;
-						}
+#define M_PADSQUARE_NOCONTROL_LEFT_()	(()?(M_PADSQUARE_NOCONTROL_LEFT_1):(M_PADSQUARE_NOCONTROL_LEFT_0))
+#define M_PADSQUARE_NOCONTROL_RIGHT_()	(()?(M_PADSQUARE_NOCONTROL_RIGHT_1):(M_PADSQUARE_NOCONTROL_RIGHT_0))
+
+	bool tapChanged = false;
+	for (int j=0; j<FTBUTTON_MAX; j++) {
+
+
+		if (SpriteItemManager::ftbutton[j].flag) {
+			float ftbx = SpriteItemManager::ftbutton[j].x;
+			float ftby = SpriteItemManager::ftbutton[j].y;
+			float ftbxrange = SpriteItemManager::ftbutton[j].xrange;
+			float ftbyrange = SpriteItemManager::ftbutton[j].yrange;
+			for (int k=0; k<TOUCHPOINT_MAX; k++) {
+
+				bool tocontinue = false;
+				for (int l=0; l<M_PL_MATCHMAXPLAYER; l++) {
+					if (k == touchMoveID[l]) {
+						tocontinue = true;
+						break;
 					}
-					if (tocontinue) {
-						continue;
-					}
-					
-					if (touchinfo[k].touched/* && !touchinfo[k].toupdate*/) {
-						if (fabsf(ftbx - touchinfo[k].x) < ftbxrange && fabsf(ftby - touchinfo[k].y) < ftbyrange) {
-							switch (j) {
+				}
+				if (tocontinue) {
+					continue;
+				}
+
+				if (touchinfo[k].touched/* && !touchinfo[k].toupdate*/) {
+					if (fabsf(ftbx - touchinfo[k].x) < ftbxrange && fabsf(ftby - touchinfo[k].y) < ftbyrange) {
+						switch (j) {
 								case FTBUTTON_LEFT:
-									GameInput::SetKey(i, KSI_LEFT, true);
+									GameInput::SetKey(KSI_LEFT, true);
 									break;
 								case FTBUTTON_RIGHT:
-									GameInput::SetKey(i, KSI_RIGHT, true);
+									GameInput::SetKey(KSI_RIGHT, true);
 									break;
 								case FTBUTTON_UP:
-									GameInput::SetKey(i, KSI_UP, true);
+									GameInput::SetKey(KSI_UP, true);
 									break;
 								case FTBUTTON_DOWN:
-									GameInput::SetKey(i, KSI_DOWN, true);
+									GameInput::SetKey(KSI_DOWN, true);
 									break;
 								case FTBUTTON_OK:
 									if (!touchinfo[k].toupdate) {
-										GameInput::SetKey(i, KSI_FIRE, true);
+										GameInput::SetKey(KSI_FIRE, true);
 									}
 									break;
 								case FTBUTTON_CANCEL:
 									if (!touchinfo[k].toupdate) {
-										GameInput::SetKey(i, KSI_QUICK, true);
+										GameInput::SetKey(KSI_QUICK, true);
 									}
 									break;
 								case FTBUTTON_PAUSE:
@@ -211,51 +210,51 @@ int Process::getInput()
 									}
 									break;
 								case FTBUTTON_SHOOT:
-//									GameInput::SetKey(i, KSI_FIRE, true);
+									//									GameInput::SetKey(KSI_FIRE, true);
 									if (!touchinfo[k].toupdate) {
-										shootTriger[i] = !shootTriger[i];
+										shootTriger = !shootTriger;
 									}
 									break;
 								case FTBUTTON_CHARGE:
-									GameInput::SetKey(i, KSI_FIRE, true);
+									GameInput::SetKey(KSI_FIRE, true);
 									break;
 								case FTBUTTON_DRAIN:
-//									GameInput::SetKey(i, KSI_DRAIN, true);
+									//									GameInput::SetKey(KSI_DRAIN, true);
 									if (!touchinfo[k].toupdate) {
-										drainTriger[i] = !drainTriger[i];
+										drainTriger = !drainTriger;
 									}
 									break;
 								case FTBUTTON_QUICK:
-									GameInput::SetKey(i, KSI_QUICK, true);
+									GameInput::SetKey(KSI_QUICK, true);
 									break;
-							}
-							touchinfo[k].toupdate = true;
 						}
-						
-						else if (j == FTBUTTON_CHARGE && touchMoveID[i] != 0xff && touchMoveID[i] != k &&
-								 (matchmode == M_MATCHMODE_P2C || matchmode == M_MATCHMODE_C2P || touchinfo[k].initx >= M_PADSQUARE_NOCONTROL_LEFT_(i) && touchinfo[k].initx <= M_PADSQUARE_NOCONTROL_RIGHT_(i))){
-							tapTimer[i]++;
-							tapChanged = true;
-							GameInput::SetKey(i, KSI_FIRE, true);
-						}
-
+						touchinfo[k].toupdate = true;
 					}
+
+					else if (j == FTBUTTON_CHARGE && touchMoveID != 0xff && touchMoveID != k &&
+						(matchmode == M_MATCHMODE_P2C || matchmode == M_MATCHMODE_C2P || touchinfo[k].initx >= M_PADSQUARE_NOCONTROL_LEFT_(0) && touchinfo[k].initx <= M_PADSQUARE_NOCONTROL_RIGHT_(0)))
+					{
+							tapTimer++;
+							tapChanged = true;
+							GameInput::SetKey(KSI_FIRE, true);
+					}
+
 				}
 			}
 		}
-		if (!tapChanged) {
-			if (tapTimer[i] && tapTimer[i] < PLAYER_SHOOTPUSHOVER) {
-				drainTriger[i] = !drainTriger[i];
-			}
-			tapTimer[i] = 0;
+	}
+	if (!tapChanged) {
+		if (tapTimer && tapTimer < PLAYER_SHOOTPUSHOVER) {
+			drainTriger = !drainTriger;
 		}
-		if (state == STATE_START) {
-			if (shootTriger[i] && (gametime % 2)) {
-				GameInput::SetKey(i, KSI_FIRE, true);
-			}
-			if (drainTriger[i]) {
-				GameInput::SetKey(i, KSI_DRAIN, true);
-			}
+		tapTimer = 0;
+	}
+	if (state == STATE_START) {
+		if (shootTriger && (gametime % 2)) {
+			GameInput::SetKey(KSI_FIRE, true);
+		}
+		if (drainTriger) {
+			GameInput::SetKey(KSI_DRAIN, true);
 		}
 	}
 	
@@ -266,37 +265,31 @@ int Process::getInput()
 		if (touchinfo[i].touched) {
 			if (!touchinfo[i].toupdate) {
 				if (state == STATE_START) {
-					
-					for (int j=0; j<M_PL_MATCHMAXPLAYER; j++) {
-						int k = j;
-						if (GameInput::swapinput) {
-							k = 1-j;
-						}
-												
-						if (touchMoveID[k] == 0xff) {
-							
-							bool used = false;
-							for (int l=0; l<M_PL_MATCHMAXPLAYER; l++) {
-								if (i == touchMoveID[l]) {
-									used = true;
-									break;
-								}
-							}
-							if (!used) {
-								if (touchinfo[i].x>=M_PADSQUARE_LEFT_(j) && touchinfo[i].x<=M_PADSQUARE_RIGHT_(j) || matchmode == M_MATCHMODE_P2C || matchmode == M_MATCHMODE_C2P){
-									if (!(matchmode == M_MATCHMODE_P2C && k != 0 || matchmode == M_MATCHMODE_C2P && k != 1)) {
-										touchMoveID[k] = i;
-									}
-								}
-							}
-							
-						}
-						if (i == touchMoveID[k]) {
-							float scaleval = M_CLIENT_HEIGHT / (SCREEN_WIDTH*screenscale)*touchmovescale;
-							touchdirectmove[k].x = (touchinfo[i].x-touchinfo[i].lastx) * scaleval;
-							touchdirectmove[k].y = (touchinfo[i].y-touchinfo[i].lasty) * scaleval;
+
+					int j = 0;
+					int k = j;
+
+					if (touchMoveID == 0xff) {
+
+						bool used = false;
+						if (i == touchMoveID) {
+							used = true;
 							break;
 						}
+						if (!used) {
+							if (touchinfo[i].x>=M_PADSQUARE_LEFT_(j) && touchinfo[i].x<=M_PADSQUARE_RIGHT_(j) || matchmode == M_MATCHMODE_P2C || matchmode == M_MATCHMODE_C2P){
+								if (!(matchmode == M_MATCHMODE_P2C && k != 0 || matchmode == M_MATCHMODE_C2P && k != 1)) {
+									touchMoveID = i;
+								}
+							}
+						}
+
+					}
+					if (i == touchMoveID) {
+						float scaleval = M_CLIENT_HEIGHT / (SCREEN_WIDTH*screenscale)*touchmovescale;
+						touchdirectmove[k].x = (touchinfo[i].x-touchinfo[i].lastx) * scaleval;
+						touchdirectmove[k].y = (touchinfo[i].y-touchinfo[i].lasty) * scaleval;
+						break;
 					}
 					touchinfo[i].toupdate = true;
 				}
@@ -307,17 +300,14 @@ int Process::getInput()
 	
 	if (replaymode && !replayend && (state == STATE_START || state == STATE_CLEAR))
 	{
-		for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-		{
-			GameInput::SetKey(i, KSI_UP, false);
-			GameInput::SetKey(i, KSI_DOWN, false);
-			GameInput::SetKey(i, KSI_LEFT, false);
-			GameInput::SetKey(i, KSI_RIGHT, false);
-			GameInput::SetKey(i, KSI_FIRE, false);
-			GameInput::SetKey(i, KSI_QUICK, false);
-			GameInput::SetKey(i, KSI_DRAIN, false);
-			GameInput::SetKey(i, KSI_SLOW, false);
-		}
+		GameInput::SetKey(KSI_UP, false);
+		GameInput::SetKey(KSI_DOWN, false);
+		GameInput::SetKey(KSI_LEFT, false);
+		GameInput::SetKey(KSI_RIGHT, false);
+		GameInput::SetKey(KSI_FIRE, false);
+		GameInput::SetKey(KSI_QUICK, false);
+		GameInput::SetKey(KSI_DRAIN, false);
+		GameInput::SetKey(KSI_SLOW, false);
 	}
 
 	if (state != STATE_START && state != STATE_PLAYER_SELECT)

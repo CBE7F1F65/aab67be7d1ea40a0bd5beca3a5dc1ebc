@@ -2,7 +2,7 @@
 #include "../header/GameInput.h"
 #include "../header/Player.h"
 
-GameAI GameAI::ai[M_PL_MATCHMAXPLAYER];
+GameAI GameAI::ai;
 
 GameAI::GameAI()
 {
@@ -14,27 +14,20 @@ GameAI::~GameAI()
 
 void GameAI::Init()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		ai[i].playerindex = i;
-		ai[i].SetAble(false);
-		ai[i].aidraintime = 0;
-		ai[i].drainmaxpushtime = 0;
-		ai[i].drainpushtimer = 0;
-	}
+	ai.SetAble(false);
+	ai.aidraintime = 0;
+	ai.drainmaxpushtime = 0;
+	ai.drainpushtimer = 0;
 }
 
 void GameAI::ClearAll()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		ai[i].aimtobelow = false;
-		ai[i].inrisk = false;
-		ai[i].aidraintime = 0;
-		ai[i].drainmaxpushtime = 0;
-		ai[i].drainpushtimer = 0;
-		ai[i].ClearRisk();
-	}
+	ai.aimtobelow = false;
+	ai.inrisk = false;
+	ai.aidraintime = 0;
+	ai.drainmaxpushtime = 0;
+	ai.drainpushtimer = 0;
+	ai.ClearRisk();
 }
 
 void GameAI::SetAble(bool _able)
@@ -104,10 +97,10 @@ void GameAI::UpdateMoveAbleInfoOne(GameAIPosition * ppos, float basex, float bas
 
 	for (int i=0; i<GAMEAI_ABLEPOSITIONNUM; i++)
 	{
-		if(ppos[i].x > PL_MOVABLE_RIGHT_(playerindex))
-			ppos[i].x = PL_MOVABLE_RIGHT_(playerindex);
-		else if(ppos[i].x < PL_MOVABLE_LEFT_(playerindex))
-			ppos[i].x = PL_MOVABLE_LEFT_(playerindex);
+		if(ppos[i].x > PL_MOVABLE_RIGHT)
+			ppos[i].x = PL_MOVABLE_RIGHT;
+		else if(ppos[i].x < PL_MOVABLE_LEFT)
+			ppos[i].x = PL_MOVABLE_LEFT;
 		if(ppos[i].y > PL_MOVABLE_BOTTOM)
 			ppos[i].y = PL_MOVABLE_BOTTOM;
 		else if(ppos[i].y < PL_MOVABLE_TOP)
@@ -140,10 +133,10 @@ bool GameAI::SetAim(float _aimx, float _aimy, bool tobelow)
 	}
 	aimx = _aimx;
 	aimy = _aimy;
-	if(aimx > PL_MOVABLE_RIGHT_(playerindex))
-		aimx = PL_MOVABLE_RIGHT_(playerindex);
-	else if(aimx < PL_MOVABLE_LEFT_(playerindex))
-		aimx = PL_MOVABLE_LEFT_(playerindex);
+	if(aimx > PL_MOVABLE_RIGHT)
+		aimx = PL_MOVABLE_RIGHT;
+	else if(aimx < PL_MOVABLE_LEFT)
+		aimx = PL_MOVABLE_LEFT;
 	if(aimy > PL_MOVABLE_BOTTOM)
 		aimy = PL_MOVABLE_BOTTOM;
 	else if(aimy < PL_MOVABLE_TOP)
@@ -158,7 +151,7 @@ bool GameAI::IsPlayerSafe()
 	{
 		return true;
 	}
-	if (Player::p[playerindex].bInfi && Player::p[playerindex].infitimer > 3)
+	if (Player::p.bInfi && Player::p.infitimer > 3)
 	{
 		return true;
 	}
@@ -331,69 +324,69 @@ void GameAI::SetKeyByIndex(int index)
 	switch (index)
 	{
 	case GAMEAI_ABLEPOSITION_U:
-		GameInput::SetKey(playerindex, KSI_UP);
+		GameInput::SetKey(KSI_UP);
 		break;
 	case GAMEAI_ABLEPOSITION_RU:
-		GameInput::SetKey(playerindex, KSI_UP);
-		GameInput::SetKey(playerindex, KSI_RIGHT);
+		GameInput::SetKey(KSI_UP);
+		GameInput::SetKey(KSI_RIGHT);
 		break;
 	case GAMEAI_ABLEPOSITION_R:
-		GameInput::SetKey(playerindex, KSI_RIGHT);
+		GameInput::SetKey(KSI_RIGHT);
 		break;
 	case GAMEAI_ABLEPOSITION_RD:
-		GameInput::SetKey(playerindex, KSI_RIGHT);
-		GameInput::SetKey(playerindex, KSI_DOWN);
+		GameInput::SetKey(KSI_RIGHT);
+		GameInput::SetKey(KSI_DOWN);
 		break;
 	case GAMEAI_ABLEPOSITION_D:
-		GameInput::SetKey(playerindex, KSI_DOWN);
+		GameInput::SetKey(KSI_DOWN);
 		break;
 	case GAMEAI_ABLEPOSITION_LD:
-		GameInput::SetKey(playerindex, KSI_DOWN);
-		GameInput::SetKey(playerindex, KSI_LEFT);
+		GameInput::SetKey(KSI_DOWN);
+		GameInput::SetKey(KSI_LEFT);
 		break;
 	case GAMEAI_ABLEPOSITION_L:
-		GameInput::SetKey(playerindex, KSI_LEFT);
+		GameInput::SetKey(KSI_LEFT);
 		break;
 	case GAMEAI_ABLEPOSITION_LU:
-		GameInput::SetKey(playerindex, KSI_LEFT);
-		GameInput::SetKey(playerindex, KSI_UP);
+		GameInput::SetKey(KSI_LEFT);
+		GameInput::SetKey(KSI_UP);
 		break;
 
 	case GAMEAI_ABLEPOSITION_US:
-		GameInput::SetKey(playerindex, KSI_UP);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_UP);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_RUS:
-		GameInput::SetKey(playerindex, KSI_UP);
-		GameInput::SetKey(playerindex, KSI_RIGHT);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_UP);
+		GameInput::SetKey(KSI_RIGHT);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_RS:
-		GameInput::SetKey(playerindex, KSI_RIGHT);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_RIGHT);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_RDS:
-		GameInput::SetKey(playerindex, KSI_RIGHT);
-		GameInput::SetKey(playerindex, KSI_DOWN);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_RIGHT);
+		GameInput::SetKey(KSI_DOWN);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_DS:
-		GameInput::SetKey(playerindex, KSI_DOWN);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_DOWN);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_LDS:
-		GameInput::SetKey(playerindex, KSI_DOWN);
-		GameInput::SetKey(playerindex, KSI_LEFT);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_DOWN);
+		GameInput::SetKey(KSI_LEFT);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_LS:
-		GameInput::SetKey(playerindex, KSI_LEFT);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_LEFT);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 	case GAMEAI_ABLEPOSITION_LUS:
-		GameInput::SetKey(playerindex, KSI_LEFT);
-		GameInput::SetKey(playerindex, KSI_UP);
-		GameInput::SetKey(playerindex, KSI_SLOW);
+		GameInput::SetKey(KSI_LEFT);
+		GameInput::SetKey(KSI_UP);
+		GameInput::SetKey(KSI_SLOW);
 		break;
 
 	case GAMEAI_ABLEPOSITION_N:
@@ -416,7 +409,7 @@ bool GameAI::SetMove()
 #ifndef __DEBUG
 	for (int i=0; i<GAMEACTIVEINPUTMAX; i++)
 	{
-		GameInput::SetKey(playerindex, i, false);
+		GameInput::SetKey(i, false);
 	}
 #endif
 	//
@@ -484,9 +477,9 @@ bool GameAI::SetMove()
 	{
 		inrisk = true;
 	}
-	if (Player::p[playerindex].timer % 8 != 0 && Player::p[playerindex].nComboGage < PLAYER_COMBOGAGEMAX * 2 / 3)
+	if (Player::p.timer % 8 != 0 && Player::p.nComboGage < PLAYER_COMBOGAGEMAX * 2 / 3)
 	{
-		GameInput::SetKey(playerindex, KSI_FIRE, true);
+		GameInput::SetKey(KSI_FIRE, true);
 	}
 
 
@@ -498,7 +491,7 @@ bool GameAI::SetMove()
 	}
 	else if(drainpushtimer >= 0)
 	{
-		GameInput::SetKey(playerindex, KSI_DRAIN, true);
+		GameInput::SetKey(KSI_DRAIN, true);
 	}
 	/*
 
@@ -572,14 +565,14 @@ bool GameAI::SetMove()
 			break;
 		}
 	}
-	bool bshot = Player::p[playerindex].flag & PLAYER_SHOT;
+	bool bshot = Player::p.flag & PLAYER_SHOT;
 	if (!bdone)
 	{
 		SetKeyByIndex(checkorderlist[0]);
 	}
-	if ((!bdone || bshot) && !Player::p[playerindex].bInfi)
+	if ((!bdone || bshot) && !Player::p.bInfi)
 	{
-		GameInput::SetKey(playerindex, KSI_FIRE, false);
+		GameInput::SetKey(KSI_FIRE, false);
 	}
 	ClearRisk();
 	return true;

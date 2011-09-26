@@ -121,14 +121,14 @@ void Ghost::Render()
 
 void Ghost::actionInStop()
 {
-	BYTE playerindex = getPlayerIndex();
+	BYTE  = getPlayerIndex();
 	if (!fadeout && !half)
 	{
-		DoShot(playerindex);
+		DoShot();
 	}
 }
 
-void Ghost::SendGhost(BYTE playerindex, float x, float y, bool bythis/ * =true * /)
+void Ghost::SendGhost(float x, float y, bool bythis/ * =true * /)
 {
 	// TODO:
 }
@@ -146,15 +146,15 @@ BYTE Ghost::getPlayerIndex()
 	return 0;
 }
 
-void Ghost::DoShot(BYTE playerindex)
+void Ghost::DoShot()
 {
-	float costpower = PlayerBullet::CheckShoot(playerindex, x, y, 32);
+	float costpower = PlayerBullet::CheckShoot(x, y, 32);
 	if (costpower)
 	{
 		CostLife(costpower);
 	}
 
-	for (list<EventZone>::iterator it=EventZone::ezone[playerindex].begin(); it!=EventZone::ezone[playerindex].end(); it++)
+	for (list<EventZone>::iterator it=EventZone::ezone.begin(); it!=EventZone::ezone.end(); it++)
 	{
 		if (it->type & EVENTZONE_TYPE_ENEMYDAMAGE)
 		{
@@ -162,7 +162,7 @@ void Ghost::DoShot(BYTE playerindex)
 			{
 				CostLife(it->power);
 				// TODO:
-				Player::p[playerindex].DoPlayerBulletHit();
+				Player::p.DoPlayerBulletHit();
 			}
 		}
 	}
@@ -230,7 +230,7 @@ void Ghost::action()
 {
 	timer++;
 
-	BYTE playerindex = getPlayerIndex();
+	BYTE  = getPlayerIndex();
 	if(life < maxlife / 2 && life > 0)
 	{
 		if (!half)
@@ -242,7 +242,7 @@ void Ghost::action()
 
 	if(!fadeout && !gave && half)
 	{
-		Item::Build(playerindex, ITEM_FAITH, x, y, true);
+		Item::Build(ITEM_FAITH, x, y, true);
 
 		gave = true;
 	}
@@ -269,11 +269,11 @@ void Ghost::action()
 			index = tindex;
 		}
 
-		if (checkCollisionSquare(Player::p[playerindex], GHOST_COLLISIONR))
+		if (checkCollisionSquare(Player::p, GHOST_COLLISIONR))
 		{
-			Player::p[playerindex].DoShot();
+			Player::p.DoShot();
 		}
-		DoShot(playerindex);
+		DoShot();
 
 		if(belong != 0xff)
 		{

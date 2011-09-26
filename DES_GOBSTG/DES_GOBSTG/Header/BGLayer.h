@@ -62,13 +62,13 @@ public:
 	~BGLayer();
 
 	static void Init();
-	static void KillOtherLayer(BYTE playerindex);
+	static void KillOtherLayer();
 	static void Action(bool active);
 	static void ActionSpecial();
-	static void RenderBG(BYTE playerindex);
-	static void RenderFG(BYTE playerindex);
+	static void RenderBG();
+	static void RenderFG();
 	static void RenderFGPause();
-	static void BGLayerSetup(BYTE playerindex, BYTE setID, WORD sID=BGLAYERSET_NONE, bool bForce=false);
+	static void BGLayerSetup(BYTE setID, WORD sID=BGLAYERSET_NONE, bool bForce=false);
 
 	void Render();
 	void valueSet(int siID, float cenx, float ceny, float width, float height, DWORD col = 0xffffffff);
@@ -102,10 +102,10 @@ public:
 	BYTE	changetimer;
 	BYTE	mtimer;
 
-	static BGLayerSet bglayerset[M_PL_MATCHMAXPLAYER][BGLAYERSETMAX];
+	static BGLayerSet bglayerset[BGLAYERSETMAX];
 	static WORD setindex;
 
-	static BGLayer ubg[M_PL_MATCHMAXPLAYER][UBGLAYERMAX];
+	static BGLayer ubg[UBGLAYERMAX];
 };
 
 #endif

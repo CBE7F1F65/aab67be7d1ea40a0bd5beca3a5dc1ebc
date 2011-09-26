@@ -17,24 +17,20 @@
 
 void Player::Init()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		p[i].exist = false;
-		p[i].ID = 0xffff;
-		p[i].nowID = 0xffff;
-		p[i].ID_sub_1 = 0xffff;
-		p[i].ID_sub_2 = 0xffff;
-	}
+	p.exist = false;
+	p.ID = 0xffff;
+	p.nowID = 0xffff;
+	p.ID_sub_1 = 0xffff;
+	p.ID_sub_2 = 0xffff;
 	SetAble(false);
 }
 
-void Player::RenderAll(BYTE _playerindex)
+void Player::RenderAll()
 {
-	_playerindex = 0;
-	if (p[_playerindex].exist)
+	if (p.exist)
 	{
-		p[_playerindex].Render();
-		p[_playerindex].RenderEffect();
+		p.Render();
+		p.RenderEffect();
 	}
 }
 

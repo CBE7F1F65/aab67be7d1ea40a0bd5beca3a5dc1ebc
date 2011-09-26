@@ -23,20 +23,17 @@ bool Process::reload()
 	replayFPS = 0;
 	matchmode = 0;
 	scene = 0;
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
+	SetShake(0, true);
+	if (rendertar)
 	{
-		SetShake(i, 0, true);
-		if (rendertar[i])
-		{
-			hge->Target_Free(rendertar[i]);
-		}
-		if (sprendertar[i])
-		{
-			delete sprendertar[i];
-			sprendertar[i] = NULL;
-		}
-		rendertar[i] = hge->Target_Create(M_CLIENT_WIDTH, M_CLIENT_HEIGHT, false);
+		hge->Target_Free(rendertar);
 	}
+	if (sprendertar)
+	{
+		delete sprendertar;
+		sprendertar = NULL;
+	}
+	rendertar = hge->Target_Create(M_CLIENT_WIDTH, M_CLIENT_HEIGHT, false);
 
 	GameAI::Init();
 	Bullet::Init();

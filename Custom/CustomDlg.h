@@ -51,7 +51,7 @@ protected:
 			int keyEscape;
 			int keyCapture;
 		};
-		int keyKey[2][13];
+		int keyKey[13];
 	};
 	union{
 		struct{
@@ -61,10 +61,10 @@ protected:
 			int	joyDrain;
 			int	joyPause;
 		};
-		int		joyKey[2][5];
+		int		joyKey[5];
 	};
-	bool keycombineslowdrain[M_PL_MATCHMAXPLAYER];
-	bool joycombineslowdrain[M_PL_MATCHMAXPLAYER];
+	bool keycombineslowdrain;
+	bool joycombineslowdrain;
 	int screenmode;
 	int renderskip;
 
@@ -104,15 +104,8 @@ public:
 	afx_msg void OnEnChangeJoyPause();
 	afx_msg void OnBnClickedCheck1();
 	afx_msg BOOL OnHelpInfo(HELPINFO* pHelpInfo);
-	afx_msg void OnEnChangeJoyFire2();
-	afx_msg void OnEnChangeJoyQuick2();
-	afx_msg void OnEnChangeJoySlow2();
-	afx_msg void OnEnChangeJoyDrain2();
-	afx_msg void OnEnChangeJoyPause2();
 	afx_msg void OnBnClickedKeyCombineSlowDrain();
-	afx_msg void OnBnClickedKeyCombineSlowDrain2();
 	afx_msg void OnBnClickedJoyCombineSlowDrain();
-	afx_msg void OnBnClickedJoyCombineSlowDrain2();
 	afx_msg void OnEnChangeMusicvol();
 	afx_msg void OnEnChangeSevol();
 	afx_msg void OnEnChangeLeftX();

@@ -28,7 +28,7 @@ public:
 	static void Action(bool notinstop);
 	static void RenderAll(BYTE renderflag);
 
-	static void SendGhost(BYTE playerindex, float x, float y, bool bythis=true);
+	static void SendGhost(float x, float y, bool bythis=true);
 
 	void Clear();
 	void valueSet(WORD ID, float x, float y, int angle, float speed, BYTE type, float life, int ac);
@@ -38,7 +38,7 @@ public:
 
 	void CostLife(float power);
 
-	void DoShot(BYTE playerindex);
+	void DoShot();
 
 	void action();
 	void actionInStop();

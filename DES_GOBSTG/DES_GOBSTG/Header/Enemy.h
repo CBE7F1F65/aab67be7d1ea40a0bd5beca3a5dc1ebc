@@ -107,23 +107,23 @@ public:
 	Enemy();
 	~Enemy();
 
-	static int Build(WORD eID, BYTE playerindex, float x, float y, int angle, float speed, BYTE type, float life, int infitimer=0);
+	static int Build(WORD eID, float x, float y, int angle, float speed, BYTE type, float life, int infitimer=0);
 	static void Init();
 	static void Release();
 	static void Action();
 	static void ClearAll();
-	static void RenderAll(BYTE playerindex);
-	static void RenderScore(BYTE playerindex);
+	static void RenderAll();
+	static void RenderScore();
 
-	static void BuildENAZ(BYTE playerindex, BYTE flag, float x, float y, float rPrep, float rParal=0, int angle=9000);
+	static void BuildENAZ(BYTE flag, float x, float y, float rPrep, float rParal=0, int angle=9000);
 
-	static void BossFadeout(BYTE playerindex);
+	static void BossFadeout();
 
 	void Clear();
 	bool isInRect(float x, float y, float r, float w, float h, int nextstep=0);
 	void Fadeout();
 
-	void valueSet(BYTE playerindex, WORD eID, float x, float y, int angle, float speed, BYTE type, float life, int infitimer);
+	void valueSet(WORD eID, float x, float y, int angle, float speed, BYTE type, float life, int infitimer);
 
 	void setTar(BYTE tarID=0xff);
 	void setTake(DWORD take=0);
@@ -141,7 +141,7 @@ public:
 	bool DoActivate();
 	void ForceActive();
 	bool checkActive();
-	static bool CheckENAZ(BYTE playerindex, float x, float y, float rori=0);
+	static bool CheckENAZ(float x, float y, float rori=0);
 
 	void action();
 	void actionInStop();
@@ -154,12 +154,12 @@ public:
 	void GetCollisionRect(float * w, float * h);
 	bool CostLife(float power);
 
-	void giveItem(BYTE playerindex);
+	void giveItem();
 
 	void Render();
 	void RenderEffect();
 
-	static void SendGhost(BYTE playerindex, float x, float y, BYTE setID, BYTE * sendtime=NULL, float * acceladd=NULL);
+	static void SendGhost(float x, float y, BYTE setID, BYTE * sendtime=NULL, float * acceladd=NULL);
 	void AddSendInfo(BYTE sendsetID, BYTE sendtime, float accel, float acceladd);
 	void SetActiveInfo(BYTE activemaxtime, WORD eID, BYTE type, int angle, float accelspeed, float damagerate);
 
@@ -203,7 +203,7 @@ public:
 	float	lastspeed;
 	int		lastangle;
 
-	BYTE	playerindex;
+
 
 	bool	fadeout;
 	bool	able;
@@ -233,13 +233,13 @@ public:
 
 	BYTE	frameindex[ENEMY_FRAME_STATEMAX];
 
-	static BYTE	bossindex[M_PL_MATCHMAXPLAYER];
-	static BYTE nEnemyNow[M_PL_MATCHMAXPLAYER][ENEMY_NMAXSETMAX];
+	static BYTE	bossindex;
+	static BYTE nEnemyNow[ENEMY_NMAXSETMAX];
 
 	hgeSprite * sprite;
-	static VectorList<Enemy> en[M_PL_MATCHMAXPLAYER];
-	static list<EnemyActivationZone> enaz[M_PL_MATCHMAXPLAYER];
-	static VectorList<ScoreDisplay> scoredisplay[M_PL_MATCHMAXPLAYER];
+	static VectorList<Enemy> en;
+	static list<EnemyActivationZone> enaz;
+	static VectorList<ScoreDisplay> scoredisplay;
 };
 
 #endif

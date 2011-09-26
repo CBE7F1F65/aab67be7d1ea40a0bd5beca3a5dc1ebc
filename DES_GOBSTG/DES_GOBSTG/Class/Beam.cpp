@@ -17,7 +17,7 @@
 
 #define BEAM_DELAYTIME	32
 
-VectorList<Beam> Beam::be[M_PL_MATCHMAXPLAYER];
+VectorList<Beam> Beam::be;
 
 Beam::Beam()
 {
@@ -30,80 +30,69 @@ Beam::~Beam()
 
 void Beam::Init()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		be[i].init(BEAMMAX);
-	}
+	be.init(BEAMMAX);
 }
 
 void Beam::ClearItem()
 {
-	for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
-	{
-		be[i].clear_item();
-	}
+	be.clear_item();
 }
 
 void Beam::Action()
 {
-	for (int j=0; j<M_PL_MATCHMAXPLAYER; j++)
+	DWORD stopflag = Process::mp.GetStopFlag();
+	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_BEAM);
+	if (!binstop)
 	{
-		DWORD stopflag = Process::mp.GetStopFlag();
-		bool binstop = FRAME_STOPFLAGCHECK_PLAYERINDEX_(stopflag, j, FRAME_STOPFLAG_BEAM);
-		if (!binstop)
+		if (be.getSize())
 		{
-			if (be[j].getSize())
+			DWORD i = 0;
+			DWORD size = be.getSize();
+			for (be.toBegin(); i<size; be.toNext(), i++)
 			{
-				DWORD i = 0;
-				DWORD size = be[j].getSize();
-				for (be[j].toBegin(); i<size; be[j].toNext(), i++)
+				if (!be.isValid())
 				{
-					if (!be[j].isValid())
-					{
-						continue;
-					}
-					if ((*be[j]).exist)
-					{
-						(*be[j]).action(j);
-						GameAI::ai[j].CheckBeamCollision(&(*be[j]));
-					}
-					else
-					{
-						be[j].pop();
-					}
+					continue;
+				}
+				if ((*be).exist)
+				{
+					(*be).action();
+					GameAI::ai.CheckBeamCollision(&(*be));
+				}
+				else
+				{
+					be.pop();
 				}
 			}
 		}
 	}
 }
 
-void Beam::RenderAll(BYTE playerindex)
+void Beam::RenderAll()
 {
-	playerindex = 0;
-	if (be[playerindex].getSize())
+	if (be.getSize())
 	{
 		DWORD i = 0;
-		DWORD size = be[playerindex].getSize();
-		for (be[playerindex].toBegin(); i<size; be[playerindex].toNext(), i++)
+		DWORD size = be.getSize();
+		for (be.toBegin(); i<size; be.toNext(), i++)
 		{
-			if (be[playerindex].isValid())
+			if (be.isValid())
 			{
-				(*be[playerindex]).Render();
+				(*be).Render();
 			}
 		}
 	}
 }
 
-int Beam::Build(BYTE playerindex, float x, float y, int angle, float speed, BYTE type, BYTE color, float length, float width, BYTE flag, int fadeintime, int fadeouttime, BYTE tarID)
+int Beam::Build(float x, float y, int angle, float speed, BYTE type, BYTE color, float length, float width, BYTE flag, int fadeintime, int fadeouttime, BYTE tarID)
 {
-	playerindex = 0;
-	if (be[playerindex].getSize() == BEAMMAX)
+	if (be.getSize() == BEAMMAX)
 	{
 		return NULL;
 	}
 	Beam * _tbe;
-	_tbe = be[playerindex].push_back();
-	int beindex = be[playerindex].getEndIndex();
+	_tbe = be.push_back();
+	int beindex = be.getEndIndex();
 	_tbe->valueSet(beindex, x, y, angle, speed, type, color, length, width, flag, fadeintime, fadeouttime, tarID);
 	return beindex;
 }
@@ -224,9 +213,8 @@ void Beam::SetHold(BYTE _holdtar, BYTE _pintar, float holdoffset)
 	pintar = _pintar;
 }
 
-void Beam::action(BYTE playerindex)
+void Beam::action()
 {
-	playerindex = 0;
 	if (delaytimer)
 	{
 		delaytimer--;
@@ -253,11 +241,11 @@ void Beam::action(BYTE playerindex)
 			SE::push(SE_BEAM_1, x);
 		}
 
-		if (!Player::p[playerindex].bInfi)
+		if (!Player::p.bInfi)
 		{
-			if (isInRect(Player::p[playerindex].x, Player::p[playerindex].y, Player::p[playerindex].r))
+			if (isInRect(Player::p.x, Player::p.y, Player::p.r))
 			{
-				Player::p[playerindex].DoShot();
+				Player::p.DoShot();
 			}
 		}
 		if(!(flag & BEAMFLAG_HORIZON))
@@ -324,23 +312,23 @@ void Beam::action(BYTE playerindex)
 			else
 			{
 				grazetimer++;
-				if(isInRect(Player::p[playerindex].x, Player::p[playerindex].y, PLAYER_GRAZE_R))
+				if(isInRect(Player::p.x, Player::p.y, PLAYER_GRAZE_R))
 				{
 					float itemx;
 					float itemy;
 					float tk = 0;
 					if (xplus || yplus)
 					{
-						tk = - ((x - Player::p[playerindex].x) * xplus + (y - Player::p[playerindex].y) * yplus) / (xplus * xplus + yplus * yplus);
+						tk = - ((x - Player::p.x) * xplus + (y - Player::p.y) * yplus) / (xplus * xplus + yplus * yplus);
 						itemx = x + xplus * tk;
 						itemy = y + yplus * tk;
 					}
 					else
 					{
-						itemx = Player::p[playerindex].x;
-						itemy = Player::p[playerindex].y;
+						itemx = Player::p.x;
+						itemy = Player::p.y;
 					}
-					Player::p[playerindex].DoGraze(itemx, itemy);
+					Player::p.DoGraze(itemx, itemy);
 				}
 			}
 
@@ -348,8 +336,8 @@ void Beam::action(BYTE playerindex)
 		float nowlength = vscale * texh;
 		float nowwidth = hscale * texw;
 		float longside = nowlength > nowwidth ? nowlength : nowwidth;
-		if(	x - longside > M_DELETECLIENT_RIGHT_(playerindex) ||
-			x + longside < M_DELETECLIENT_LEFT_(playerindex) ||
+		if(	x - longside > M_DELETECLIENT_RIGHT ||
+			x + longside < M_DELETECLIENT_LEFT ||
 			y - longside > M_DELETECLIENT_BOTTOM ||
 			y + longside < M_DELETECLIENT_TOP)
 			exist = false;

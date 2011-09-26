@@ -41,8 +41,8 @@ public:
 	~EventZone();
 
 	static void Clear();
-	static void RenderAll(BYTE playerindex);
-	static void Build(DWORD type, BYTE playerindex, float x, float y, int maxtime=1, float rx=EVENTZONE_OVERZONE, float ry=EVENTZONE_OVERZONE, float power=0, DWORD eventID=EVENTZONE_EVENT_NULL, float rspeed=0, int inittimer=0, int siid=-1, int turnangle=0);
+	static void RenderAll();
+	static void Build(DWORD type, float x, float y, int maxtime=1, float rx=EVENTZONE_OVERZONE, float ry=EVENTZONE_OVERZONE, float power=0, DWORD eventID=EVENTZONE_EVENT_NULL, float rspeed=0, int inittimer=0, int siid=-1, int turnangle=0);
 	static void Action();
 
 	bool action();
@@ -50,7 +50,7 @@ public:
 	bool isInRect(float aimx, float aimy, float r, float oriw=0, float orih=0, int nextstep=0);
 
 public:
-	BYTE playerindex;
+
 	float x;
 	float y;
 	float rx;
@@ -65,8 +65,8 @@ public:
 	DWORD eventID;
 	hgeSprite * sprite;
 
-	static int bulletActionList[M_PL_MATCHMAXPLAYER][BULLETACTIONMAX];
-	static list<EventZone>ezone[M_PL_MATCHMAXPLAYER];
+	static int bulletActionList[BULLETACTIONMAX];
+	static list<EventZone>ezone;
 };
 
 #endif

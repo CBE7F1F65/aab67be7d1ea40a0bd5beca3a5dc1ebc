@@ -28,7 +28,7 @@ public:
 	PlayerGhost();
 	~PlayerGhost();
 
-	void valueSet(BYTE playerindex, WORD ID, bool move=false);
+	void valueSet(WORD ID, bool move=false);
 
 	void Render();
 
@@ -44,7 +44,7 @@ public:
 	bool active;
 	int shootangle;
 	WORD flag;
-	BYTE playerindex;
+
 };
 
 #endif

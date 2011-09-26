@@ -13,10 +13,10 @@ void Process::frameEnd()
 		{
 			for (int i=0; i<M_PL_MATCHMAXPLAYER; i++)
 			{
-				GameInput::SetKey(i, KSI_FIRE, false);
-				GameInput::SetKey(i, KSI_QUICK, false);
-				GameInput::SetKey(i, KSI_SLOW, false);
-				GameInput::SetKey(i, KSI_DRAIN, false);
+				GameInput::SetKey(KSI_FIRE, false);
+				GameInput::SetKey(KSI_QUICK, false);
+				GameInput::SetKey(KSI_SLOW, false);
+				GameInput::SetKey(KSI_DRAIN, false);
 			}
 		}*/
 

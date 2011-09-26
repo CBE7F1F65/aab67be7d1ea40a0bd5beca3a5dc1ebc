@@ -23,10 +23,8 @@ PlayerGhost::~PlayerGhost()
 	sprite = NULL;
 }
 
-void PlayerGhost::valueSet(BYTE _playerindex, WORD _ID, bool move)
+void PlayerGhost::valueSet(WORD _ID, bool move)
 {
-	_playerindex = 0;
-	playerindex = _playerindex;
 	ID		=	_ID;
 
 	timer	=	0;
@@ -60,7 +58,7 @@ void PlayerGhost::valueSet(BYTE _playerindex, WORD _ID, bool move)
 
 	if (move)
 	{
-		x = PL_MERGEPOS_X_(playerindex);
+		x = PL_MERGEPOS_X;
 		y = PL_MERGEPOS_Y;
 	}
 
@@ -91,7 +89,7 @@ void PlayerGhost::AntiShooter(float aimx, float aimy)
 		shootangle += 36000;
 	if(aimx == x)
 	{
-		if(GameInput::GetKey(playerindex, KSI_UP) && shootangle != 9000)
+		if(GameInput::GetKey(KSI_UP) && shootangle != 9000)
 		{
 			if(shootangle > 9000)
 			{
@@ -106,7 +104,7 @@ void PlayerGhost::AntiShooter(float aimx, float aimy)
 					shootangle = 9000;
 			}
 		}
-		if(GameInput::GetKey(playerindex, KSI_DOWN) && shootangle != -9000)
+		if(GameInput::GetKey(KSI_DOWN) && shootangle != -9000)
 		{
 			if(shootangle < 9000)
 			{
@@ -128,7 +126,7 @@ void PlayerGhost::AntiShooter(float aimx, float aimy)
 		shootangle += 36000;
 	if(aimy == y)
 	{
-		if(GameInput::GetKey(playerindex, KSI_LEFT) && shootangle != 0)
+		if(GameInput::GetKey(KSI_LEFT) && shootangle != 0)
 		{
 			if(shootangle < 0)
 			{
@@ -143,7 +141,7 @@ void PlayerGhost::AntiShooter(float aimx, float aimy)
 					shootangle = 0;
 			}
 		}
-		if(GameInput::GetKey(playerindex, KSI_RIGHT) && shootangle != 18000)
+		if(GameInput::GetKey(KSI_RIGHT) && shootangle != 18000)
 		{
 			if(shootangle > 0)
 			{
@@ -160,7 +158,7 @@ void PlayerGhost::AntiShooter(float aimx, float aimy)
 		}
 	}
 	if((aimx != x || aimy != y) || timer < _PLAYERGHOST_ADJUSTTIME)
-		shootangle = aMainAngle(Player::p[playerindex].x, Player::p[playerindex].y, 18000);
+		shootangle = aMainAngle(Player::p.x, Player::p.y, 18000);
 }
 
 void PlayerGhost::action()
@@ -177,24 +175,24 @@ void PlayerGhost::action()
 
 	int chasetime = 2;
 	bool chasing = false;
-	bool shooting = Player::p[playerindex].flag & PLAYER_SHOOT;
+	bool shooting = Player::p.flag & PLAYER_SHOOT;
 
-	DWORD ownertimer = Player::p[playerindex].timer;
+	DWORD ownertimer = Player::p.timer;
 
 	playerghostData * _pgd = &(BResource::bres.playerghostdata[ID]);
 
 	if (flag & PGFLAG_TRACE)
 	{
 		int _tindex = (ID%DATASTRUCT_PLAYERGHOSTMAX+1)*8-1;
-		aimx = Player::p[playerindex].lastmx[_tindex];
-		aimy = Player::p[playerindex].lastmy[_tindex];
+		aimx = Player::p.lastmx[_tindex];
+		aimy = Player::p.lastmy[_tindex];
 	}
 
 	if (flag & PGFLAG_CHASE)
 	{
 		chasetime = 8;
 		BObject * _tpbobj;
-		if (PlayerBullet::GetLockAim(&_tpbobj, playerindex) && (shooting))
+		if (PlayerBullet::GetLockAim(&_tpbobj) && (shooting))
 		{
 			aimx = _tpbobj->x - _pgd->xadj;
 			aimy = _tpbobj->y - _pgd->yadj;
@@ -203,8 +201,8 @@ void PlayerGhost::action()
 		}
 		else
 		{
-			aimx = Player::p[playerindex].lastx[_PLAYERGHOST_LASTINDEX] + _pgd->xadj;
-			aimy = Player::p[playerindex].lasty[_PLAYERGHOST_LASTINDEX] + _pgd->yadj;
+			aimx = Player::p.lastx[_PLAYERGHOST_LASTINDEX] + _pgd->xadj;
+			aimy = Player::p.lasty[_PLAYERGHOST_LASTINDEX] + _pgd->yadj;
 		}
 	}
 	if (chasing != lastchasing)
@@ -214,14 +212,14 @@ void PlayerGhost::action()
 
 	if (flag & PGFLAG_ABSSTAY)
 	{
-		aimx = M_GAMESQUARE_CENTER_X_(playerindex) + _pgd->xadj;
+		aimx = M_GAMESQUARE_CENTER_X + _pgd->xadj;
 		aimy = M_GAMESQUARE_CENTER_Y + _pgd->yadj;
 	}
 
 	if (!(flag & PGFLAG_SELFMOVEMASK))
 	{
-		aimx = Player::p[playerindex].lastx[_PLAYERGHOST_LASTINDEX];
-		aimy = Player::p[playerindex].lasty[_PLAYERGHOST_LASTINDEX];
+		aimx = Player::p.lastx[_PLAYERGHOST_LASTINDEX];
+		aimy = Player::p.lasty[_PLAYERGHOST_LASTINDEX];
 	}
 
 	if (_pgd->mover)
@@ -248,7 +246,7 @@ void PlayerGhost::action()
 	{
 		if (flag & PGFLAG_STAY)
 		{
-			shootangle = aMainAngle(Player::p[playerindex].x, Player::p[playerindex].y, 18000);
+			shootangle = aMainAngle(Player::p.x, Player::p.y, 18000);
 		}
 		else
 		{
@@ -321,13 +319,13 @@ void PlayerGhost::action()
 	SpriteItemManager::SetSprite(_pgd->siid, sprite);
 	if (flag & PGFLAG_SYNCPLAYER)
 	{
-		int siidoffset = Player::p[playerindex].nowframeindex;
+		int siidoffset = Player::p.nowframeindex;
 		if (stay)
 		{
 			siidoffset = 0;
 		}
 		SpriteItemManager::ChangeSprite(_pgd->siid+siidoffset, sprite);
-		SpriteItemManager::SetSpriteFlip(sprite, Player::p[playerindex].flipx);
+		SpriteItemManager::SetSpriteFlip(sprite, Player::p.flipx);
 	}
 	lastchasing = chasing;
 	sprite->SetBlendMode(_pgd->blend);
