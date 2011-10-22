@@ -31,6 +31,8 @@ Data::Data()
 	spritedefinefilename = NULL;
 	playershootdefinefilename = NULL;
 	playerghostdefinefilename = NULL;
+	areadefinefilename = NULL;
+	blankmaptiledefinefilename = NULL;
 
 	datadefinefilename = NULL;
 	packagedefinefilename = NULL;
@@ -362,6 +364,12 @@ void Data::getFile(BYTE type)
 	case DATA_PLAYERGHOSTDEFINE:
 		nowfilename = playerghostdefinefilename;
 		break;
+	case DATA_AREADEFINE:
+		nowfilename = areadefinefilename;
+		break;
+	case DATA_BLANKMAPTILEDEFINE:
+		nowfilename = blankmaptiledefinefilename;
+		break;
 
 	case DATA_DATATABLEDEFINE:
 		nowfilename = datadefinefilename;
@@ -662,6 +670,24 @@ bool Data::GetAllTable()
 	{
 #ifdef __DEBUG_LOG
 		HGELOG("%s\nFailed in loading PlayerGhostDefineFile %s.", HGELOG_ERRSTR, playerghostdefinefilename);
+#endif // __DEBUG
+		return false;
+	}
+
+	//area
+	if (!GetTableFile(DATA_AREADEFINE))
+	{
+#ifdef __DEBUG_LOG
+		HGELOG("%s\nFailed in loading AreaDefineFile %s.", HGELOG_ERRSTR, areadefinefilename);
+#endif // __DEBUG
+		return false;
+	}
+
+	//playerghost
+	if (!GetTableFile(DATA_BLANKMAPTILEDEFINE))
+	{
+#ifdef __DEBUG_LOG
+		HGELOG("%s\nFailed in loading BlankMapTileDefine %s.", HGELOG_ERRSTR, blankmaptiledefinefilename);
 #endif // __DEBUG
 		return false;
 	}

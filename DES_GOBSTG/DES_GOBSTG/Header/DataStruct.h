@@ -18,12 +18,16 @@
 #define DATASTRUCT_PLAYERGHOSTTYPEMAX	(DATASTRUCT_PLAYERGHOSTMAX * DATASTRUCT_PLAYERTYPEMAX * 2)
 #define DATASTRUCT_PLAYERLASERTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX)
 #define DATASTRUCT_PLAYERLASERTYPE		4
-#define DATASTRUCT_SCENEMAX			DATASTRUCT_PLAYERTYPEMAX
 #define DATASTRUCT_PLAYERBULLETTYPE		4
 #define DATASTRUCT_PACKAGEMAX			0x20
 #define DATASTRUCT_SEMAX				0x80
 #define DATASTRUCT_FONTSYSMAX			0x40
 #define DATASTRUCT_STRINGDESCMAX		0x400
+#define DATASTRUCT_STAGEMAX				12
+#define DATASTRUCT_STAGEAREAMAX			4
+#define DATASTRUCT_AREAMAX				(DATASTRUCT_STAGEMAX * DATASTRUCT_STAGEAREAMAX)
+#define DATASTRUCT_AREABLANKMAPTILEMAX	0x10
+#define DATASTRUCT_BLANKMAPTILEMAX		(DATASTRUCT_AREABLANKMAPTILEMAX * DATASTRUCT_AREAMAX)
 
 struct customconstData{
 	char name[M_STRKEYMAX];
@@ -146,6 +150,8 @@ struct resourceData
 	char spritedefinefilename[M_PATHMAX];
 	char playershootdefinefilename[M_PATHMAX];
 	char playerghostdefinefilename[M_PATHMAX];
+	char areadefinefilename[M_PATHMAX];
+	char blankmaptiledefinefilename[M_PATHMAX];
 	char datadefinefilename[M_PATHMAX];
 	char packagedefinefilename[M_PATHMAX];
 	char texturedefinefilename[M_PATHMAX];
@@ -291,6 +297,26 @@ struct playerghostData
 	WORD flag;
 	BYTE rolltime;
 	BYTE blend;
+};
+
+struct areaData
+{
+	BYTE stage;
+	BYTE tilex;
+	BYTE tiley;
+	int texbegin;
+	int begintile;
+	int ledge;
+	int redge;
+	int tedge;
+	int bedge;
+};
+
+struct blankMapTileData
+{
+	BYTE area;
+	BYTE texoffset;
+	int texnumber;
 };
 
 #endif

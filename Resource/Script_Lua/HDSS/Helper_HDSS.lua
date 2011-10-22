@@ -52,86 +52,10 @@ function hdssSAVEREPLAY(bSave, bFill, filename)
 	)
 end
 
-function hdssBGVALUE(playerindex, index, siid, cenx, ceny, w, h, col)
-	return hdss.Call(
-		HDSS_BGVALUE,
-		{
-			playerindex, index, siid, cenx, ceny, w, h, col
-		}
-	)
-end
-
-function hdssBGFLAG(playerindex, index, flag)
-	return hdss.Call(
-		HDSS_BGFLAG,
-		{
-			playerindex, index, flag
-		}
-	)
-end
-
-function hdssBGCOLOR(playerindex, index, col0, col1, col2, col3, blend)
-	return hdss.Call(
-		HDSS_BGCOLOR,
-		{
-			playerindex, index, col0, col1, col2, col3, blend
-		}
-	)
-end
-
-function hdssBGBLEND(playerindex, index, blend)
-	return hdss.Call(
-		HDSS_BGBLEND,
-		{
-			playerindex, index, blend
-		}
-	)
-end
-
-function hdssBGOFF(playerindex, index1, index2, index3, index4)
-	if index1 == nil then
-		return;
-	end
-	hdss.Call(
-		HDSS_BGOFF,
-		{
-			playerindex, index1
-		}
-	)
-	if index2 == nil then
-		return;
-	end
-	hdss.Call(
-		HDSS_BGOFF,
-		{
-			playerindex, index2
-		}
-	)
-	if index3 == nil then
-		return;
-	end
-	hdss.Call(
-		HDSS_BGOFF,
-		{
-			playerindex, index3
-		}
-	)
-	if index4 == nil then
-		return;
-	end
-	hdss.Call(
-		HDSS_BGOFF,
-		{
-			playerindex, index4
-		}
-	)
-end
-
-function hdssBGSETUP(playerindex, setID, sID, bForce)
+function hdssBGSETUP()
 	return hdss.Call(
 		HDSS_BGSETUP,
 		{
-			playerindex, setID, sID, bForce
 		}
 	)
 end

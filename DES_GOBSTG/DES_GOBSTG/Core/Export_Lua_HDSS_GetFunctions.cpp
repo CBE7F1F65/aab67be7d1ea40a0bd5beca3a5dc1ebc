@@ -587,8 +587,8 @@ int _HDSSCallGet::Get_BGSINDEX(LuaState * ls)
 		_INEXT_HDSS_LUAFUNC;
 
 		int _set = _INEXT_HDSS_LUAFUNC;
-		_PI_HDSS_LUA(BGLayer::bglayerset[_set].sID);
-		_PI_HDSS_LUA(BGLayer::bglayerset[_set].timer);
+//		_PI_HDSS_LUA(BGLayer::bglayerset[_set].sID);
+//		_PI_HDSS_LUA(BGLayer::bglayerset[_set].timer);
 		return 2;
 	}
 	return 0;

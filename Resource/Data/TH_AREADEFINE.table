@@ -1,0 +1,6 @@
+90	h5nc	4E								
+Comment	Index	Stage	TexBegin	BeginTile	TileX	TileY	LEdge	REdge	TEdge	BEdge
+#		Stage_0								
+-	0	0	580	0	10	48	16	0	0	16
+-	1	0	580	480	29	38	16	0	0	0
+-	2	0	581	576	10	38	16	0	0	0

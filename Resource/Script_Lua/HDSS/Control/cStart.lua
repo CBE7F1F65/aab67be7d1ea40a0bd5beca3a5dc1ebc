@@ -8,23 +8,6 @@ function ControlExecute_cStart(timer)
 		hdssSD(LConst_Desc_LilyItem, helper_GetRandomItem());
 		
 		for i=0, 1 do
-			for j=0, 1 do
-				hdss.Call(
-					HDSS_BGVALEX,
-					{
-						i, LConst_gamefg_fadeIid+j, SI_White, col
-					},
-					{
-						(i+j-1)*TotalW/2, 0, 0, TotalW/2, TotalH, 0, 0, 0
-					},
-					{
-						10, 0, (1-j)*18000, true
-					},
-					{
-						TotalW/2
-					}
-				)
-			end
 			
 			hdssSD(LConst_Desc_EnemyTimeCounter+i, 0);
 			hdssSD(LConst_Desc_EnemyRandom+i, enemyrandrom);
@@ -33,40 +16,22 @@ function ControlExecute_cStart(timer)
 			hdssSD(LConst_Desc_BossPattern+i, -1);
 			hdssSD(LConst_Desc_TeiShotTime+i, 0);
 			
-			hdssBGSETUP(i, LConst_bgset_sceneid, scene, true);
+			hdssBGSETUP();
 						
 		end
 		
 		--
 		
 	elseif timer == 32 then
-		for i=0, 1 do
-			hdssBGOFF(i, LConst_gamefg_fadeIid);
-		end
 	end
 				
 	if timer <= 8 then
 		local scale = hdssINTER(1.5, 1, timer/8);
-		for i=0, 1 do
-			hdssBGVALUE(i, LConst_gamefg_infoid, SI_GameInfo_Ready, helper_GetCenterX(i), CenterY, 128*scale, 48*scale);
-		end
 	elseif timer == 32 then
-		for i=0, 1 do
-			hdssBGFLAG(i, LConst_gamefg_infoid, BG_FADEOUT, 16);
-		end
 	elseif timer > 48 and timer <= 56 then
 		local scale = hdssINTER(1.5, 1, (timer-48)/8);
-		for i=0, 1 do
-			hdssBGVALUE(i, LConst_gamefg_infoid, SI_GameInfo_GameStart, helper_GetCenterX(i), CenterY, 208*scale, 48*scale);
-		end
 	elseif timer == 80 then
-		for i=0, 1 do
-			hdssBGFLAG(i, LConst_gamefg_infoid, BG_FADEOUT, 16);
-		end
 	elseif timer == 96 then
-		for i=0, 1 do
-			hdssBGOFF(i, LConst_gamefg_infoid);
-		end
 		
 	elseif timer > 96 then
 

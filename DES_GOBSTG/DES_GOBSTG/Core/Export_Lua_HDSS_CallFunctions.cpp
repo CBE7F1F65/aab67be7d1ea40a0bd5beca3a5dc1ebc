@@ -1328,7 +1328,7 @@ int _HDSSCallGet::Call_BGVALUE(LuaState * ls)
 			}
 		}
 
-		BGLayer::ubg[_index].valueSet(_siid, _cenx, _ceny, _w, _h, _col);
+//		BGLayer::ubg[_index].valueSet(_siid, _cenx, _ceny, _w, _h, _col);
 	}
 	return 0;
 }
@@ -1350,7 +1350,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 			_col = _COBJ_HDSS_LUA;
 		}
 
-		BGLayer::ubg[_index].valueSet(_siid, 0, 0, -1, -1, _col);
+//		BGLayer::ubg[_index].valueSet(_siid, 0, 0, -1, -1, _col);
 
 		if (argscount > 2)
 		{
@@ -1392,7 +1392,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 				}
 			}
 
-			BGLayer::ubg[_index].rectSet(_x, _y, _z, _w, _h, _rotx, _roty, _rotz);
+//			BGLayer::ubg[_index].rectSet(_x, _y, _z, _w, _h, _rotx, _roty, _rotz);
 
 			if (argscount > 3)
 			{
@@ -1425,7 +1425,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 						}
 					}
 				}
-				BGLayer::ubg[_index].moveSet(_speed, _zSpeed, _angle, _move, _rotate);
+//				BGLayer::ubg[_index].moveSet(_speed, _zSpeed, _angle, _move, _rotate);
 
 				if (argscount > 4)
 				{
@@ -1450,7 +1450,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 						}
 					}
 
-					BGLayer::ubg[_index].parallelogram(_paral, _flipx, _flipy);
+//					BGLayer::ubg[_index].parallelogram(_paral, _flipx, _flipy);
 				}
 			}
 		}
@@ -1473,7 +1473,7 @@ int _HDSSCallGet::Call_BGFLAG(LuaState * ls)
 		{
 			_maxtime = _IOBJ_HDSS_LUA;
 		}
-		BGLayer::ubg[_index].SetFlag(_flag, _maxtime);
+//		BGLayer::ubg[_index].SetFlag(_flag, _maxtime);
 	}
 	return 0;
 }
@@ -1494,12 +1494,12 @@ int _HDSSCallGet::Call_BGCOLOR(LuaState * ls)
 			col[i] = _COBJ_HDSS_LUA;
 		}
 
-		BGLayer::ubg[_index].colorSet(col[0], col[1], col[2], col[3]);
+//		BGLayer::ubg[_index].colorSet(col[0], col[1], col[2], col[3]);
 		_JNEXT_HDSS_LUAPARA;
 		if (bhavenext)
 		{
 			_blend = _IOBJ_HDSS_LUA;
-			BGLayer::ubg[_index].SetBlend(_blend);
+//			BGLayer::ubg[_index].SetBlend(_blend);
 		}
 	}
 	return 0;
@@ -1514,7 +1514,7 @@ int _HDSSCallGet::Call_BGBLEND(LuaState * ls)
 		_INEXT_HDSS_LUAPARA;
 		int _index = _INEXT_HDSS_LUAPARA;
 		int _blend = _INEXT_HDSS_LUAPARA;
-		BGLayer::ubg[_index].SetBlend(_blend);
+//		BGLayer::ubg[_index].SetBlend(_blend);
 	}
 	return 0;
 }
@@ -1529,11 +1529,11 @@ int _HDSSCallGet::Call_BGOFF(LuaState * ls)
 		int _index = _INEXT_HDSS_LUAPARA;
 		if (_index < 0)
 		{
-			BGLayer::KillOtherLayer();
+			BGLayer::bglayer.Release();
 		}
 		else
 		{
-			BGLayer::ubg[_index].exist = false;
+//			BGLayer::ubg[_index].exist = false;
 		}
 	}
 	return 0;
@@ -1545,24 +1545,7 @@ int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 
 	if (true)
 	{
-		_INEXT_HDSS_LUAPARA;
-		BYTE _setID = _INEXT_HDSS_LUAPARA;
-
-		WORD _sID = BGLAYERSET_NONE;
-		bool _bForce = false;
-
-		_JNEXT_HDSS_LUAPARA;
-		if (bhavenext)
-		{
-			_sID = _IOBJ_HDSS_LUA;
-			_JNEXT_HDSS_LUAPARA;
-			if (bhavenext)
-			{
-				_bForce = _BOBJ_HDSS_LUA;
-			}
-		}
-
-		BGLayer::BGLayerSetup(_setID, _sID, _bForce);
+		BGLayer::bglayer.BGLayerSetup();
 	}
 	return 0;
 }

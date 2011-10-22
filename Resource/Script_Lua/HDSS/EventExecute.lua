@@ -7,7 +7,7 @@ function _EventExecute_PlayerInStop(playerindex)
 end
 
 function _EventExecute_BossFadeout(playerindex)
-	hdssBGSETUP(playerindex, LConst_bgset_spellid, BGLAYERSET_NONE);
+	hdssBGSETUP();
 end
 
 function EventExecute(name, con)

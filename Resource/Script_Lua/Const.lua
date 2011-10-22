@@ -81,16 +81,6 @@ LConst_Desc_TeiShotTime	=	FREEBEGIN + 16
 LConst_Desc_HatateIndex	=	FREEBEGIN + 18
 LConst_Desc_YoumuSlashEffIndex	=	FREEBEGIN + 20
 
-LConst_gamefg_fadeIid	=	BGLAYERMAX 
-LConst_gamefg_fadeIIid	=	BGLAYERMAX + 1
-LConst_gamefg_infoid	=	BGLAYERMAX + 2
-LConst_gamefg_spellflashid	=	BGLAYERMAX + 3
-
-LConst_gamebg_spellid_1	=	BGLAYERMAX-4
-LConst_gamebg_spellid_2	=	BGLAYERMAX-3
-LConst_gamebg_spellid_3	=	BGLAYERMAX-2
-LConst_gamebg_spellid_4	=	BGLAYERMAX-1
-
 LConst_bgset_sceneid	=	0
 LConst_bgset_spellid	= 1
 

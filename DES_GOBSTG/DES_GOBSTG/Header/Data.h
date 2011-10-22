@@ -19,6 +19,8 @@
 #define DATA_SPRITEDEFINEFILE	0x4B
 #define DATA_PLAYERSHOOTDEFINE	0x4C
 #define DATA_PLAYERGHOSTDEFINE	0x4D
+#define DATA_AREADEFINE			0x4E
+#define DATA_BLANKMAPTILEDEFINE	0x4F
 
 #define DATA_DATATABLEDEFINE	0x51
 #define DATA_PACKAGETABLEDEFINE	0x52
@@ -345,6 +347,8 @@ public:
 	char * spritedefinefilename;
 	char * playershootdefinefilename;
 	char * playerghostdefinefilename;
+	char * areadefinefilename;
+	char * blankmaptiledefinefilename;
 
 	char * datadefinefilename;
 	char * packagedefinefilename;

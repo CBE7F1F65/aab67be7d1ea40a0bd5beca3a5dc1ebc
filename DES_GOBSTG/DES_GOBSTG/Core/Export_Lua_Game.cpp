@@ -19,7 +19,6 @@ bool Export_Lua_Game::_LuaRegistFunction(LuaObject * obj)
 	_gameobj.Register("SetGameMode", LuaFn_Game_SetGameMode);
 	_gameobj.Register("GetGameMode", LuaFn_Game_GetGameMode);
 	_gameobj.Register("GetPlayerContentTable", LuaFn_Game_GetPlayerContentTable);
-	_gameobj.Register("GetSceneContentTable", LuaFn_Game_GetSceneContentTable);
 	_gameobj.Register("GetPlayerStopInfo", LuaFn_Game_GetPlayerStopInfo);
 	_gameobj.Register("GetEnumReplayInfo", LuaFn_Game_GetEnumReplayInfo);
 	_gameobj.Register("SetEnumReplayByIndex", LuaFn_Game_SetEnumReplayByIndex);
@@ -143,32 +142,6 @@ int Export_Lua_Game::LuaFn_Game_GetPlayerContentTable(LuaState * ls)
 		_LuaHelper_PushString(ls, BResource::bres.playerdata[_index].name);
 		_LuaHelper_PushString(ls, BResource::bres.playerdata[_index].ename);
 		return 3;
-	}
-	return 0;
-}
-
-int Export_Lua_Game::LuaFn_Game_GetSceneContentTable(LuaState * ls)
-{
-	LuaStack args(ls);
-	if (!args.Count())
-	{
-		int _scenecount = DATASTRUCT_SCENEMAX;
-		for (int i=0; i<DATASTRUCT_SCENEMAX; i++)
-		{
-			if (!strlen(BResource::bres.playerdata[i].scenename))
-			{
-				_scenecount = i;
-				break;
-			}
-		}
-		ls->PushInteger(_scenecount);
-		return 1;
-	}
-	else
-	{
-		int _index = args[1].GetInteger();
-		ls->PushString(BResource::bres.playerdata[_index].scenename);
-		return 1;
 	}
 	return 0;
 }

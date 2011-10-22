@@ -4,7 +4,7 @@ void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 {
 	Export::clientSet3DMode();
 	Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
-	BGLayer::RenderBG();
+	BGLayer::RenderAll();
 	Export::clientSet2DMode();
 	Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
 	if(renderflag != M_RENDER_NULL)
@@ -88,7 +88,6 @@ void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 		*/
 		//
 	}
-	BGLayer::RenderFG();
 }
 
 void Process::_RenderTar()
@@ -177,7 +176,6 @@ int Process::render()
 		EffectSp::RenderAll();
 		FrontDisplay::fdisp.RenderEnemyX();
 	}
-	BGLayer::RenderFGPause();
 	SelectSystem::RenderAll();
 	
 #if defined __IPHONE

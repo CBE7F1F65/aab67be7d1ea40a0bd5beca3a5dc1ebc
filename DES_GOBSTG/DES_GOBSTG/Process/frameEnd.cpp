@@ -60,7 +60,6 @@ void Process::frameEnd()
 		BGLayer::Action(active);
 		Effectsys::Action();
 	}
-	BGLayer::ActionSpecial();
 	SelectSystem::Action();
 
 	SpriteItemManager::FrontSpriteAction();

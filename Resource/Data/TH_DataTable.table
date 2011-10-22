@@ -8,3 +8,5 @@ PlayerDefineFile	TH_PLAYERDEFINE.table
 SpriteDefineFile	TH_SPRITEDEFINE.table	
 PlayerShootDefineFile	TH_PLAYERSHOOTDEFINE.table	
 PlayerGhostDefineFile	TH_PLAYERGHOSTDEFINE.table	
+AreaDefineFile	TH_AREADEFINE.table	
+BlankMapTileDefineFile	TH_BLANKMAPTILEDEFINE.table	

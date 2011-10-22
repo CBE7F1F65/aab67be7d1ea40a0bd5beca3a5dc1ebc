@@ -21,6 +21,8 @@ public:
 	bool SpriteDefineFile();
 	bool PlayerShootDefineFile();
 	bool PlayerGhostDefineFile();
+	bool AreaDefineFile();
+	bool BlankMapTileDefineFile();
 
 	bool ReadStringBuffer(int nCol);
 	bool CommentBuffer();

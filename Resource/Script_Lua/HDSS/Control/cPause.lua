@@ -2,7 +2,6 @@ function CEPause_Init()
 end
 
 function CEPause_SetBG()
-	hdssBGFLAG(0, UFGID_FGPAUSE, FG_PAUSEIN, FGMT_PAUSE);
 end
 
 function CEPause_SetSelect(selsyspauseid, select)
@@ -54,7 +53,6 @@ function CEPause_SetSelect(selsyspauseid, select)
 end
 
 function CEPause_CloseUsed()
-	hdssBGFLAG(0, UFGID_FGPAUSE, FG_PAUSEOUT, FGMT_PAUSE);
 	hdssSELCLEAR(LConst_selsys_pauseid);
 	hdssSELCLEAR(LConst_selsys_pauseconfirmid);
 end

@@ -105,7 +105,7 @@ void Process::ClearAll()
 {
 	SelectSystem::ClearAll();
 	Effectsys::ClearAll();
-	BGLayer::Init();
+	BGLayer::bglayer.Init();
 	Enemy::ClearAll();
 //	Ghost::ClearAll();
 	Target::ClearAll();

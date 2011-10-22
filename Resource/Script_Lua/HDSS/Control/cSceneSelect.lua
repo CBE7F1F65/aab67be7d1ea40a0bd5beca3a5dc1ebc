@@ -3,12 +3,10 @@ function CESceneSelect_Init()
 end
 
 function CESceneSelect_SetBG()
-	hdssBGVALUE(0, LConst_uibg_backgroundid, SI_SelectScene, TotalCenterX, TotalCenterY, TotalW, TotalH);
-	hdssBGVALUE(0, LConst_uibg_topcontentid, SI_TopContent_Scene, TotalCenterX, 64);
 end
 
 function CESceneSelect_SetSelect(selsyssceneid, pushkeyid)
-	local scenecount = game.GetSceneContentTable();
+	local scenecount = 0;
 	
 	local ystart = 120;
 	local yoffset = 24;
@@ -44,7 +42,7 @@ function CESceneSelect_SetSelect(selsyssceneid, pushkeyid)
 		local j = i+1;
 		local ucol = global.HSVA(j/(scenecount+2), 1, 1, 1);
 		local dcol = global.HSVA((j+1)/(scenecount+2), 1, 1, 1);
-		local scenename = game.GetSceneContentTable(i);
+		local scenename = "";
 		
 		hdss.Call(
 			HDSS_SELBUILD,
@@ -70,7 +68,6 @@ function CESceneSelect_SetSelect(selsyssceneid, pushkeyid)
 end
 
 function CESceneSelect_CloseUsed()
-	hdssBGOFF(0, LConst_uibg_player1id, LConst_uibg_player2id);
 	for i=0, 11 do
 		hdssFREEFRONTSPRITE(i);
 	end

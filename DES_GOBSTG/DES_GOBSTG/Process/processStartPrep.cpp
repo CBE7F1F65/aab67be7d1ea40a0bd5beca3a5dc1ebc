@@ -6,9 +6,6 @@ void Process::clearPrep(bool bclearkey)
 	lasttime = 0;
 
 	ClearAll();
-
-	BGLayer::ubg[UBGID_BGMASK].valueSetByName(SI_WHITE, M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y, M_CLIENT_WIDTH, M_CLIENT_HEIGHT, 0);
-	BGLayer::ubg[UFGID_FGPAUSE].valueSetByName(SI_WHITE, M_CLIENT_CENTER_X, M_CLIENT_CENTER_Y, M_CLIENT_WIDTH, M_CLIENT_HEIGHT, 0);
 	
 	FrontDisplay::fdisp.SetState(FDISP_PANEL, FDISPSTATE_ON);
 	for (int i=0; i<M_PL_ONESETPLAYER; i++)

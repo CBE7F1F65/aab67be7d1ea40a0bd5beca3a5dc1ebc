@@ -244,7 +244,7 @@ int Process::processInit()
 		}
 	}
 
-	BGLayer::Init();
+	BGLayer::bglayer.Init();
 
 	SE::vol = sevol;
 	if(!SE::Initial())

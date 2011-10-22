@@ -335,6 +335,8 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 //		RSIZE_SPRITE + 
 		RSIZE_PLAYERSHOOT + 
 		RSIZE_PLAYERGHOST + 
+		RSIZE_AREA + 
+		RSIZE_BLANKMAPTILE + 
 		RSIZE_SPRITENUMBER +
 		RSIZE_SPRITE;
 	BYTE * content = (BYTE *)malloc(size);
@@ -386,6 +388,10 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 	offset += RSIZE_PLAYERSHOOT;
 	memcpy(content+offset, playerghostdata, RSIZE_PLAYERGHOST);
 	offset += RSIZE_PLAYERGHOST;
+	memcpy(content+offset, areadata, RSIZE_AREA);
+	offset += RSIZE_AREA;
+	memcpy(content+offset, blankmaptiledata, RSIZE_BLANKMAPTILE);
+	offset += RSIZE_BLANKMAPTILE;
 
 	memcpy(content+offset, &spritenumber, RSIZE_SPRITENUMBER);
 	offset += RSIZE_SPRITENUMBER;
@@ -451,6 +457,10 @@ bool BResource::Gain(void * pStrdesc, void * pCustomConstData)
 			offset += RSIZE_PLAYERSHOOT;
 			memcpy(playerghostdata, content+offset, RSIZE_PLAYERGHOST);
 			offset += RSIZE_PLAYERGHOST;
+			memcpy(areadata, content+offset, RSIZE_AREA);
+			offset += RSIZE_AREA;
+			memcpy(blankmaptiledata, content+offset, RSIZE_BLANKMAPTILE);
+			offset += RSIZE_BLANKMAPTILE;
 
 			memcpy(&spritenumber, content+offset, RSIZE_SPRITENUMBER);
 			offset += RSIZE_SPRITENUMBER;
@@ -605,6 +615,8 @@ void BResource::CopyData()
 		Data::data.spritedefinefilename = resdata.spritedefinefilename;
 		Data::data.playershootdefinefilename = resdata.playershootdefinefilename;
 		Data::data.playerghostdefinefilename = resdata.playerghostdefinefilename;
+		Data::data.areadefinefilename = resdata.areadefinefilename;
+		Data::data.blankmaptiledefinefilename = resdata.blankmaptiledefinefilename;
 		Data::data.datadefinefilename = resdata.datadefinefilename;
 		Data::data.packagedefinefilename = resdata.packagedefinefilename;
 		Data::data.texturedefinefilename = resdata.texturedefinefilename;
@@ -644,6 +656,10 @@ bool BResource::SetDataFile()
 		if (!Data::data.SetFile(Data::data.playershootdefinefilename, DATA_PLAYERSHOOTDEFINE))
 			return false;
 		if (!Data::data.SetFile(Data::data.playerghostdefinefilename, DATA_PLAYERGHOSTDEFINE))
+			return false;
+		if (!Data::data.SetFile(Data::data.areadefinefilename, DATA_AREADEFINE))
+			return false;
+		if (!Data::data.SetFile(Data::data.blankmaptiledefinefilename, DATA_BLANKMAPTILEDEFINE))
 			return false;
 
 		if (!Data::data.SetFile(Data::data.datadefinefilename, DATA_DATATABLEDEFINE))

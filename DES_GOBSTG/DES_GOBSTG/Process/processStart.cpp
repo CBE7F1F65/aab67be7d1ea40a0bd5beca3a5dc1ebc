@@ -16,8 +16,7 @@ int Process::processStart()
 		replayend = true;
 		replaymode = false;
 		gametime = 0;
-		BGLayer::KillOtherLayer();
-		BGLayer::ubg[UBGID_BGMASK].exist = false;
+		BGLayer::bglayer.Release();
 		SelectSystem::ClearAll();
 //		FrontDisplay::fdisp.SetState(FDISP_PANEL, 0);
 		Player::p.exist = false;

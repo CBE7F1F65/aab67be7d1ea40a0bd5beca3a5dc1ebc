@@ -3,14 +3,6 @@ function CEMatchSelect_Init()
 end
 
 function CEMatchSelect_SetBG()
-	--Mask
-	hdssBGVALUE(0, UBGID_BGMASK, SI_White, TotalCenterX, TotalCenterY, TotalW, TotalH, global.ARGB(0xFF, 0));
-	--BG
-	hdssBGVALUE(0, LConst_uibg_backgroundid, SI_SelectScene, TotalCenterX, TotalCenterY, TotalW, TotalH);
-	--TopContent
-	hdssBGVALUE(0, LConst_uibg_topcontentid, SI_TopContent_MatchMode, TotalCenterX, 96);
-	--Fade
-	hdssBGFLAG(0, UBGID_BGMASK, BG_FADEOUT);
 end
 
 function CEMatchSelect_CloseUsed(selsysmatchid, selsyslatencyid, bbottom)
@@ -18,10 +10,6 @@ function CEMatchSelect_CloseUsed(selsysmatchid, selsyslatencyid, bbottom)
 	if bbottom == nil then
 		bbottom = true;
 	end
-	if bbottom then
-		hdssBGOFF(0, LConst_uibg_bottomid);
-	end
-	hdssBGOFF(0, LConst_uibg_infoid);
 	--Clear
 	hdssSELCLEAR(selsysmatchid, selsyslatencyid);
 end
@@ -70,13 +58,10 @@ function CEMatchSelect_DispatchSelect_Match(selsysmatchid)
 	local complete, select = hdss.Get(HDSS_SELCOMPLETE, selsysmatchid);
 	if complete then
 		if select == 0 then
-			hdssBGVALUE(0, LConst_uibg_bottomid, SI_MatchSelect_P2P, TotalCenterX, 440);
 			game.SetGameMode(MatchMode_P2P);
 		elseif select == 1 then
-			hdssBGVALUE(0, LConst_uibg_bottomid, SI_MatchSelect_P2C, TotalCenterX, 440);
 			game.SetGameMode(MatchMode_P2C);
 		elseif select == 2 then
-			hdssBGVALUE(0, LConst_uibg_bottomid, SI_MatchSelect_C2P, TotalCenterX, 440);
 			if hdss.Get(HDSS_CHECKKEY, 0, KSI_SLOW) or hdss.Get(HDSS_CHECKKEY, 1, KSI_SLOW) then
 				game.SetGameMode(MatchMode_C2C);
 			else
@@ -92,8 +77,6 @@ function CEMatchSelect_DispatchSelect_Match(selsysmatchid)
 end
 
 function CEMatchSelect_SetBG_Waiting()
-	hdssBGVALUE(0, LConst_uibg_bottomid, SI_MatchSelect_N2N, TotalCenterX, 440);
-	hdssBGVALUE(0, LConst_uibg_infoid, SI_MatchMode_Waiting, TotalCenterX, 200, 384, 60);
 end
 
 function CEMatchSelect_DispatchPasteIP(selsyslatencyid, _ipx, _ipport)
@@ -101,7 +84,6 @@ function CEMatchSelect_DispatchPasteIP(selsyslatencyid, _ipx, _ipport)
 end
 
 function CEMatchSelect_SetBG_Accessing()
-	hdssBGVALUE(0, LConst_uibg_infoid, SI_MatchMode_Accessing, TotalCenterX, 200, 384, 30);
 	hdssSE(SE_SYSTEM_OK);
 end
 

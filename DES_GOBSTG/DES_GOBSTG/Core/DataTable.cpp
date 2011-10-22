@@ -105,6 +105,12 @@ bool _DataTable::DataTableDefine()
 	strcpy(BResource::bres.resdata.playerghostdefinefilename, BResource::bres.resdata.datafoldername);
 	_READSTRINGBUFFERLINE(2);
 	strcat(BResource::bres.resdata.playerghostdefinefilename, buffer);
+	strcpy(BResource::bres.resdata.areadefinefilename, BResource::bres.resdata.datafoldername);
+	_READSTRINGBUFFERLINE(2);
+	strcat(BResource::bres.resdata.areadefinefilename, buffer);
+	strcpy(BResource::bres.resdata.blankmaptiledefinefilename, BResource::bres.resdata.datafoldername);
+	_READSTRINGBUFFERLINE(2);
+	strcat(BResource::bres.resdata.blankmaptiledefinefilename, buffer);
 	return true;
 }
 
@@ -535,6 +541,67 @@ bool _DataTable::PlayerGhostDefineFile()
 	return true;
 }
 
+bool _DataTable::AreaDefineFile()
+{
+	ZeroMemory(BResource::bres.areadata, RSIZE_AREA);
+	_READSTRINGBUFFERLINE(11);
+	while (!feof(file))
+	{
+		_INITTINT;
+		_BREAKCOMMENTBUFFER;
+		fscanf(file, "%d", &tindex);
+		_CHECKEOF_DATATABLE;
+		areaData * item = &(BResource::bres.areadata[tindex]);
+
+		fscanf(file, "%d%d%d%d%d%d%d%d%d", 
+			_SAVETINT,
+			&(item->texbegin),
+			&(item->begintile),
+			_SAVETINT,
+			_SAVETINT,
+			&(item->ledge),
+			&(item->redge),
+			&(item->tedge),
+			&(item->bedge));
+
+		_DOSWAPTINT;
+		_INITTINT;
+
+		item->stage = _LOADTINT;
+		item->tilex = _LOADTINT;
+		item->tiley = _LOADTINT;
+	}
+
+	return true;
+}
+
+bool _DataTable::BlankMapTileDefineFile()
+{
+	ZeroMemory(BResource::bres.blankmaptiledata, RSIZE_BLANKMAPTILE);
+	_READSTRINGBUFFERLINE(5);
+	while (!feof(file))
+	{
+		_INITTINT;
+		_BREAKCOMMENTBUFFER;
+		fscanf(file, "%d", &tindex);
+		_CHECKEOF_DATATABLE;
+		blankMapTileData * item = &(BResource::bres.blankmaptiledata[tindex]);
+
+		fscanf(file, "%d%d%d", 
+			_SAVETINT,
+			_SAVETINT,
+			&(item->texnumber));
+
+		_DOSWAPTINT;
+		_INITTINT;
+
+		item->area = _LOADTINT;
+		item->texoffset = _LOADTINT;
+	}
+
+	return true;
+}
+
 
 FILE * Data::checkTableFile(BYTE type)
 {
@@ -626,6 +693,13 @@ bool Data::GetTableFile(BYTE type)
 		break;
 	case DATA_PLAYERGHOSTDEFINE:
 		_DataTable::datatable.PlayerGhostDefineFile();
+		break;
+
+	case DATA_AREADEFINE:
+		_DataTable::datatable.AreaDefineFile();
+		break;
+	case DATA_BLANKMAPTILEDEFINE:
+		_DataTable::datatable.BlankMapTileDefineFile();
 		break;
 	}
 	fclose(file);

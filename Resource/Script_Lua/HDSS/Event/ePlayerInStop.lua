@@ -3,9 +3,6 @@ function ePlayerInSpellStop(playerindex, bSpell, spellPlayerID, oplayerID, stopt
 	local x = helper_GetCenterBossX(playerindex);
 	
 	if stoptimer == stopmaxtime - 2 then
-		for i=0, 1 do
-			hdssBGOFF(i, LConst_gamefg_spellflashid);
-		end
 	end
 		
 	if bSpell then
