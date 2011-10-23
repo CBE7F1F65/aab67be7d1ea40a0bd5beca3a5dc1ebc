@@ -54,14 +54,9 @@ int _HDSSCallGet::Get_CHARA(LuaState * ls)
 	if (argscount > 1)
 	{
 		_INEXT_HDSS_LUAFUNC;
-		_PI_HDSS_LUA(Player::p.nowID);
 		_PI_HDSS_LUA(Player::p.ID);
-		_PI_HDSS_LUA(Player::p.ID_sub_1);
-		_PI_HDSS_LUA(Player::p.ID_sub_2);
-		_PI_HDSS_LUA(Process::mp.lastmatchchara[0]);
-		_PI_HDSS_LUA(Process::mp.lastmatchchara[1]);
-		_PI_HDSS_LUA(Process::mp.lastmatchchara[2]);
-		return 7;
+		_PI_HDSS_LUA(Process::mp.lastmatchchara);
+		return 2;
 	}
 	return 0;
 }
@@ -489,7 +484,7 @@ int _HDSSCallGet::Get_PX(LuaState * ls)
 		_INEXT_HDSS_LUAFUNC;
 
 		_PF_HDSS_LUA(Player::p.x);
-		_PI_HDSS_LUA(Player::p.nowID);
+		_PI_HDSS_LUA(Player::p.ID);
 		return 2;
 	}
 	return 0;
@@ -503,7 +498,7 @@ int _HDSSCallGet::Get_PY(LuaState * ls)
 		_INEXT_HDSS_LUAFUNC;
 
 		_PF_HDSS_LUA(Player::p.y);
-		_PI_HDSS_LUA(Player::p.nowID);
+		_PI_HDSS_LUA(Player::p.ID);
 		return 2;
 	}
 	return 0;

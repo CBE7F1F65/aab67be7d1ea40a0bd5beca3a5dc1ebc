@@ -128,10 +128,10 @@ int _HDSSCallGet::Call_SETCHARA(LuaState * ls)
 				}
 			}
 		}
-		Player::p.SetChara(_id, _id_sub_1, _id_sub_2);
+		Player::p.SetChara(_id);
 		if (_bsavelastmatch)
 		{
-			Process::mp.SetLastMatchChara(_id, _id_sub_1, _id_sub_2);
+			Process::mp.SetLastMatchChara(_id);
 		}
 	}
 	return 0;
@@ -145,6 +145,18 @@ int _HDSSCallGet::Call_SETSCENE(LuaState * ls)
 	{
 		BYTE _scene = _INEXT_HDSS_LUAPARA;
 		Process::mp.SetScene(_scene);
+	}
+	return 0;
+}
+
+int _HDSSCallGet::Call_SETAREA(LuaState * ls)
+{
+	_ENTERCALL_HDSS_LUA;
+
+	if (true)
+	{
+		BYTE _area = _INEXT_HDSS_LUAPARA;
+		Process::mp.SetArea(_area);
 	}
 	return 0;
 }

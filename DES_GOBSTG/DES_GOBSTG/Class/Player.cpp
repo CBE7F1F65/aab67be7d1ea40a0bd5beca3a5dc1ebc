@@ -76,9 +76,7 @@ Player::Player()
 	effBorderOff.exist = false;
 	sprite			= NULL;
 	spdrain			= NULL;
-	nowID			= 0;
-	ID_sub_1		= 0;
-	ID_sub_2		= 0;
+	ID			= 0;
 }
 
 Player::~Player()
@@ -184,7 +182,7 @@ void Player::ClearSet(BYTE _round)
 		effBorderOff.MoveTo(x, y, 0, true);
 	}
 
-	changePlayerID(nowID, true);
+	changePlayerID(ID, true);
 
 	esChange.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERCHANGE, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y, 0, 3.0f);
 	esChange.colorSet(0x7fffffff, BLEND_ALPHAADD);
@@ -205,7 +203,7 @@ void Player::ClearSet(BYTE _round)
 
 void Player::valueSet(BYTE round)
 {
-	nowID		= ID;
+	ID		= ID;
 	ClearSet(round);
 	initFrameIndex();
 	UpdatePlayerData();
@@ -621,7 +619,7 @@ void Player::action()
 			y = PL_MOVABLE_TOP;
 	}
 	//AI
-	GameAI::ai.UpdateBasicInfo(x, y, speed*speedfactor, slowspeed*speedfactor, r, BResource::bres.playerdata[nowID].aidraintime);
+	GameAI::ai.UpdateBasicInfo(x, y, speed*speedfactor, slowspeed*speedfactor, r, BResource::bres.playerdata[ID].aidraintime);
 	float aiaimx = _PL_MERGETOPOS_X;
 	float aiaimy = _PL_MERGETOPOS_Y;
 	bool tobelow = false;
@@ -870,7 +868,7 @@ bool Player::Shoot()
 
 	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COSTLIFE))
 	{
-		PlayerBullet::BuildShoot(nowID, shoottimer);
+		PlayerBullet::BuildShoot(ID, shoottimer);
 	}
 	shoottimer++;
 	//
@@ -965,7 +963,7 @@ bool Player::PlayerChange()
 
 void Player::changePlayerID(WORD toID, bool moveghost/* =false */)
 {
-	nowID = toID;
+	ID = toID;
 	ResetPlayerGhost(moveghost);
 	UpdatePlayerData();
 }
@@ -1099,7 +1097,7 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 
 void Player::ResetPlayerGhost(bool move /* = false */)
 {
-	int tid = nowID;
+	int tid = ID;
 	tid *= DATASTRUCT_PLAYERGHOSTMAX * 2;
 	if (bSlow)
 	{

@@ -17,6 +17,7 @@ public:
 	static int Call_RETURN(LuaState * ls);
 	static int Call_SETSTATE(LuaState * ls);
 	static int Call_SETSCENE(LuaState * ls);
+	static int Call_SETAREA(LuaState * ls);
 	static int Call_SETTIME(LuaState * ls);
 	static int Call_CLEARALL(LuaState * ls);
 	static int Call_SETCHARA(LuaState * ls);

@@ -135,29 +135,9 @@ DWORD Data::sLinkDiff(DWORD sec, BYTE diff)
 		sec &= DATASBINMASK_DIFF;
 		sec |= dataMap[DATATDIFF_D].binname;
 		break;
-	case M_DIFFI_EXTRA_1:
+	case M_DIFFI_EXTRA:
 		sec &= DATASBINMASK_DIFF;
-		sec |= dataMap[DATATDIFF_X1].binname;
-		break;
-	case M_DIFFI_EXTRA_2:
-		sec &= DATASBINMASK_DIFF;
-		sec |= dataMap[DATATDIFF_X2].binname;
-		break;
-	case M_DIFFI_EXTRA_3:
-		sec &= DATASBINMASK_DIFF;
-		sec |= dataMap[DATATDIFF_X3].binname;
-		break;
-	case M_DIFFI_EXTRA_4:
-		sec &= DATASBINMASK_DIFF;
-		sec |= dataMap[DATATDIFF_X4].binname;
-		break;
-	case M_DIFFI_EXTRA_5:
-		sec &= DATASBINMASK_DIFF;
-		sec |= dataMap[DATATDIFF_X5].binname;
-		break;
-	case M_DIFFI_EXTRA_6:
-		sec &= DATASBINMASK_DIFF;
-		sec |= dataMap[DATATDIFF_X6].binname;
+		sec |= dataMap[DATATDIFF_X].binname;
 		break;
 	}
 	return sec;
@@ -258,11 +238,8 @@ void Data::MoveDown(DWORD sec, BYTE i)
 
 	DWORD name;
 	name = nLinkType(DATAN_CHARA);
-	for (int j=0; j<M_PL_ONESETPLAYER; j++)
-	{
-		name = nLinkNum(name, j+1);
-		iWrite(DATA_BINFILE, secD, name, iRead(DATA_BINFILE, secS, name, 0));
-	}
+	name = nLinkNum(name, 1);
+	iWrite(DATA_BINFILE, secD, name, iRead(DATA_BINFILE, secS, name, 0));
 	/*
 	name = nLinkType(DATAN_GETSPELL);
 	for (int j=0; j<M_GETSPELLMAX; j++)

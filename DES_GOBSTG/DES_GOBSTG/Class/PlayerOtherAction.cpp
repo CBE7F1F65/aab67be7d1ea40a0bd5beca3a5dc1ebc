@@ -19,9 +19,6 @@ void Player::Init()
 {
 	p.exist = false;
 	p.ID = 0xffff;
-	p.nowID = 0xffff;
-	p.ID_sub_1 = 0xffff;
-	p.ID_sub_2 = 0xffff;
 	SetAble(false);
 }
 
@@ -57,96 +54,67 @@ int Player::IsEnd()
 void Player::initFrameIndex()
 {
 	nowframeindex = 0;
-	WORD _ID;
-	for (int i=0; i<M_PL_ONESETPLAYER; i++)
+	playerData * pdata = &(BResource::bres.playerdata[ID]);
+	int tfi = 0;
+	frameindex[PLAYER_FRAME_STAND] = tfi;
+
+	bool bhr = pdata->rightPreFrame;
+	bool bhl = pdata->leftPreFrame;
+
+	tfi += pdata->standFrame;
+	frameindex[PLAYER_FRAME_LEFTPRE] = tfi;
+	if (bhr)
 	{
-		if (i == 1)
-		{
-			_ID = ID_sub_1;
-		}
-		else if (i == 2)
-		{
-			_ID = ID_sub_2;
-		}
-		else
-		{
-			_ID = ID;
-		}
-		if (_ID > DATASTRUCT_PLAYERTYPEMAX)
-		{
-			continue;
-		}
-		playerData * pdata = &(BResource::bres.playerdata[_ID]);
-		int tfi = 0;
-		frameindex[i][PLAYER_FRAME_STAND] = tfi;
+		tfi += pdata->rightPreFrame;
+	}
+	else
+	{
+		tfi += pdata->leftPreFrame;
+	}
+	frameindex[PLAYER_FRAME_LEFT] = tfi;
 
-		bool bhr = pdata->rightPreFrame;
-		bool bhl = pdata->leftPreFrame;
-
-		tfi += pdata->standFrame;
-		frameindex[i][PLAYER_FRAME_LEFTPRE] = tfi;
-		if (bhr)
-		{
-			tfi += pdata->rightPreFrame;
-		}
-		else
-		{
-			tfi += pdata->leftPreFrame;
-		}
-		frameindex[i][PLAYER_FRAME_LEFT] = tfi;
-
-		if (bhr)
-		{
-			tfi += pdata->rightFrame;
-		}
-		else
-		{
-			tfi += pdata->leftFrame;
-		}
-		if (!bhr || !bhl)
-		{
-			tfi -= pdata->leftPreFrame + pdata->rightPreFrame + pdata->leftFrame + pdata->rightFrame;
-		}
-		frameindex[i][PLAYER_FRAME_RIGHTPRE] = tfi;
-		if (bhr)
-		{
-			tfi += pdata->rightPreFrame;
-		}
-		else
-		{
-			tfi += pdata->leftPreFrame;
-		}
-		frameindex[i][PLAYER_FRAME_RIGHT] = tfi;
-		if (bhr)
-		{
-			tfi += pdata->rightFrame;
-		}
-		else
-		{
-			tfi += pdata->leftFrame;
-		}
+	if (bhr)
+	{
+		tfi += pdata->rightFrame;
+	}
+	else
+	{
+		tfi += pdata->leftFrame;
+	}
+	if (!bhr || !bhl)
+	{
+		tfi -= pdata->leftPreFrame + pdata->rightPreFrame + pdata->leftFrame + pdata->rightFrame;
+	}
+	frameindex[PLAYER_FRAME_RIGHTPRE] = tfi;
+	if (bhr)
+	{
+		tfi += pdata->rightPreFrame;
+	}
+	else
+	{
+		tfi += pdata->leftPreFrame;
+	}
+	frameindex[PLAYER_FRAME_RIGHT] = tfi;
+	if (bhr)
+	{
+		tfi += pdata->rightFrame;
+	}
+	else
+	{
+		tfi += pdata->leftFrame;
 	}
 }
 
 BYTE Player::getFrameIndex(BYTE frameenum)
 {
 	flipx = false;
-	playerData * pdata = &(BResource::bres.playerdata[nowID]);
+	playerData * pdata = &(BResource::bres.playerdata[ID]);
 	if ((frameenum == PLAYER_FRAME_RIGHTPRE || frameenum == PLAYER_FRAME_RIGHT) && (!pdata->rightPreFrame) ||
 		(frameenum == PLAYER_FRAME_LEFTPRE || frameenum == PLAYER_FRAME_LEFT) && (!pdata->leftPreFrame))
 	{
 		flipx = true;
 	}
-	int tindex = 0;
-	if (nowID == ID_sub_1)
-	{
-		tindex = 1;
-	}
-	else if (nowID == ID_sub_2)
-	{
-		tindex = 2;
-	}
-	return frameindex[tindex][frameenum];
+	return frameindex[frameenum];
 }
 
 void Player::setFrame(BYTE frameenum)
@@ -158,9 +126,9 @@ void Player::setFrame(BYTE frameenum)
 
 void Player::setIndexFrame(BYTE index)
 {
-	playerData * pdata = &(BResource::bres.playerdata[nowID]);
+	playerData * pdata = &(BResource::bres.playerdata[ID]);
 	nowframeindex = index;
-	SpriteItemManager::ChangeSprite(BResource::bres.playerdata[nowID].siid+index, sprite);
+	SpriteItemManager::ChangeSprite(BResource::bres.playerdata[ID].siid+index, sprite);
 //	sprite->SetFlip(flipx, false);
 	SpriteItemManager::SetSpriteFlip(sprite, flipx);
 }
@@ -181,7 +149,7 @@ void Player::updateFrame(BYTE frameenum, int usetimer /* = -1*/)
 	{
 		return;
 	}
-	playerData * pdata = &(BResource::bres.playerdata[nowID]);
+	playerData * pdata = &(BResource::bres.playerdata[ID]);
 	frameoffset++;
 	BYTE tbyte;
 	switch (nowstate)
@@ -273,7 +241,7 @@ void Player::updateFrame(BYTE frameenum, int usetimer /* = -1*/)
 
 void Player::UpdatePlayerData()
 {
-	playerData * pdata = &(BResource::bres.playerdata[nowID]);
+	playerData * pdata = &(BResource::bres.playerdata[ID]);
 	r = pdata->collision_r;
 	speed = pdata->fastspeed;
 	slowspeed = pdata->slowspeed;
@@ -316,10 +284,7 @@ void Player::SetInfi(BYTE reasonflag, int _infitimer/* =PLAYER_INFIMAX */)
 	infitimer = _infitimer;
 }
 
-void Player::SetChara(WORD id, WORD id_sub_1/* =0xffff */, WORD id_sub_2/* =0xffff */)
+void Player::SetChara(WORD id)
 {
 	ID = id;
-	nowID = ID;
-	ID_sub_1 = id_sub_1;
-	ID_sub_2 = id_sub_2;
 }

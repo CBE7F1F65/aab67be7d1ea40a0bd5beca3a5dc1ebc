@@ -49,10 +49,9 @@ struct replayInfo
 
 	float lost;
 
-	BYTE matchmode;
 	BYTE scene;
 
-	BYTE usingchara[M_PL_ONESETPLAYER];
+	BYTE usingchara;
 	BYTE initlife;
 };
 
@@ -60,7 +59,6 @@ struct partInfo
 {
 	DWORD offset;
 	DWORD seed;
-	WORD nowID;
 };
 
 struct replayFrame{

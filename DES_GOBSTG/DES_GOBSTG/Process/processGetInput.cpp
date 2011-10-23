@@ -10,14 +10,7 @@ void Process::SyncInput()
 
 void Process::SetInputSwap()
 {
-	if (matchmode == M_MATCHMODE_C2P)
-	{
-		GameInput::SwapInput(true);
-	}
-	else
-	{
-		GameInput::SwapInput(false);
-	}
+	GameInput::SwapInput(false);
 }
 
 int Process::getInput()
@@ -232,7 +225,7 @@ int Process::getInput()
 					}
 
 					else if (j == FTBUTTON_CHARGE && touchMoveID != 0xff && touchMoveID != k &&
-						(matchmode == M_MATCHMODE_P2C || matchmode == M_MATCHMODE_C2P || touchinfo[k].initx >= M_PADSQUARE_NOCONTROL_LEFT_(0) && touchinfo[k].initx <= M_PADSQUARE_NOCONTROL_RIGHT_(0)))
+						(touchinfo[k].initx >= M_PADSQUARE_NOCONTROL_LEFT_(0) && touchinfo[k].initx <= M_PADSQUARE_NOCONTROL_RIGHT_(0)))
 					{
 							tapTimer++;
 							tapChanged = true;
@@ -277,10 +270,8 @@ int Process::getInput()
 							break;
 						}
 						if (!used) {
-							if (touchinfo[i].x>=M_PADSQUARE_LEFT_(j) && touchinfo[i].x<=M_PADSQUARE_RIGHT_(j) || matchmode == M_MATCHMODE_P2C || matchmode == M_MATCHMODE_C2P){
-								if (!(matchmode == M_MATCHMODE_P2C && k != 0 || matchmode == M_MATCHMODE_C2P && k != 1)) {
-									touchMoveID = i;
-								}
+							if (touchinfo[i].x>=M_PADSQUARE_LEFT_(j) && touchinfo[i].x<=M_PADSQUARE_RIGHT_(j)){
+								touchMoveID = i;
 							}
 						}
 

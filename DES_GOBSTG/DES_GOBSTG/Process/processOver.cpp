@@ -27,10 +27,7 @@ int Process::processOver()
 		if (state != STATE_START)
 		{
 			FrontDisplay::fdisp.SetState(FDISP_PANEL, FDISPSTATE_OFF);
-			for (int i=0; i<M_PL_ONESETPLAYER; i++)
-			{
-				FrontDisplay::fdisp.SetState(FDISP_SPELLNAME+i, FDISPSTATE_OFF);
-			}
+			FrontDisplay::fdisp.SetState(FDISP_SPELLNAME, FDISPSTATE_OFF);
 			FrontDisplay::fdisp.SetState(FDISP_MUSICNAME, FDISPSTATE_OFF);
 			GameInput::SwapInput(false);
 		}

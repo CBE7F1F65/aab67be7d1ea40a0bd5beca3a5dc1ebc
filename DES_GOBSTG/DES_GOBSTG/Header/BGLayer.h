@@ -58,6 +58,7 @@ public:
 	BGTile();
 	~BGTile();
 
+	void init();
 	void Release();
 	void Render();
 	void action();

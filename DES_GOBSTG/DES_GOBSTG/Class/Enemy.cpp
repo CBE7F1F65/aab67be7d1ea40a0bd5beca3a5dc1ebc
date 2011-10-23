@@ -480,6 +480,7 @@ void Enemy::matchAction()
 		}
 		break;
 
+/*
 	case ENAC_REPOSITION_OOOOOOCO:
 		//作用时间[计数器]
 		//BOSS出场复位
@@ -492,7 +493,8 @@ void Enemy::matchAction()
 			ac = ENAC_NONE;
 			speed = 0;
 		}
-		break;
+		break;*/
+/*
 	case ENAC_OVERPLAYER_XYOOOTCE:
 		//作用时间[计数器]，目标x，目标y，更替周期，追击使用时间
 		//在主角上方随机
@@ -529,7 +531,7 @@ void Enemy::matchAction()
 		{
 			speed = 0;
 		}
-		break;
+		break;*/
 	}
 }
 
@@ -882,7 +884,7 @@ bool Enemy::CostLife(float power)
 
 bool Enemy::isInRect(float aimx, float aimy, float r, float w, float h, int nextstep/* =0 */)
 {
-	WORD infinmaxset = BResource::bres.playerdata[Player::p.nowID].infinmaxset;
+	WORD infinmaxset = BResource::bres.playerdata[Player::p.ID].infinmaxset;
 	if (infinmaxset)
 	{
 		BYTE nmaxset = BResource::bres.enemydata[type].nmaxset;

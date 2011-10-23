@@ -17,7 +17,6 @@
 
 BossInfo BossInfo::bossinfo;
 int BossInfo::sno;
-int BossInfo::turntoscene;
 bool BossInfo::failed;
 bool BossInfo::allover;
 BYTE BossInfo::flag;
@@ -35,7 +34,6 @@ bool BossInfo::Init()
 
 void BossInfo::Clear()
 {
-	turntoscene = S0;
 	spellflag = BISF_NONE;
 	flag = 0;
 }

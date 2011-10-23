@@ -159,7 +159,6 @@ struct resourceData
 	char sedefinefilename[M_PATHMAX];
 
 	//folder
-	char scriptfoldername[M_SCRIPTFOLDERMAX][M_PATHMAX];
 	char snapshotfoldername[M_PATHMAX];
 	char replayfoldername[M_PATHMAX];
 	char datafoldername[M_PATHMAX];

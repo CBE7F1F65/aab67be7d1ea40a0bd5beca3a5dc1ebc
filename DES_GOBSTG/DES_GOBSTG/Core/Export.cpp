@@ -295,15 +295,6 @@ void Export::clientSetMatrix(float _worldx, float _worldy, float _worldz, BYTE r
 		return;
 	}
 
-	BYTE index;
-	if (renderflag == M_RENDER_LEFT)
-	{
-		index = 0;
-	}
-	else if (renderflag == M_RENDER_RIGHT)
-	{
-		index = 1;
-	}
 	hge->Gfx_SetTransform( D3DTS_VIEW, &matView );
 	hge->Gfx_SetTransform( D3DTS_PROJECTION, &matProj );
 }

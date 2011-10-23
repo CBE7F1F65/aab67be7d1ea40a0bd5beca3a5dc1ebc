@@ -57,17 +57,6 @@ function CEMatchSelect_DispatchSelect_Match(selsysmatchid)
 	--SelectOver
 	local complete, select = hdss.Get(HDSS_SELCOMPLETE, selsysmatchid);
 	if complete then
-		if select == 0 then
-			game.SetGameMode(MatchMode_P2P);
-		elseif select == 1 then
-			game.SetGameMode(MatchMode_P2C);
-		elseif select == 2 then
-			if hdss.Get(HDSS_CHECKKEY, 0, KSI_SLOW) or hdss.Get(HDSS_CHECKKEY, 1, KSI_SLOW) then
-				game.SetGameMode(MatchMode_C2C);
-			else
-				game.SetGameMode(MatchMode_C2P);
-			end
-		end
 		CEMatchSelect_ExitState(STATE_PLAYER_SELECT, false);
 	elseif hdss.Get(HDSS_CHECKKEY, 0, KSI_QUICK, DIKEY_DOWN) then
 		hdssSE(SE_SYSTEM_CANCEL);

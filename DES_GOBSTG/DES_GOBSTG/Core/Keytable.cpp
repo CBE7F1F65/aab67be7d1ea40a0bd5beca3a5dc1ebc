@@ -47,6 +47,7 @@ scrKeyWord scrKeyTable[] =
 	{"CLEARALL",				SCR_CLEARALL},
 	{"SETCHARA",				SCR_SETCHARA},
 	{"SETSCENE",				SCR_SETSCENE},
+	{"SETAREA",					SCR_SETAREA},
 	{"SETMODE",					SCR_SETMODE},
 	{"STARTPREP",				SCR_STARTPREP},
 	{"SETKEY",					SCR_SETKEY},
@@ -595,11 +596,6 @@ scrKeyWord scrKeyTable[] =
 	{"POSTAT",					SCRIPT_CON_POST},
 	{"QUITAT",					SCRIPT_CON_QUIT},
 
-	{"BTYPE_BULLET",			BTYPE_BULLET},
-	{"BTYPE_BEAM",				BTYPE_BEAM},
-	{"BTYPE_ENEMY",				BTYPE_ENEMY},
-	{"BTYPE_GHOST",				BTYPE_GHOST},
-
 	{"CT_CONTROL",				SCR_CTCONTROL},
 	{"CT_STAGE",				SCR_CTSTAGE},
 	{"CT_EDEF",					SCR_CTEDEF},
@@ -644,7 +640,6 @@ scrKeyWord scrKeyTable[] =
 
 	{"MODE_NORMAL",				M_MODE_NORMAL},
 	{"MODE_STAGE",				M_MODE_STAGE},
-	{"MODE_SPELL",				M_MODE_SPELL},
 
 	{"PUSH_FIRST",				M_PUSH_FIRST},
 	{"PUSH_ROLLTO",				M_PUSH_ROLLTO},
@@ -669,8 +664,6 @@ scrKeyWord scrKeyTable[] =
 	{"CenterY",					M_GAMESQUARE_CENTER_Y},
 	{"CenterW",					M_GAMESQUARE_WIDTH},
 	{"CenterH",					M_GAMESQUARE_HEIGHT},
-	{"CenterBossX",				M_GAMESQUARE_BOSSX},
-	{"CenterBossY",				M_GAMESQUARE_BOSSY},
 
 	{"EVENT_ENTERSTATE",	SCR_EVENT_ENTERSTATE},
 	{"EVENT_LEAVESTATE",	SCR_EVENT_LEAVESTATE},
@@ -700,13 +693,6 @@ scrKeyWord scrKeyTable[] =
 	{"EFFSPCHASE_SENDEXATTACK",			EFFSPSET_SYSTEM_SENDEXATTACK},
 
 	//
-	{"MatchMode_N2N",			M_MATCHMODE_N2N},
-	{"MatchMode_P2P",			M_MATCHMODE_P2P},
-	{"MatchMode_P2C",			M_MATCHMODE_P2C},
-	{"MatchMode_C2P",			M_MATCHMODE_C2P},
-	{"MatchMode_C2C",			M_MATCHMODE_C2C},
-	{"Latency_Min",				M_LATENCY_MIN},
-	{"Latency_Max",				M_LATENCY_MAX},
 
 	{"KSI_UP",					KSI_UP},
 	{"KSI_DOWN",				KSI_DOWN},

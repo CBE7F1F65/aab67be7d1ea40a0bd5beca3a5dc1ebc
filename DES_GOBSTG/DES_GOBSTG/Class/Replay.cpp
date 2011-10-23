@@ -105,9 +105,7 @@ void Replay::Fill()
 
 //	rpyinfo.modeflag = (Process::mp.spellmode?M_RPYMODE_SPELL:0)|(Process::mp.practicemode?M_RPYMODE_PRACTICE:0);
 
-	rpyinfo.usingchara[0] = Player::p.ID;
-	rpyinfo.usingchara[1] = Player::p.ID_sub_1;
-	rpyinfo.usingchara[2] = Player::p.ID_sub_2;
+	rpyinfo.usingchara = Player::p.ID;
 	rpyinfo.initlife = Player::p.initlife;
 
 	rpyinfo.scene = Process::mp.scene;
@@ -119,18 +117,9 @@ void Replay::Fill()
 	rpyinfo.minute = wMinute;
 
 	rpyinfo.lost = lostStack / Process::mp.framecounter;
-	rpyinfo.matchmode = Process::mp.matchmode;
 	rpyinfo.offset = replayIndex;
 
 	strcpy(rpyinfo.username, Process::mp.username);
-	if (rpyinfo.matchmode == M_MATCHMODE_C2P || rpyinfo.matchmode == M_MATCHMODE_C2C)
-	{
-		strcpy(rpyinfo.username, RESCONFIGDEFAULT_USERNAME);
-	}
-	else if (rpyinfo.matchmode == M_MATCHMODE_P2C || rpyinfo.matchmode == M_MATCHMODE_C2C)
-	{
-	}
-
 }
 
 void Replay::partFill(BYTE part)
@@ -144,7 +133,6 @@ void Replay::partFill(BYTE part)
 	{
 		part = 0;
 	}
-	partinfo[part].nowID = Player::p.nowID;
 }
 
 bool Replay::Check(const char * _filename)

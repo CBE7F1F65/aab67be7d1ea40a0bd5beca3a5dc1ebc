@@ -65,7 +65,7 @@ void BGLayer::BGLayerSetup()
 	Release();
 	for (int i=0; i<BGTILEMAX; i++)
 	{
-		bgtiles[i].sprite = SpriteItemManager::CreateNullSprite();
+		bgtiles[i].init();
 	}
 }
 
@@ -77,6 +77,11 @@ BGTile::BGTile()
 BGTile::~BGTile()
 {
 
+}
+
+void BGTile::init()
+{
+	sprite = SpriteItemManager::CreateNullSprite();
 }
 
 void BGTile::Release()

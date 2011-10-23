@@ -123,7 +123,7 @@ public:
 	void callPlayerChange();
 
 	void SetInitLife(BYTE initlife);
-	void SetChara(WORD id, WORD id_sub_1=0xffff, WORD id_sub_2=0xffff);
+	void SetChara(WORD id);
 	void SetInfi(BYTE reasonflag, int infitimer=PLAYER_INFIMAX);
 
 	static void SetAble(bool setable);
@@ -135,9 +135,7 @@ public:
 	static int IsEnd();
 
 public:
-	WORD	ID_sub_1;
-	WORD	ID_sub_2;
-	WORD	nowID;
+	WORD	ID;
 
 	bool	flipx;
 	BYTE	frameoffset;
@@ -181,8 +179,7 @@ public:
 
 	hgeSprite * sprite;
 	hgeSprite * spdrain;
-	BYTE	frameindex[M_PL_ONESETPLAYER][PLAYER_FRAME_STATEMAX];
-	BYTE	faceindex[M_PL_ONESETPLAYER];
+	BYTE	frameindex[PLAYER_FRAME_STATEMAX];
 	BYTE	nowframeindex;
 
 	WORD	flag;

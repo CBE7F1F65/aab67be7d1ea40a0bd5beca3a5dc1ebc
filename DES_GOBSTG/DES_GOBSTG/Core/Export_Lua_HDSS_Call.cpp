@@ -51,6 +51,8 @@ int Export_Lua_HDSS::LuaFn_HDSS_Call(LuaState * ls)
 				return _HDSSCallGet::Call_SETCHARA(ls);
 			case SCR_SETSCENE:
 				return _HDSSCallGet::Call_SETSCENE(ls);
+			case SCR_SETAREA:
+				return _HDSSCallGet::Call_SETAREA(ls);
 			case SCR_STARTPREP:
 				return _HDSSCallGet::Call_STARTPREP(ls);
 			case SCR_SETKEY:

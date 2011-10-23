@@ -16,8 +16,6 @@ bool Export_Lua_Game::_LuaRegistFunction(LuaObject * obj)
 
 	_gameobj.Register("Random_Int", LuaFn_Game_Random_Int);
 	_gameobj.Register("Random_Float", LuaFn_Game_Random_Float);
-	_gameobj.Register("SetGameMode", LuaFn_Game_SetGameMode);
-	_gameobj.Register("GetGameMode", LuaFn_Game_GetGameMode);
 	_gameobj.Register("GetPlayerContentTable", LuaFn_Game_GetPlayerContentTable);
 	_gameobj.Register("GetPlayerStopInfo", LuaFn_Game_GetPlayerStopInfo);
 	_gameobj.Register("GetEnumReplayInfo", LuaFn_Game_GetEnumReplayInfo);
@@ -102,22 +100,6 @@ int Export_Lua_Game::LuaFn_Game_Random_Float(LuaState * ls)
 	_LEAVEFUNC_LUA;
 }
 
-int Export_Lua_Game::LuaFn_Game_SetGameMode(LuaState * ls)
-{
-	LuaStack args(ls);
-
-	BYTE _mode = args[1].GetInteger();
-	Process::mp.SetMatchMode(_mode);
-	return 0;
-}
-
-int Export_Lua_Game::LuaFn_Game_GetGameMode(LuaState * ls)
-{
-	BYTE _mode = Process::mp.GetMatchMode();
-	ls->PushInteger(_mode);
-	return 1;
-}
-
 int Export_Lua_Game::LuaFn_Game_GetPlayerContentTable(LuaState * ls)
 {
 	LuaStack args(ls);
@@ -171,10 +153,7 @@ int Export_Lua_Game::LuaFn_Game_GetEnumReplayInfo(LuaState * ls)
 	LuaStackObject _usingcharatable = _table.CreateTable("usingchara");
 	_usernametable.SetString(1, Replay::enumrpy[_index].rpyinfo.username);
 	LuaStackObject _usingcharasubtable = _usingcharatable.CreateTable(1);
-	for (int j=0; j<M_PL_ONESETPLAYER; j++)
-	{
-		_usingcharasubtable.SetString(j+1, Data::data.getPlayerName(Replay::enumrpy[_index].rpyinfo.usingchara[j]));
-	}
+	_usingcharasubtable.SetString(1, Data::data.getPlayerName(Replay::enumrpy[_index].rpyinfo.usingchara));
 	ls->PushString(Replay::enumrpy[_index].filename);
 	ls->PushValue(_table);
 	return 2;

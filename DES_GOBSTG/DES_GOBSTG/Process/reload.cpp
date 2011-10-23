@@ -21,8 +21,8 @@ bool Process::reload()
 	pauseinit = false;
 	replaymode = false;
 	replayFPS = 0;
-	matchmode = 0;
 	scene = 0;
+	area = 0;
 	SetShake(0, true);
 	if (rendertar)
 	{

@@ -55,7 +55,6 @@ public:
 	static bool failed;
 	static bool allover;
 	static int sno;
-	static int turntoscene;
 
 	static BYTE flag;
 	static BYTE spellflag;

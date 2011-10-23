@@ -8,10 +8,7 @@ void Process::clearPrep(bool bclearkey)
 	ClearAll();
 	
 	FrontDisplay::fdisp.SetState(FDISP_PANEL, FDISPSTATE_ON);
-	for (int i=0; i<M_PL_ONESETPLAYER; i++)
-	{
-		FrontDisplay::fdisp.SetState(FDISP_SPELLNAME+i, FDISPSTATE_OFF);
-	}
+	FrontDisplay::fdisp.SetState(FDISP_SPELLNAME, FDISPSTATE_OFF);
 
 	if(!bclearkey)
 		return;
@@ -49,18 +46,15 @@ void Process::startPrep(bool callinit)
 	{
 		Replay::rpy.Load(rpyfilename, true);
 		seed = Replay::rpy.partinfo[part].seed;
-		Player::p.SetChara(Replay::rpy.rpyinfo.usingchara[0], Replay::rpy.rpyinfo.usingchara[1], Replay::rpy.rpyinfo.usingchara[2]);
+		Player::p.SetChara(Replay::rpy.rpyinfo.usingchara);
 		Player::p.SetInitLife(Replay::rpy.rpyinfo.initlife);
 		SetScene(Replay::rpy.rpyinfo.scene);
-		SetMatchMode(Replay::rpy.rpyinfo.matchmode);
 	}
 	else
 	{
 		seed = randt();//timeGetTime();
-		SetLastMatchChara(Player::p.ID, Player::p.ID_sub_1, Player::p.ID_sub_2);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1, lastmatchchara[0]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2, lastmatchchara[1]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_3, lastmatchchara[2]);
+		SetLastMatchChara(Player::p.ID);
+		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA, lastmatchchara);
 	}
 	srandt(seed);
 	hge->Random_Seed(seed);
@@ -68,14 +62,7 @@ void Process::startPrep(bool callinit)
 	Replay::rpy.InitReplayIndex(replaymode, part);
 
 	clearPrep();
-	if (matchmode == M_MATCHMODE_C2C)
-	{
-		GameAI::ai.SetAble(true);
-	}
-	else
-	{
-		GameAI::ai.SetAble(false);
-	}
+	GameAI::ai.SetAble(false);
 	SetInputSwap();
 
 	//set
@@ -105,12 +92,6 @@ void Process::startPrep(bool callinit)
 	else
 	{
 		BYTE part = 0;
-//		if(scene < S1200)
-//		part = data.getStage(scene) - 1;
-		if (part)
-		{
-			Player::p.changePlayerID(Replay::rpy.partinfo[part].nowID);
-		}
 	}
 
 	for (int i=0; i<FRAME_STOPINFOMAX; i++)

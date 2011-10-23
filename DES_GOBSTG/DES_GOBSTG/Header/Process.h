@@ -79,14 +79,13 @@ public:
 	void	SyncInput();
 	void	SetState(int state, int time = 0);
 	void	SetScene(BYTE scene);
+	void	SetArea(BYTE area);
 	void	SetReturnValue(int retval);
 	void	SetInputSwap();
-	void	SetLastMatchChara(WORD ID, WORD ID_sub_1=0xffff, WORD ID_sub_2=0xffff);
+	void	SetLastMatchChara(WORD ID);
 
 	int		AccessIP();
 	bool	SetLatency(int latency);
-	void	SetMatchMode(BYTE mode);
-	BYTE	GetMatchMode();
 	bool	IsInGame();
 
 	void	SetStop(DWORD stopflag, int stoptime);
@@ -134,7 +133,7 @@ public:
 	float	infodisplayscale;
 	int		bgmvol;
 	int		sevol;
-	int		lastmatchchara[M_PL_ONESETPLAYER];
+	int		lastmatchchara;
 	int		bulletcountmax;
 
 	//replay
@@ -185,13 +184,11 @@ public:
 	BYTE	titleselect;
 	BYTE	state;
 	BYTE	scene;
+	BYTE	area;
 
 	//Init
 	HTEXTURE	texInit;
 
-	//
-	int		latency;
-	BYTE	matchmode;
 	//
 	HTARGET	rendertar;
 	hgeSprite * sprendertar;

@@ -16,11 +16,11 @@ function hdssSDf(index, value)
 	)
 end
 
-function hdssSETCHARA(index, id, id_sub_1, id_sub_2)
+function hdssSETCHARA(index, id)
 	return hdss.Call(
 		HDSS_SETCHARA,
 		{
-			index, id, id_sub_1, id_sub_2
+			index, id
 		}
 	)
 end

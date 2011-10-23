@@ -121,7 +121,7 @@ int Process::render()
 #elif defined __IPHONE
 		hge->Gfx_SetClipping(SCREEN_WIDTH*(1-screenscale), SCREEN_HEIGHT/2, SCREEN_WIDTH*screenscale, (SCREEN_HEIGHT/2-M_SIDE_EDGE)*screenscale);
 #endif // __WIN32
-		_Render(M_RENDER_LEFT);
+		_Render(M_RENDER_VIEW);
 #ifdef __WIN32
 		hge->Gfx_EndScene();
 #endif // __WIN32

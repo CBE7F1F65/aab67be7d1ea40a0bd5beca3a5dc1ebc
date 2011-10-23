@@ -12,14 +12,13 @@ function _DEBUG_GetSaveReplayName()
 end
 
 function _DEBUG_NewRandomMatch()
-	game.SetGameMode(MatchMode_P2C);
 	local randchara = {};
 	local randcharaname = {};
 	local siid;
 	for i=0, 1 do
 		randchara[i+1] = RANDT(0, 23);
 		siid, randcharaname[i+1] = game.GetPlayerContentTable(randchara[i+1]);
-		hdssSETCHARA(i, randchara[i+1], 0xff, 0xff);
+		hdssSETCHARA(i, randchara[i+1]);
 		hdssSETPINITLIFE(i, 10);
 	end
 	logstr = "NM :	"..randchara[1].."	"..randcharaname[1].."	"..randchara[2].."	"..randcharaname[2];

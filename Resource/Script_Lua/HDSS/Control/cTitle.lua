@@ -78,22 +78,12 @@ function ControlExecute_cTitle(timer)
 	
 	if _DEBUG then
 		if hge.Input_GetDIKey(DIK_NUMPAD4, DIKEY_DOWN) then
-			_DEBUG_LGlobal_Jump = MatchMode_P2C;
+			_DEBUG_LGlobal_Jump = 1;
 		end
-		if hge.Input_GetDIKey(DIK_NUMPAD5, DIKEY_DOWN) then
-			_DEBUG_LGlobal_Jump = MatchMode_C2P;
-		end
-		if hge.Input_GetDIKey(DIK_NUMPAD6, DIKEY_DOWN) then
-			_DEBUG_LGlobal_Jump = MatchMode_P2P;
-		end
---		if hge.Input_GetDIKey(DIK_NUMPAD7, DIKEY_DOWN) then
---			_DEBUG_LGlobal_Jump = MatchMode_N2N;
---		end
-		if _DEBUG_LGlobal_Jump ~= -1 then
-			game.SetGameMode(_DEBUG_LGlobal_Jump);
+		if _DEBUG_LGlobal_Jump == 1 then
 			for i=0, 1 do
-				local nowID, lastID, lastID_Sub_1, lastID_Sub_2, lastMatchID, lastMatchID_Sub_1, lastMatchID_Sub_2 = hdss.Get(HDSS_CHARA, i);
-				hdssSETCHARA(i, lastMatchID, lastMatchID_Sub_1, lastMatchID_Sub_2);
+				local nowID, lastID = hdss.Get(HDSS_CHARA, i);
+				hdssSETCHARA(i, lastID);
 				hdssSETPINITLIFE(i, 10);
 			end
 			hdssSETSCENE(hdss.Get(HDSS_CHARA, RANDT(0, 1)));

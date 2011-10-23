@@ -8,8 +8,6 @@ Process::Process()
 	active		= false;
 	stream		= NULL;
 	channel		= NULL;
-	latency		= M_LATENCY_NULL;
-	matchmode	= 0;
 	ZeroMemory(&channelsyncinfo, sizeof(hgeChannelSyncInfo));
 	retvalue	= PGO;
 	errorcode	= PROC_ERROR_INIFILE;
@@ -53,9 +51,7 @@ void Process::Release()
 		hge->	Ini_SetInt(RESCONFIGS_VOLUME, RESCONFIGN_VOLSE, sevol);
 
 		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_SCREENMODE, screenmode);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_1, lastmatchchara[0]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_2, lastmatchchara[1]);
-		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA_3, lastmatchchara[2]);
+		hge->	Ini_SetInt(RESCONFIGS_CUSTOM, RESCONFIGN_LASTMATCHCHARA, lastmatchchara);
 
 		if(playing)
 			DataConnector::addPlayTime();
@@ -596,6 +592,11 @@ void Process::SetScene(BYTE _scene)
 	scene = _scene;
 }
 
+void Process::SetArea(BYTE _area)
+{
+	area = _area;
+}
+
 void Process::SetReturnValue(int _retval)
 {
 	retvalue = _retval;
@@ -608,26 +609,6 @@ int Process::AccessIP()
 	Export::GetLastIP(&ipx, &ipport);
 	//TODO:
 	return 3;
-}
-
-bool Process::SetLatency(int _latency)
-{
-	latency = _latency;
-	if (latency < M_LATENCY_MIN || latency > M_LATENCY_MAX)
-	{
-		return false;
-	}
-	return true;
-}
-
-void Process::SetMatchMode(BYTE mode)
-{
-	matchmode = mode;
-}
-
-BYTE Process::GetMatchMode()
-{
-	return matchmode;
 }
 
 bool Process::IsInGame()
@@ -683,11 +664,9 @@ DWORD Process::GetStopFlag(int index)
 	return _stopflag;	
 }
 
-void Process::SetLastMatchChara(WORD ID, WORD ID_sub_1, WORD ID_sub_2)
+void Process::SetLastMatchChara(WORD ID)
 {
-	lastmatchchara[0] = ID;
-	lastmatchchara[1] = ID_sub_1;
-	lastmatchchara[2] = ID_sub_2;
+	lastmatchchara = ID;
 }
 
 #if defined __IPHONE

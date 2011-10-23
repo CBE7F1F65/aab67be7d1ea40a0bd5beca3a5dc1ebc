@@ -21,15 +21,11 @@ end
 function _CEPlayerSelect_GetValues(bleft)
 	local initID;
 	local playerindex = _CEPlayerSelect_GetPIndex(bleft);
-	local nowID, lastID, lastID_Sub_1, lastID_Sub_2, lastMatchID, lastMatchID_Sub_1, lastMatchID_Sub_2 = hdss.Get(HDSS_CHARA, playerindex);
-	if lastID >= PLAYERTYPEMAX then
-		if lastMatchID >= PLAYERTYPEMAX then
-			initID = playerindex;
-		else
-			initID = lastMatchID;
-		end
+	local nowID, lastMatchID = hdss.Get(HDSS_CHARA, playerindex);
+	if lastMatchID >= PLAYERTYPEMAX then
+		initID = playerindex;
 	else
-		initID = lastID;
+		initID = lastMatchID;
 	end
 	if bleft then
 		return LConst_selsys_player1id, LConst_selsys_player2id, LConst_uibg_player1id, initID, PUSHID_UIUSE_0
@@ -204,44 +200,6 @@ function _CEPlayerSelect_SyncInput(bleftcomplete, brightcomplete)
 		end
 	end
 	
-	local matchmode = game.GetGameMode();
-	if (matchmode == MatchMode_P2C or matchmode == MatchMode_C2C) and bleftcomplete or
-		matchmode == MatchMode_C2P and not brightcomplete then
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_UP) then
-			hdssSETKEY(1, KSI_UP);
-		end
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_DOWN) then
-			hdssSETKEY(1, KSI_DOWN);
-		end
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_LEFT) then
-			hdssSETKEY(1, KSI_LEFT);
-		end
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_RIGHT) then
-			hdssSETKEY(1, KSI_RIGHT);
-		end
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_FIRE) then
-			hdssSETKEY(1, KSI_FIRE);
-		end
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_SLOW) then
-			hdssSETKEY(1, KSI_SLOW);
-		end
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_DRAIN) then
-			hdssSETKEY(1, KSI_DRAIN);
-		end
-		if matchmode == MatchMode_C2P then
-			hdssSETKEY(0, KSI_UP, false);
-			hdssSETKEY(0, KSI_DOWN, false);
-			hdssSETKEY(0, KSI_LEFT, false);
-			hdssSETKEY(0, KSI_RIGHT, false);
-			hdssSETKEY(0, KSI_FIRE, false);
-			hdssSETKEY(0, KSI_SLOW, false);
-			hdssSETKEY(0, KSI_DRAIN, false);
-		end
-	elseif matchmode == MatchMode_C2P then
-		if hdss.Get(HDSS_CHECKKEY, 0, KSI_QUICK) then
-			hdssSETKEY(1, KSI_QUICK);
-		end
-	end
 end
 
 function CEPlayerSelect_DispatchAfterSelect(playerindex)
