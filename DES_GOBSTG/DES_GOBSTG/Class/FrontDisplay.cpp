@@ -297,7 +297,7 @@ bool FrontDisplay::Init()
 {
 	Release();
 
-	info.normalfont = hge->Font_Load(BResource::bres.resdata.widefontname, 32);
+	info.normalfont = hge->Font_Load(RESDATASTR_WIDEFONTNAME, 32);
 
 	int idx = 0;
 

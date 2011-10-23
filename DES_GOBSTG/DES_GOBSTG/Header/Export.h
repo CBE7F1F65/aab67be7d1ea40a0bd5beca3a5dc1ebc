@@ -105,8 +105,6 @@ public:
 	static int effLoad(const char * filename, hgeEffectSystem * eff, HTEXTURE * tex);
 
 public:
-	static char resourcefilename[M_PATHMAX];
-	static char resbinname[M_PATHMAX];
 	static partInfo partinfo[RPYPARTMAX];
 	static replayInfo rpyinfo;
 	static int password;

@@ -30,9 +30,6 @@ public:
 	bool Fill();
 	bool Pack(void * pStrdesc, void * pCustomConstName);
 	bool Gain(void * pStrdesc = NULL, void * pCustomConstName = NULL);
-	void CopyData();
-	void GetUIString();
-	bool SetDataFile();
 	bool LoadPackage(int packindex);
 	bool LoadAllPackage();
 

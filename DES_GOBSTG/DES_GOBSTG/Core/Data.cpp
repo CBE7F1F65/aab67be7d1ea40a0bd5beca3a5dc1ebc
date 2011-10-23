@@ -7,39 +7,10 @@ Data Data::data;
 
 Data::Data()
 {
-	nowfilename = NULL;
-
+	strcpy(nowfilename, "");
 	password = NULL;
 
 	binmode = false;
-
-	binfilename = NULL;
-	binname = NULL;
-//	spellaccessfilename = NULL;
-//	rabinname = NULL;
-//	scriptfilename = NULL;
-//	scrbinname = NULL;
-	resourcefilename = NULL;
-	resbinname = NULL;
-
-	customconstfilename = NULL;
-//	spelldefinefilename = NULL;
-	musicdefinefilename = NULL;
-	bulletdefinefilename = NULL;
-	enemydefinefilename = NULL;
-	playerdefinefilename = NULL;
-	spritedefinefilename = NULL;
-	playershootdefinefilename = NULL;
-	playerghostdefinefilename = NULL;
-	areadefinefilename = NULL;
-	blankmaptiledefinefilename = NULL;
-
-	datadefinefilename = NULL;
-	packagedefinefilename = NULL;
-	texturedefinefilename = NULL;
-	effectdefinefilename = NULL;
-	sedefinefilename = NULL;
-
 	bin.clear();
 }
 
@@ -49,8 +20,6 @@ Data::~Data()
 
 void Data::GetIni()
 {
-	resourcefilename = Export::resourcefilename;
-	resbinname = Export::resbinname;
 	password = Export::GetPassword();
 }
 
@@ -298,78 +267,58 @@ void Data::getFile(BYTE type)
 {
 	switch(type)
 	{
-	case DATA_RESOURCEFILE:
-		nowfilename = resourcefilename;
-		break;
-/*
-	case DATA_SCRIPTFILE:
-		nowfilename = scriptfilename;
-		break;
-*/
 	case DATA_CUSTOMCONSTFILE:
-		nowfilename = customconstfilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_CUSTOMCONST);
 		break;
-		/*
-	case DATA_SPELLACCESSFILE:
-		nowfilename = spellaccessfilename;
-		break;
-		
-	case DATA_SPELLDEFINEFILE:
-		nowfilename = spelldefinefilename;
-		break;
-		*/
 
 	case DATA_MUSICDEFINEFILE:
-		nowfilename = musicdefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_MUSIC);
 		break;
 
 	case DATA_BULLETDEFINEFILE:
-		nowfilename = bulletdefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_BULLET);
 		break;
 	case DATA_ENEMYDEFINEFILE:
-		nowfilename = enemydefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_ENEMY);
 		break;
 	case DATA_PLAYERDEFINEFILE:
-		nowfilename = playerdefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_PLAYER);
 		break;
 	case DATA_SPRITEDEFINEFILE:
-		nowfilename = spritedefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_SPRITE);
 		break;
 	case DATA_PLAYERSHOOTDEFINE:
-		nowfilename = playershootdefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_PLAYERSHOOT);
 		break;
 	case DATA_PLAYERGHOSTDEFINE:
-		nowfilename = playerghostdefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_PLAYERSUB);
 		break;
 	case DATA_AREADEFINE:
-		nowfilename = areadefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_AREA);
 		break;
 	case DATA_BLANKMAPTILEDEFINE:
-		nowfilename = blankmaptiledefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_BLANKMAPTILE);
 		break;
 
-	case DATA_DATATABLEDEFINE:
-		nowfilename = datadefinefilename;
-		break;
 	case DATA_PACKAGETABLEDEFINE:
-		nowfilename = packagedefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_PACKAGE);
 		break;
 	case DATA_TEXTURETABLEDEFINE:
-		nowfilename = texturedefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_TEXTURE);
 		break;
 	case DATA_EFFECTTABLEDEFINE:
-		nowfilename = effectdefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_EFFECTSYS);
 		break;
 	case DATA_SETABLEDEFINE:
-		nowfilename = sedefinefilename;
+		strcpy(nowfilename, RESDATASTR_TABLE_SE);
 		break;
 
 	case DATA_BINFILE:
-		nowfilename = binfilename;
+		strcpy(nowfilename, RESDATASTR_BINFILENAME);
 		break;
 
 	default:
-		nowfilename = NULL;
+		strcpy(nowfilename, "");
 	}
 }
 
@@ -406,8 +355,8 @@ bool Data::Init(BYTE type)
 			*/
 
 		case DATA_RESOURCEFILE:
-			fname = resourcefilename;
-			bname = resbinname;
+			fname = RESDATASTR_BINFILENAME;
+			bname = RESDATASTR_BINFILENAME;
 			break;
 /*
 		case DATA_SPELLACCESSFILE:
@@ -457,7 +406,9 @@ bool Data::Init(BYTE type)
 	if(type == DATA_BINFILE)
 	{
 		hgeMemoryFile memfile;
-		memfile.filename = binname;
+		char tfilename[M_PATHMAX];
+		strcpy(tfilename, RESDATASTR_BINFILENAME);
+		memfile.filename = tfilename;
 		memfile.data = NULL;
 		memfile.size = 0;
 
@@ -487,7 +438,7 @@ bool Data::SetFile(const char * _filename, BYTE type)
 		hge->Resource_AttachPack(nowfilename, password);
 		BYTE * content;
 		DWORD size;
-		content = hge->Resource_Load(binname, &size);
+		content = hge->Resource_Load(RESDATASTR_BINFILENAME, &size);
 		hge->Resource_RemovePack(nowfilename);
 		if(content)
 		{
@@ -512,7 +463,6 @@ failed:
 				HGELOG("%s\nFailed in Getting Data File %s.", HGELOG_ERRSTR, nowfilename);
 #endif
 				strcpy(nowfilename, "");
-				nowfilename = NULL;
 				return false;
 		}
 	}
@@ -540,19 +490,11 @@ failed:
 
 bool Data::GetAllTable()
 {
-	//data
-	if (!GetTableFile(DATA_DATATABLEDEFINE))
-	{
-#ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading DataDefineFile %s.", HGELOG_ERRSTR, datadefinefilename);
-#endif // __DEBUG
-		return false;
-	}
 	//package
 	if (!GetTableFile(DATA_PACKAGETABLEDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading PackageDefineFile %s.", HGELOG_ERRSTR, packagedefinefilename);
+		HGELOG("%s\nFailed in loading PackageDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -560,7 +502,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_TEXTURETABLEDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading TextureDefineFile %s.", HGELOG_ERRSTR, texturedefinefilename);
+		HGELOG("%s\nFailed in loading TextureDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -568,7 +510,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_EFFECTTABLEDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading EffectDefineFile %s.", HGELOG_ERRSTR, effectdefinefilename);
+		HGELOG("%s\nFailed in loading EffectDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -576,7 +518,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_SETABLEDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading SEDefineFile %s.", HGELOG_ERRSTR, sedefinefilename);
+		HGELOG("%s\nFailed in loading SEDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -585,7 +527,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_MUSICDEFINEFILE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading MusicDefineFile %s.", HGELOG_ERRSTR, musicdefinefilename);
+		HGELOG("%s\nFailed in loading MusicDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -594,23 +536,15 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_SPRITEDEFINEFILE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading SpriteDefineFile %s.", HGELOG_ERRSTR, spritedefinefilename);
+		HGELOG("%s\nFailed in loading SpriteDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
-/*
-	if (!GetTableFile(DATA_SPELLDEFINEFILE))
-	{
-#ifdef __DEBUG
-		HGELOG("%s\nFailed in loading SpellDefineFile %s.", HGELOG_ERRSTR, spelldefinefilename);
-#endif // __DEBUG
-		return false;
-	}
-*/
+
 	if (!GetTableFile(DATA_BULLETDEFINEFILE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading BulletDefineFile %s.", HGELOG_ERRSTR, bulletdefinefilename);
+		HGELOG("%s\nFailed in loading BulletDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -619,7 +553,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_ENEMYDEFINEFILE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading EnemyDefineFile %s.", HGELOG_ERRSTR, enemydefinefilename);
+		HGELOG("%s\nFailed in loading EnemyDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -628,7 +562,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_PLAYERDEFINEFILE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading PlayerDefineFile %s.", HGELOG_ERRSTR, playerdefinefilename);
+		HGELOG("%s\nFailed in loading PlayerDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -637,7 +571,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_PLAYERSHOOTDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading PlayerShootDefineFile %s.", HGELOG_ERRSTR, playershootdefinefilename);
+		HGELOG("%s\nFailed in loading PlayerShootDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -646,7 +580,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_PLAYERGHOSTDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading PlayerGhostDefineFile %s.", HGELOG_ERRSTR, playerghostdefinefilename);
+		HGELOG("%s\nFailed in loading PlayerSubDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -655,7 +589,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_AREADEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading AreaDefineFile %s.", HGELOG_ERRSTR, areadefinefilename);
+		HGELOG("%s\nFailed in loading AreaDefineFile", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -664,7 +598,7 @@ bool Data::GetAllTable()
 	if (!GetTableFile(DATA_BLANKMAPTILEDEFINE))
 	{
 #ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading BlankMapTileDefine %s.", HGELOG_ERRSTR, blankmaptiledefinefilename);
+		HGELOG("%s\nFailed in loading BlankMapTileDefine", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}
@@ -691,8 +625,8 @@ bool Data::CheckHeader(BYTE type)
 			break;
 			*/
 		case DATA_RESOURCEFILE:
-			fname = resbinname/*resourcefilename*/;
-			bname = resbinname;
+			fname = RESDATASTR_BINFILENAME;
+			bname = RESDATASTR_BINFILENAME;
 			break;
 			/*
 		case DATA_SPELLACCESSFILE:
@@ -735,7 +669,9 @@ bool Data::SaveBin()
 	_bin = ListToMem(&_size);
 
 	hgeMemoryFile memfile;
-	memfile.filename = binname;
+	char tfilename[M_PATHMAX];
+	strcpy(tfilename, RESDATASTR_BINFILENAME);
+	memfile.filename = tfilename;
 	memfile.data = _bin;
 	memfile.size = _size;
 

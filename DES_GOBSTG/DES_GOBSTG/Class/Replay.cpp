@@ -53,12 +53,12 @@ int Replay::GetEnumReplay()
 
 	enumrpy = new Replay[RPYENUMMAX];
 
-	hge->Resource_SetCurrentDirectory(hge->Resource_MakePath(BResource::bres.resdata.replayfoldername));
+	hge->Resource_SetCurrentDirectory(hge->Resource_MakePath(RESDATASTR_FOLDER_REPLAY));
 	char * buffer;
 	char enumfile[M_STRMAX];
-	strcpy(enumfile, BResource::bres.resdata.replayfoldername);
+	strcpy(enumfile, RESDATASTR_FOLDER_REPLAY);
 	strcat(enumfile, "*.");
-	strcat(enumfile, BResource::bres.resdata.replayextensionname7);
+	strcat(enumfile, RESDATASTR_REPLAYEXTENSION);
 	buffer = hge->Resource_EnumFiles(enumfile);
 
 	int tnrpys = 0;
@@ -146,7 +146,7 @@ bool Replay::Check(const char * _filename)
 
 	strcpy(filename, _filename);
 	char treplayfilename[M_PATHMAX];
-	strcpy(treplayfilename, BResource::bres.resdata.replayfoldername);
+	strcpy(treplayfilename, RESDATASTR_FOLDER_REPLAY);
 	strcat(treplayfilename, _filename);
 	hge->Resource_AttachPack(treplayfilename, Data::data.password ^ REPLAYPASSWORD_XORMAGICNUM);
 
@@ -154,11 +154,11 @@ bool Replay::Check(const char * _filename)
 	hge->Resource_RemovePack(treplayfilename);
 	if(content)
 	{
-		if(strcmp((char *)(content + RPYOFFSET_SIGNATURE), BResource::bres.resdata.replaysignature11))
+		if(strcmp((char *)(content + RPYOFFSET_SIGNATURE), GAME_SHORTTITLE))
 			goto exit;
 		if(*(DWORD *)(content + RPYOFFSET_VERSION) != GAME_VERSION)
 			goto exit;
-		if(strcmp((char *)(content + RPYOFFSET_COMPLETESIGN), BResource::bres.resdata.replaycompletesign3))
+		if(strcmp((char *)(content + RPYOFFSET_COMPLETESIGN), RESDATASTR_REPLAYEXTENSION))
 			goto exit;
 		bret = true;
 	}
@@ -217,7 +217,7 @@ bool Replay::Load(const char * _filename, bool getInput)
 	if(Check(_filename))
 	{
         char treplayfilename[M_PATHMAX];
-		strcpy(treplayfilename, BResource::bres.resdata.replayfoldername);
+		strcpy(treplayfilename, RESDATASTR_FOLDER_REPLAY);
 		strcat(treplayfilename, _filename);
 		ret = Export::rpyLoad(treplayfilename, &rpyinfo, partinfo, getInput ? replayframe : NULL);
 		if (getInput)
@@ -233,7 +233,7 @@ void Replay::CreateSaveFilename(char * filename)
 	// TODO:
 	GetEnumReplay();
 	char buffer[M_PATHMAX];
-	sprintf(buffer, "%s_%02d%02d%02d_", RESDEFAULT_RPYSIGNATURE11, rpyinfo.year%100, rpyinfo.month, rpyinfo.day);
+	sprintf(buffer, "%s_%02d%02d%02d_", GAME_SHORTTITLE, rpyinfo.year%100, rpyinfo.month, rpyinfo.day);
 	char _filename[M_PATHMAX];
 	for (int i=0; i<10000; i++)
 	{
@@ -260,7 +260,7 @@ void Replay::CreateSaveFilename(char * filename)
 			}
 			strcat(_filename, buffer);
 			strcat(_filename, ".");
-			strcat(_filename, BResource::bres.resdata.replayextensionname7);
+			strcat(_filename, RESDATASTR_REPLAYEXTENSION);
 			break;;
 		}
 	}
@@ -288,11 +288,11 @@ void Replay::Save(const char * replayfilename)
 	DWORD _size = RPYOFFSET_INPUTDATA + (replayIndex + 1) * RPYSIZE_FRAME;
 	BYTE * _rpydata = (BYTE *)malloc(_size);
 	DWORD tdw;
-	memcpy(_rpydata + RPYOFFSET_SIGNATURE, BResource::bres.resdata.replaysignature11, RPYSIZE_SIGNATURE);
+	memcpy(_rpydata + RPYOFFSET_SIGNATURE, GAME_SHORTTITLE, RPYSIZE_SIGNATURE);
 	tdw = GAME_VERSION;
 	memcpy(_rpydata + RPYOFFSET_VERSION, &tdw, RPYSIZE_VERSION);
-	memcpy(_rpydata + RPYOFFSET_COMPLETESIGN, BResource::bres.resdata.replaycompletesign3, RPYSIZE_COMPLETESIGN);
-	memcpy(_rpydata + RPYOFFSET_TAG, BResource::bres.resdata.replaytag3, RPYSIZE_TAG);
+	memcpy(_rpydata + RPYOFFSET_COMPLETESIGN, RESDATASTR_REPLAYEXTENSION, RPYSIZE_COMPLETESIGN);
+	memcpy(_rpydata + RPYOFFSET_TAG, RESDATASTR_REPLAYEXTENSION, RPYSIZE_TAG);
 	tdw = RPYOFFSET_PARTINFO;
 	memcpy(_rpydata + RPYOFFSET_INFOOFFSET, &tdw, RPYSIZE_INFOOFFSET);
 	strcpy(buffer, "");
@@ -309,7 +309,7 @@ void Replay::Save(const char * replayfilename)
 	*/
 
 	char treplayfilename[M_PATHMAX];
-	strcpy(treplayfilename, BResource::bres.resdata.replayfoldername);
+	strcpy(treplayfilename, RESDATASTR_FOLDER_REPLAY);
 	strcat(treplayfilename, savefilename);
 
 	char crcfilename[M_PATHMAX];

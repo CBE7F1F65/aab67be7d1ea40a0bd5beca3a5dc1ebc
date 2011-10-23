@@ -7,7 +7,6 @@ public:
 	~_DataTable();
 public:
 	void SetFile(FILE * file);
-	bool DataTableDefine();
 	bool PackageTableDefine();
 	bool TextureTableDefine();
 	bool EffectTableDefine();
@@ -20,7 +19,7 @@ public:
 	bool PlayerDefineFile();
 	bool SpriteDefineFile();
 	bool PlayerShootDefineFile();
-	bool PlayerGhostDefineFile();
+	bool PlayerSubDefineFile();
 	bool AreaDefineFile();
 	bool BlankMapTileDefineFile();
 

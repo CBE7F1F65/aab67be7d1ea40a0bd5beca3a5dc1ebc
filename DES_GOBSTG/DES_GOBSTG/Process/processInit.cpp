@@ -16,8 +16,6 @@ rebuild:
 		hge->	Ini_SetInt(Data::data.translateSection(Data::data.sLinkType(DATAS_HEADER)), Data::data.translateName(Data::data.nLinkType(DATAN_GAMEVERSION)), GAME_VERSION);
 		hge->	Ini_SetString(Data::data.translateSection(Data::data.sLinkType(DATAS_HEADER)), Data::data.translateName(Data::data.nLinkType(DATAN_SIGNATURE)), GAME_SIGNATURE);
 
-		hge->	Ini_SetString(RESCONFIGS_RESOURCE, RESCONFIGN_RESOURCEFILE, RESCONFIGDEFAULT_RESOURCEFILE);
-		hge->	Ini_SetString(RESCONFIGS_RESOURCE, RESCONFIGN_RESBINNAME, RESCONFIGDEFAULT_RESBINNAME);
 		hge->	Ini_SetString(RESCONFIGS_RESOURCE, RESCONFIGN_PASSWORD, RESCONFIGDEFAULT_PASSWORD);
 
 		hge->	Ini_SetInt(RESCONFIGS_KEYSETTING, RESCONFIGN_KEYUP, RESCONFIGDEFAULT_KEYUP_1);
@@ -190,11 +188,6 @@ int Process::processInit()
 			errorcode = PROC_ERROR_TRANSLATE;
 			return PQUIT;
 		}
-		if(!BResource::bres.SetDataFile())
-		{
-			errorcode = PROC_ERROR_DATA;
-			return PQUIT;
-		}
 	}
 	if (binmode)
 	{
@@ -220,14 +213,6 @@ int Process::processInit()
 	if(Scripter::scr.binmode && !Scripter::scr.LoadAll())
 	{
 		errorcode = PROC_ERROR_SCRIPT;
-		return PQUIT;
-	}
-	if(!Data::data.SetFile(Export::resourcefilename, DATA_RESOURCEFILE))
-	{
-#ifdef __DEBUG_LOG
-		HGELOG("Error in Setting Resource File");
-#endif
-		errorcode = PROC_ERROR_DATA;
 		return PQUIT;
 	}
 
@@ -258,7 +243,7 @@ int Process::processInit()
 	SpriteItemManager::Init();
 
 	Fontsys::Init(FrontDisplay::fdisp.info.normalfont);
-	if(!Effectsys::Init(BResource::bres.tex, BResource::bres.resdata.effectsysfoldername, BResource::bres.resdata.effectsysfilename))
+	if(!Effectsys::Init(BResource::bres.tex, RESDATASTR_FOLDER_EFFECTSYS, BResource::bres.resdata.effectsysfilename))
 	{
 #ifdef __DEBUG_LOG
 		HGELOG("%s\nFailed in Initializing Effectsys.", HGELOG_ERRSTR);

@@ -5,6 +5,7 @@
 #include "../Header/SpriteItemManager.h"
 #include "../Header/Player.h"
 #include "../Header/BResource.h"
+#include "../Header/ConstResource.h"
 
 HD3DFONT Fontsys::d3dfont = NULL;
 hgeFont * Fontsys::font = NULL;
@@ -115,7 +116,7 @@ void Fontsys::HeatUp(bool rebuildfont)
 		{
 			charcodes[i] = *it;
 		}
-		if (hgeFont::CreateFontFileByInfo(charcodes, i, BResource::bres.resdata.fontfilename, d3dfont, 2))
+		if (hgeFont::CreateFontFileByInfo(charcodes, i, RESDATASTR_FONTFILENAME, d3dfont, 2))
 		{
 		}
 		free(charcodes);
@@ -126,7 +127,7 @@ void Fontsys::HeatUp(bool rebuildfont)
 	{
 		delete font;
 	}
-	font = new hgeFont(BResource::bres.resdata.fontfilename);
+	font = new hgeFont(RESDATASTR_FONTFILENAME, false);
 
 	/*
 	for (int i=0; i<scr.strdescIndex; i+=(i+1))

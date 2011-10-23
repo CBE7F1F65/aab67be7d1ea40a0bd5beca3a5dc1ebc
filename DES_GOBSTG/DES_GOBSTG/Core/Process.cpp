@@ -103,7 +103,6 @@ void Process::ClearAll()
 	Effectsys::ClearAll();
 	BGLayer::bglayer.Init();
 	Enemy::ClearAll();
-//	Ghost::ClearAll();
 	Target::ClearAll();
 	Bullet::ClearItem();
 	Item::ClearItem();
@@ -226,7 +225,7 @@ void Process::SnapShot()
 	char snapshotfilename[M_PATHMAX];
 	strcpy(snapshotfilename, "");
 	sprintf(snapshotfilename, "%s%s_%04d_%02d_%02d_%02d_%02d_%02d_%04d.%s",
-		BResource::bres.resdata.snapshotfoldername,
+		RESDATASTR_FOLDER_SNAPSHOT,
 		SNAPSHOT_PRIFIX,
 		wYear, wMonth, wDay, wHour, wMinute, wSecond, wMilliseconds,
 		SNAPSHOT_EXTENSION);

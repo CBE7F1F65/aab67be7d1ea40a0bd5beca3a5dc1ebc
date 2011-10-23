@@ -7,6 +7,7 @@
 #define GAME_VERSION_SUB_STR	"-0.98"
 #define GAME_SIGNATURE		"h5nc"
 #define GAME_TITLE			"�ե쥢.Flare"
+#define GAME_SHORTTITLE		"Flare"
 #define GAME_TITLE_STR		GAME_TITLE " " GAME_SIGNATURE " " GAME_VERSION_STR " " GAME_VERSION_SUB_STR
 
 #define GAMEVERSION_CORE		0x08

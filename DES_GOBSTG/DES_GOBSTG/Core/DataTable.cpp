@@ -75,45 +75,6 @@ void _DataTable::SetFile(FILE * _file)
 	file = _file;
 }
 
-bool _DataTable::DataTableDefine()
-{
-	_READSTRINGBUFFERLINE(2);
-	strcpy(BResource::bres.resdata.customconstfilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.customconstfilename, buffer);
-//	strcpy(BResource::bres.resdata.spelldefinefilename, BResource::bres.resdata.datafoldername);
-//	_READSTRINGBUFFERLINE(2);
-//	strcat(BResource::bres.resdata.spelldefinefilename, buffer);
-	strcpy(BResource::bres.resdata.musicdefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.musicdefinefilename, buffer);
-	strcpy(BResource::bres.resdata.bulletdefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.bulletdefinefilename, buffer);
-	strcpy(BResource::bres.resdata.enemydefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.enemydefinefilename, buffer);
-	strcpy(BResource::bres.resdata.playerdefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.playerdefinefilename, buffer);
-	strcpy(BResource::bres.resdata.spritedefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.spritedefinefilename, buffer);
-	strcpy(BResource::bres.resdata.playershootdefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.playershootdefinefilename, buffer);
-	strcpy(BResource::bres.resdata.playerghostdefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.playerghostdefinefilename, buffer);
-	strcpy(BResource::bres.resdata.areadefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.areadefinefilename, buffer);
-	strcpy(BResource::bres.resdata.blankmaptiledefinefilename, BResource::bres.resdata.datafoldername);
-	_READSTRINGBUFFERLINE(2);
-	strcat(BResource::bres.resdata.blankmaptiledefinefilename, buffer);
-	return true;
-}
-
 bool _DataTable::PackageTableDefine()
 {
 	ZeroMemory(BResource::bres.resdata.packagefilename, sizeof(char) * DATASTRUCT_PACKAGEMAX * M_PATHMAX);
@@ -507,7 +468,7 @@ bool _DataTable::PlayerShootDefineFile()
 	return true;
 }
 
-bool _DataTable::PlayerGhostDefineFile()
+bool _DataTable::PlayerSubDefineFile()
 {
 	ZeroMemory(BResource::bres.playerghostdata, RSIZE_PLAYERGHOST);
 	_READSTRINGBUFFERLINE(12);
@@ -606,7 +567,7 @@ bool _DataTable::BlankMapTileDefineFile()
 FILE * Data::checkTableFile(BYTE type)
 {
 	getFile(type);
-	if (!nowfilename)
+	if (!strlen(nowfilename))
 	{
 		return NULL;
 	}
@@ -647,9 +608,6 @@ bool Data::GetTableFile(BYTE type)
 	int tint[32];
 	switch (type)
 	{
-	case DATA_DATATABLEDEFINE:
-		_DataTable::datatable.DataTableDefine();
-		break;
 	case DATA_PACKAGETABLEDEFINE:
 		_DataTable::datatable.PackageTableDefine();
 		break;
@@ -692,7 +650,7 @@ bool Data::GetTableFile(BYTE type)
 		_DataTable::datatable.PlayerShootDefineFile();
 		break;
 	case DATA_PLAYERGHOSTDEFINE:
-		_DataTable::datatable.PlayerGhostDefineFile();
+		_DataTable::datatable.PlayerSubDefineFile();
 		break;
 
 	case DATA_AREADEFINE:

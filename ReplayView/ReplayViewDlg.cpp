@@ -65,7 +65,6 @@ BOOL CReplayViewDlg::OnInitDialog()
 	SetWindowText(hge->System_GetState(HGE_TITLE));
 	Data::data.GetIni();
 	Export::GetResourceFile(true);
-	BResource::bres.CopyData();
 	BResource::bres.Gain();
 	checkButton.SetCheck(BST_CHECKED);
 	

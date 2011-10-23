@@ -5,8 +5,6 @@
 #include "MainApplicationFunctions.h"
 #endif
 
-char Export::resourcefilename[M_PATHMAX];
-char Export::resbinname[M_PATHMAX];
 partInfo Export::partinfo[RPYPARTMAX];
 replayInfo Export::rpyinfo;
 int Export::password = 0;
@@ -329,7 +327,6 @@ bool Export::SetIni(bool extuse)
 #ifndef __IPHONE
 	if (extuse && !hge->Resource_AccessFile(hge->Resource_MakePath(CONFIG_STR_FILENAME)))
 	{
-		hge->System_SetState(HGE_INIFILE, CONFIG_STR_DEFAULTFILENAME);
 		return false;
 	}
 	hge->System_SetState(HGE_INIFILE, CONFIG_STR_FILENAME);
@@ -354,16 +351,12 @@ void Export::clientAdjustWindow()
 
 bool Export::GetResourceFile(bool readbin)
 {
-	strcpy(resourcefilename, hge->Ini_GetString(RESCONFIGS_RESOURCE, RESCONFIGN_RESOURCEFILE, RESCONFIGDEFAULT_RESOURCEFILE));
-	strcpy(resbinname, hge->Ini_GetString(RESCONFIGS_RESOURCE, RESCONFIGN_RESBINNAME, RESCONFIGDEFAULT_RESBINNAME));
-	if(strlen(resourcefilename) && strcmp(resourcefilename, " ") && !readbin)
+	if (readbin)
 	{
-		strcpy(resourcefilename, hge->Resource_MakePath(resourcefilename));
-		return false;
+		return true;
 	}
-	else
-		strcpy(resourcefilename, resbinname);
-	return true;
+	bool binmode = hge->Ini_GetInt(RESCONFIGS_RESOURCE, RESCONFIGN_BINMODE, RESCONFIGDEFAULT_BINMODE);
+	return binmode;
 }
 
 int Export::GetPassword()

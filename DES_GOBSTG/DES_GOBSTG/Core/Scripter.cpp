@@ -977,20 +977,6 @@ Token Scripter::GetToken()
 			}
 		}
 	}
-	//DATA
-	if (!bFound)
-	{
-		for (int i=DATAMAPENUM_DATASTART; i<DATAMAPENUM_RESOURCESTART; i++)
-		{
-			if (!strcmp(buffer, dataMap[i].textname))
-			{
-				ret.value |= dataMap[i].binname;
-				ret.type |= SCR_TOKEN_VALUE;
-				bFound = true;
-				break;
-			}
-		}
-	}
 	//error
 	if(!bFound)
 	{

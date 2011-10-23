@@ -92,35 +92,6 @@ struct spellData{
 	BYTE battleID;
 };
 
-struct uiStringData 
-{
-	char filename[M_STRMAX];
-	char username[M_STRMAX];
-	char score[M_STRMAX];
-	char point[M_STRMAX];
-	char faith[M_STRMAX];
-	char alltime[M_STRMAX];
-	char date[M_STRMAX];
-	char lost[M_STRMAX];
-	char borderrate[M_STRMAX];
-	char fastrate[M_STRMAX];
-	char modeflag[M_STRMAX];
-	char mode_none[M_STRMAX];
-	char mode_practice[M_STRMAX];
-	char mode_spell[M_STRMAX];
-	char usingchara[M_STRMAX];
-//	char maxplayer[M_STRMAX];
-	char misstime[M_STRMAX];
-	char bordertime[M_STRMAX];
-	char continuetime[M_STRMAX];
-	char gettime[M_STRMAX];
-	char pausetime[M_STRMAX];
-	char difflv[M_STRMAX];
-	char laststage[M_STRMAX];
-	char graze[M_STRMAX];
-	char confirm[M_STRMAX];
-};
-
 struct resourceData
 {
 	//resource file
@@ -128,55 +99,7 @@ struct resourceData
 	char effectsysfilename[DATASTRUCT_EFFECTMAX][M_PATHMAX];
 	char packagefilename[DATASTRUCT_PACKAGEMAX][M_PATHMAX];
 
-	//font
-	char fontfilename[M_STRMAX];
-	char widefontname[M_STRMAX];
-
-	//datafile
-
-	char binfilename[M_PATHMAX];
-	char binname[M_PATHMAX];
-//	char spellaccessfilename[M_PATHMAX];
-	char rabinname[M_STRMAX];
-	char scriptfilename[M_PATHMAX];
-	char scrbinname[M_PATHMAX];
-
-	char customconstfilename[M_PATHMAX];
-//	char spelldefinefilename[M_PATHMAX];
-	char musicdefinefilename[M_PATHMAX];
-	char bulletdefinefilename[M_PATHMAX];
-	char enemydefinefilename[M_PATHMAX];
-	char playerdefinefilename[M_PATHMAX];
-	char spritedefinefilename[M_PATHMAX];
-	char playershootdefinefilename[M_PATHMAX];
-	char playerghostdefinefilename[M_PATHMAX];
-	char areadefinefilename[M_PATHMAX];
-	char blankmaptiledefinefilename[M_PATHMAX];
-	char datadefinefilename[M_PATHMAX];
-	char packagedefinefilename[M_PATHMAX];
-	char texturedefinefilename[M_PATHMAX];
-	char effectdefinefilename[M_PATHMAX];
-	char sedefinefilename[M_PATHMAX];
-
-	//folder
-	char snapshotfoldername[M_PATHMAX];
-	char replayfoldername[M_PATHMAX];
-	char datafoldername[M_PATHMAX];
-	char effectsysfoldername[M_PATHMAX];
-
-	//extension
-	char scriptextensionname7[8];
-	char replayextensionname7[8];
-
-	//replay header
-	char replaysignature11[12];
-	char replaytempsign3[4];
-	char replaycompletesign3[4];
-	char replaytag3[4];
-
 	bool binmode;
-
-	uiStringData uistr;
 };
 
 struct bulletData 
