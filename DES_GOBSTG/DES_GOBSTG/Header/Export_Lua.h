@@ -27,9 +27,9 @@
 
 
 #define _ENTERFUNC_LUA(X)	_DEBUG_ENTERFUNC_LUA; \
-	LuaStack args(ls);\
-	node._init(ls, NULL, &args, &node);\
-	if (node.argscount >= (X))\
+							LuaStack args(ls);\
+							node._init(ls, NULL, &args, &node);\
+							if (node.argscount >= (X))\
 							{\
 							do\
 								{

@@ -313,6 +313,9 @@ void Data::getFile(BYTE type)
 		strcpy(nowfilename, RESDATASTR_TABLE_SE);
 		break;
 
+	case DATA_RESOURCEFILE:
+		strcpy(nowfilename, RESDATASTR_RESFILENAME);
+		break;
 	case DATA_BINFILE:
 		strcpy(nowfilename, RESDATASTR_BINFILENAME);
 		break;
@@ -355,8 +358,8 @@ bool Data::Init(BYTE type)
 			*/
 
 		case DATA_RESOURCEFILE:
-			fname = RESDATASTR_BINFILENAME;
-			bname = RESDATASTR_BINFILENAME;
+			fname = RESDATASTR_RESFILENAME;
+			bname = RESDATASTR_RESFILENAME;
 			break;
 /*
 		case DATA_SPELLACCESSFILE:
@@ -625,8 +628,8 @@ bool Data::CheckHeader(BYTE type)
 			break;
 			*/
 		case DATA_RESOURCEFILE:
-			fname = RESDATASTR_BINFILENAME;
-			bname = RESDATASTR_BINFILENAME;
+			fname = RESDATASTR_RESFILENAME;
+			bname = RESDATASTR_RESFILENAME;
 			break;
 			/*
 		case DATA_SPELLACCESSFILE:

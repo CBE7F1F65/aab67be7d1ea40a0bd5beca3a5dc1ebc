@@ -148,7 +148,7 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 	hgeMemoryFile memfile;
 	memfile.data = content;
 	char tfilename[M_PATHMAX];
-	strcpy(tfilename, RESDATASTR_BINFILENAME);
+	strcpy(tfilename, RESDATASTR_RESFILENAME);
 	memfile.filename = tfilename;
 	memfile.size = size;
 
@@ -166,9 +166,9 @@ bool BResource::Gain(void * pStrdesc, void * pCustomConstData)
 	DWORD size;
 	bool ret = false;
 
-	hge->Resource_AttachPack(RESDATASTR_BINFILENAME, Data::data.password);
-	content = hge->Resource_Load(RESDATASTR_BINFILENAME, &size);
-	hge->Resource_RemovePack(RESDATASTR_BINFILENAME);
+	hge->Resource_AttachPack(RESDATASTR_RESFILENAME, Data::data.password);
+	content = hge->Resource_Load(RESDATASTR_RESFILENAME, &size);
+	hge->Resource_RemovePack(RESDATASTR_RESFILENAME);
 	if(content)
 	{
 //		spelldata.clear();

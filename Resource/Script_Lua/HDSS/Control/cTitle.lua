@@ -58,6 +58,17 @@ function CETitle_DispatchSelect(selsysid)
 	end
 end
 
+function CETitle_EnterMatch()
+	for i=0, 1 do
+		hdssSETCHARA(i, 0);
+		hdssSETPINITLIFE(i, 1);
+	end
+	hdssSETSCENE(0);
+	hdssSTARTPREP();
+	_DEBUG_LGlobal_Jump = -1;
+	CETitle_ExitState(STATE_START);
+end
+
 function ControlExecute_cTitle(timer)
 
 	local selsysid = LConst_selsys_titleid;
@@ -81,15 +92,7 @@ function ControlExecute_cTitle(timer)
 			_DEBUG_LGlobal_Jump = 1;
 		end
 		if _DEBUG_LGlobal_Jump == 1 then
-			for i=0, 1 do
-				local nowID, lastID = hdss.Get(HDSS_CHARA, i);
-				hdssSETCHARA(i, lastID);
-				hdssSETPINITLIFE(i, 10);
-			end
-			hdssSETSCENE(hdss.Get(HDSS_CHARA, RANDT(0, 1)));
-			hdssSTARTPREP();
-			_DEBUG_LGlobal_Jump = -1;
-			CETitle_ExitState(STATE_START);
+			CETitle_EnterMatch();
 		end
 	end
 	

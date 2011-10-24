@@ -233,13 +233,17 @@ bool Scripter::LoadAll_Lua()
 	Export_Lua::InitHGE(hge);
 	Export_Lua::LuaRegistFunction();
 	Export_Lua::LuaRegistConst();
-	int iret = Export_Lua::ReadLuaFileTable();
-	if (iret == 0)
+	int iret = 0;
+	if (!binmode)
 	{
-		iret = Export_Lua::PackLuaFiles();
-		if (iret != 0)
+		iret = Export_Lua::ReadLuaFileTable();
+		if (iret == 0)
 		{
-			return false;
+			iret = Export_Lua::PackLuaFiles();
+			if (iret != 0)
+			{
+				return false;
+			}
 		}
 	}
 	iret = Export_Lua::LoadPackedLuaFiles();

@@ -16,14 +16,14 @@ function _DEBUG_NewRandomMatch()
 	local randcharaname = {};
 	local siid;
 	for i=0, 1 do
-		randchara[i+1] = RANDT(0, 23);
+		randchara[i+1] = 0;
 		siid, randcharaname[i+1] = game.GetPlayerContentTable(randchara[i+1]);
 		hdssSETCHARA(i, randchara[i+1]);
 		hdssSETPINITLIFE(i, 10);
 	end
 	logstr = "NM :	"..randchara[1].."	"..randcharaname[1].."	"..randchara[2].."	"..randcharaname[2];
 	LOG(logstr);
-	hdssSETSCENE(23);
+	hdssSETSCENE(0);
 	hdssSTARTPREP();
 	CETitle_ExitState(STATE_START);
 end
