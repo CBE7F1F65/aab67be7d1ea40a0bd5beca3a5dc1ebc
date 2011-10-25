@@ -19,7 +19,7 @@ function ControlExecute_cSceneSelect(timer)
 	if timer == 1 then
 		CESceneSelect_Init();
 	end
-	CETitle_EnterMatch();
+	_DEBUG_NewRandomMatch();
 	CESceneSelect_ExitState(STATE_START);
 		
 	return true;

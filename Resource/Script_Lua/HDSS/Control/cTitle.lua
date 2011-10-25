@@ -58,17 +58,6 @@ function CETitle_DispatchSelect(selsysid)
 	end
 end
 
-function CETitle_EnterMatch()
-	for i=0, 1 do
-		hdssSETCHARA(i, 0);
-		hdssSETPINITLIFE(i, 1);
-	end
-	hdssSETSCENE(0);
-	hdssSTARTPREP();
-	_DEBUG_LGlobal_Jump = -1;
-	CETitle_ExitState(STATE_START);
-end
-
 function ControlExecute_cTitle(timer)
 
 	local selsysid = LConst_selsys_titleid;
@@ -92,7 +81,7 @@ function ControlExecute_cTitle(timer)
 			_DEBUG_LGlobal_Jump = 1;
 		end
 		if _DEBUG_LGlobal_Jump == 1 then
-			CETitle_EnterMatch();
+			_DEBUG_NewRandomMatch();
 		end
 	end
 	

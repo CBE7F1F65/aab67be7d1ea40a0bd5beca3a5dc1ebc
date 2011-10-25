@@ -12,9 +12,6 @@ function ControlExecute_cStart(timer)
 			hdssSD(LConst_Desc_EnemyTimeCounter+i, 0);
 			hdssSD(LConst_Desc_EnemyRandom+i, enemyrandrom);
 			helper_GetNextEnemyRandom(i);
-			hdssSD(LConst_Desc_DrainAngle+i, -9000);
-			hdssSD(LConst_Desc_BossPattern+i, -1);
-			hdssSD(LConst_Desc_TeiShotTime+i, 0);
 			
 			hdssBGSETUP();
 						
@@ -26,10 +23,10 @@ function ControlExecute_cStart(timer)
 	end
 				
 	if timer <= 8 then
-		local scale = hdssINTER(1.5, 1, timer/8);
+		local scale = Math_Inter(1.5, 1, timer/8);
 	elseif timer == 32 then
 	elseif timer > 48 and timer <= 56 then
-		local scale = hdssINTER(1.5, 1, (timer-48)/8);
+		local scale = Math_Inter(1.5, 1, (timer-48)/8);
 	elseif timer == 80 then
 	elseif timer == 96 then
 		
@@ -38,7 +35,7 @@ function ControlExecute_cStart(timer)
 		for i=0, 1 do
 			local enemytimecounter = hdss.Get(HDSS_D, LConst_Desc_EnemyTimeCounter+i);
 			local nowlinenum = hdss.Get(HDSS_D, LConst_Desc_EnemyNowLineNum+i);
-			local bdrain = hdss.Get(HDSS_PBDRAIN, i);
+			local bdrain = false;
 			local bhaveenemy = hdss.Get(HDSS_ENNUM, i, 1) > 0 or hdss.Get(HDSS_ENNUM, i, 2) > 0;
 			if nowlinenum <= 0 and bdrain and bhaveenemy then
 				enemytimecounter = LConst_EnemyMergeInterval - 1;
@@ -99,12 +96,6 @@ function ControlExecute_cStart(timer)
 			else
 				hdssSETPBINFI(1, 0);
 			end
-		end
-		if hge.Input_GetDIKey(DIK_NUMPAD2, DIKEY_DOWN) then
-			hdssADDPNCHARGE(0, 0, 400);
-		end
-		if hge.Input_GetDIKey(DIK_NUMPAD3, DIKEY_DOWN) then
-			hdssADDPNCHARGE(1, 0, 400);
 		end
 	end
 		
