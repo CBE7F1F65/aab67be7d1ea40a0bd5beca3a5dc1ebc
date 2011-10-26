@@ -460,8 +460,6 @@ int _HDSSCallGet::Get_CHECKKEY(LuaState * ls)
 	_ENTERGET_HDSS_LUA;
 	if (argscount > 2)
 	{
-		_INEXT_HDSS_LUAFUNC;
-
 		int _ksi = _INEXT_HDSS_LUAFUNC;
 		int _type = DIKEY_PRESSED;
 		_JNEXT_HDSS_LUAFUNC;
@@ -536,8 +534,6 @@ int _HDSSCallGet::Get_PBINFI(LuaState * ls)
 	_ENTERGET_HDSS_LUA;
 	if (argscount > 1)
 	{
-		_INEXT_HDSS_LUAFUNC;
-
 		_PB_HDSS_LUA(Player::p.bInfi);
 		_PI_HDSS_LUA(Player::p.infireasonflag);
 		_PI_HDSS_LUA(Player::p.infitimer);

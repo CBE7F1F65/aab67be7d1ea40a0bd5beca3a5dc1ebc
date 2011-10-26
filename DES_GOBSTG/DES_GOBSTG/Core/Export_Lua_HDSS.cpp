@@ -64,14 +64,6 @@ bool Export_Lua_HDSS::_LuaRegistConst(LuaObject * obj)
 	return true;
 }
 
-bool Export_Lua_HDSS::_LuaRegistFunction(LuaObject * obj)
-{
-	LuaObject _hdssobj = obj->CreateTable("hdss");
-	_hdssobj.Register("Call", LuaFn_HDSS_Call);
-	_hdssobj.Register("Get", LuaFn_HDSS_Get);
-	return true;
-}
-
 bool Export_Lua_HDSS::_Helper_HDSS_GetPara(LuaStack * args, int i, LuaObject * _para)
 {
 	*_para = (*args)[i];

@@ -29,7 +29,7 @@
 										}\
 										ii = 0
 
-#define _ENTERCALL_HDSS_LUA		LuaStack args(ls);\
+#define __ENTERCALL_HDSS_LUA		LuaStack args(ls);\
 								argscount = args.Count();\
 								if (argscount > 1)\
 								{\

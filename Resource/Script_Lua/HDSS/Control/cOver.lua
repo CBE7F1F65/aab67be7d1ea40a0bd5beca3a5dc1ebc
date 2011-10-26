@@ -13,7 +13,7 @@ end
 
 function CEOver_ExitState(tostate)
 	CEOver_CloseUsed();
-	hdssSETSTATE(tostate);
+	hdss.SetState(tostate);
 end
 function ControlExecute_cOver(timer)
 

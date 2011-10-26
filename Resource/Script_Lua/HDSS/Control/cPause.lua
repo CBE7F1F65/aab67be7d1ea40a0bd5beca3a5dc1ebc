@@ -6,7 +6,7 @@ end
 
 function CEPause_SetSelect(selsyspauseid, select)
 	
-	local replaymode, replayend = hdss.Get(HDSS_REPLAYMODE);
+	local replaymode, replayend = hdss.GetReplayMode();
 	
 	local ystart = TotalCenterY;
 	if not replaymode then
@@ -35,8 +35,7 @@ function CEPause_SetSelect(selsyspauseid, select)
 			flag = SEL_NONACTIVE;
 			y = ystart - yoffset * 1.5;
 		end
-		hdss.Call(
-			HDSS_SELBUILD,
+		hdss.BuildSelect(
 			{
 				selsyspauseid, nselect, SI_Pause_Start+i, TotalCenterX, y, 1, 0, flag
 			},
@@ -44,17 +43,16 @@ function CEPause_SetSelect(selsyspauseid, select)
 		)
 		nselect = nselect + 1;
 	end
-	hdss.Call(
-		HDSS_SELSETUP,
+	hdss.SetupSelect(
 		{
-			selsyspauseid, nselect-1, select, 0, KSI_UP, KSI_DOWN, KSI_FIRE
+			selsyspauseid, nselect-1, select, KSI_UP, KSI_DOWN, KSI_FIRE
 		}
 	)
 end
 
 function CEPause_CloseUsed()
-	hdssSELCLEAR(LConst_selsys_pauseid);
-	hdssSELCLEAR(LConst_selsys_pauseconfirmid);
+	hdss.ReleaseSelect(LConst_selsys_pauseid);
+	hdss.ReleaseSelect(LConst_selsys_pauseconfirmid);
 end
 
 function CEPause_ExitState(tostate, bPrep)
@@ -66,19 +64,19 @@ function CEPause_ExitState(tostate, bPrep)
 	if not bPrep and tostate == STATE_START then
 		time = -1;
 	end
-	hdssSETSTATE(tostate, time);
+	hdss.SetState(tostate, time);
 	if bPrep then
-		hdssSTARTPREP();
+		hdss.CallStartPrep();
 	end
 
 	if tostate ~= STATE_START then
 		game.FreeTexture();
-		hdssCLEARALL();
+		hdss.ClearAll();
 	end
 end
 
 function CEPause_DispatchSelect(selsyspauseid, tostate)
-	local complete, select = hdss.Get(HDSS_SELCOMPLETE, selsyspauseid);
+	local complete, select = hdss.CheckSelect(selsyspauseid);
 	if complete then
 		if select == 0 then
 			CEPause_ExitState(tostate);
@@ -86,8 +84,8 @@ function CEPause_DispatchSelect(selsyspauseid, tostate)
 		return select;
 	end
 	
-	if hdss.Get(HDSS_CHECKKEY, 0, KSI_QUICK, DIKEY_UP) or hdss.Get(HDSS_CHECKKEY, 0, KSI_PAUSE, DIKEY_DOWN) then
-		hdssSE(SE_SYSTEM_CANCEL);
+	if hdss.CheckInput(KSI_QUICK, DIKEY_UP) or hdss.CheckInput(KSI_PAUSE, DIKEY_DOWN) then
+		hdss.PlaySE(SE_SYSTEM_CANCEL);
 		CEPause_ExitState(tostate);
 	end
 	return 0;
@@ -113,24 +111,22 @@ function CEPause_SetConfirmSelect(selsyspauseconfirmid)
 			flag = SEL_NONACTIVE;
 			y = ystart - yoffset * 1.5;
 		end
-		hdss.Call(
-			HDSS_SELBUILD,
+		hdss.BuildSelect(
 			{
 				selsyspauseconfirmid, i, SI_Confirm_Yes+i, TotalCenterX, y, 1, 0, flag
 			},
 			tableSelectOffset
 		)
 	end
-	hdss.Call(
-		HDSS_SELSETUP,
+	hdss.SetupSelect(
 		{
-			selsyspauseconfirmid, 2, 1, 0, KSI_UP, KSI_DOWN, KSI_FIRE
+			selsyspauseconfirmid, 2, 1, KSI_UP, KSI_DOWN, KSI_FIRE
 		}
 	)
 end
 
 function CEPause_DispatchConfirmSelect(selsyspauseconfirmid)
-	local complete, select = hdss.Get(HDSS_SELCOMPLETE, selsyspauseconfirmid);
+	local complete, select = hdss.CheckSelect(selsyspauseconfirmid);
 	if complete then
 		if select == 0 then
 			return 1;
@@ -139,9 +135,9 @@ function CEPause_DispatchConfirmSelect(selsyspauseconfirmid)
 		end
 	end
 	
-	if hdss.Get(HDSS_CHECKKEY, 0, KSI_QUICK, DIKEY_UP) then
-		hdssSE(SE_SYSTEM_CANCEL);
-		hdssSELCLEAR(selsyspauseconfirmid);
+	if hdss.CheckInput(KSI_QUICK, DIKEY_UP) then
+		hdss.PlaySE(SE_SYSTEM_CANCEL);
+		hdss.ReleaseSelect(selsyspauseconfirmid);
 		return -1;
 	end
 	return 0;
@@ -154,12 +150,12 @@ function ControlExecute_cPause(timer)
 	
 	if timer == 0 then
 		CEPause_Init();
-		hdssSD(dselcomplete, 0);
-		hdssSD(dselselect, 0);
+		hdss.SetDesc(dselcomplete, 0);
+		hdss.SetDesc(dselselect, 0);
 		CEPause_SetBG();
 	else
-		local _selcomplete = hdss.Get(HDSS_D, dselcomplete);
-		local _selselect = hdss.Get(HDSS_D, dselselect);
+		local _selcomplete = hdss.GetDesc(dselcomplete);
+		local _selselect = hdss.GetDesc(dselselect);
 		if _selcomplete == 0 then
 			CEPause_SetSelect(LConst_selsys_pauseid, _selselect);
 			_selcomplete = 1;
@@ -173,7 +169,7 @@ function ControlExecute_cPause(timer)
 			_selcomplete = 3;
 		elseif _selcomplete == 3 then
 			local ret = CEPause_DispatchConfirmSelect(LConst_selsys_pauseconfirmid);
-			local replaymode, replayend = hdss.Get(HDSS_REPLAYMODE);
+			local replaymode, replayend = hdss.GetReplayMode();
 			if ret > 0 then
 				if _selselect == 1 then
 					CEPause_ExitState(STATE_START, true);
@@ -186,15 +182,14 @@ function ControlExecute_cPause(timer)
 				elseif _selselect == 3 then
 					CEPause_ExitState(STATE_TITLE);
 				else
-					hdssSAVEREPLAY(true, true);
 					CEPause_ExitState(STATE_TITLE);
 				end
 			elseif ret < 0 then
 				_selcomplete = 0;
 			end
 		end
-		hdssSD(dselcomplete, _selcomplete);
-		hdssSD(dselselect, _selselect);
+		hdss.SetDesc(dselcomplete, _selcomplete);
+		hdss.SetDesc(dselselect, _selselect);
 	end
 		
 	return true;

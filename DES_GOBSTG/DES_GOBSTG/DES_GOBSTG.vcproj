@@ -420,6 +420,10 @@
 						>
 					</File>
 					<File
+						RelativePath=".\Core\Export_Lua_HDSS_Function.cpp"
+						>
+					</File>
+					<File
 						RelativePath=".\Core\Export_Lua_HDSS_Get.cpp"
 						>
 					</File>

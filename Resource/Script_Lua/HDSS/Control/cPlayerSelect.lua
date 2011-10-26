@@ -1,5 +1,5 @@
 function CEPlayerSelect_Init()
-	hdssMUSICCHANGE(LConst_musicid_title);
+	hdss.ChangeMusic(LConst_musicid_title);
 end
 
 function CEPlayerSelect_SetBG()
@@ -11,7 +11,7 @@ end
 function CEPlayerSelect_ExitState(tostate, bcloseall)
 	game.FreeTexture();
 	CEPlayerSelect_CloseUsed(bcloseall);
-	hdssSETSTATE(tostate);
+	hdss.SetState(tostate);
 end
 
 function ControlExecute_cPlayerSelect(timer)

@@ -1,5 +1,5 @@
 function CEMatchSelect_Init()
-	hdssMUSICCHANGE(LConst_musicid_title);
+	hdss.MusicChange(LConst_musicid_title);
 end
 
 function CEMatchSelect_SetBG()
@@ -10,7 +10,7 @@ function CEMatchSelect_CloseUsed(selsysmatchid, selsyslatencyid, bbottom)
 end
 
 function CEMatchSelect_ExitState(tostate)
-	hdssSETSTATE(tostate);
+	hdss.SetState(tostate);
 end
 
 function ControlExecute_cMatchSelect(timer)

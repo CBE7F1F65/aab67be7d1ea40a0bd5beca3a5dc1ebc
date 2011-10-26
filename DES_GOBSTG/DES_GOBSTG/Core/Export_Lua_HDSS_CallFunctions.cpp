@@ -24,7 +24,7 @@ _HDSSCallGet::~_HDSSCallGet()
 
 int _HDSSCallGet::Call_SD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -37,7 +37,7 @@ int _HDSSCallGet::Call_SD(LuaState * ls)
 
 int _HDSSCallGet::Call_SDf(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -51,7 +51,7 @@ int _HDSSCallGet::Call_SDf(LuaState * ls)
 
 int _HDSSCallGet::Call_RETURN(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -63,7 +63,7 @@ int _HDSSCallGet::Call_RETURN(LuaState * ls)
 
 int _HDSSCallGet::Call_SETSTATE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -83,7 +83,7 @@ int _HDSSCallGet::Call_SETSTATE(LuaState * ls)
 
 int _HDSSCallGet::Call_SETTIME(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -94,7 +94,7 @@ int _HDSSCallGet::Call_SETTIME(LuaState * ls)
 
 int _HDSSCallGet::Call_CLEARALL(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		Process::mp.ClearAll();
@@ -104,7 +104,7 @@ int _HDSSCallGet::Call_CLEARALL(LuaState * ls)
 
 int _HDSSCallGet::Call_SETCHARA(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -139,7 +139,7 @@ int _HDSSCallGet::Call_SETCHARA(LuaState * ls)
 
 int _HDSSCallGet::Call_SETSCENE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -151,7 +151,7 @@ int _HDSSCallGet::Call_SETSCENE(LuaState * ls)
 
 int _HDSSCallGet::Call_SETAREA(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -163,7 +163,7 @@ int _HDSSCallGet::Call_SETAREA(LuaState * ls)
 
 int _HDSSCallGet::Call_STARTPREP(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -180,7 +180,7 @@ int _HDSSCallGet::Call_STARTPREP(LuaState * ls)
 
 int _HDSSCallGet::Call_SETKEY(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -200,7 +200,7 @@ int _HDSSCallGet::Call_SETKEY(LuaState * ls)
 
 int _HDSSCallGet::Call_DISABLEALLKEY(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -220,7 +220,7 @@ int _HDSSCallGet::Call_DISABLEALLKEY(LuaState * ls)
 
 int _HDSSCallGet::Call_SETPUSHEVENT(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -271,7 +271,7 @@ int _HDSSCallGet::Call_SETPUSHEVENT(LuaState * ls)
 
 int _HDSSCallGet::Call_UPDATEPUSHEVENT(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -291,7 +291,7 @@ int _HDSSCallGet::Call_UPDATEPUSHEVENT(LuaState * ls)
 
 int _HDSSCallGet::Call_STOPACTION(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -304,7 +304,7 @@ int _HDSSCallGet::Call_STOPACTION(LuaState * ls)
 
 int _HDSSCallGet::Call_SAVEREPLAY(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -342,7 +342,7 @@ int _HDSSCallGet::Call_SAVEREPLAY(LuaState * ls)
 
 int _HDSSCallGet::Call_MUSICCHANGE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		int _ID = -1;
@@ -366,7 +366,7 @@ int _HDSSCallGet::Call_MUSICCHANGE(LuaState * ls)
 
 int _HDSSCallGet::Call_MUSICSLIDE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		float _slidetime = _FNEXT_HDSS_LUAPARA;
@@ -396,7 +396,7 @@ int _HDSSCallGet::Call_MUSICSLIDE(LuaState * ls)
 
 int _HDSSCallGet::Call_SE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -415,7 +415,7 @@ int _HDSSCallGet::Call_SE(LuaState * ls)
 
 int _HDSSCallGet::Call_SEOFF(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -432,7 +432,7 @@ int _HDSSCallGet::Call_SEOFF(LuaState * ls)
 
 int _HDSSCallGet::Call_HSVTORGB(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -449,7 +449,7 @@ int _HDSSCallGet::Call_HSVTORGB(LuaState * ls)
 
 int _HDSSCallGet::Call_PRINT(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -511,7 +511,7 @@ int _HDSSCallGet::Call_PRINT(LuaState * ls)
 
 int _HDSSCallGet::Call_FRONTSPRITE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -578,7 +578,7 @@ int _HDSSCallGet::Call_FRONTSPRITE(LuaState * ls)
 
 int _HDSSCallGet::Call_FADEOUTFRONTSPRITE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -591,7 +591,7 @@ int _HDSSCallGet::Call_FADEOUTFRONTSPRITE(LuaState * ls)
 
 int _HDSSCallGet::Call_FREEFRONTSPRITE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -608,11 +608,10 @@ int _HDSSCallGet::Call_FREEFRONTSPRITE(LuaState * ls)
 
 int _HDSSCallGet::Call_ENBUILD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		WORD _eID = _INEXT_HDSS_LUAPARA;
-		_INEXT_HDSS_LUAPARA;
 		float _x = _FNEXT_HDSS_LUAPARA;
 		float _y = _FNEXT_HDSS_LUAPARA;
 		int _angle = _INEXT_HDSS_LUAPARA;
@@ -655,7 +654,7 @@ int _HDSSCallGet::Call_ENBUILD(LuaState * ls)
 
 int _HDSSCallGet::Call_ENACTIONSET(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -716,7 +715,7 @@ int _HDSSCallGet::Call_ENACTIONSET(LuaState * ls)
 
 int _HDSSCallGet::Call_ENSAIM(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -752,7 +751,7 @@ int _HDSSCallGet::Call_ENSAIM(LuaState * ls)
 
 int _HDSSCallGet::Call_ENTOI(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -765,7 +764,7 @@ int _HDSSCallGet::Call_ENTOI(LuaState * ls)
 
 int _HDSSCallGet::Call_ENAZBUILD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -793,7 +792,7 @@ int _HDSSCallGet::Call_ENAZBUILD(LuaState * ls)
 
 int _HDSSCallGet::Call_RAMA(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		bool _brma = _BNEXT_HDSS_LUAPARA;
@@ -828,7 +827,7 @@ int _HDSSCallGet::Call_RAMA(LuaState * ls)
 
 int _HDSSCallGet::Call_INTER(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		float _a = _FNEXT_HDSS_LUAPARA;
@@ -842,7 +841,7 @@ int _HDSSCallGet::Call_INTER(LuaState * ls)
 
 int _HDSSCallGet::Call_COLLISION_CIRCLE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		float _x = _FNEXT_HDSS_LUAPARA;
@@ -873,7 +872,7 @@ int _HDSSCallGet::Call_COLLISION_CIRCLE(LuaState * ls)
 
 int _HDSSCallGet::Call_EZONEBUILD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		DWORD _type = _INEXT_HDSS_LUAPARA;
@@ -945,7 +944,7 @@ int _HDSSCallGet::Call_EZONEBUILD(LuaState * ls)
 
 int _HDSSCallGet::Call_EFFSETUP(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		WORD _ID = _INEXT_HDSS_LUAPARA;
@@ -1012,7 +1011,7 @@ int _HDSSCallGet::Call_EFFSETUP(LuaState * ls)
 
 int _HDSSCallGet::Call_EFFMOVETO(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1043,7 +1042,7 @@ int _HDSSCallGet::Call_EFFMOVETO(LuaState * ls)
 
 int _HDSSCallGet::Call_SETPINITLIFE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1055,7 +1054,7 @@ int _HDSSCallGet::Call_SETPINITLIFE(LuaState * ls)
 
 int _HDSSCallGet::Call_ADDPNCHARGE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1077,11 +1076,9 @@ int _HDSSCallGet::Call_ADDPNCHARGE(LuaState * ls)
 
 int _HDSSCallGet::Call_SETPBINFI(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
-		_INEXT_HDSS_LUAPARA;
-
 		BYTE _reasonflag = _INEXT_HDSS_LUAPARA;
 		int _infitimer = PLAYER_INFIMAX;
 
@@ -1098,7 +1095,7 @@ int _HDSSCallGet::Call_SETPBINFI(LuaState * ls)
 
 int _HDSSCallGet::Call_BUBUILD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1138,7 +1135,7 @@ int _HDSSCallGet::Call_BUBUILD(LuaState * ls)
 
 int _HDSSCallGet::Call_BUACTIONSET(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1164,7 +1161,7 @@ int _HDSSCallGet::Call_BUACTIONSET(LuaState * ls)
 
 int _HDSSCallGet::Call_BUBUILDCIRCLE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1199,7 +1196,7 @@ int _HDSSCallGet::Call_BUBUILDCIRCLE(LuaState * ls)
 
 int _HDSSCallGet::Call_BUBUILDLINE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1238,7 +1235,7 @@ int _HDSSCallGet::Call_BUBUILDLINE(LuaState * ls)
 
 int _HDSSCallGet::Call_BUDECANCEL(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1257,7 +1254,7 @@ int _HDSSCallGet::Call_BUDECANCEL(LuaState * ls)
 
 int _HDSSCallGet::Call_BEBUILD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1311,7 +1308,7 @@ int _HDSSCallGet::Call_BEBUILD(LuaState * ls)
 
 int _HDSSCallGet::Call_BGVALUE(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1347,7 +1344,7 @@ int _HDSSCallGet::Call_BGVALUE(LuaState * ls)
 
 int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		_INEXT_HDSS_LUAPARA;
@@ -1472,7 +1469,7 @@ int _HDSSCallGet::Call_BGVALEX(LuaState * ls)
 
 int _HDSSCallGet::Call_BGFLAG(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1492,7 +1489,7 @@ int _HDSSCallGet::Call_BGFLAG(LuaState * ls)
 
 int _HDSSCallGet::Call_BGCOLOR(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1519,7 +1516,7 @@ int _HDSSCallGet::Call_BGCOLOR(LuaState * ls)
 
 int _HDSSCallGet::Call_BGBLEND(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1533,7 +1530,7 @@ int _HDSSCallGet::Call_BGBLEND(LuaState * ls)
 
 int _HDSSCallGet::Call_BGOFF(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1553,7 +1550,7 @@ int _HDSSCallGet::Call_BGOFF(LuaState * ls)
 
 int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1564,7 +1561,7 @@ int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 
 int _HDSSCallGet::Call_SELBUILD(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1738,7 +1735,7 @@ int _HDSSCallGet::Call_SELBUILD(LuaState * ls)
 
 int _HDSSCallGet::Call_SELCLEAR(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1750,7 +1747,7 @@ int _HDSSCallGet::Call_SELCLEAR(LuaState * ls)
 
 int _HDSSCallGet::Call_SELCONFIRM(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1806,7 +1803,7 @@ int _HDSSCallGet::Call_SELCONFIRM(LuaState * ls)
 
 int _HDSSCallGet::Call_SELSETUP(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 
 	if (true)
 	{
@@ -1888,7 +1885,7 @@ int _HDSSCallGet::Call_SELSETUP(LuaState * ls)
 
 int _HDSSCallGet::Call_SELSET(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		int _selsys = _INEXT_HDSS_LUAPARA;
@@ -1907,7 +1904,7 @@ int _HDSSCallGet::Call_SELSET(LuaState * ls)
 
 int _HDSSCallGet::Call_CHATON(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		BYTE _leftID = _INEXT_HDSS_LUAPARA;
@@ -1922,7 +1919,7 @@ int _HDSSCallGet::Call_CHATON(LuaState * ls)
 
 int _HDSSCallGet::Call_CHAT(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		BYTE _ID = _INEXT_HDSS_LUAPARA;
@@ -1937,7 +1934,7 @@ int _HDSSCallGet::Call_CHAT(LuaState * ls)
 
 int _HDSSCallGet::Call_CHATOFF(LuaState * ls)
 {
-	_ENTERCALL_HDSS_LUA;
+	__ENTERCALL_HDSS_LUA;
 	if (true)
 	{
 		Chat::chatitem.chatOff();

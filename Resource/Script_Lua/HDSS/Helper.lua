@@ -1,6 +1,6 @@
 
 function helper_GetNextEnemyRandom(playerindex)
-	local enemyrandom = hdss.Get(HDSS_D, LConst_Desc_EnemyRandom+playerindex);
+	local enemyrandom = hdss.GetDesc(LConst_Desc_EnemyRandom+playerindex);
 	local lastline = math.mod(enemyrandom, 16);
 	local nowline;
 	nowline, enemyrandom = RANDT(0, 15, enemyrandom);
@@ -30,13 +30,13 @@ function helper_GetNextEnemyRandom(playerindex)
 		end
 	end
 --	nowline = math.floor(nowline/100);
-	hdssSD(LConst_Desc_EnemyNowLine+playerindex, nowline);
+	hdss.SetDesc(LConst_Desc_EnemyNowLine+playerindex, nowline);
 	if nowline >= 4 and nowline < 8 then
-		hdssSD(LConst_Desc_EnemyNowLineNum+playerindex, 10);
+		hdss.SetDesc(LConst_Desc_EnemyNowLineNum+playerindex, 10);
 	else
-		hdssSD(LConst_Desc_EnemyNowLineNum+playerindex, 6);
+		hdss.SetDesc(LConst_Desc_EnemyNowLineNum+playerindex, 6);
 	end
-	hdssSD(LConst_Desc_EnemyRandom+playerindex, enemyrandom);
+	hdss.SetDesc(LConst_Desc_EnemyRandom+playerindex, enemyrandom);
 end
 
 helper_EnemyRandomRepulsion	=	

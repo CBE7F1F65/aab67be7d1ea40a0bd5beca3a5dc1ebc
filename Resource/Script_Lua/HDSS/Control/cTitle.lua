@@ -1,6 +1,6 @@
 function CETitle_Init()
 	game.FreeTexture();
-	hdssMUSICCHANGE(LConst_musicid_title);
+	hdss.ChangeMusic(LConst_musicid_title);
 end
 
 function CETitle_SetBG()
@@ -30,8 +30,7 @@ function CETitle_SetupSelect(selsysid)
 	for j, it in pairs(_siusetable) do
 		local i = j-1;
 		local y = ystart + i * yoffset;
-		hdss.Call(
-			HDSS_SELBUILD,
+		hdss.BuildSelect(
 			{
 				selsysid, i, it[1], x, y
 			},
@@ -39,20 +38,19 @@ function CETitle_SetupSelect(selsysid)
 		)
 	end
 	
-	hdss.Call(
-		HDSS_SELSETUP,
+	hdss.SetupSelect(
 		{
-			selsysid, 1, 0, 0, KSI_UP, KSI_DOWN, KSI_FIRE
+			selsysid, 1, 0, KSI_UP, KSI_DOWN, KSI_FIRE
 		}
 	)
 end
 
 function CETitle_ExitState(tostate)
-	hdssSETSTATE(tostate)
+	hdss.SetState(tostate)
 end
 
 function CETitle_DispatchSelect(selsysid)
-	local complete, select = hdss.Get(HDSS_SELCOMPLETE, selsysid);
+	local complete, select = hdss.CheckSelect(selsysid);
 	if complete then
 		CETitle_ExitState(STATE_MATCH_SELECT);
 	end

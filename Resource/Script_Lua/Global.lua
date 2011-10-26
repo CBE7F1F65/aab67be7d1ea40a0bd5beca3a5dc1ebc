@@ -10,13 +10,13 @@ function _DEBUG_NewRandomMatch()
 	for i=0, 1 do
 		randchara[i+1] = 0;
 		siid, randcharaname[i+1] = game.GetPlayerContentTable(randchara[i+1]);
-		hdssSETCHARA(i, randchara[i+1]);
-		hdssSETPINITLIFE(i, 10);
+		hdss.SetChara(randchara[i+1]);
+		hdss.SetPlayerInitData(10);
 	end
 	logstr = "NM :	"..randchara[1].."	"..randcharaname[1].."	"..randchara[2].."	"..randcharaname[2];
 	LOG(logstr);
-	hdssSETSCENE(0);
-	hdssSTARTPREP();
+	hdss.SetStage(0);
+	hdss.CallStartPrep();
 	_DEBUG_LGlobal_Jump = -1;
 	CETitle_ExitState(STATE_START);
 end
@@ -61,4 +61,12 @@ end
 function Math_Roll(x, t)
 	local modval = math.mod(x, 2*t);
 	return ((modval-math.mod(modval, t)) - Math_Sign(modval/t)) * math.mod(x, t);
+end
+
+function Math_ArcToAngle(a)
+	return math.floor(a * 5729.577951308232);
+end
+
+function Math_AngleToArc(a)
+	return a * 0.0001745329251994329;
 end

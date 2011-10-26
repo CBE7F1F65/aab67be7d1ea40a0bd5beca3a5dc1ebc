@@ -3,8 +3,8 @@ end
 
 function CEClear_ExitState(tostate)
 	CEClear_CloseUsed();
-	hdssSETSTATE(tostate);
-	hdssCLEARALL();
+	hdss.SetState(tostate);
+	hdss.ClearAll();
 end
 
 function ControlExecute_cClear(timer)

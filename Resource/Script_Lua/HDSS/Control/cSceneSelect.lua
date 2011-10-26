@@ -1,5 +1,5 @@
 function CESceneSelect_Init()
-	hdssMUSICCHANGE(LConst_musicid_title);
+	hdss.ChangeMusic(LConst_musicid_title);
 end
 
 function CESceneSelect_CloseUsed()
@@ -7,10 +7,10 @@ end
 
 function CESceneSelect_ExitState(tostate)
 	CESceneSelect_CloseUsed();
-	hdssSETSTATE(tostate);
+	hdss.SetState(tostate);
 	if tostate == STATE_START then
 		game.FreeTexture();
-		hdssSTARTPREP();
+		hdss.CallStartPrep();
 	end
 end
 

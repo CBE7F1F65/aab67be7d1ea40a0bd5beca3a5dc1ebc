@@ -1,5 +1,5 @@
 function CEReplay_Init()
-	hdssMUSICCHANGE(LConst_musicid_title);
+	hdss.ChangeMusic(LConst_musicid_title);
 end
 
 function CEReplay_SetBG()
@@ -10,7 +10,7 @@ end
 
 function CEReplay_ExitState(tostate)
 	CEReplay_CloseUsed();
-	hdssSETSTATE(tostate);
+	hdss.SetState(tostate);
 end
 
 function ControlExecute_cReplay(timer)
