@@ -183,7 +183,7 @@ public:
 	//indicator
 	BYTE	titleselect;
 	BYTE	state;
-	BYTE	scene;
+	BYTE	stage;
 	BYTE	area;
 
 	//Init

@@ -67,7 +67,7 @@ void Process::startPrep(bool callinit)
 
 	//set
 	Player::p.valueSet();
-	musicChange(BResource::bres.playerdata[scene].musicID);
+	musicChange(BResource::bres.playerdata[stage].musicID);
 
 	if(!replaymode)
 	{
@@ -110,6 +110,6 @@ void Process::startPrep(bool callinit)
 
 	if (callinit)
 	{
-		Scripter::scr.Execute(SCR_STAGE, SCRIPT_CON_POST, scene);
+		Scripter::scr.Execute(SCR_STAGE, SCRIPT_CON_POST, stage);
 	}
 }

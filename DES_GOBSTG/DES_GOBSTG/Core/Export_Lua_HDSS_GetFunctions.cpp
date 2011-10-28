@@ -66,7 +66,7 @@ int _HDSSCallGet::Get_SCENE(LuaState * ls)
 	_ENTERGET_HDSS_LUA;
 	if (true)
 	{
-		_PI_HDSS_LUA(Process::mp.scene);
+		_PI_HDSS_LUA(Process::mp.stage);
 		return 1;
 	}
 	return 0;

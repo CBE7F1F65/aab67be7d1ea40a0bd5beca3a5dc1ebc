@@ -296,9 +296,6 @@ void Data::getFile(BYTE type)
 	case DATA_AREADEFINE:
 		strcpy(nowfilename, RESDATASTR_TABLE_AREA);
 		break;
-	case DATA_BLANKMAPTILEDEFINE:
-		strcpy(nowfilename, RESDATASTR_TABLE_BLANKMAPTILE);
-		break;
 
 	case DATA_PACKAGETABLEDEFINE:
 		strcpy(nowfilename, RESDATASTR_TABLE_PACKAGE);
@@ -593,15 +590,6 @@ bool Data::GetAllTable()
 	{
 #ifdef __DEBUG_LOG
 		HGELOG("%s\nFailed in loading AreaDefineFile", HGELOG_ERRSTR);
-#endif // __DEBUG
-		return false;
-	}
-
-	//playerghost
-	if (!GetTableFile(DATA_BLANKMAPTILEDEFINE))
-	{
-#ifdef __DEBUG_LOG
-		HGELOG("%s\nFailed in loading BlankMapTileDefine", HGELOG_ERRSTR);
 #endif // __DEBUG
 		return false;
 	}

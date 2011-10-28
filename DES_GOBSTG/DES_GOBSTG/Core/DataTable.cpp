@@ -514,10 +514,11 @@ bool _DataTable::AreaDefineFile()
 		_CHECKEOF_DATATABLE;
 		areaData * item = &(BResource::bres.areadata[tindex]);
 
-		fscanf(file, "%d%d%d%d%d%d%d%d%d", 
+		fscanf(file, "%d%d%d%d%d%d%d%d%d%d", 
 			_SAVETINT,
 			&(item->texbegin),
 			&(item->begintile),
+			_SAVETINT,
 			_SAVETINT,
 			_SAVETINT,
 			&(item->ledge),
@@ -529,35 +530,9 @@ bool _DataTable::AreaDefineFile()
 		_INITTINT;
 
 		item->stage = _LOADTINT;
+		item->begintilex = _LOADTINT;
 		item->tilex = _LOADTINT;
 		item->tiley = _LOADTINT;
-	}
-
-	return true;
-}
-
-bool _DataTable::BlankMapTileDefineFile()
-{
-	ZeroMemory(BResource::bres.blankmaptiledata, RSIZE_BLANKMAPTILE);
-	_READSTRINGBUFFERLINE(5);
-	while (!feof(file))
-	{
-		_INITTINT;
-		_BREAKCOMMENTBUFFER;
-		fscanf(file, "%d", &tindex);
-		_CHECKEOF_DATATABLE;
-		blankMapTileData * item = &(BResource::bres.blankmaptiledata[tindex]);
-
-		fscanf(file, "%d%d%d", 
-			_SAVETINT,
-			_SAVETINT,
-			&(item->texnumber));
-
-		_DOSWAPTINT;
-		_INITTINT;
-
-		item->area = _LOADTINT;
-		item->texoffset = _LOADTINT;
 	}
 
 	return true;
@@ -655,9 +630,6 @@ bool Data::GetTableFile(BYTE type)
 
 	case DATA_AREADEFINE:
 		_DataTable::datatable.AreaDefineFile();
-		break;
-	case DATA_BLANKMAPTILEDEFINE:
-		_DataTable::datatable.BlankMapTileDefineFile();
 		break;
 	}
 	fclose(file);

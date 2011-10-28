@@ -1554,7 +1554,7 @@ int _HDSSCallGet::Call_BGSETUP(LuaState * ls)
 
 	if (true)
 	{
-		BGLayer::bglayer.BGLayerSetup();
+		BGLayer::bglayer.BGLayerSetup(0);
 	}
 	return 0;
 }

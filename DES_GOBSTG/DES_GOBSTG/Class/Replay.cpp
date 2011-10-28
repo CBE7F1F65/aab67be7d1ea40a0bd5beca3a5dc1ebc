@@ -108,7 +108,7 @@ void Replay::Fill()
 	rpyinfo.usingchara = Player::p.ID;
 	rpyinfo.initlife = Player::p.initlife;
 
-	rpyinfo.scene = Process::mp.scene;
+	rpyinfo.scene = Process::mp.stage;
 	rpyinfo.alltime = Process::mp.alltime;
 	rpyinfo.year = wYear;
 	rpyinfo.month = wMonth;

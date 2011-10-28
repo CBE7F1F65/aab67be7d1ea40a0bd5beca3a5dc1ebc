@@ -90,7 +90,7 @@ _HDSSFUNC_REGISTER(GetStage)
 {
 	_ENTERFUNC_LUA(0);
 
-	int index = Process::mp.scene;
+	int index = Process::mp.stage;
 	node.PInt(index);
 
 	_LEAVEFUNC_LUA;
@@ -113,9 +113,10 @@ _HDSSFUNC_REGISTER(CallStartPrep)
 
 _HDSSFUNC_REGISTER(SetupBG)
 {
-	_ENTERFUNC_LUA(0);
+	_ENTERFUNC_LUA(1);
 
-	BGLayer::bglayer.BGLayerSetup();
+	float begincenx = node.fNextGet();
+	BGLayer::bglayer.BGLayerSetup(begincenx);
 
 	_LEAVEFUNC_LUA;
 }

@@ -76,7 +76,6 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 		RSIZE_PLAYERSHOOT + 
 		RSIZE_PLAYERGHOST + 
 		RSIZE_AREA + 
-		RSIZE_BLANKMAPTILE + 
 		RSIZE_SPRITENUMBER +
 		RSIZE_SPRITE;
 	BYTE * content = (BYTE *)malloc(size);
@@ -130,8 +129,6 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 	offset += RSIZE_PLAYERGHOST;
 	memcpy(content+offset, areadata, RSIZE_AREA);
 	offset += RSIZE_AREA;
-	memcpy(content+offset, blankmaptiledata, RSIZE_BLANKMAPTILE);
-	offset += RSIZE_BLANKMAPTILE;
 
 	memcpy(content+offset, &spritenumber, RSIZE_SPRITENUMBER);
 	offset += RSIZE_SPRITENUMBER;
@@ -201,8 +198,6 @@ bool BResource::Gain(void * pStrdesc, void * pCustomConstData)
 			offset += RSIZE_PLAYERGHOST;
 			memcpy(areadata, content+offset, RSIZE_AREA);
 			offset += RSIZE_AREA;
-			memcpy(blankmaptiledata, content+offset, RSIZE_BLANKMAPTILE);
-			offset += RSIZE_BLANKMAPTILE;
 
 			memcpy(&spritenumber, content+offset, RSIZE_SPRITENUMBER);
 			offset += RSIZE_SPRITENUMBER;

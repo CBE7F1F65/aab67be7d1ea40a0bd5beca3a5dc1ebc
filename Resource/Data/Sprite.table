@@ -833,11 +833,23 @@ Comment	Index	SI_Name	Tex	Tex_x	Tex_y	Tex_w	Tex_h
 -	2023	SI_Player_Reimu_65	10	288	80	32	40
 -	2024	SI_Player_Reimu_66	10	320	80	32	40
 -	2025	SI_Player_Reimu_67	10	352	80	32	40
-#		Scene(3600~3799)					
--	3600	SI_Scene_00_1	560	0	0	-1	-1
--	3601	SI_Scene_00_2	561	256	0	228	228
--	3602	SI_Scene_00_3	561	0	256	288	256
--	3603	SI_Scene_00_4	561	496	0	16	512
+#		MapNull(3600~3799)					
+-	3600	SI_MapNull_0	580	0	0	0	0
+-	3601	SI_MapNull_1	581	0	0	0	0
+-	3602	SI_MapNull_2	582	0	0	0	0
+-	3603	SI_MapNull_3	583	0	0	0	0
+-	3604	SI_MapNull_4	584	0	0	0	0
+-	3605	SI_MapNull_5	585	0	0	0	0
+-	3606	SI_MapNull_6	586	0	0	0	0
+-	3607	SI_MapNull_7	587	0	0	0	0
+-	3608	SI_MapNull_8	588	0	0	0	0
+-	3609	SI_MapNull_9	589	0	0	0	0
+-	3610	SI_MapNull_10	590	0	0	0	0
+-	3611	SI_MapNull_11	591	0	0	0	0
+-	3612	SI_MapNull_12	592	0	0	0	0
+-	3613	SI_MapNull_13	593	0	0	0	0
+-	3614	SI_MapNull_14	594	0	0	0	0
+-	3615	SI_MapNull_15	595	0	0	0	0
 #		Spell(3800~3999)					
 -	3800	SI_Spell_00_1	660	0	0	-1	-1
 -	3801	SI_Spell_00_2	661	0	0	-1	-1

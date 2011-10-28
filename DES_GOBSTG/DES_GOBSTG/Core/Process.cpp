@@ -588,7 +588,7 @@ void Process::SetState(int _state, int _time /* = 0 */)
 
 void Process::SetScene(BYTE _scene)
 {
-	scene = _scene;
+	stage = _scene;
 }
 
 void Process::SetArea(BYTE _area)

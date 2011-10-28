@@ -18,7 +18,6 @@
 #define RSIZE_PLAYERSHOOT	(sizeof(playershootData) * DATASTRUCT_PLAYERSHOOTTYPEMAX)
 #define RSIZE_PLAYERGHOST	(sizeof(playerghostData) * DATASTRUCT_PLAYERGHOSTTYPEMAX)
 #define RSIZE_AREA			(sizeof(areaData) * DATASTRUCT_AREAMAX)
-#define RSIZE_BLANKMAPTILE	(sizeof(blankMapTileData) * DATASTRUCT_BLANKMAPTILEMAX)
 
 class BResource
 {
@@ -60,7 +59,6 @@ public:
 	customconstData * customconstdata;
 	textureData texturedata[DATASTRUCT_TEXMAX];
 	areaData areadata[DATASTRUCT_AREAMAX];
-	blankMapTileData blankmaptiledata[DATASTRUCT_BLANKMAPTILEMAX];
 
 	//texture
 	HTEXTURE	tex[DATASTRUCT_TEXMAX];

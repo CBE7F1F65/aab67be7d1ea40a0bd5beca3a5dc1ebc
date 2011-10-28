@@ -24,7 +24,7 @@
 #define DATASTRUCT_FONTSYSMAX			0x40
 #define DATASTRUCT_STRINGDESCMAX		0x400
 #define DATASTRUCT_STAGEMAX				12
-#define DATASTRUCT_STAGEAREAMAX			4
+#define DATASTRUCT_STAGEAREAMAX			6
 #define DATASTRUCT_AREAMAX				(DATASTRUCT_STAGEMAX * DATASTRUCT_STAGEAREAMAX)
 #define DATASTRUCT_AREABLANKMAPTILEMAX	0x10
 #define DATASTRUCT_BLANKMAPTILEMAX		(DATASTRUCT_AREABLANKMAPTILEMAX * DATASTRUCT_AREAMAX)
@@ -224,6 +224,7 @@ struct playerghostData
 struct areaData
 {
 	BYTE stage;
+	BYTE begintilex;
 	BYTE tilex;
 	BYTE tiley;
 	int texbegin;
@@ -236,7 +237,7 @@ struct areaData
 
 struct blankMapTileData
 {
-	BYTE area;
+	BYTE stage;
 	BYTE texoffset;
 	int texnumber;
 };
