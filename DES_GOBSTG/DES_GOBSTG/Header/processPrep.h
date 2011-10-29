@@ -16,6 +16,7 @@
 #include "Bullet.h"
 #include "Enemy.h"
 #include "PlayerBullet.h"
+#include "PlayerLaser.h"
 #include "PlayerGhost.h"
 #include "Item.h"
 #include "Beam.h"

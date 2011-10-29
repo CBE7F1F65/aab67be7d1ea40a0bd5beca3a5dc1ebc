@@ -1,8 +1,5 @@
 #include "../Header/Process.h"
 #include "../Header/Scripter.h"
-#include "../Header/SE.h"
-#include "../Header/BResource.h"
-#include "../Header/PushKey.h"
 
 int Process::processMusic()
 {

@@ -121,6 +121,35 @@ _HDSSFUNC_REGISTER(SetupBG)
 	_LEAVEFUNC_LUA;
 }
 
+_HDSSFUNC_REGISTER(GetMapSpeedInfo)
+{
+	_ENTERFUNC_LUA(0);
+
+	node.PFloat(BGLayer::bglayer.mapcenx);
+	node.PFloat(BGLayer::bglayer.mapceny);
+	node.PFloat(BGLayer::bglayer.xspeed);
+	node.PFloat(BGLayer::bglayer.yspeed);
+	node.PFloat(BGLayer::bglayer.mapxoffset);
+
+	_LEAVEFUNC_LUA;
+}
+_HDSSFUNC_REGISTER(SetMapSpeedInfo)
+{
+	_ENTERFUNC_LUA(2);
+
+	float xspeed = node.fNextGet();
+	float yspeed = node.fNextGet();
+	float mapxoffset = BGLayer::bglayer.mapxoffset;
+	node.jNextGet();
+	if (node.bhavenext)
+	{
+		mapxoffset = node.fGet();
+	}
+	BGLayer::bglayer.SetMapSpeedInfo(xspeed, yspeed, mapxoffset);
+
+	_LEAVEFUNC_LUA;
+}
+
 _HDSSFUNC_REGISTER(BuildSelect)
 {
 	_ENTERFUNC_LUA(1);

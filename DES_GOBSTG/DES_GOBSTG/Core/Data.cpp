@@ -290,10 +290,13 @@ void Data::getFile(BYTE type)
 	case DATA_PLAYERSHOOTDEFINE:
 		strcpy(nowfilename, RESDATASTR_TABLE_PLAYERSHOOT);
 		break;
-	case DATA_PLAYERGHOSTDEFINE:
+	case DATA_PLAYERLASERDEFINE:
+		strcpy(nowfilename, RESDATASTR_TABLE_PLAYERLASER);
+		break;
+	case DATA_PLAYERSUBDEFINE:
 		strcpy(nowfilename, RESDATASTR_TABLE_PLAYERSUB);
 		break;
-	case DATA_AREADEFINE:
+	case DATA_STAGEAREADEFINE:
 		strcpy(nowfilename, RESDATASTR_TABLE_AREA);
 		break;
 
@@ -576,8 +579,17 @@ bool Data::GetAllTable()
 		return false;
 	}
 
+	//playerlaser
+	if (!GetTableFile(DATA_PLAYERLASERDEFINE))
+	{
+#ifdef __DEBUG_LOG
+		HGELOG("%s\nFailed in loading PlayerLaserDefineFile", HGELOG_ERRSTR);
+#endif // __DEBUG
+		return false;
+	}
+
 	//playerghost
-	if (!GetTableFile(DATA_PLAYERGHOSTDEFINE))
+	if (!GetTableFile(DATA_PLAYERSUBDEFINE))
 	{
 #ifdef __DEBUG_LOG
 		HGELOG("%s\nFailed in loading PlayerSubDefineFile", HGELOG_ERRSTR);
@@ -586,7 +598,7 @@ bool Data::GetAllTable()
 	}
 
 	//area
-	if (!GetTableFile(DATA_AREADEFINE))
+	if (!GetTableFile(DATA_STAGEAREADEFINE))
 	{
 #ifdef __DEBUG_LOG
 		HGELOG("%s\nFailed in loading AreaDefineFile", HGELOG_ERRSTR);

@@ -50,6 +50,9 @@ public:
 	_HDSSFUNC_REGISTER(CallStartPrep);
 	_HDSSFUNC_REGISTER(SetupBG);
 
+	_HDSSFUNC_REGISTER(GetMapSpeedInfo);
+	_HDSSFUNC_REGISTER(SetMapSpeedInfo);
+
 	_HDSSFUNC_REGISTER(BuildSelect);
 	_HDSSFUNC_REGISTER(BuildSelectConfirm);
 	_HDSSFUNC_REGISTER(SetupSelect);
@@ -100,6 +103,9 @@ public:
 
 		_HDSSFUNC_REGISTER(CallStartPrep);
 		_HDSSFUNC_REGISTER(SetupBG);
+
+		_HDSSFUNC_REGISTER(GetMapSpeedInfo);
+		_HDSSFUNC_REGISTER(SetMapSpeedInfo);
 
 		_HDSSFUNC_REGISTER(BuildSelect);
 		_HDSSFUNC_REGISTER(BuildSelectConfirm);

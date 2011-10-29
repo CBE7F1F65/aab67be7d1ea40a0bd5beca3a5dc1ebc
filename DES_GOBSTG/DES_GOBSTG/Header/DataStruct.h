@@ -17,17 +17,14 @@
 #define DATASTRUCT_PLAYERSHOOTTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX * (DATASTRUCT_PLAYERGHOSTMAX + 2))
 #define DATASTRUCT_PLAYERGHOSTTYPEMAX	(DATASTRUCT_PLAYERGHOSTMAX * DATASTRUCT_PLAYERTYPEMAX * 2)
 #define DATASTRUCT_PLAYERLASERTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX)
-#define DATASTRUCT_PLAYERLASERTYPE		4
 #define DATASTRUCT_PLAYERBULLETTYPE		4
 #define DATASTRUCT_PACKAGEMAX			0x20
 #define DATASTRUCT_SEMAX				0x80
 #define DATASTRUCT_FONTSYSMAX			0x40
 #define DATASTRUCT_STRINGDESCMAX		0x400
 #define DATASTRUCT_STAGEMAX				12
-#define DATASTRUCT_STAGEAREAMAX			6
-#define DATASTRUCT_AREAMAX				(DATASTRUCT_STAGEMAX * DATASTRUCT_STAGEAREAMAX)
-#define DATASTRUCT_AREABLANKMAPTILEMAX	0x10
-#define DATASTRUCT_BLANKMAPTILEMAX		(DATASTRUCT_AREABLANKMAPTILEMAX * DATASTRUCT_AREAMAX)
+#define DATASTRUCT_AREAPERSTAGEMAX		6
+#define DATASTRUCT_STAGEAREAMAX				(DATASTRUCT_STAGEMAX * DATASTRUCT_AREAPERSTAGEMAX)
 
 struct customconstData{
 	char name[M_STRKEYMAX];
@@ -207,7 +204,19 @@ struct playershootData
 	BYTE arrange;
 };
 
-struct playerghostData 
+struct playerlaserData
+{
+	int siid;
+	float width;
+	float protectwidth;
+	float protectheight;
+	float power;
+	float protectpowermul;
+	BYTE userID;
+	BYTE seID;
+};
+
+struct playersubData 
 {
 	int siid;
 	int shootangle;
@@ -221,7 +230,7 @@ struct playerghostData
 	BYTE blend;
 };
 
-struct areaData
+struct stageareaData
 {
 	BYTE stage;
 	BYTE begintilex;

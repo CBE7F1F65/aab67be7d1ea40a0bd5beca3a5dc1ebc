@@ -1,15 +1,15 @@
-#include "../header/PlayerBullet.h"
-#include "../header/Player.h"
-#include "../header/Enemy.h"
-#include "../header/SE.h"
-#include "../header/Main.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/FrontDisplayName.h"
-#include "../header/BResource.h"
-#include "../header/Export.h"
-#include "../header/EventZone.h"
-#include "../header/ProcessDefine.h"
-#include "../header/Process.h"
+#include "../Header/PlayerBullet.h"
+#include "../Header/Player.h"
+#include "../Header/Enemy.h"
+#include "../Header/SE.h"
+#include "../Header/Main.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/FrontDisplayName.h"
+#include "../Header/BResource.h"
+#include "../Header/Export.h"
+#include "../Header/EventZone.h"
+#include "../Header/ProcessDefine.h"
+#include "../Header/Process.h"
 
 VectorList<PlayerBullet> PlayerBullet::pb;
 
@@ -704,7 +704,7 @@ bool PlayerBullet::CheckShoot(Enemy * en, float aimx, float aimy, float aimw, fl
 //					totalpower += (*pb).power;
 					if (en->CostLife((*pb).power))
 					{
-						Player::p.DoPlayerBulletHit((*pb).hitonfactor);
+						Player::p.DoPlayerBulletKill((*pb).hitonfactor);
 						if ((*pb).hitonfactor >= 0)
 						{
 							en->ForceActive();

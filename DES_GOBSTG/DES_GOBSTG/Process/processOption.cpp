@@ -1,11 +1,5 @@
 #include "../Header/Process.h"
 #include "../Header/Scripter.h"
-#include "../Header/SelectSystem.h"
-#include "../Header/SpriteItemManager.h"
-#include "../Header/FrontDisplayName.h"
-#include "../Header/SE.h"
-#include "../Header/PushKey.h"
-#include "../Header/ConstResource.h"
 
 int Process::processOption()
 {

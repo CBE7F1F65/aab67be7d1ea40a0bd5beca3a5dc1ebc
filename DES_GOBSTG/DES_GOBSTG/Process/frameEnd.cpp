@@ -42,6 +42,7 @@ void Process::frameEnd()
 		EffectSp::Action();
 		Beam::Action();
 		PlayerBullet::Action();
+		PlayerLaser::Action();
 		Item::Action();
 		EventZone::Action();
 

@@ -1,14 +1,5 @@
 #include "../Header/Process.h"
-#include "../Header/BGLayer.h"
-#include "../Header/SE.h"
-#include "../Header/SelectSystem.h"
 #include "../Header/Scripter.h"
-#include "../Header/FrontDisplay.h"
-#include "../Header/BResource.h"
-#include "../Header/Data.h"
-#include "../Header/BossInfo.h"
-#include "../Header/Enemy.h"
-#include "../Header/ConstResource.h"
 
 int Process::processMatchSelect()
 {

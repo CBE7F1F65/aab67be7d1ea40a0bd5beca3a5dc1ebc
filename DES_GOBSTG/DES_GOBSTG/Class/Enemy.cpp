@@ -1,17 +1,18 @@
-#include "../header/Enemy.h"
-#include "../header/Player.h"
-#include "../header/SE.h"
-#include "../header/Item.h"
-#include "../header/Scripter.h"
-#include "../header/Chat.h"
-#include "../header/BossInfo.h"
-#include "../header/Process.h"
-#include "../header/BResource.h"
-#include "../header/FrontDisplay.h"
-#include "../header/EffectIDDefine.h"
-#include "../header/EventZone.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/GameAI.h"
+#include "../Header/Enemy.h"
+#include "../Header/Player.h"
+#include "../Header/SE.h"
+#include "../Header/Item.h"
+#include "../Header/Scripter.h"
+#include "../Header/Chat.h"
+#include "../Header/BossInfo.h"
+#include "../Header/Process.h"
+#include "../Header/BResource.h"
+#include "../Header/FrontDisplay.h"
+#include "../Header/EffectIDDefine.h"
+#include "../Header/EventZone.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/GameAI.h"
+#include "../Header/PlayerLaser.h"
 
 #define _DAMAGEZONEMAX	0x10
 
@@ -984,6 +985,7 @@ void Enemy::DoShot()
 	if (life >= 0 && (flag & ENEMYFLAG_PBSHOTABLE))
 	{
 		PlayerBullet::CheckShoot(this, x, y ,tw, th);
+		PlayerLaser::CheckShoot(this, x, y, tw, th);
 		/*
 		if (life < 0)
 		{

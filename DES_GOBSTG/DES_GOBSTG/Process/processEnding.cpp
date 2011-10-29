@@ -1,10 +1,4 @@
 #include "../Header/Process.h"
-#include "../Header/BGLayer.h"
-#include "../Header/Player.h"
-#include "../Header/Scripter.h"
-#include "../Header/Data.h"
-#include "../Header/SelectSystem.h"
-#include "../Header/FrontDisplay.h"
 
 int Process::processEnding()
 {

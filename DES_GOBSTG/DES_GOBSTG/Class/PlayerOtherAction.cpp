@@ -1,13 +1,13 @@
-#include "../header/Player.h"
-#include "../header/PlayerBullet.h"
-#include "../header/SE.h"
-#include "../header/Enemy.h"
-#include "../header/Chat.h"
-#include "../header/Process.h"
-#include "../header/BResource.h"
-#include "../header/SpriteItemManager.h"
+#include "../Header/Player.h"
+#include "../Header/PlayerBullet.h"
+#include "../Header/SE.h"
+#include "../Header/Enemy.h"
+#include "../Header/Chat.h"
+#include "../Header/Process.h"
+#include "../Header/BResource.h"
+#include "../Header/SpriteItemManager.h"
 
-#include "../header/GameAI.h"
+#include "../Header/GameAI.h"
 
 #define _PLAYER_ANIMATIONSPEED	4
 

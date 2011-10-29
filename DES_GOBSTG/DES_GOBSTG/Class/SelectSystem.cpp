@@ -1,11 +1,11 @@
-#include "../header/SelectSystem.h"
-#include "../header/Main.h"
-#include "../header/Process.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/PushKey.h"
-#include "../header/SE.h"
-#include "../header/PushKey.h"
-#include "../header/GameInput.h"
+#include "../Header/SelectSystem.h"
+#include "../Header/Main.h"
+#include "../Header/Process.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/PushKey.h"
+#include "../Header/SE.h"
+#include "../Header/PushKey.h"
+#include "../Header/GameInput.h"
 
 SelectSystem SelectSystem::selsys[SELSYSTEMMAX];
 

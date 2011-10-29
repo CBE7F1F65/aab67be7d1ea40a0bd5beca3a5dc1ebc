@@ -51,6 +51,7 @@ public:
 	{
 		return checkCollisionRect(aimx, aimy, rectPrep, rectParal, cost(angle), sint(angle), rOri);
 	};
+	bool checkCollisionRightRect(float aimx, float aimy, float length, float height, float lOri, float hOri);
 	bool checkCollisionRightAngled(float aimx, float aimy, float rightPrep, float rightParal, float rotCos = 0, float rotSin = 1, float rOri = 0);
 	bool checkCollisionRightAngled(float aimx, float aimy, float rightPrep, float rightParal, int angle=9000, float rOri=0)
 	{

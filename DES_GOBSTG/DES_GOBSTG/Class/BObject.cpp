@@ -1,4 +1,4 @@
-#include "../header/BObject.h"
+#include "../Header/BObject.h"
 
 BObject BObject::bobj;
 float BObject::newx=0;
@@ -127,6 +127,24 @@ bool BObject::checkCollisionRect(float aimx, float aimy, float rectPrep, float r
 	newy = (float)((rotCos*(aimx-x)+rotSin*(aimy-y)));
 
 	if (fabsf(newx) <= rectPrep+rOri && fabsf(newy) <= rectParal+rOri)
+	{
+		return true;
+	}
+
+	return false;
+}
+
+bool BObject::checkCollisionRightRect(float aimx, float aimy, float length, float height, float lOri, float hOri)
+{
+	if (!height)
+	{
+		height = length;
+	}
+	if (!hOri)
+	{
+		hOri = lOri;
+	}
+	if (fabsf(x - aimx) <= length+lOri && fabsf(y - aimy) <= height+hOri)
 	{
 		return true;
 	}

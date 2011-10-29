@@ -1,11 +1,11 @@
-#include "../header/Replay.h"
-#include "../header/Process.h"
-#include "../header/Player.h"
-#include "../header/Data.h"
-#include "../header/BResource.h"
-#include "../header/Player.h"
-#include "../header/SE.h"
-#include "../header/ConstResource.h"
+#include "../Header/Replay.h"
+#include "../Header/Process.h"
+#include "../Header/Player.h"
+#include "../Header/Data.h"
+#include "../Header/BResource.h"
+#include "../Header/Player.h"
+#include "../Header/SE.h"
+#include "../Header/ConstResource.h"
 
 list<_ReplayNameListItem> Replay::_rpyfilenamelist;
 

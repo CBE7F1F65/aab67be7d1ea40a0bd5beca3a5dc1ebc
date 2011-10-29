@@ -1,10 +1,10 @@
-#include "../header/PlayerGhost.h"
-#include "../header/Player.h"
-#include "../header/Main.h"
-#include "../header/Process.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/BResource.h"
-#include "../header/GameInput.h"
+#include "../Header/PlayerGhost.h"
+#include "../Header/Player.h"
+#include "../Header/Main.h"
+#include "../Header/Process.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/BResource.h"
+#include "../Header/GameInput.h"
 
 #define _PLAYERGHOST_ADJUSTTIME	0x10
 #define _PLAYERGHOST_LASTINDEX	0
@@ -36,7 +36,7 @@ void PlayerGhost::valueSet(WORD _ID, bool move)
 	lastchasing	=	false;
 	active = true;
 
-	playerghostData * _pgd = &(BResource::bres.playerghostdata[ID]);
+	playersubData * _pgd = &(BResource::bres.playersubdata[ID]);
 
 	if (_pgd->siid)
 	{
@@ -179,7 +179,7 @@ void PlayerGhost::action()
 
 	DWORD ownertimer = Player::p.timer;
 
-	playerghostData * _pgd = &(BResource::bres.playerghostdata[ID]);
+	playersubData * _pgd = &(BResource::bres.playersubdata[ID]);
 
 	if (flag & PGFLAG_TRACE)
 	{

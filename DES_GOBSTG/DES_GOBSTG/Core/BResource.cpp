@@ -74,8 +74,8 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 		RSIZE_PLAYER + 
 //		RSIZE_SPRITE + 
 		RSIZE_PLAYERSHOOT + 
-		RSIZE_PLAYERGHOST + 
-		RSIZE_AREA + 
+		RSIZE_PLAYERSUB + 
+		RSIZE_STAGEAREA + 
 		RSIZE_SPRITENUMBER +
 		RSIZE_SPRITE;
 	BYTE * content = (BYTE *)malloc(size);
@@ -122,13 +122,15 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 	memcpy(content+offset, playerdata, RSIZE_PLAYER);
 	offset += RSIZE_PLAYER;
 //	memcpy(content+offset, spritedata, RSIZE_SPRITE);
-//	offset += RSIZE_SPRITE;
+	//	offset += RSIZE_SPRITE;
 	memcpy(content+offset, playershootdata, RSIZE_PLAYERSHOOT);
 	offset += RSIZE_PLAYERSHOOT;
-	memcpy(content+offset, playerghostdata, RSIZE_PLAYERGHOST);
-	offset += RSIZE_PLAYERGHOST;
-	memcpy(content+offset, areadata, RSIZE_AREA);
-	offset += RSIZE_AREA;
+	memcpy(content+offset, playerlaserdata, RSIZE_PLAYERLASER);
+	offset += RSIZE_PLAYERLASER;
+	memcpy(content+offset, playersubdata, RSIZE_PLAYERSUB);
+	offset += RSIZE_PLAYERSUB;
+	memcpy(content+offset, stageareadata, RSIZE_STAGEAREA);
+	offset += RSIZE_STAGEAREA;
 
 	memcpy(content+offset, &spritenumber, RSIZE_SPRITENUMBER);
 	offset += RSIZE_SPRITENUMBER;
@@ -194,10 +196,12 @@ bool BResource::Gain(void * pStrdesc, void * pCustomConstData)
 //			offset += RSIZE_SPRITE;
 			memcpy(playershootdata, content+offset, RSIZE_PLAYERSHOOT);
 			offset += RSIZE_PLAYERSHOOT;
-			memcpy(playerghostdata, content+offset, RSIZE_PLAYERGHOST);
-			offset += RSIZE_PLAYERGHOST;
-			memcpy(areadata, content+offset, RSIZE_AREA);
-			offset += RSIZE_AREA;
+			memcpy(playerlaserdata, content+offset, RSIZE_PLAYERLASER);
+			offset += RSIZE_PLAYERLASER;
+			memcpy(playersubdata, content+offset, RSIZE_PLAYERSUB);
+			offset += RSIZE_PLAYERSUB;
+			memcpy(stageareadata, content+offset, RSIZE_STAGEAREA);
+			offset += RSIZE_STAGEAREA;
 
 			memcpy(&spritenumber, content+offset, RSIZE_SPRITENUMBER);
 			offset += RSIZE_SPRITENUMBER;

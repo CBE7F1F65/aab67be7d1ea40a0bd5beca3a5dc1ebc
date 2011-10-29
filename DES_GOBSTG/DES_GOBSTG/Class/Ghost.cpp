@@ -1,17 +1,17 @@
 /*
 
-#include "../header/Ghost.h"
-#include "../header/Player.h"
-#include "../header/Enemy.h"
-#include "../header/Item.h"
-#include "../header/SE.h"
-#include "../header/Bullet.h"
-#include "../header/Scripter.h"
-#include "../header/Chat.h"
-#include "../header/BossInfo.h"
-#include "../header/Main.h"
-#include "../header/EffectIDDefine.h"
-#include "../header/EventZone.h"
+#include "../Header/Ghost.h"
+#include "../Header/Player.h"
+#include "../Header/Enemy.h"
+#include "../Header/Item.h"
+#include "../Header/SE.h"
+#include "../Header/Bullet.h"
+#include "../Header/Scripter.h"
+#include "../Header/Chat.h"
+#include "../Header/BossInfo.h"
+#include "../Header/Main.h"
+#include "../Header/EffectIDDefine.h"
+#include "../Header/EventZone.h"
 
 Ghost Ghost::gh[GHOSTMAX];
 

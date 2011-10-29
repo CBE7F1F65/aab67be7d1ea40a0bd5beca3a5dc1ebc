@@ -12,6 +12,7 @@ void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 		EventZone::RenderAll();
 		Enemy::RenderAll();
 		PlayerBullet::RenderAll();
+		PlayerLaser::RenderAll();
 		Player::RenderAll();
 		Effectsys::RenderAll();
 		Beam::RenderAll();

@@ -16,8 +16,9 @@
 #define RSIZE_SPRITE		(sizeof(spriteData) * spritenumber)
 #define RSIZE_SPRITENUMBER	(sizeof(int))
 #define RSIZE_PLAYERSHOOT	(sizeof(playershootData) * DATASTRUCT_PLAYERSHOOTTYPEMAX)
-#define RSIZE_PLAYERGHOST	(sizeof(playerghostData) * DATASTRUCT_PLAYERGHOSTTYPEMAX)
-#define RSIZE_AREA			(sizeof(areaData) * DATASTRUCT_AREAMAX)
+#define RSIZE_PLAYERLASER	(sizeof(playerlaserData) * DATASTRUCT_PLAYERLASERTYPEMAX)
+#define RSIZE_PLAYERSUB		(sizeof(playersubData) * DATASTRUCT_PLAYERGHOSTTYPEMAX)
+#define RSIZE_STAGEAREA		(sizeof(stageareaData) * DATASTRUCT_STAGEAREAMAX)
 
 class BResource
 {
@@ -55,10 +56,11 @@ public:
 	spriteData * spritedata;
 	int spritenumber;
 	playershootData playershootdata[DATASTRUCT_PLAYERSHOOTTYPEMAX];
-	playerghostData playerghostdata[DATASTRUCT_PLAYERGHOSTTYPEMAX];
+	playerlaserData playerlaserdata[DATASTRUCT_PLAYERLASERTYPEMAX];
+	playersubData playersubdata[DATASTRUCT_PLAYERGHOSTTYPEMAX];
 	customconstData * customconstdata;
 	textureData texturedata[DATASTRUCT_TEXMAX];
-	areaData areadata[DATASTRUCT_AREAMAX];
+	stageareaData stageareadata[DATASTRUCT_STAGEAREAMAX];
 
 	//texture
 	HTEXTURE	tex[DATASTRUCT_TEXMAX];

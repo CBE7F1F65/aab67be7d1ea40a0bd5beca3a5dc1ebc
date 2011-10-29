@@ -19,8 +19,9 @@ public:
 	bool PlayerDefineFile();
 	bool SpriteDefineFile();
 	bool PlayerShootDefineFile();
+	bool PlayerLaserDefineFile();
 	bool PlayerSubDefineFile();
-	bool AreaDefineFile();
+	bool StageareaDefineFile();
 
 	bool ReadStringBuffer(int nCol);
 	bool CommentBuffer();

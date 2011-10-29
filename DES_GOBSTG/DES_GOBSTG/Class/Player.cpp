@@ -1,26 +1,27 @@
-#include "../header/Player.h"
+#include "../Header/Player.h"
 
-#include "../header/Process.h"
-#include "../header/BGLayer.h"
-#include "../header/SE.h"
+#include "../Header/Process.h"
+#include "../Header/BGLayer.h"
+#include "../Header/SE.h"
 
-#include "../header/PlayerBullet.h"
-#include "../header/Item.h"
-#include "../header/Enemy.h"
-#include "../header/Bullet.h"
-#include "../header/Chat.h"
-#include "../header/BossInfo.h"
-#include "../header/EffectIDDefine.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/FrontDisplayName.h"
-#include "../header/FrontDisplay.h"
-#include "../header/EventZone.h"
-#include "../header/BResource.h"
-#include "../header/Scripter.h"
-#include "../header/GameInput.h"
+#include "../Header/PlayerBullet.h"
+#include "../Header/PlayerLaser.h"
+#include "../Header/Item.h"
+#include "../Header/Enemy.h"
+#include "../Header/Bullet.h"
+#include "../Header/Chat.h"
+#include "../Header/BossInfo.h"
+#include "../Header/EffectIDDefine.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/FrontDisplayName.h"
+#include "../Header/FrontDisplay.h"
+#include "../Header/EventZone.h"
+#include "../Header/BResource.h"
+#include "../Header/Scripter.h"
+#include "../Header/GameInput.h"
 #include "../Header/Replay.h"
 
-#include "../header/GameAI.h"
+#include "../Header/GameAI.h"
 
 #define _GAMERANK_MIN	0
 #define _GAMERANK_MAX	4
@@ -33,7 +34,7 @@
 #define _PLAYER_LIFECOSTMAX	2880
 #define _PLAYER_COMBOHITMAX	999
 
-#define _PLAYER_SHOOTNOTPUSHOVER	0
+#define _PLAYER_SHOOTNOTPUSHOVER	9
 
 #define _PL_SPELLBONUS_BOSS_1	100000
 #define _PL_SPELLBONUS_BOSS_2	300000
@@ -127,6 +128,7 @@ void Player::ClearSet(BYTE _round)
 
 	shootpushtimer = 0;
 	shootnotpushtimer = 0;
+	lasertimer = 0;
 
 	spellstoptimer = 0;
 
@@ -381,6 +383,14 @@ void Player::action()
 			flag &= ~PLAYER_SHOOT;
 		}
 	}
+	if (flag & PLAYER_LASER)
+	{
+		if (Laser())
+		{
+			flag &= ~PLAYER_LASER;
+			PlayerLaser::StopFire();
+		}
+	}
 	if(flag & PLAYER_BOMB)
 	{
 		if(Bomb())
@@ -533,7 +543,14 @@ void Player::action()
 			}
 			else
 			{
+				flag &= ~PLAYER_SHOOT;
 				bLaser = true;
+				if (!(flag & PLAYER_LASER))
+				{
+					lasertimer = 0;
+					flag |= PLAYER_LASER;
+					shootpushtimer = 0xff;
+				}
 			}
 		}
 		if (GameInput::GetKey(KSI_DRAIN))
@@ -880,6 +897,33 @@ bool Player::Shoot()
 	return false;
 }
 
+bool Player::Laser()
+{
+	if (Chat::chatitem.IsChatting())
+	{
+		lasertimer = 0;
+		return true;
+	}
+
+	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COSTLIFE))
+	{
+		lasertimer++;
+		if (lasertimer == 1)
+		{
+			PlayerLaser::Shoot();
+		}
+	}
+
+	if (!GameInput::GetKey(KSI_FIRE))
+	{
+		lasertimer = 0;
+		PlayerLaser::StopFire();
+		return true;
+	}
+
+	return false;
+}
+
 bool Player::Drain()
 {
 	draintimer++;
@@ -1062,12 +1106,22 @@ void Player::DoGraze(float x, float y)
 	}
 }
 
-void Player::DoPlayerBulletHit(int hitonfactor)
+void Player::DoPlayerBulletKill(int hitonfactor)
 {
 	if (hitonfactor < 0)
 	{
 		AddComboHit(-1, true);
 	}
+}
+
+void Player::DoPlayerLaserHit(bool hitprotect)
+{
+
+}
+
+void Player::DoPlayerLaserKill()
+{
+
 }
 
 void Player::DoShot()

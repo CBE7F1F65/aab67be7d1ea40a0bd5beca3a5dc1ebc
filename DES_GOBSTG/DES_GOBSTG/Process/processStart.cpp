@@ -2,12 +2,7 @@
 #include "../Header/Scripter.h"
 #include "../Header/BGLayer.h"
 #include "../Header/SelectSystem.h"
-#include "../Header/BGLayer.h"
 #include "../Header/Player.h"
-#include "../Header/SE.h"
-#include "../Header/BossInfo.h"
-#include "../Header/FrontDisplay.h"
-#include "../Header/GameInput.h"
 
 int Process::processStart()
 {

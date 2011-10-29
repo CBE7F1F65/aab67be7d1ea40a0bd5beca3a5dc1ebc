@@ -1,10 +1,4 @@
 #include "../Header/Process.h"
-#include "../Header/Bullet.h"
-#include "../Header/Player.h"
-#include "../Header/Scripter.h"
-#include "../Header/BGLayer.h"
-#include "../Header/SelectSystem.h"
-#include "../Header/Replay.h"
 
 int Process::processContinue()
 {

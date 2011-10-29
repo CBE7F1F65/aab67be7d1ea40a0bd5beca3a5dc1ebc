@@ -1,6 +1,6 @@
-#include "../header/PushKey.h"
-#include "../header/BResource.h"
-#include "../header/GameInput.h"
+#include "../Header/PushKey.h"
+#include "../Header/BResource.h"
+#include "../Header/GameInput.h"
 
 pushkeyEvent PushKey::pushkeyevent[PUSHKEY_IDMAX];
 

@@ -1,10 +1,10 @@
-#include "../header/Effectsys.h"
-#include "../header/Main.h"
-#include "../header/Export.h"
-#include "../header/Player.h"
-#include "../header/Target.h"
-#include "../header/ProcessDefine.h"
-#include "../header/Process.h"
+#include "../Header/Effectsys.h"
+#include "../Header/Main.h"
+#include "../Header/Export.h"
+#include "../Header/Player.h"
+#include "../Header/Target.h"
+#include "../Header/ProcessDefine.h"
+#include "../Header/Process.h"
 #include "../Header/SpriteItemManager.h"
 
 VectorList<Effectsys> Effectsys::effsys;

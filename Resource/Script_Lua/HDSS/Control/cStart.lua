@@ -12,8 +12,6 @@ function ControlExecute_cStart(timer)
 			hdss.SetDesc(LConst_Desc_EnemyTimeCounter+i, 0);
 			hdss.SetDesc(LConst_Desc_EnemyRandom+i, enemyrandrom);
 			helper_GetNextEnemyRandom(i);
-			
-			hdss.SetupBG(768);
 						
 		end
 		

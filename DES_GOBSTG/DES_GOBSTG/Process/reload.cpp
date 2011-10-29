@@ -41,6 +41,7 @@ bool Process::reload()
 	Item::Init();
 	Beam::Init();
 	PlayerBullet::Init();
+	PlayerLaser::Init();
 	SpriteItemManager::Init();
 	EffectSp::Init();
 

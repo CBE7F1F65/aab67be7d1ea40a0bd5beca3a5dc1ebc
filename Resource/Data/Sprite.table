@@ -292,8 +292,8 @@ Comment	Index	SI_Name	Tex	Tex_x	Tex_y	Tex_w	Tex_h
 -	400	SI_Face_01	110	0	0	-1	-1
 #		MusicName(500~549)					
 #		PlayerGhost(550~649)					
--	550	SI_PlayerGhost_00_01	10	384	80	16	16
--	551	SI_PlayerGhost_00_02	10	400	80	16	16
+-	550	SI_PlayerGhost_00_01	10	0	64	16	16
+-	551	SI_PlayerGhost_00_02	10	0	64	16	16
 #		SystemScene(650~699)					
 -	650	SI_TitleScene	360	0	0	-1	-1
 -	651	SI_SelectScene	361	0	0	-1	-1
@@ -458,15 +458,38 @@ Comment	Index	SI_Name	Tex	Tex_x	Tex_y	Tex_w	Tex_h
 -	884	SI_GhostSprite_RedActive_6	4	96	432	48	48
 -	885	SI_GhostSprite_RedActive_7	4	144	432	48	48
 #		Unknown(950~999)					
-#		PlayerBullet(1000~1999)					
--	1000	SI_PlayerBullet_00_0_0	10	496	96	16	48
--	1001	SI_PlayerBullet_00_0_1	10	416	168	24	24
--	1002	SI_PlayerBullet_00_0_2	10	384	192	32	32
--	1003	SI_PlayerBullet_00_0_3	10	440	184	32	32
--	1004	SI_PlayerBullet_00_1_0	10	392	160	16	48
--	1005	SI_PlayerBullet_00_1_1	10	416	168	24	24
--	1006	SI_PlayerBullet_00_1_2	10	384	192	32	32
--	1007	SI_PlayerBullet_00_1_3	10	440	184	32	32
+#		PlayerBullet(1000~1199)					
+-	1000	SI_PlayerBullet_00_0_0	10	0	96	48	16
+-	1001	SI_PlayerBullet_00_0_1	10	0	112	48	16
+-	1002	SI_PlayerBullet_00_0_2	10	0	128	48	16
+-	1003	SI_PlayerBullet_00_0_3	10	0	144	48	16
+#		PlayerLaser(1200~1399)					
+-	1200	SI_PlayerLaser_00_0_0	10	0	160	16	48
+-	1201	SI_PlayerLaser_00_0_1	10	16	160	16	48
+-	1202	SI_PlayerLaser_00_0_2	10	32	160	16	48
+-	1203	SI_PlayerLaser_00_0_3	10	48	160	16	48
+-	1204	SI_PlayerLaser_00_0_4	10	64	160	16	48
+-	1205	SI_PlayerLaser_00_0_5	10	80	160	16	48
+-	1206	SI_PlayerLaser_00_0_6	10	96	160	16	48
+-	1207	SI_PlayerLaser_00_0_7	10	112	160	16	48
+-	1208	SI_PlayerLaser_00_0_8	10	128	160	16	48
+-	1209	SI_PlayerLaser_00_0_9	10	144	160	16	48
+-	1210	SI_PlayerLaser_00_1_0	10	0	224	72	80
+-	1211	SI_PlayerLaser_00_1_1	10	72	224	72	80
+-	1212	SI_PlayerLaser_00_1_2	10	144	224	72	80
+-	1213	SI_PlayerLaser_00_1_3	10	216	224	72	80
+-	1214	SI_PlayerLaser_00_2_0	10	0	320	64	80
+-	1215	SI_PlayerLaser_00_2_1	10	64	320	64	80
+-	1216	SI_PlayerLaser_00_2_2	10	128	320	72	80
+-	1217	SI_PlayerLaser_00_2_3	10	200	320	72	80
+-	1218	SI_PlayerLaser_00_3_0	10	0	416	80	48
+-	1219	SI_PlayerLaser_00_3_1	10	80	416	80	48
+-	1220	SI_PlayerLaser_00_3_2	10	160	416	80	48
+-	1221	SI_PlayerLaser_00_3_3	10	240	416	80	48
+-	1222	SI_PlayerLaser_00_4_0	10	352	224	80	80
+-	1223	SI_PlayerLaser_00_4_1	10	432	224	80	80
+-	1224	SI_PlayerLaser_00_4_2	10	352	304	80	80
+-	1225	SI_PlayerLaser_00_4_3	10	432	304	80	80
 #		Bullet(1400~1799)					
 -	1400	SI_Bullet_ShuttleBeam_0	2	0	0	16	16
 -	1401	SI_Bullet_ShuttleBeam_1	2	16	0	16	16
@@ -808,31 +831,14 @@ Comment	Index	SI_Name	Tex	Tex_x	Tex_y	Tex_w	Tex_h
 -	1800	SI_BulletEx_Reimu_0	50	128	0	64	64
 #		Player(2000~2999)					
 -	2000	SI_Player_Reimu_0	10	0	0	32	40
--	2001	SI_Player_Reimu_1	10	32	0	32	40
--	2002	SI_Player_Reimu_2	10	64	0	32	40
--	2003	SI_Player_Reimu_3	10	96	0	32	40
--	2004	SI_Player_Reimu_4	10	128	0	32	40
--	2005	SI_Player_Reimu_8	10	0	40	32	40
--	2006	SI_Player_Reimu_12	10	128	40	32	40
--	2007	SI_Player_Reimu_16	10	0	80	32	40
--	2008	SI_Player_Reimu_20	10	128	80	32	40
--	2009	SI_Player_Reimu_24	10	0	120	32	40
--	2010	SI_Player_Reimu_28	10	128	120	32	40
--	2011	SI_Player_Reimu_32	10	0	160	32	40
--	2012	SI_Player_Reimu_33	10	32	160	32	40
--	2013	SI_Player_Reimu_34	10	64	160	32	40
--	2014	SI_Player_Reimu_35	10	96	160	32	40
--	2015	SI_Player_Reimu_36	10	128	160	32	40
--	2016	SI_Player_Reimu_40	10	0	200	32	40
--	2017	SI_Player_Reimu_44	10	128	200	32	40
--	2018	SI_Player_Reimu_48	10	256	0	32	40
--	2019	SI_Player_Reimu_52	10	384	0	32	40
--	2020	SI_Player_Reimu_56	10	256	40	32	40
--	2021	SI_Player_Reimu_60	10	384	40	32	40
--	2022	SI_Player_Reimu_64	10	256	80	32	40
--	2023	SI_Player_Reimu_65	10	288	80	32	40
--	2024	SI_Player_Reimu_66	10	320	80	32	40
--	2025	SI_Player_Reimu_67	10	352	80	32	40
+-	2001	SI_Player_Reimu_8	10	32	0	32	40
+-	2002	SI_Player_Reimu_16	10	64	0	32	40
+-	2003	SI_Player_Reimu_24	10	96	0	32	40
+-	2004	SI_Player_Reimu_32	10	128	0	32	40
+-	2005	SI_Player_Reimu_40	10	160	0	32	40
+-	2006	SI_Player_Reimu_48	10	192	0	32	40
+-	2007	SI_Player_Reimu_56	10	224	0	32	40
+-	2008	SI_Player_Reimu_64	10	256	0	32	40
 #		MapNull(3600~3799)					
 -	3600	SI_MapNull_0	580	0	0	0	0
 -	3601	SI_MapNull_1	581	0	0	0	0

@@ -1,5 +1,5 @@
-#include "../header/SE.h"
-#include "../header/BResource.h"
+#include "../Header/SE.h"
+#include "../Header/BResource.h"
 #ifdef __WIN32
 #include "../../../src/core/BASS/bass.h"
 #endif // __WIN32

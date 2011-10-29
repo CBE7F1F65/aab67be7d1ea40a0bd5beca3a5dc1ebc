@@ -1,10 +1,10 @@
-#include "../header/BGLayer.h"
-#include "../header/Main.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/Scripter.h"
-#include "../header/Export.h"
-#include "../header/ProcessDefine.h"
-#include "../header/Process.h"
+#include "../Header/BGLayer.h"
+#include "../Header/Main.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/Scripter.h"
+#include "../Header/Export.h"
+#include "../Header/ProcessDefine.h"
+#include "../Header/Process.h"
 #include "../Header/BResource.h"
 #include "../Header/GameInput.h"
 
@@ -27,6 +27,13 @@ void BGLayer::Release()
 	largemapxtile = 0;
 	largemapytile = 0;
 
+	mapcenx = 0;
+	mapxoffset = 0;
+	mapceny = 0;
+
+	xspeed = 0;
+	yspeed = 0;
+
 	adatabegin = NULL;
 
 	bSetup = false;
@@ -48,6 +55,44 @@ void BGLayer::Init()
 	Release();
 }
 
+void BGLayer::action()
+{
+	if (bSetup)
+	{
+		timer++;
+		/*
+		if (GameInput::GetKey(KSI_UP))
+		{
+			mapceny+=3;
+		}
+		if (GameInput::GetKey(KSI_DOWN))
+		{
+			mapceny-=3;
+		}
+		if (GameInput::GetKey(KSI_LEFT))
+		{
+			mapcenx-=3;
+		}
+		if (GameInput::GetKey(KSI_RIGHT))
+		{
+			mapcenx+=3;
+		}
+		*/
+		mapcenx += xspeed;
+		mapceny += yspeed;
+
+		UpdateTileSprite();
+
+		tilesxoffset = -(bglayer.mapcenx+mapxoffset - ((int)(bglayer.mapcenx+mapxoffset))/BGTILE_WIDTH*BGTILE_WIDTH);
+		tilesyoffset = bglayer.mapceny - ((int)bglayer.mapceny)/BGTILE_HEIGHT*BGTILE_HEIGHT;
+
+		for (int i=0; i<BGTILEMAX; i++)
+		{
+			bgtiles[i].action();
+		}
+	}
+}
+
 void BGLayer::Action(bool active)
 {
 	DWORD stopflag = Process::mp.GetStopFlag();
@@ -57,37 +102,7 @@ void BGLayer::Action(bool active)
 		if (active)
 		{
 			Scripter::scr.Execute(SCR_SCENE, bglayer.areaid, bglayer.timer);
-		}
-
-		if (bglayer.bSetup)
-		{
-			/*
-			if (GameInput::GetKey(KSI_UP))
-			{
-				bglayer.mapceny+=3;
-			}
-			if (GameInput::GetKey(KSI_DOWN))
-			{
-				bglayer.mapceny-=3;
-			}
-			if (GameInput::GetKey(KSI_LEFT))
-			{
-				bglayer.mapcenx-=3;
-			}
-			if (GameInput::GetKey(KSI_RIGHT))
-			{
-				bglayer.mapcenx+=3;
-			}
-			*/
-			bglayer.UpdateTileSprite();
-
-			bglayer.tilesxoffset = -(bglayer.mapcenx - ((int)bglayer.mapcenx)/BGTILE_WIDTH*BGTILE_WIDTH);
-			bglayer.tilesyoffset = bglayer.mapceny - ((int)bglayer.mapceny)/BGTILE_HEIGHT*BGTILE_HEIGHT;
-
-			for (int i=0; i<BGTILEMAX; i++)
-			{
-				bglayer.bgtiles[i].action();
-			}
+			bglayer.action();
 		}
 	}
 }
@@ -112,11 +127,11 @@ void BGLayer::BGLayerSetup(float begincenx)
 	mapcenx = begincenx;
 	mapceny = M_MAINVIEW_HEIGHT/2;
 
-	adatabegin = &(BResource::bres.areadata[Process::mp.stage * DATASTRUCT_STAGEAREAMAX]);
+	adatabegin = &(BResource::bres.stageareadata[Process::mp.stage * DATASTRUCT_AREAPERSTAGEMAX]);
 
-	areaData * padata = adatabegin;
+	stageareaData * padata = adatabegin;
 	texbegin = adatabegin->texbegin;
-	for (int i=0; i<DATASTRUCT_STAGEAREAMAX; i++)
+	for (int i=0; i<DATASTRUCT_AREAPERSTAGEMAX; i++)
 	{
 		if (padata->begintilex+padata->tilex > largemapxtile)
 		{
@@ -132,7 +147,7 @@ void BGLayer::BGLayerSetup(float begincenx)
 	ZeroMemory(tilemapping, mallocsize);
 
 	int nowtilelinebegin = 0;
-	for (int i=0; i<DATASTRUCT_STAGEAREAMAX; i++)
+	for (int i=0; i<DATASTRUCT_AREAPERSTAGEMAX; i++)
 	{
 		if (padata->tilex == 0 || padata->tiley == 0)
 		{
@@ -227,9 +242,16 @@ void BGLayer::BGLayerSetup(float begincenx)
 	bSetup = true;
 }
 
+void BGLayer::SetMapSpeedInfo(float _xspeed, float _yspeed, float _mapxoffset)
+{
+	xspeed = _xspeed;
+	yspeed = _yspeed;
+	mapxoffset = _mapxoffset;
+}
+
 void BGLayer::UpdateTileSprite()
 {
-	int nowbegintilex = ((int)mapcenx)/BGTILE_WIDTH-BGTILE_XCOUNTMAX/2+1;
+	int nowbegintilex = ((int)(mapcenx+mapxoffset))/BGTILE_WIDTH-BGTILE_XCOUNTMAX/2;
 	int nowbegintiley = ((int)mapceny)/BGTILE_HEIGHT-BGTILE_YCOUNTMAX/2+1;
 	for (int j=0; j<BGTILE_YCOUNTMAX; j++)
 	{

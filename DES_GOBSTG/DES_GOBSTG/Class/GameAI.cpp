@@ -1,6 +1,6 @@
-#include "../header/GameAI.h"
-#include "../header/GameInput.h"
-#include "../header/Player.h"
+#include "../Header/GameAI.h"
+#include "../Header/GameInput.h"
+#include "../Header/Player.h"
 
 GameAI GameAI::ai;
 

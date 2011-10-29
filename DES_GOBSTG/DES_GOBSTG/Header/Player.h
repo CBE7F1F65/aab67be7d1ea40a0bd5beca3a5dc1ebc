@@ -37,10 +37,11 @@
 #define PLAYER_COSTLIFE				0x0004
 #define	PLAYER_COLLAPSE				0x0008
 #define	PLAYER_SHOOT				0x0010
-#define	PLAYER_DRAIN				0x0020
-#define	PLAYER_BOMB					0x0040
-#define	PLAYER_SLOWCHANGE			0x0080
-#define	PLAYER_FASTCHANGE			0x0100
+#define PLAYER_LASER				0x0020
+#define	PLAYER_DRAIN				0x0040
+#define	PLAYER_BOMB					0x0080
+#define	PLAYER_SLOWCHANGE			0x0100
+#define	PLAYER_FASTCHANGE			0x0200
 #define	PLAYER_PLAYERCHANGE			0x0400
 #define	PLAYER_GRAZE				0x1000
 
@@ -91,6 +92,7 @@ public:
 	bool CostLife();
 	bool Collapse();
 	bool Shoot();
+	bool Laser();
 	bool Drain();
 	bool Bomb();
 	bool SlowChange();
@@ -106,7 +108,9 @@ public:
 	void DoEnemyCollapse(float x, float y, BYTE type);
 	void DoItemGet(WORD itemtype, float x, float y);
 	void DoGraze(float x, float y);
-	void DoPlayerBulletHit(int hitonfactor = PL_HITONFACTORDEFAULT);
+	void DoPlayerBulletKill(int hitonfactor = PL_HITONFACTORDEFAULT);
+	void DoPlayerLaserHit(bool hitprotect);
+	void DoPlayerLaserKill();
 	void DoShot();
 
 	void Render();
@@ -188,6 +192,7 @@ public:
 	WORD	shottimer;
 	WORD	collapsetimer;
 	WORD	shoottimer;
+	WORD	lasertimer;
 	WORD	draintimer;
 	WORD	chargetimer;
 	WORD	slowtimer;

@@ -126,8 +126,11 @@ public:
 	void Init();
 	void Release();
 	static void Action(bool active);
+	void action();
 	static void RenderAll();
 	void BGLayerSetup(float begincenx);
+
+	void SetMapSpeedInfo(float xspeed, float yspeed, float mapxoffset);
 
 //	bool CheckBlank(int *tilenum, int *texoffset);
 
@@ -146,7 +149,7 @@ public:
 
 	bool bSetup;
 
-	areaData * adatabegin;
+	stageareaData * adatabegin;
 
 	int texbegin;
 	BGTileMapping * tilemapping;
@@ -154,6 +157,7 @@ public:
 	int largemapytile;
 
 	float mapcenx;
+	float mapxoffset;
 	float mapceny;
 
 	float tilesxoffset;

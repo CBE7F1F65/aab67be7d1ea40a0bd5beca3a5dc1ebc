@@ -1,8 +1,8 @@
-#include "../header/EventZone.h"
-#include "../header/ProcessDefine.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/BObject.h"
-#include "../header/Process.h"
+#include "../Header/EventZone.h"
+#include "../Header/ProcessDefine.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/BObject.h"
+#include "../Header/Process.h"
 
 int EventZone::bulletActionList[BULLETACTIONMAX];
 list<EventZone> EventZone::ezone;

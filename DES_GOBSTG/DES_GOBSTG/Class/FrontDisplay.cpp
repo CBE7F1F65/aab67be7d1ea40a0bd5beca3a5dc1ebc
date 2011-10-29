@@ -1,11 +1,11 @@
-#include "../header/FrontDisplay.h"
-#include "../header/SpriteItemManager.h"
-#include "../header/BResource.h"
-#include "../header/FrontDisplayName.h"
-#include "../header/processPrep.h"
-#include "../header/BossInfo.h"
-#include "../header/Fontsys.h"
-#include "../header/EffectIDDefine.h"
+#include "../Header/FrontDisplay.h"
+#include "../Header/SpriteItemManager.h"
+#include "../Header/BResource.h"
+#include "../Header/FrontDisplayName.h"
+#include "../Header/processPrep.h"
+#include "../Header/BossInfo.h"
+#include "../Header/Fontsys.h"
+#include "../Header/EffectIDDefine.h"
 
 #define FDISP_LIFEINDI_EMPTY	0
 #define FDISP_LIFEINDI_HALF		1

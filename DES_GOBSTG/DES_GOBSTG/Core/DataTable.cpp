@@ -468,9 +468,40 @@ bool _DataTable::PlayerShootDefineFile()
 	return true;
 }
 
+bool _DataTable::PlayerLaserDefineFile()
+{
+	ZeroMemory(BResource::bres.playerlaserdata, RSIZE_PLAYERLASER);
+	_READSTRINGBUFFERLINE(10);
+	while (!feof(file))
+	{
+		_INITTINT;
+		_BREAKCOMMENTBUFFER;
+		fscanf(file, "%d", &tindex);
+		_CHECKEOF_DATATABLE;
+		playerlaserData * item = &(BResource::bres.playerlaserdata[tindex]);
+
+		fscanf(file, "%d%s%f%f%f%f%f%d", 
+			_SAVETINT, 
+			strbuffer[0],
+			&(item->width),
+			&(item->power),
+			&(item->protectwidth),
+			&(item->protectheight),
+			&(item->protectpowermul),
+			_SAVETINT);
+
+		_DOSWAPTINT;
+		_INITTINT;
+		item->userID = _LOADTINT;
+		item->siid = SpriteItemManager::GetIndexByName(strbuffer[0]);
+		item->seID = _LOADTINT;
+	}
+	return true;
+}
+
 bool _DataTable::PlayerSubDefineFile()
 {
-	ZeroMemory(BResource::bres.playerghostdata, RSIZE_PLAYERGHOST);
+	ZeroMemory(BResource::bres.playersubdata, RSIZE_PLAYERSUB);
 	_READSTRINGBUFFERLINE(12);
 	while (!feof(file))
 	{
@@ -478,7 +509,7 @@ bool _DataTable::PlayerSubDefineFile()
 		_BREAKCOMMENTBUFFER;
 		fscanf(file, "%d", &tindex);
 		_CHECKEOF_DATATABLE;
-		playerghostData * item = &(BResource::bres.playerghostdata[tindex]);
+		playersubData * item = &(BResource::bres.playersubdata[tindex]);
 
 		fscanf(file, "%s%f%f%f%x%d%d%f%d%d", 
 			strbuffer[0],  
@@ -502,9 +533,9 @@ bool _DataTable::PlayerSubDefineFile()
 	return true;
 }
 
-bool _DataTable::AreaDefineFile()
+bool _DataTable::StageareaDefineFile()
 {
-	ZeroMemory(BResource::bres.areadata, RSIZE_AREA);
+	ZeroMemory(BResource::bres.stageareadata, RSIZE_STAGEAREA);
 	_READSTRINGBUFFERLINE(11);
 	while (!feof(file))
 	{
@@ -512,7 +543,7 @@ bool _DataTable::AreaDefineFile()
 		_BREAKCOMMENTBUFFER;
 		fscanf(file, "%d", &tindex);
 		_CHECKEOF_DATATABLE;
-		areaData * item = &(BResource::bres.areadata[tindex]);
+		stageareaData * item = &(BResource::bres.stageareadata[tindex]);
 
 		fscanf(file, "%d%d%d%d%d%d%d%d%d%d", 
 			_SAVETINT,
@@ -624,12 +655,15 @@ bool Data::GetTableFile(BYTE type)
 	case DATA_PLAYERSHOOTDEFINE:
 		_DataTable::datatable.PlayerShootDefineFile();
 		break;
-	case DATA_PLAYERGHOSTDEFINE:
+	case DATA_PLAYERLASERDEFINE:
+		_DataTable::datatable.PlayerLaserDefineFile();
+		break;
+	case DATA_PLAYERSUBDEFINE:
 		_DataTable::datatable.PlayerSubDefineFile();
 		break;
 
-	case DATA_AREADEFINE:
-		_DataTable::datatable.AreaDefineFile();
+	case DATA_STAGEAREADEFINE:
+		_DataTable::datatable.StageareaDefineFile();
 		break;
 	}
 	fclose(file);
