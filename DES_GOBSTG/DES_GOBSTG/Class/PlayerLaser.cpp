@@ -9,6 +9,8 @@
 #define PLAYERLASER_LASERHEADYSPEED	-16.0f
 #define PLAYERLASER_LASERYSPEED		-12.0f
 
+#define PLAYERLASER_LASERHEADYMAX	-64
+
 #define PLAYERLASER_ANIMATIONINTERVAL	4
 
 #define PLAYERLASER_BODYTILELENGTH	16.0f
@@ -16,6 +18,8 @@
 #define PLAYERLASER_HITFLAG_NULL	0x00
 #define PLAYERLASER_HITFLAG_BODY	0x01
 #define PLAYERLASER_HITFLAG_PROTECT	0x02
+
+#define PLAYERLASER_STOPPLUS	40
 
 PlayerLaser PlayerLaser::plaser[DATASTRUCT_PLAYERLASERTYPEMAX];
 
@@ -73,7 +77,21 @@ void PlayerLaser::action()
 		timer++;
 		if (!bstopped)
 		{
+			stoptimer = 0;
 			headypos += PLAYERLASER_LASERHEADYSPEED;
+			if (headypos < PLAYERLASER_LASERHEADYMAX)
+			{
+				headypos = PLAYERLASER_LASERHEADYMAX;
+			}
+		}
+		else
+		{
+			stoptimer++;
+			if (stoptimer >= PLAYERLASER_STOPPLUS)
+			{
+				Player::p.AddComboHit(1);
+				stoptimer = 0;
+			}
 		}
 	}
 }
@@ -125,9 +143,8 @@ void PlayerLaser::render()
 		}
 		else
 		{
-			sphead[animation]->Render(px, headypos);
+			spstop[animation]->Render(px, headypos);
 		}
-		bstopped = false;
 	}
 }
 
@@ -155,12 +172,12 @@ bool PlayerLaser::checkshoot(Enemy * en, float aimx, float aimy, float aimw, flo
 			power *= pldata->protectpowermul;
 			// Play Effect
 		}
-		Player::p.DoPlayerLaserHit(hitprotect);
+		Player::p.DoPlayerLaserHit(en->type, hitprotect);
 		if (en->CostLife(power))
 		{
-			Player::p.DoPlayerLaserKill();
+			Player::p.DoPlayerLaserKill(en->type);
 		}
-		else
+		else if (hitflag & PLAYERLASER_HITFLAG_BODY)
 		{
 			hitOn(en->y+aimh);
 		}
@@ -186,9 +203,14 @@ BYTE PlayerLaser::isInRange(float aimx, float aimy, float w, float h/* =0.0f */)
 	{
 		ret |= PLAYERLASER_HITFLAG_PROTECT;
 	}
-	float oHeight = ((_bobj.y+PLAYERLASER_LASERYOFFSET)-headypos)/2;
-	_bobj.y -= oHeight;
-	if (_bobj.checkCollisionRightRect(aimx, aimy, w, h, pldata->width, oHeight))
+	float useheadypos = headypos;
+	if (useheadypos < 0)
+	{
+		useheadypos = 0;
+	}
+	float oHeight = ((_bobj.y+PLAYERLASER_LASERYOFFSET)-useheadypos)/2;
+	_bobj.y -= oHeight-PLAYERLASER_LASERYOFFSET;
+	if (_bobj.checkCollisionRightRect(aimx, aimy, w, h, pldata->width, oHeight+1))
 	{
 		ret |= PLAYERLASER_HITFLAG_BODY;
 	}
@@ -203,6 +225,11 @@ void PlayerLaser::Shoot()
 void PlayerLaser::StopFire()
 {
 	plaser[Player::p.ID].stopfire();
+}
+
+void PlayerLaser::ClearStop()
+{
+	plaser[Player::p.ID].bstopped = false;
 }
 
 void PlayerLaser::shoot()

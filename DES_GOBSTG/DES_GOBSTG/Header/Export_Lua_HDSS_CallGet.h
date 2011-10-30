@@ -55,7 +55,6 @@ public:
 	static int Call_ENACTIONSET(LuaState * ls);
 	static int Call_ENSAIM(LuaState * ls);
 	static int Call_ENTOI(LuaState * ls);
-	static int Call_ENAZBUILD(LuaState * ls);
 
 	static int Call_RAMA(LuaState * ls);
 	static int Call_INTER(LuaState * ls);

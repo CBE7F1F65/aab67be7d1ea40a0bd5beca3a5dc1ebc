@@ -271,7 +271,7 @@ bool _DataTable::BulletDefineFile()
 bool _DataTable::EnemyDefineFile()
 {
 	ZeroMemory(BResource::bres.enemydata, RSIZE_ENEMY);
-	_READSTRINGBUFFERLINE(31);
+	_READSTRINGBUFFERLINE(24);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -280,7 +280,7 @@ bool _DataTable::EnemyDefineFile()
 		enemyData * item = &(BResource::bres.enemydata[tindex]);
 		_CHECKEOF_DATATABLE;
 
-		fscanf(file, "%d%s%f%f%x%d%d%d%d%d%d%d%d%d%d%d%d%d%d%f%d%d%d%d%f%f%f\t%[^\t]\t%[^\r\n]", 
+		fscanf(file, "%d%s%f%f%x%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d", 
 			_SAVETINT, 
 			strbuffer[0],
 			&(item->collision_w), 
@@ -295,21 +295,14 @@ bool _DataTable::EnemyDefineFile()
 			_SAVETINT, 
 			_SAVETINT, 
 			_SAVETINT, 
-			_SAVETINT, 
-			_SAVETINT, 
 			&(item->effid), 
 			&(item->shotEffid), 
 			&(item->collapseEffid), 
-			&(item->expoint), 
-			&(item->ghostpoint), 
-			&(item->bulletpoint), 
-			&(item->spellpoint), 
-			_SAVETINT, 
-			&(item->blastr),
-			&(item->blastpower),
-			&(item->blastdamagerate), 
-			item->name,
-			item->ename);
+			&(item->score), 
+			&(item->combogage), 
+			&(item->killtemperpoint), 
+			&(item->laserhittemperpoint),
+			&(item->protecthittemperpoint));
 
 		_DOSWAPTINT;
 		_INITTINT;
@@ -325,9 +318,6 @@ bool _DataTable::EnemyDefineFile()
 		item->attackFrame = _LOADTINT;
 		item->storePreFrame  = _LOADTINT;
 		item->storeFrame  = _LOADTINT;
-		item->nmaxset	=	_LOADTINT;
-		item->nmax = _LOADTINT;
-		item->blastmaxtime = _LOADTINT;
 	}
 	return true;
 }
@@ -426,7 +416,7 @@ bool _DataTable::SpriteDefineFile()
 bool _DataTable::PlayerShootDefineFile()
 {
 	ZeroMemory(BResource::bres.playershootdata, RSIZE_PLAYERSHOOT);
-	_READSTRINGBUFFERLINE(20);
+	_READSTRINGBUFFERLINE(19);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -435,12 +425,11 @@ bool _DataTable::PlayerShootDefineFile()
 		_CHECKEOF_DATATABLE;
 		playershootData * item = &(BResource::bres.playershootdata[tindex]);
 
-		fscanf(file, "%d%d%s%d%d%x%f%d%d%d%d%f%f%f%f%f%f%d", 
+		fscanf(file, "%d%d%s%d%x%f%d%d%d%d%f%f%f%f%f%f%d", 
 			_SAVETINT, 
 			_SAVETINT, 
 			strbuffer[0],
 			_SAVETINT, 
-			&(item->hitonfactor), 
 			_SAVETINT, 
 			&(item->power), 
 			&(item->deletetime),
@@ -458,7 +447,7 @@ bool _DataTable::PlayerShootDefineFile()
 		_DOSWAPTINT;
 		_INITTINT;
 		item->userID = _LOADTINT;
-		item->bchargeshoot = (bool)_LOADTINT;
+		item->bhypershoot = (bool)_LOADTINT;
 		item->siid = SpriteItemManager::GetIndexByName(strbuffer[0]);
 		item->timeMod = _LOADTINT;
 		item->flag = _LOADTINT;

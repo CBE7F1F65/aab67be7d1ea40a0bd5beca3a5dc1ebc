@@ -142,6 +142,8 @@ public:
 	int		framecounter;
 	int		frameskip;
 	int		renderskip;
+	BYTE	nowdifflv;
+	bool	practicemode;
 	bool	replaymode;
 	bool	replayend;
 	//playtime

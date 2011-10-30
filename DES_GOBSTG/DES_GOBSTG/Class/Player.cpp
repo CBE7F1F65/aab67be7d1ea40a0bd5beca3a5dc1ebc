@@ -20,6 +20,7 @@
 #include "../Header/Scripter.h"
 #include "../Header/GameInput.h"
 #include "../Header/Replay.h"
+#include "../Header/DataConnector.h"
 
 #include "../Header/GameAI.h"
 
@@ -64,6 +65,25 @@ BYTE Player::round = 0;
 #define _PL_CHARGEZONE_MAXTIME_2	49
 #define _PL_CHARGEZONE_MAXTIME_3	65
 #define _PL_CHARGEZONE_MAXTIME_4	129
+
+#define _PLTEMPER_NULL	0x00
+#define _PLTEMPER_COLD	0x01
+#define _PLTEMPER_HOT	0x02
+
+#define _PL_COMBOMINUS_NOR	20
+#define _PL_COMBOMINUS_SEC	10
+
+#define _PL_COMBORESET	0
+#define _PL_COMBOKEEP	200
+
+#define _PL_COMBOGAGE_BULLETKILLMUL	2
+
+#define _PL_SCOREMUL_1_HIT	500
+#define _PL_SCOREMUL_2_HIT	1000
+#define _PL_SCOREMUL_3_HIT	3000
+#define _PL_SCOREMUL_4_HIT	5000
+#define _PL_SCOREMUL_5_HIT	7000
+#define _PL_SCOREMUL_6_HIT	10000
 
 Player::Player()
 {
@@ -120,7 +140,6 @@ void Player::ClearSet(BYTE _round)
 	fasttimer			=	0;
 	playerchangetimer	=	0;
 	costlifetimer		=	0;
-	nBulletPoint = 0;
 
 	nLifeCost	=	0;
 	infitimer = 0;
@@ -134,14 +153,30 @@ void Player::ClearSet(BYTE _round)
 
 	speedfactor		=	1.0f;
 
+	nHitScore = 0;
+	nLastHitScore = 0;
+
 	// add
 //	initlife	=	PLAYER_DEFAULTINITLIFE;
 
 	exist = true;
 
 	nComboHit = 0;
-	nComboHitOri = 0;
+	nLastComboHit = 0;
+	nComboHitMax = 0;
 	nComboGage = 0;
+
+	nScore = 0;
+	nHiScore = DataConnector::nHiScore();
+	nScoreMul = 1;
+
+	hitdisplaykeeptimer = 0;
+
+	nTemper = 0;
+	temperSelf = _PLTEMPER_NULL;
+	temperEnemy= _PLTEMPER_NULL;
+	bhyper = false;
+	bfreeze = false;
 
 	if (effGraze.exist)
 	{
@@ -266,6 +301,7 @@ bool Player::Action()
 		{
 			p.actionInStop();
 		}
+
 		if (!p.exist)
 		{
 			return false;
@@ -431,15 +467,21 @@ void Player::action()
 	{
 		bInfi = false;
 	}
-	if (nComboGage)
+	if (nComboGage > 0)
 	{
-		nComboGage--;
-		if (nComboGage == PLAYER_COMBORESET)
+		nComboGage -= _PL_COMBOMINUS_NOR;
+		if (nComboGage <= _PL_COMBORESET)
 		{
-			AddComboHit(-1, true);
+			AddComboGage(-1);
 		}
-		else if (!nComboGage)
+	}
+	if (hitdisplaykeeptimer)
+	{
+		hitdisplaykeeptimer--;
+		if (hitdisplaykeeptimer == 0)
 		{
+			nLastComboHit = nComboHit;
+			nLastHitScore = nHitScore;
 		}
 	}
 
@@ -640,13 +682,7 @@ void Player::action()
 	float aiaimx = _PL_MERGETOPOS_X;
 	float aiaimy = _PL_MERGETOPOS_Y;
 	bool tobelow = false;
-	if (PlayerBullet::activelocked != PBLOCK_LOST)
-	{
-		aiaimx = Enemy::en[PlayerBullet::activelocked].x;
-		aiaimy = Enemy::en[PlayerBullet::activelocked].y + 120;
-		tobelow = true;
-	}
-	else if (PlayerBullet::locked != PBLOCK_LOST)
+	if (PlayerBullet::locked != PBLOCK_LOST)
 	{
 		aiaimx = Enemy::en[PlayerBullet::locked].x;
 		aiaimy = Enemy::en[PlayerBullet::locked].y;
@@ -760,6 +796,9 @@ bool Player::CostLife()
 	costlifetimer++;
 	if (costlifetimer == 1)
 	{
+		AddComboHit(-1);
+		AddComboGage(-1);
+		AddHitScore(-1);
 		if (nLife == 1)
 		{
 			nLife = 0;
@@ -885,7 +924,7 @@ bool Player::Shoot()
 
 	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COSTLIFE))
 	{
-		PlayerBullet::BuildShoot(ID, shoottimer);
+		PlayerBullet::BuildShoot(ID, shoottimer, bhyper);
 	}
 	shoottimer++;
 	//
@@ -1021,81 +1060,12 @@ bool Player::Graze()
 
 void Player::DoEnemyCollapse(float x, float y, BYTE type)
 {
-	float addcharge = nComboHitOri / 128.0f + 1.0f;
-	if (addcharge > 2.0f)
-	{
-		addcharge = 2.0f;
-	}
-	AddComboHit(1, true);
-
 	enemyData * edata = &(BResource::bres.enemydata[type]);
 
-	int addghostpoint;
-	if (edata->ghostpoint < 0)
-	{
-		addghostpoint = nComboHitOri + 3;
-		if (addghostpoint > 28)
-		{
-			addghostpoint = 28;
-		}
-	}
-	else
-	{
-		addghostpoint = edata->ghostpoint;
-	}
-
-	int addbulletpoint;
-	float _x = x + randtf(-4.0f, 4.0f);
-	float _y = y + randtf(-4.0f, 4.0f);
-	if (edata->bulletpoint < 0)
-	{
-		addbulletpoint = nComboHitOri * 3 + 27;
-		if (addbulletpoint > 60)
-		{
-			addbulletpoint = 60;
-		}
-	}
-	else
-	{
-		addbulletpoint = edata->bulletpoint;
-	}
-	AddBulletPoint(addbulletpoint, _x, _y);
-
-	int addspellpoint;
-	if (edata->spellpoint == -1)
-	{
-		if (nComboHitOri == 1)
-		{
-			addspellpoint = 20;
-		}
-		else
-		{
-			addspellpoint = nComboHitOri * 30 - 20;
-			if (addspellpoint > 3000)
-			{
-				addspellpoint = 3000;
-			}
-		}
-	}
-	else if (edata->spellpoint == -2)
-	{
-		if (nComboHitOri == 1)
-		{
-			addspellpoint = 2000;
-		}
-		else
-		{
-			addspellpoint = (nComboHitOri + 4) * 200;
-			if (addspellpoint > 11000)
-			{
-				addspellpoint = 11000;
-			}
-		}
-	}
-	else
-	{
-		addspellpoint = edata->spellpoint;
-	}
+	LONGLONG addscore = edata->score;
+	AddHitScore(addscore);
+	AddScore(addscore);
+	AddComboHit(1);
 }
 
 void Player::DoGraze(float x, float y)
@@ -1106,22 +1076,33 @@ void Player::DoGraze(float x, float y)
 	}
 }
 
-void Player::DoPlayerBulletKill(int hitonfactor)
+void Player::DoPlayerBulletKill(BYTE type)
 {
-	if (hitonfactor < 0)
+	enemyData * edata = &(BResource::bres.enemydata[type]);
+	int addcombogage = edata->combogage*_PL_COMBOGAGE_BULLETKILLMUL;
+	AddComboGage(addcombogage);
+	int addtemper = edata->killtemperpoint;
+	AddTemper(-addtemper);
+}
+
+void Player::DoPlayerLaserHit(BYTE type, bool hitprotect)
+{
+	int addtemper = BResource::bres.enemydata[type].laserhittemperpoint;
+	if (hitprotect)
 	{
-		AddComboHit(-1, true);
+		addtemper = BResource::bres.enemydata[type].protecthittemperpoint;
 	}
+	AddTemper(addtemper);
+	KeepComboGage();
 }
 
-void Player::DoPlayerLaserHit(bool hitprotect)
+void Player::DoPlayerLaserKill(BYTE type)
 {
-
-}
-
-void Player::DoPlayerLaserKill()
-{
-
+	enemyData * edata = &(BResource::bres.enemydata[type]);
+	int addcombogage = edata->combogage;
+	AddComboGage(addcombogage);
+	int addtemper = edata->killtemperpoint;
+	AddTemper(addtemper);
 }
 
 void Player::DoShot()
@@ -1129,7 +1110,7 @@ void Player::DoShot()
 	if (!bInfi && !(flag & (PLAYER_SHOT | PLAYER_COLLAPSE)))
 	{
 		flag |= PLAYER_SHOT;
-		AddComboHit(-1, true);
+		AddComboGage(-1);
 	}
 }
 
@@ -1142,7 +1123,6 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 	case ITEM_BULLET:
 		break;
 	case ITEM_EX:
-		AddBulletPoint(1, _x, _y);
 		break;
 	case ITEM_POINT:
 		break;
@@ -1244,60 +1224,144 @@ void Player::callPlayerChange()
 }
 
 
-void Player::AddBulletPoint(int bulletpoint, float x, float y)
+void Player::AddScore(LONGLONG addscore)
 {
-	nBulletPoint += bulletpoint * 4 / 3;
-	if (nBulletPoint >= 120-rank*4)
+	nScore += addscore;
+	if (nScore > nHiScore)
 	{
-		AddBulletPoint(-(120-rank*4), x, y);
-		BYTE setID = EFFSPSET_SYSTEM_SENDBLUEBULLET;
-		if (randt(0, 2) == 0)
+		nHiScore = nScore;
+	}
+}
+
+void Player::AddHitScore(LONGLONG addscore)
+{
+	if (addscore < 0)
+	{
+		nHitScore = 0;
+		return;
+	}
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT)
+	{
+		return;
+	}
+	nHitScore += addscore * (bhyper?1:nScoreMul);
+	if (!hitdisplaykeeptimer)
+	{
+		nLastHitScore = nHitScore;
+	}
+}
+
+void Player::AddComboGage(int gage)
+{
+	if (gage < 0)
+	{
+		nComboGage = 0;
+		AddComboHit(-1);
+	}
+	else
+	{
+		if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT)
 		{
-			setID = EFFSPSET_SYSTEM_SENDREDBULLET;
+			return;
+		}
+		nComboGage += gage;
+		if (nComboGage > PLAYER_COMBOGAGEMAX)
+		{
+			nComboGage = PLAYER_COMBOGAGEMAX;
 		}
 	}
 }
 
-void Player::AddComboHit(int combo, bool ori)
+void Player::KeepComboGage()
+{
+	if (nComboGage < _PL_COMBOKEEP)
+	{
+		nComboGage = _PL_COMBOKEEP;
+	}
+}
+
+void Player::AddComboHit(int combo)
 {
 	if (combo < 0)
 	{
 		nComboHit = 0;
-		nComboHitOri = 0;
+		nScoreMul = 1;
+		AddHitScore(-1);
+		if (!hitdisplaykeeptimer)
+		{
+			hitdisplaykeeptimer = PLAYER_HITDISPLAYTIMEMAX;
+		}
 		return;
 	}
-	nComboHit += combo;
-	if (nComboHit > PLAYER_NCOMBOHITMAX)
+
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT)
 	{
-		nComboHit = PLAYER_NCOMBOHITMAX;
-	}
-	if (ori)
-	{
-		nComboHitOri += combo;
-		if (nComboHitOri > PLAYER_NCOMBOHITMAX)
-		{
-			nComboHitOri = PLAYER_NCOMBOHITMAX;
-		}
+		return;
 	}
 
-	if (nComboGage < 74)
+	nComboHit += combo;
+	if (nComboHit < _PL_SCOREMUL_1_HIT)
 	{
-		nComboGage += 30;
-		if (nComboGage < 74)
-		{
-			nComboGage = 74;
-		}
+		nScoreMul = 1;
 	}
-	else if (nComboGage < 94)
+	else if (nComboHit < _PL_SCOREMUL_2_HIT)
 	{
-		nComboGage += 5;
+		nScoreMul = 2;
+	}
+	else if (nComboHit < _PL_SCOREMUL_3_HIT)
+	{
+		nScoreMul = 3;
+	}
+	else if (nComboHit < _PL_SCOREMUL_4_HIT)
+	{
+		nScoreMul = 4;
+	}
+	else if (nComboHit < _PL_SCOREMUL_5_HIT)
+	{
+		nScoreMul = 5;
+	}
+	else if (nComboHit < _PL_SCOREMUL_6_HIT)
+	{
+		nScoreMul = 6;
 	}
 	else
 	{
-		nComboGage += 2;
+		nScoreMul = 7;
 	}
-	if (nComboGage > PLAYER_COMBOGAGEMAX)
+
+	if (!hitdisplaykeeptimer)
 	{
-		nComboGage = PLAYER_COMBOGAGEMAX;
+		nLastComboHit = nComboHit;
+	}
+	AddScore(nHitScore);
+	if (nComboHit > nComboHitMax)
+	{
+		nComboHitMax = nComboHit;
+	}
+}
+
+void Player::AddTemper(int temper)
+{
+	nTemper += temper;
+	if (nTemper > PLAYER_TEMPERMAX)
+	{
+		nTemper = PLAYER_TEMPERMAX;
+	}
+	else if (nTemper < -PLAYER_TEMPERMAX)
+	{
+		nTemper = -PLAYER_TEMPERMAX;
+	}
+
+	if (nTemper >= PLAYER_TEMPERHOTEDGE)
+	{
+		temperSelf = _PLTEMPER_HOT;
+	}
+	else if (nTemper <= PLAYER_TEMPERCOLDEDGE)
+	{
+		temperSelf = _PLTEMPER_COLD;
+	}
+	else
+	{
+		temperSelf = _PLTEMPER_NULL;
 	}
 }

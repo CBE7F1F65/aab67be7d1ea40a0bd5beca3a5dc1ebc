@@ -25,10 +25,11 @@ BYTE Enemy::nEnemyNow[ENEMY_NMAXSETMAX];
 #define _SCOREDISPLAYMAX		(ENEMYMAX*2)
 VectorList<ScoreDisplay> Enemy::scoredisplay;
 
-#define _ENEMYDELETE_LEFT	(M_GAMESQUARE_LEFT-M_GAMESQUARE_EDGE)
-#define _ENEMYDELETE_RIGHT	(M_GAMESQUARE_RIGHT+M_GAMESQUARE_EDGE)
-#define _ENEMYDELETE_TOP		(M_GAMESQUARE_TOP-M_GAMESQUARE_EDGE)
-#define _ENEMYDELETE_BOTTOM		(M_GAMESQUARE_BOTTOM+M_GAMESQUARE_EDGE)
+#define _ENEMYDELETE_EDGE	32.0f
+#define _ENEMYDELETE_LEFT	(M_GAMESQUARE_LEFT-_ENEMYDELETE_EDGE)
+#define _ENEMYDELETE_RIGHT	(M_GAMESQUARE_RIGHT+_ENEMYDELETE_EDGE)
+#define _ENEMYDELETE_TOP		(M_GAMESQUARE_TOP-_ENEMYDELETE_EDGE)
+#define _ENEMYDELETE_BOTTOM		(M_GAMESQUARE_BOTTOM+_ENEMYDELETE_EDGE)
 
 Enemy::Enemy()
 {
@@ -60,12 +61,6 @@ void Enemy::Release()
 
 int Enemy::Build(WORD eID, float x, float y, int angle, float speed, BYTE type, float life, int infitimer)
 {
-	BYTE nmaxset = BResource::bres.enemydata[type].nmaxset;
-	BYTE nmax = BResource::bres.enemydata[type].nmax;
-	if (nmax && nEnemyNow[nmaxset] > nmax)
-	{
-		return -1;
-	}
 	Enemy _en;
 	Enemy * _pen = NULL;
 	if (en.getSize() < ENEMYMAX)
@@ -133,6 +128,7 @@ void Enemy::BossFadeout()
 void Enemy::Action()
 {
 	PlayerBullet::ClearLock();
+	PlayerLaser::ClearStop();
 	for (int k=0; k<ENEMY_NMAXSETMAX; k++)
 	{
 		nEnemyNow[k] = 0;
@@ -149,8 +145,6 @@ void Enemy::Action()
 			Enemy * pen = &(*(en));
 			if (pen->exist)
 			{
-				BYTE nmaxset = BResource::bres.enemydata[(*en).type].nmaxset;
-				nEnemyNow[nmaxset]++;
 				DWORD _index = en.getIndex();
 				if (!binstop)
 				{
@@ -163,7 +157,7 @@ void Enemy::Action()
 				en.toIndex(_index);
 				if (pen->able)
 				{
-					PlayerBullet::CheckAndSetLock((BObject *)pen, en.getIndex(), pen->checkActive() && pen->maxlife < 100 && (pen->flag & ENEMYFLAG_PBSHOTABLE));
+					PlayerBullet::CheckAndSetLock((BObject *)pen, en.getIndex());
 					if (pen->type < DATASTRUCT_PLAYERTYPEMAX)
 					{
 						bossindex = en.getIndex();
@@ -216,45 +210,6 @@ void Enemy::Action()
 					}
 				}
 			}
-		}
-	}
-}
-
-void Enemy::BuildENAZ(BYTE flag, float x, float y, float rPrep, float rParal, int angle)
-{
-	EnemyActivationZone _enaz;
-	enaz.push_back(_enaz);
-	EnemyActivationZone * _penaz = &(*(enaz.rbegin()));
-	_penaz->flag = flag;
-	_penaz->x = x;
-	_penaz->y = y;
-	_penaz->rPrep = rPrep;
-	_penaz->rParal = rParal;
-	_penaz->angle = angle;
-}
-
-void Enemy::SendGhost(float x, float y, BYTE setID, BYTE * sendtime, float * acceladd)
-{
-	int siidindex = EFFSPSEND_COLOR_RED;
-	float _hscale = randtf(1.2f, 1.4f);
-	int esindex = EffectSp::Build(setID, EffectSp::senditemsiid[siidindex][0], x, y, 0, _hscale);
-	if (esindex >= 0)
-	{
-		EffectSp * _peffsp = &(EffectSp::effsp[esindex]);
-		_peffsp->colorSet(0x80ffffff, BLEND_ALPHAADD);
-		float aimx;
-		float aimy;
-		aimx = randtf(M_GAMESQUARE_LEFT + 8, M_GAMESQUARE_RIGHT - 8);
-		aimy = randtf(M_GAMESQUARE_TOP, M_GAMESQUARE_TOP + 128);
-		_peffsp->chaseSet(EFFSP_CHASE_FREE, aimx, aimy, randt(45, 60));
-		_peffsp->animationSet(EFFSPSEND_ANIMATIONMAX);
-		if (sendtime)
-		{
-			_peffsp->AppendData(*sendtime, *acceladd);
-		}
-		else
-		{
-			_peffsp->AppendData(0, 0);
 		}
 	}
 }
@@ -357,11 +312,7 @@ void Enemy::valueSet(WORD _eID, float _x, float _y, int _angle, float _speed, BY
 	diffuse	=	0xffffff;
 	ac		=	ENAC_NONE;
 	acceladd	=	0;
-	sendtime	=	0;
-	sendsetID	=	0;
 	tarID	=	0xff;
-	activetimer = 0;
-	activemaxtime = 0;
 
 	actionflag = ENEMYACTION_NONE;
 	storetimer = 0;
@@ -885,24 +836,6 @@ bool Enemy::CostLife(float power)
 
 bool Enemy::isInRect(float aimx, float aimy, float r, float w, float h, int nextstep/* =0 */)
 {
-	WORD infinmaxset = BResource::bres.playerdata[Player::p.ID].infinmaxset;
-	if (infinmaxset)
-	{
-		BYTE nmaxset = BResource::bres.enemydata[type].nmaxset;
-		for (int i=0; i<4; i++)
-		{
-			infinmaxset>>(i*4);
-			if (!infinmaxset)
-			{
-				break;
-			}
-			if ((infinmaxset&0x000f) == nmaxset)
-			{
-				return false;
-			}
-		}
-	}
-
 	float _x = x;
 	float _y = y;
 	float _r = r;
@@ -915,10 +848,6 @@ bool Enemy::isInRect(float aimx, float aimy, float r, float w, float h, int next
 		{
 			_r += speed;
 		}
-		if (sendsetID)
-		{
-			h += 4;
-		}
 	}
 	return CheckCollisionSquare(_x, _y, aimx, aimy, w, h, _r);
 }
@@ -928,7 +857,6 @@ void Enemy::actionInStop()
 	if (!fadeout)
 	{
 		DoShot();
-		DoActivate();
 	}
 }
 
@@ -966,16 +894,8 @@ void Enemy::DoShot()
 			}
 			if (it->isInRect(x, y, 0, tw, th))
 			{
-				if ( CostLife(it->power * BResource::bres.enemydata[type].blastdamagerate) )
+				if ( CostLife(it->power) )
 				{
-					if (it->type & EVENTZONE_TYPE_NOSEND)
-					{
-						sendsetID = 0;
-					}
-					if (sendsetID)
-					{
-						ForceActive();
-					}
 				}
 
 			}
@@ -1046,109 +966,6 @@ void Enemy::DoShot()
 
 }
 
-void Enemy::ForceActive()
-{
-	if (!checkActive())
-	{
-	}
-}
-
-bool Enemy::DoActivate()
-{
-	if (!enaz.size())
-	{
-		return false;
-	}
-	if (!checkActive() && Player::p.bDrain)
-	{
-		float rori = (BResource::bres.enemydata[type].collision_w + BResource::bres.enemydata[type].collision_h) / 4;
-		if (CheckENAZ(x, y, rori))
-		{
-			ForceActive();
-			return true;
-		}
-	}
-	return false;
-}
-
-bool Enemy::CheckENAZ(float x, float y, float rori)
-{
-	bool haveor = false;
-	bool orcheck = false;
-	if (!enaz.size())
-	{
-		return false;
-	}
-	for (list<EnemyActivationZone>::iterator it=enaz.begin(); it!=enaz.end(); it++)
-	{
-		bool checkret = true;
-		switch ((it->flag) & ENAZTYPEMASK)
-		{
-		case ENAZTYPE_CIRCLE:
-			checkret = BObject::CheckCollisionBigCircle(x, y, it->x, it->y, it->rPrep+rori);
-			break;
-		case ENAZTYPE_ELLIPSE:
-			checkret = BObject::CheckCollisionEllipse(x, y, it->x, it->y, it->rPrep, it->rParal, it->angle, rori);
-			break;
-		case ENAZTYPE_RECT:
-			checkret = BObject::CheckCollisionRect(x, y, it->x, it->y, it->rPrep, it->rParal, it->angle, rori);
-			break;
-		case ENAZTYPE_RIGHTANGLED:
-			checkret = BObject::CheckCollisionRightAngled(x, y, it->x, it->y, it->rPrep, it->rParal, it->angle, rori);
-			break;
-		}
-		switch ((it->flag) & ENAZOPMASK)
-		{
-		case ENAZOP_AND:
-			if (!checkret || haveor && !orcheck)
-			{
-				return false;
-			}
-			haveor = false;
-			break;
-		case ENAZOP_OR:
-			if (!orcheck && checkret)
-			{
-				orcheck = true;
-			}
-			haveor = true;
-			break;
-		case ENAZOP_NOTAND:
-			if (checkret || haveor && !orcheck)
-			{
-				return false;
-			}
-			haveor = false;
-			break;
-		case ENAZOP_NOTOR:
-			if (!orcheck && !checkret)
-			{
-				orcheck = true;
-			}
-			haveor = true;
-			break;
-		}
-	}
-	return true;
-}
-
-bool Enemy::checkActive()
-{
-	if (!sendsetID || activetimer)
-	{
-		return true;
-	}
-	return false;
-}
-
-void Enemy::AddSendInfo(BYTE _sendsetID, BYTE _sendtime, float _accel, float _acceladd)
-{
-	sendsetID = _sendsetID;
-	sendtime = _sendtime;
-	accel = _accel;
-	acceladd = _acceladd;
-}
-
 void Enemy::Fadeout()
 {
 	if (!fadeout)
@@ -1179,7 +996,7 @@ void Enemy::action()
 	}
 	timer++;
 
-	if (timer < 60 || activetimer)
+	if (timer < 60)
 	{
 		if (accel)
 		{
@@ -1259,32 +1076,6 @@ void Enemy::action()
 		}
 		*/
 
-		DoActivate();
-
-		if (activetimer)
-		{
-			activetimer++;
-			if (activetimer >= activemaxtime)
-			{
-				exist = false;
-				timer = 0;
-			}
-			else if ((int)activetimer * 5 >= (int)activemaxtime * 4)
-			{
-				if (activetimer % 8 < 4)
-				{
-					alpha = 0x7f;
-					diffuse = 0xb40000;
-				}
-				else
-				{
-					alpha = 0xff;
-					diffuse = 0xffffff;
-				}
-				eff.SetColorMask((alpha<<24)|diffuse);
-			}
-		}
-
 		if (bturnhead)
 		{
 			headangle = angle;
@@ -1312,40 +1103,7 @@ void Enemy::action()
 			{
 				Player::p.DoEnemyCollapse(x, y, type);
 			}
-
-			BYTE blastmaxtime;
-			float blastr;
-			float blastpower;
-			GetBlastInfo(&blastmaxtime, &blastr, &blastpower);
-			if (blastmaxtime && blastr > 0)
-			{
-				EventZone::Build(EVENTZONE_TYPE_SENDBULLET|EVENTZONE_CHECKTYPE_CIRCLE, x, y, blastmaxtime, blastr);
-//				EventZone::Build(EVENTZONE_TYPE_ENEMYDAMAGE, x, y, blastmaxtime, 0, blastpower, EVENTZONE_EVENT_NULL, blastr/blastmaxtime);
-			}
-
-			if (sendsetID)
-			{
-				sendtime++;
-				if (sendtime < 3)
-				{
-					SendGhost(x, y, sendsetID, &sendtime, &acceladd);
-				}
-			}
-
-		}
-		
-		else if (timer == 8)
-		{
-			BYTE blastmaxtime;
-			float blastr;
-			float blastpower;
-			GetBlastInfo(&blastmaxtime, &blastr, &blastpower);
-			if (blastmaxtime && blastr > 0)
-			{
-				EventZone::Build(EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_ENEMYBLAST|EVENTZONE_CHECKTYPE_CIRCLE, x, y, blastmaxtime, 0, 0, blastpower, EVENTZONE_EVENT_NULL, blastr/blastmaxtime);
-			}
-		}
-		
+		}		
 		else if(timer == 32)
 		{
 			eff.Stop();
@@ -1360,40 +1118,6 @@ void Enemy::action()
 
 	damage = false;
 	able = exist && !fadeout && (tw || th);
-}
-
-void Enemy::GetBlastInfo(BYTE * maxtime/* =NULL */, float * r/* =NULL */, float * power/* =NULL */)
-{
-	if (maxtime)
-	{
-		*maxtime = BResource::bres.enemydata[type].blastmaxtime;
-	}
-	if (r)
-	{
-		*r = BResource::bres.enemydata[type].blastr;
-	}
-	if (power)
-	{
-		*power = BResource::bres.enemydata[type].blastpower;
-	}
-}
-
-void Enemy::SetActiveInfo(BYTE _activemaxtime, WORD _eID, BYTE _type, int _angle, float _accelspeed, float _damagerate)
-{
-	if (!exist || fadeout)
-	{
-		return;
-	}
-	activemaxtime = _activemaxtime;
-	ID = _eID;
-	ChangeType(_type);
-	angle = _angle;
-	speed = 0;
-	accel = _accelspeed;
-	damagerate = _damagerate;
-	setAction();
-	updateAction();
-	activetimer = 1;
 }
 
 void Enemy::giveItem()

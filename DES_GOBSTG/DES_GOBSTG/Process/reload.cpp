@@ -19,6 +19,7 @@ bool Process::reload()
 	strcpy(rpyfilename, "");
 	Replay::rpy.InitReplayIndex();
 	pauseinit = false;
+	practicemode = false;
 	replaymode = false;
 	replayFPS = 0;
 	stage = 0;

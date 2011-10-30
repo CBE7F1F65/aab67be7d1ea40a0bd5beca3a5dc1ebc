@@ -145,66 +145,120 @@ void FrontDisplay::RenderPanel()
 	float displayscale = Process::mp.infodisplayscale/Process::mp.screenscale;
 	if (panelstate)
 	{
-		float spellpointx;
-		spellpointx = M_GAMESQUARE_RIGHT-panel.spellpoint->GetWidth()*displayscale;
-		float winindix[2];
-		float winindiw = panel.winindi->GetWidth();
-		float winindih = panel.winindi->GetHeight();
-		for (int i=0; i<2; i++)
-		{
-			winindix[i] = M_GAMESQUARE_LEFT + winindiw * (i+1);
-		}
+		char strbuffer[M_STRMAX];
 
-		SpriteItemManager::RenderSpriteEx(panel.spellpoint, spellpointx, M_GAMESQUARE_TOP, 0, displayscale);
+		float scorexoffset = 120;
+		float yoffset = 12;
+		// Score
+		sprintf(strbuffer, "Score");
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
+		sprintf(strbuffer, "%d", Player::p.nScore);
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+scorexoffset, M_GAMESQUARE_TOP+yoffset, HGETEXT_RIGHT|HGETEXT_TOP, strbuffer);
+
+		// HiScore
+		sprintf(strbuffer, "High-Score");
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_RIGHT-scorexoffset, M_GAMESQUARE_TOP, HGETEXT_LEFT, strbuffer);
+		sprintf(strbuffer, "%d", Player::p.nHiScore);
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_RIGHT, M_GAMESQUARE_TOP+yoffset, HGETEXT_RIGHT|HGETEXT_TOP, strbuffer);
+
+		yoffset += 12;
+
+		// Combo
 		spriteData * _spd = SpriteItemManager::CastSprite(panel.combobarindex);
 		float fcombogage = ((float)Player::p.nComboGage) / PLAYER_COMBOGAGEMAX;
-		SpriteItemManager::SetSpriteTextureRect(panel.combobar, _spd->tex_x, _spd->tex_y, _spd->tex_w*fcombogage, _spd->tex_h);
+		float fcombolength = _spd->tex_h*fcombogage;
+		SpriteItemManager::SetSpriteTextureRect(panel.combobar, _spd->tex_x, _spd->tex_y+_spd->tex_h-fcombolength, _spd->tex_w, fcombolength);
 		SpriteItemManager::SetSpriteHotSpot(panel.combobar, 0, 0);
-		SpriteItemManager::RenderSpriteEx(panel.combobar, spellpointx+2*displayscale, M_GAMESQUARE_TOP+30*displayscale, 0, displayscale);
+		SpriteItemManager::RenderSprite(panel.combobar, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP+yoffset+_spd->tex_h-fcombolength);
 
-		bool usered = true;
-		if (Player::p.nComboGage < PLAYER_COMBOALERT && Player::p.nComboGage > PLAYER_COMBORESET)
-		{
-			if (gametime % 8 < 4)
-			{
-				usered = false;
-			}
-		}
-		int nComboHit = Player::p.nComboHit;
-		char buffer[M_STRITOAMAX];
-		sprintf(buffer, "%d%c", nComboHit, '0'+(usered?21:20));
-		if (usered)
-		{
-			for (int j=0; j<strlen(buffer)-1; j++)
-			{
-				buffer[j] += 10;
-			}
-		}
-		SpriteItemManager::FontPrintf(info.spellpointdigitfont, spellpointx+38*displayscale, M_GAMESQUARE_TOP+16*displayscale, HGETEXT_RIGHT, buffer);
+		SpriteItemManager::SetSpriteHotSpot(panel.comboframe, 0, 0);
+		SpriteItemManager::RenderSprite(panel.comboframe, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP+yoffset);
 
-		SpriteItemManager::RenderSprite(panel.slot, M_GAMESQUARE_LEFT+16, M_GAMESQUARE_BOTTOM);
-		SpriteItemManager::RenderSprite(panel.slotback, M_GAMESQUARE_LEFT, M_GAMESQUARE_BOTTOM);
-		float tempx;
-		for (int j=0; j<PLAYER_DEFAULTINITLIFE/2; j++)
+		// Info
+		SpriteItemManager::SetSpriteHotSpot(panel.infoframe, 0, 0);
+		SpriteItemManager::RenderSprite(panel.infoframe, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP+yoffset);
+
+		yoffset += 4;
+		float infoxoffset = 18;
+		sprintf(strbuffer, "Max:");
+		info.asciifont->SetScale(0.5f);
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+infoxoffset, M_GAMESQUARE_TOP+yoffset, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
+		sprintf(strbuffer, "%dHit", Player::p.nComboHitMax);
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+76, M_GAMESQUARE_TOP+yoffset, HGETEXT_RIGHT|HGETEXT_TOP, strbuffer);
+
+		yoffset += 10;
+		LONGLONG displayhitscore = Player::p.nHitScore;
+		if (Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
 		{
-			tempx = panel.lifeindi[FDISP_LIFEINDI_FULL]->GetWidth() * (j-(PLAYER_DEFAULTINITLIFE/2)/2) + M_GAMESQUARE_CENTER_X;
-			if (Player::p.nLife > j * 2 + 1)
-			{
-				SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_FULL], tempx, M_GAMESQUARE_TOP);
-			}
-			else if (Player::p.nLife > j * 2)
-			{
-				SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_HALF], tempx, M_GAMESQUARE_TOP);
-			}
-			else
-			{
-				SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_EMPTY], tempx, M_GAMESQUARE_TOP);
-			}
+			displayhitscore = Player::p.nLastHitScore;
+			info.asciifont->SetColor(0xffff0000);
 		}
+		sprintf(strbuffer, "+%d", displayhitscore);
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+76, M_GAMESQUARE_TOP+yoffset, HGETEXT_RIGHT|HGETEXT_TOP, strbuffer);
+
+		info.asciifont->SetColor(0xffffffff);
+		info.asciifont->SetScale(1.0f);
+
+		yoffset += 10;
+		// Life
+		float lifexoffset = M_GAMESQUARE_LEFT+24;
+		for (int i=0; i<Player::p.nLife; i++)
+		{
+			SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_FULL], lifexoffset+i*16, M_GAMESQUARE_TOP+yoffset);
+		}
+
+		yoffset += 32;
+		if (Player::p.nComboHit > 0 || Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
+		{
+			int displayhit = Player::p.nComboHit;
+			float combohitx = M_GAMESQUARE_LEFT+4;
+			if (Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
+			{
+				displayhit = Player::p.nLastComboHit;
+				BYTE alpha = 0xff;
+				if (Player::p.hitdisplaykeeptimer < PLAYER_HITDISPLAYFADE)
+				{
+					alpha = (int)Player::p.hitdisplaykeeptimer * 0xff / PLAYER_HITDISPLAYFADE;
+				}
+				info.asciifont->SetColor(ARGB(alpha, 0xff, 0, 0));
+			}
+			info.asciifont->SetScale(2.5f);
+			sprintf(strbuffer, "%dHit", displayhit);
+
+			SpriteItemManager::FontPrintf(info.asciifont, combohitx, M_GAMESQUARE_TOP+yoffset, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
+			info.asciifont->SetColor(0xffffffff);
+			info.asciifont->SetScale(1.0f);
+		}
+
+		// Temper
+		float temperx = M_GAMESQUARE_RIGHT - 136;
+		yoffset = 32;
+
+		SpriteItemManager::SetSpriteHotSpot(panel.temperback, 0, 0);
+		SpriteItemManager::RenderSprite(panel.temperback, temperx, M_GAMESQUARE_TOP+yoffset);
+
+		_spd = SpriteItemManager::CastSprite(panel.temperbarindex);
+		float ftempergage = ((float)Player::p.nTemper) / PLAYER_TEMPERMAX;
+		float ftemperlength = _spd->tex_w/2*ftempergage;
+		float ftempertexxbegin = _spd->tex_x+_spd->tex_w/2;
+		if (ftemperlength < 0)
+		{
+			ftempertexxbegin += ftemperlength;
+		}
+		SpriteItemManager::SetSpriteTextureRect(panel.temperbar, ftempertexxbegin, _spd->tex_y, fabsf(ftemperlength), _spd->tex_h);
+		SpriteItemManager::SetSpriteHotSpot(panel.temperbar, 0, 0.5f);
+		SpriteItemManager::RenderSprite(panel.temperbar, ftempertexxbegin-_spd->tex_x+temperx+4, M_GAMESQUARE_TOP+yoffset);
+
+		SpriteItemManager::SetSpriteHotSpot(panel.temperframe, 0, 0);
+		SpriteItemManager::RenderSprite(panel.temperframe, temperx, M_GAMESQUARE_TOP+yoffset);
+
+		// Border
 		SpriteItemManager::RenderSprite(panel.leftedge, M_GAMESQUARE_LEFT-M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
 		SpriteItemManager::RenderSprite(panel.rightedge, M_GAMESQUARE_RIGHT+M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
 		SpriteItemManager::RenderSprite(panel.topedge, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_TOP-M_GAMESQUARE_EDGE/2);
 		SpriteItemManager::RenderSprite(panel.bottomedge, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_BOTTOM+M_GAMESQUARE_EDGE/2);
+
+		// Costlife Effect
 		if (Player::p.flag & PLAYER_COSTLIFE)
 		{
 			DWORD col = 0xffffffff;
@@ -217,6 +271,8 @@ void FrontDisplay::RenderPanel()
 			hge->Gfx_RenderLine(M_GAMESQUARE_RIGHT, M_GAMESQUARE_BOTTOM, M_GAMESQUARE_LEFT, M_GAMESQUARE_BOTTOM, col);
 			hge->Gfx_RenderLine(M_GAMESQUARE_LEFT, M_GAMESQUARE_BOTTOM, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP, col);
 		}
+
+		// Music
 		if (musicstate)
 		{
 			float x = M_CLIENT_CENTER_X;
@@ -233,9 +289,9 @@ void FrontDisplay::RenderPanel()
 	}
 	if(info.asciifont)
 	{
-		char tbuff[M_STRMAX];
+		char strbuffer[M_STRMAX];
 #ifdef __DEBUG
-		sprintf(tbuff, 
+		sprintf(strbuffer, 
 			"%f %f",
 			hge->Timer_GetWorstFPS(35)/M_DEFAULT_RENDERSKIP,
 			hge->Timer_GetFPS()/M_DEFAULT_RENDERSKIP);
@@ -243,12 +299,12 @@ void FrontDisplay::RenderPanel()
 			400,
 			465,
 			0,
-			tbuff
+			strbuffer
 			);
-		sprintf(tbuff, "%d %d", gametime, hge->System_GetState(HGE_FRAMECOUNTER));
-		SpriteItemManager::FontPrintf(info.asciifont, 8, 465, 0, tbuff);
-		sprintf(tbuff, "%f",	hge->Timer_GetTime());
-		SpriteItemManager::FontPrintf(info.asciifont, 540, 1, 0, tbuff);
+		sprintf(strbuffer, "%d %d", gametime, hge->System_GetState(HGE_FRAMECOUNTER));
+		SpriteItemManager::FontPrintf(info.asciifont, 8, 465, 0, strbuffer);
+		sprintf(strbuffer, "%f",	hge->Timer_GetTime());
+		SpriteItemManager::FontPrintf(info.asciifont, 540, 1, 0, strbuffer);
 #endif
 		if (((Process::mp.IsInGame() && Player::CheckAble()) || Process::mp.state == STATE_OVER) && info.asciifont)
 		{
@@ -257,18 +313,18 @@ void FrontDisplay::RenderPanel()
 			{
 				usingtime = Process::mp.alltime;
 			}
-			char strfpsbuffer[M_STRMAX];
 			if (Process::mp.replaymode)
 			{
-				sprintf(strfpsbuffer, "%.2ffps(%.2f)", hge->Timer_GetFPS(35), Process::mp.replayFPS);
+				sprintf(strbuffer, "%.2ffps(%.2f)", hge->Timer_GetFPS(35), Process::mp.replayFPS);
 			}
 			else
 			{
-				sprintf(strfpsbuffer, "%.2ffps", hge->Timer_GetFPS(35));
+				sprintf(strbuffer, "%.2ffps", hge->Timer_GetFPS(35));
 			}
-			info.asciifont->Render(M_CLIENT_CENTER_X, M_CLIENT_BOTTOM-14, HGETEXT_CENTER, strfpsbuffer);
-			sprintf(strfpsbuffer, "%02d:%02d", usingtime/3600, (usingtime/60)%60);
-			SpriteItemManager::FontPrintf(info.asciifont, M_CLIENT_CENTER_X, M_CLIENT_TOP, HGETEXT_CENTER, strfpsbuffer);
+//			info.asciifont->Render(M_CLIENT_CENTER_X, M_CLIENT_BOTTOM-14, HGETEXT_CENTER, strfpsbuffer);
+			SpriteItemManager::FontPrintf(info.asciifont, M_CLIENT_CENTER_X, M_CLIENT_BOTTOM-14, HGETEXT_CENTER, strbuffer);
+			sprintf(strbuffer, "%02d:%02d", usingtime/3600, (usingtime/60)%60);
+			SpriteItemManager::FontPrintf(info.asciifont, M_CLIENT_CENTER_X, M_CLIENT_TOP, HGETEXT_CENTER, strbuffer);
 		}
 	}
 }
@@ -323,8 +379,6 @@ bool FrontDisplay::Init()
 	panel.spellpoint = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_SPELLPOINT);
 //	panel.spellpoint->SetHotSpot(0, 0);
 	SpriteItemManager::SetSpriteHotSpot(panel.spellpoint, 0, 0);
-	panel.combobarindex = SpriteItemManager::GetIndexByName(SI_FRONTPANEL_COMBOBAR);
-	panel.combobar = SpriteItemManager::CreateSprite(panel.combobarindex);
 	panel.winindi = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_WININDI);
 	panel.slotindex = SpriteItemManager::GetIndexByName(SI_FRONTPANEL_SLOT);
 	panel.slot = SpriteItemManager::CreateSprite(panel.slotindex);
@@ -334,6 +388,16 @@ bool FrontDisplay::Init()
 	panel.lifeindi[FDISP_LIFEINDI_EMPTY] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LIFEINDI_EMPTY);
 	panel.lifeindi[FDISP_LIFEINDI_HALF] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LIFEINDI_HALF);
 	panel.lifeindi[FDISP_LIFEINDI_FULL] = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_LIFEINDI_FULL);
+
+	panel.combobarindex = SpriteItemManager::GetIndexByName(SI_FRONTPANEL_COMBOBAR);
+	panel.combobar = SpriteItemManager::CreateSprite(panel.combobarindex);
+	panel.temperbarindex = SpriteItemManager::GetIndexByName(SI_FRONTPANEL_TEMPERBAR);
+	panel.temperbar = SpriteItemManager::CreateSprite(panel.temperbarindex);
+	panel.comboframe = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_COMBOFRAME);
+	panel.temperframe = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TEMPERFRAME);
+	panel.temperback = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TEMPERBACK);
+	panel.infoframe = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_INFOFRAME);
+
 	for (int i=0; i<FDISP_LIFEINDIMAX; i++)
 	{
 //		panel.lifeindi[i]->SetHotSpot(panel.lifeindi[i]->GetWidth()/2, 0);
@@ -464,10 +528,16 @@ void FrontDisplay::Release()
 	SpriteItemManager::FreeSprite(&panel.bottomedge);
 
 	SpriteItemManager::FreeSprite(&panel.spellpoint);
-	SpriteItemManager::FreeSprite(&panel.combobar);
 	SpriteItemManager::FreeSprite(&panel.winindi);
 	SpriteItemManager::FreeSprite(&panel.slot);
 	SpriteItemManager::FreeSprite(&panel.slotback);
+
+	SpriteItemManager::FreeSprite(&panel.comboframe);
+	SpriteItemManager::FreeSprite(&panel.combobar);
+	SpriteItemManager::FreeSprite(&panel.infoframe);
+	SpriteItemManager::FreeSprite(&panel.temperframe);
+	SpriteItemManager::FreeSprite(&panel.temperback);
+	SpriteItemManager::FreeSprite(&panel.temperbar);
 	for (int i=0; i<FDISP_LIFEINDIMAX; i++)
 	{
 		SpriteItemManager::FreeSprite(&panel.lifeindi[i]);

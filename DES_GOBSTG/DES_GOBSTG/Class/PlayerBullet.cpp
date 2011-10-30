@@ -14,15 +14,8 @@
 VectorList<PlayerBullet> PlayerBullet::pb;
 
 int PlayerBullet::locked;
-int PlayerBullet::activelocked;
 
 hgeSprite * PlayerBullet::sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
-
-DWORD PlayerBullet::bcol0;
-DWORD PlayerBullet::bcol1;
-DWORD PlayerBullet::bcol2;
-DWORD PlayerBullet::bcol3;
-WORD PlayerBullet::beams;
 
 #define _PBLOCK_ACCSPEED		1.0f
 #define _PBLOCK_MINSPEED		2.0f
@@ -61,7 +54,6 @@ void PlayerBullet::Init()
 
 	pb.init(PLAYERBULLETMAX);
 	locked = PBLOCK_LOST;
-	activelocked = PBLOCK_LOST;
 
 	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
 	{
@@ -89,7 +81,6 @@ void PlayerBullet::ClearItem()
 {
 	pb.clear_item();
 	locked = PBLOCK_LOST;
-	activelocked = PBLOCK_LOST;
 }
 
 void PlayerBullet::Action()
@@ -140,7 +131,7 @@ void PlayerBullet::RenderAll()
 	}
 }
 
-void PlayerBullet::BuildShoot(BYTE playerID, int usetimer, bool bchargeshoot/* =false */)
+void PlayerBullet::BuildShoot(BYTE playerID, int usetimer, bool bhyper/* =false */)
 {
 	playershootData * item;
 	for (int i=0; i<DATASTRUCT_PLAYERSHOOTTYPEMAX; i++)
@@ -148,7 +139,7 @@ void PlayerBullet::BuildShoot(BYTE playerID, int usetimer, bool bchargeshoot/* =
 		item = &(BResource::bres.playershootdata[i]);
 		if (item->userID == playerID)
 		{
-			if ((bchargeshoot) ^ (item->bchargeshoot))
+			if ((bhyper) ^ (item->bhypershoot))
 			{
 				continue;
 			}
@@ -174,11 +165,11 @@ int PlayerBullet::Build(int shootdataID, bool explode/* =false */, float xoffset
 	}
 	pb.push_back(_pb)->valueSet(shootdataID, item->arrange, item->xbias+xoffset, item->ybias+yoffset, 
 		item->scale, item->angle, item->addangle, item->speed, item->accelspeed, 
-		item->power, item->hitonfactor, item->flag, item->seID, item->deletetime);
+		item->power, item->flag, item->seID, item->deletetime);
 	return pb.getEndIndex();
 }
 
-void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, int _hitonfactor, WORD _flag, BYTE seID, int _deletetime)
+void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, WORD _flag, BYTE seID, int _deletetime)
 {
 	ID		=	_ID;
 	angle	=	_angle;
@@ -187,7 +178,6 @@ void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias,
 	accelspeed = _accelspeed;
 	oldspeed =	speed;
 	power	=	_power;
-	hitonfactor = _hitonfactor;
 	arrange	=	_arrange;
 	flag	=	_flag;
 	xbias	=	_xbias;
@@ -299,12 +289,11 @@ void PlayerBullet::Render()
 void PlayerBullet::ClearLock()
 {
 	locked = PBLOCK_LOST;
-	activelocked = PBLOCK_LOST;
 }
 
-bool PlayerBullet::CheckAndSetLock(BObject * pbobj, int lockedid, bool active)
+bool PlayerBullet::CheckAndSetLock(BObject * pbobj, int lockedid)
 {
-	if (locked != PBLOCK_LOST && activelocked != PBLOCK_LOST)
+	if (locked != PBLOCK_LOST)
 	{
 		return false;
 	}
@@ -315,10 +304,6 @@ bool PlayerBullet::CheckAndSetLock(BObject * pbobj, int lockedid, bool active)
 		{
 			locked = lockedid;
 		}
-		if (activelocked == PBLOCK_LOST && active && pbobj->y <= M_GAMESQUARE_BOTTOM-64)
-		{
-			activelocked = lockedid;
-		}
 		return true;
 	}
 	return false;
@@ -326,11 +311,7 @@ bool PlayerBullet::CheckAndSetLock(BObject * pbobj, int lockedid, bool active)
 
 bool PlayerBullet::GetLockAim(BObject ** ppbobj)
 {
-	int lockedid = activelocked;
-	if (activelocked == PBLOCK_LOST)
-	{
-		lockedid = locked;
-	}
+	int lockedid = locked;
 	if (lockedid == PBLOCK_LOST)
 	{
 		return false;
@@ -704,11 +685,7 @@ bool PlayerBullet::CheckShoot(Enemy * en, float aimx, float aimy, float aimw, fl
 //					totalpower += (*pb).power;
 					if (en->CostLife((*pb).power))
 					{
-						Player::p.DoPlayerBulletKill((*pb).hitonfactor);
-						if ((*pb).hitonfactor >= 0)
-						{
-							en->ForceActive();
-						}
+						Player::p.DoPlayerBulletKill(en->type);
 					}
 				}
 			}

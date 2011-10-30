@@ -3,45 +3,34 @@
 #include "../Header/Player.h"
 #include "../Header/Data.h"
 #include "../Header/Replay.h"
-/*
+
 int DataConnector::Insert()
 {
 	if(Process::mp.replaymode)
 		return -1;
 
 	DWORD sec;
-	if(Process::mp.spellmode)
-	{
-		sec = Data::data.sLinkType(DATAS_SPELL);
-		sec = Data::data.sLinkNum(sec, rpy.rpyinfo.startscene);
-
-		if(Player::p[0].nScore > Data::data.lRead(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TOPBONUS), 0))
-		{
-			Data::data.lWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TOPBONUS), Player::p[0].nScore);
-		}
-		return -1;
-	}
 
 	if(Process::mp.practicemode)
 	{
 		sec = Data::data.sLinkType(DATAS_STAGEPRACTICE);
-		sec = Data::data.sLinkDiff(sec, rpy.rpyinfo.difflv);
-		sec = Data::data.sLinkNum(sec, rpy.rpyinfo.startscene / M_STAGENSCENE);
-		if(rpy.rpyinfo.score > Data::data.lRead(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TOPSCORE), 0))
+		sec = Data::data.sLinkDiff(sec, Replay::rpy.rpyinfo.difflv);
+		sec = Data::data.sLinkNum(sec, Replay::rpy.rpyinfo.stage);
+		if(Replay::rpy.rpyinfo.score > Data::data.lRead(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TOPSCORE), 0))
 		{
-			Data::data.lWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TOPSCORE), rpy.rpyinfo.score);
+			Data::data.lWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TOPSCORE), Replay::rpy.rpyinfo.score);
 		}
 		return -1;
 	}
 
 	sec = Data::data.sLinkType(DATAS_TOP);
-	sec = Data::data.sLinkDiff(sec, rpy.rpyinfo.difflv);
+	sec = Data::data.sLinkDiff(sec, Replay::rpy.rpyinfo.difflv);
 
 	for(int i=DATA_NTOP10FILESAVE;i>=0;i--)
 	{
 		DWORD secbuf = sec;
 		secbuf = Data::data.sLinkNum(secbuf, i);
-		if(i == 0 || Data::data.lRead(DATA_BINFILE, secbuf, Data::data.nLinkType(DATAN_SCORE), 0) > rpy.rpyinfo.score)
+		if(i == 0 || Data::data.lRead(DATA_BINFILE, secbuf, Data::data.nLinkType(DATAN_SCORE), 0) > Replay::rpy.rpyinfo.score)
 		{
 			if(i == DATA_NTOP10FILESAVE)
 				return 0;
@@ -53,38 +42,21 @@ int DataConnector::Insert()
 			//
 			sec = Data::data.sLinkNum(sec, i+1);
 
-			Data::data.lWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_SCORE), rpy.rpyinfo.score);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_LASTSTAGE), rpy.rpyinfo.laststage);
-			Data::data.sWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_USERNAME), rpy.rpyinfo.username);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_YEAR), rpy.rpyinfo.year);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_MONTH), rpy.rpyinfo.month);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_DAY), rpy.rpyinfo.day);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_HOUR), rpy.rpyinfo.hour);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_MINUTE), rpy.rpyinfo.minute);
-			Data::data.fWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_LOST), rpy.rpyinfo.lost);
-			Data::data.fWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_BORDERRATE), rpy.rpyinfo.borderrate);
-			Data::data.fWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_FASTRATE), rpy.rpyinfo.fastrate);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_ALLTIME), rpy.rpyinfo.alltime);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_SPELLGET), rpy.rpyinfo.get);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_POINT), rpy.rpyinfo.point);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_FAITH), rpy.rpyinfo.faith);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_MISS), rpy.rpyinfo.miss);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_BOMB), rpy.rpyinfo.border);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_CONTINUE), rpy.rpyinfo.cont);
-			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_PAUSE), rpy.rpyinfo.pause);
+			Data::data.lWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_SCORE), Replay::rpy.rpyinfo.score);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_LASTSTAGE), Replay::rpy.rpyinfo.stage);
+			Data::data.sWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_USERNAME), Replay::rpy.rpyinfo.username);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_YEAR), Replay::rpy.rpyinfo.year);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_MONTH), Replay::rpy.rpyinfo.month);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_DAY), Replay::rpy.rpyinfo.day);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_HOUR), Replay::rpy.rpyinfo.hour);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_TIME_MINUTE), Replay::rpy.rpyinfo.minute);
+			Data::data.fWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_LOST), Replay::rpy.rpyinfo.lost);
+			Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_ALLTIME), Replay::rpy.rpyinfo.alltime);
 
 			DWORD name;
 			name = Data::data.nLinkType(DATAN_CHARA);
-			for (int j=0; j<M_PL_ONESETPLAYER; j++)
-			{
-				name = Data::data.nLinkNum(name, j+1);
-				Data::data.iWrite(DATA_BINFILE, sec, name, rpy.rpyinfo.usingchara[j]);
-			}
-			name = Data::data.nLinkType(DATAN_GETSPELL);
-			for (int j=0; j<M_GETSPELLMAX; j++)
-			{
-				Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkNum(name, j+1), rpy.rpyinfo.getspell[j]);
-			}
+			name = Data::data.nLinkNum(name, 1);
+			Data::data.iWrite(DATA_BINFILE, sec, name, Replay::rpy.rpyinfo.usingchara);
 
 			return i+1;
 		}
@@ -92,7 +64,7 @@ int DataConnector::Insert()
 	return 0;
 }
 
-
+/*
 //////////////////////////////
 //replaymode, p[0].ID, scene, spellmode
 void DataConnector::Meet()
@@ -167,11 +139,14 @@ int DataConnector::nGet()
 	return Data::data.nGet(Process::mp.scene, Process::mp.spellmode);
 }
 
+*/
 //replaymode, practicemode, nowdifflv, luchara
 void DataConnector::Clear()
 {
 	if(Process::mp.replaymode || Process::mp.practicemode)
+	{
 		return;
+	}
 
 	DWORD sec;
 	sec = Data::data.sLinkType(DATAS_TOTAL);
@@ -179,7 +154,7 @@ void DataConnector::Clear()
 
 	Data::data.iWrite(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_CLEARTIME), Data::data.iRead(DATA_BINFILE, sec, Data::data.nLinkType(DATAN_CLEARTIME), 0)+1);
 }
-*/
+
 //playtimeStart
 void DataConnector::addPlayTime()
 {
@@ -193,24 +168,26 @@ void DataConnector::addPlayTime()
 
 	Process::mp.playtimeStart = 0;
 }
-/*
+
 //spellmode, luchara, scene, nowdifflv, practicemode
 LONGLONG DataConnector::nHiScore()
 {
-	return Data::data.nHighScore(Process::mp.scene, Process::mp.nowdifflv, Process::mp.spellmode, Process::mp.practicemode);
+	return Data::data.nHighScore(Process::mp.stage, Process::mp.nowdifflv, Process::mp.practicemode);
 }
 
 //nowdifflv, luchara, scene
 int DataConnector::nTryStageTime()
 {
-	return Data::data.nTryStageTime(Data::data.getStage(Process::mp.scene), Process::mp.nowdifflv);
+	return Data::data.nTryStageTime(Process::mp.stage, Process::mp.nowdifflv);
 }
 
 //spellmode, replaymode, practicemode, nowdifflv, luchara, scene
 void DataConnector::Try(bool first)
 {
-	if(Process::mp.spellmode || Process::mp.replaymode)
+	if(Process::mp.replaymode)
+	{
 		return;
+	}
 	
 	DWORD sec;
 	DWORD name;
@@ -218,7 +195,7 @@ void DataConnector::Try(bool first)
 	{
 		sec = Data::data.sLinkType(DATAS_STAGEPRACTICE);
 		sec = Data::data.sLinkDiff(sec, Process::mp.nowdifflv);
-		sec = Data::data.sLinkNum(sec, Process::mp.scene/M_STAGENSCENE);
+		sec = Data::data.sLinkNum(sec, Process::mp.stage/M_STAGENSCENE);
 
 		name = Data::data.nLinkType(DATAN_TRYTIME);
 		if(Process::mp.practicemode)
@@ -239,12 +216,7 @@ void DataConnector::Try(bool first)
 	{
 		name = Data::data.nLinkType(DATAN_PLAYTIME);
 		Data::data.iWrite(DATA_BINFILE, sec, name, Data::data.iRead(DATA_BINFILE, sec, name, 0)+1);
-		name = Data::data.nLinkNum(name, Player::p[0].ID+1);
-		Data::data.iWrite(DATA_BINFILE, sec, name, Data::data.iRead(DATA_BINFILE, sec, name, 0)+1);
-		name = Data::data.nLinkNum(name, Player::p[0].ID_sub_1+1);
-		Data::data.iWrite(DATA_BINFILE, sec, name, Data::data.iRead(DATA_BINFILE, sec, name, 0)+1);
-		name = Data::data.nLinkNum(name, Player::p[0].ID_sub_2+1);
+		name = Data::data.nLinkNum(name, Player::p.ID+1);
 		Data::data.iWrite(DATA_BINFILE, sec, name, Data::data.iRead(DATA_BINFILE, sec, name, 0)+1);
 	}
 }
-*/

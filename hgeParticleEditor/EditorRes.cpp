@@ -2,6 +2,7 @@
 #include "../DES_GOBSTG/DES_GOBSTG/Header/Export.h"
 #include "../DES_GOBSTG/DES_GOBSTG/Header/BResource.h"
 #include "../DES_GOBSTG/DES_GOBSTG/Header/Data.h"
+#include "../DES_GOBSTG/DES_GOBSTG/Header/ConstResource.h"
 
 EditorRes eres;
 
@@ -75,7 +76,7 @@ bool EditorRes::ReloadEffect(int ID)
 	if(strlen(BResource::bres.resdata.effectsysfilename[ID]))
 	{
 		eff[ID] = new hgeEffectSystem;
-		strcpy(buffer, BResource::bres.resdata.effectsysfoldername);
+		strcpy(buffer, RESDATASTR_FOLDER_EFFECTSYS);
 		strcat(buffer, BResource::bres.resdata.effectsysfilename[ID]);
 		texnum[ID] = Export::effLoad(buffer, eff[ID], tex);
 		if(texnum[ID] < 0)
@@ -146,7 +147,7 @@ char * EditorRes::GetFilename(int effi)
 
 char * EditorRes::GetFullFilename(int effi)
 {
-	strcpy(fullfilename, BResource::bres.resdata.effectsysfoldername);
+	strcpy(fullfilename, RESDATASTR_FOLDER_EFFECTSYS);
 	strcat(fullfilename, GetFilename(effi));
 	return fullfilename;
 }

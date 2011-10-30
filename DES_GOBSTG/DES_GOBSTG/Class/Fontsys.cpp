@@ -99,11 +99,6 @@ void Fontsys::HeatUp(bool rebuildfont)
 				DoHeatUpBuffer(BResource::bres.playerdata[i].spellname[j], &charcodelist);
 			}
 		}
-		for (int i=0; i<DATASTRUCT_ENEMYTYPEMAX; i++)
-		{
-			DoHeatUpBuffer(BResource::bres.enemydata[i].name, &charcodelist);
-			DoHeatUpBuffer(BResource::bres.enemydata[i].ename, &charcodelist);
-		}
 		for (int i=0; i<DATASTRUCT_MUSICMAX; i++)
 		{
 			DoHeatUpBuffer(BResource::bres.musdata[i].musicname, &charcodelist);

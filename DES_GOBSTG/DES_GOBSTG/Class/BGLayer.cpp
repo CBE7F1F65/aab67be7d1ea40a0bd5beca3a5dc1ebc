@@ -83,7 +83,7 @@ void BGLayer::action()
 
 		UpdateTileSprite();
 
-		tilesxoffset = -(bglayer.mapcenx+mapxoffset - ((int)(bglayer.mapcenx+mapxoffset))/BGTILE_WIDTH*BGTILE_WIDTH);
+		tilesxoffset = -(bglayer.mapcenx - ((int)(bglayer.mapcenx))/BGTILE_WIDTH*BGTILE_WIDTH);
 		tilesyoffset = bglayer.mapceny - ((int)bglayer.mapceny)/BGTILE_HEIGHT*BGTILE_HEIGHT;
 
 		for (int i=0; i<BGTILEMAX; i++)
@@ -125,7 +125,7 @@ void BGLayer::BGLayerSetup(float begincenx)
 	}
 
 	mapcenx = begincenx;
-	mapceny = M_MAINVIEW_HEIGHT/2;
+	mapceny = M_GAMESQUARE_HEIGHT/2;
 
 	adatabegin = &(BResource::bres.stageareadata[Process::mp.stage * DATASTRUCT_AREAPERSTAGEMAX]);
 
@@ -234,8 +234,8 @@ void BGLayer::BGLayerSetup(float begincenx)
 	{
 		for (int i=0; i<BGTILE_XCOUNTMAX; i++)
 		{
-			bgtiles[j*BGTILE_XCOUNTMAX+i].x = (M_CLIENT_WIDTH-M_MAINVIEW_WIDTH - BGTILE_WIDTH)/2 + BGTILE_WIDTH * i;
-			bgtiles[j*BGTILE_XCOUNTMAX+i].y = (BGTILE_HEIGHT)/2 + BGTILE_HEIGHT * (BGTILE_YCOUNTMAX-j-1);
+			bgtiles[j*BGTILE_XCOUNTMAX+i].x = M_GAMESQUARE_LEFT - BGTILE_WIDTH/2 + BGTILE_WIDTH * i;
+			bgtiles[j*BGTILE_XCOUNTMAX+i].y = M_GAMESQUARE_TOP-(BGTILE_HEIGHT)/2 + BGTILE_HEIGHT * (BGTILE_YCOUNTMAX-j-1);
 		}
 	}
 
@@ -251,7 +251,7 @@ void BGLayer::SetMapSpeedInfo(float _xspeed, float _yspeed, float _mapxoffset)
 
 void BGLayer::UpdateTileSprite()
 {
-	int nowbegintilex = ((int)(mapcenx+mapxoffset))/BGTILE_WIDTH-BGTILE_XCOUNTMAX/2;
+	int nowbegintilex = ((int)(mapcenx))/BGTILE_WIDTH-BGTILE_XCOUNTMAX/2;
 	int nowbegintiley = ((int)mapceny)/BGTILE_HEIGHT-BGTILE_YCOUNTMAX/2+1;
 	for (int j=0; j<BGTILE_YCOUNTMAX; j++)
 	{

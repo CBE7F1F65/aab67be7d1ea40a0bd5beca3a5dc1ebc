@@ -33,14 +33,14 @@ public:
 	~PlayerBullet();
 
 	static void Init();
-	static void BuildShoot(BYTE playerID, int usetimer, bool bchargeshoot=false);
+	static void BuildShoot(BYTE playerID, int usetimer, bool bhyper=false);
 	static int Build(int shootdataID, bool explode=false, float xoffset=0, float yoffset=0);
 	static void ClearItem();
 	static void Action();
 	static void RenderAll();
 	static bool CheckShoot(Enemy * en, float aimx, float aimy, float aimw, float aimh=0.0f);
 
-	void valueSet(WORD ID, BYTE arrange, float xbias, float ybias, float scale, int angle, int addangle, float speed, float accelspeed, float power, int hitonfactor, WORD flag, BYTE seID, int deletetime);
+	void valueSet(WORD ID, BYTE arrange, float xbias, float ybias, float scale, int angle, int addangle, float speed, float accelspeed, float power, WORD flag, BYTE seID, int deletetime);
 
 	void action();
 	void Render();
@@ -54,7 +54,7 @@ public:
 	void TurnBullet(float mul=1.0f);
 
 	static void ClearLock();
-	static bool CheckAndSetLock(BObject * pbobj, int lockedid, bool active);
+	static bool CheckAndSetLock(BObject * pbobj, int lockedid);
 	static bool GetLockAim(BObject ** ppbobj);
 	static void Release();
 
@@ -73,7 +73,6 @@ public:
 	float	power;
 
 	int		locktimer;
-	int		hitonfactor;
 	int		animation;
 
 	int		addangle;
@@ -83,12 +82,8 @@ public:
 
 	BYTE	arrange;
 
-
 	static hgeSprite * sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
-	static DWORD bcol0, bcol1, bcol2, bcol3;
 	static int locked;
-	static int activelocked;
-	static WORD beams;
 	static VectorList<PlayerBullet>pb;
 };
 

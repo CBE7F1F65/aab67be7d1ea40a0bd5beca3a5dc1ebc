@@ -85,8 +85,8 @@
 /*                                                                      */
 /************************************************************************/
 
-#define BGTILE_XCOUNTMAX	((BYTE)((M_MAINVIEW_WIDTH/BGTILE_WIDTH)+2))
-#define BGTILE_YCOUNTMAX	((BYTE)((M_MAINVIEW_HEIGHT/BGTILE_HEIGHT)+2))
+#define BGTILE_XCOUNTMAX	((BYTE)((M_GAMESQUARE_WIDTH/BGTILE_WIDTH)+2))
+#define BGTILE_YCOUNTMAX	((BYTE)((M_GAMESQUARE_HEIGHT/BGTILE_HEIGHT)+2))
 #define BGTILEMAX			(BGTILE_XCOUNTMAX * BGTILE_YCOUNTMAX)
 
 

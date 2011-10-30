@@ -2,24 +2,27 @@
 
 void Process::_Render(BYTE renderflag/* =M_RENDER_NULL */)
 {
-	Export::clientSet3DMode();
-	Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
-	BGLayer::RenderAll();
 	Export::clientSet2DMode();
-	Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
+	Export::clientSetMatrix(worldx-BGLayer::bglayer.mapxoffset, worldy, worldz, renderflag);
+	BGLayer::RenderAll();
 	if(renderflag != M_RENDER_NULL)
 	{
 		EventZone::RenderAll();
 		Enemy::RenderAll();
+
 		PlayerBullet::RenderAll();
 		PlayerLaser::RenderAll();
 		Player::RenderAll();
+
 		Effectsys::RenderAll();
 		Beam::RenderAll();
 		Bullet::RenderAll();
 		Item::RenderAll();
 		Enemy::RenderScore();;
 		FrontDisplay::fdisp.RenderHeadInfo();
+
+		Export::clientSetMatrix(worldx, worldy, worldz, renderflag);
+
 		//
 		/*
 		for (int i=M_GAMESQUARE_LEFT_(); i<M_GAMESQUARE_RIGHT_(); i++)

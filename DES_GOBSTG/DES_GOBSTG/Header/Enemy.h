@@ -115,8 +115,6 @@ public:
 	static void RenderAll();
 	static void RenderScore();
 
-	static void BuildENAZ(BYTE flag, float x, float y, float rPrep, float rParal=0, int angle=9000);
-
 	static void BossFadeout();
 
 	void Clear();
@@ -138,18 +136,12 @@ public:
 	void updateFrameAsMove();
 
 	void DoShot();
-	bool DoActivate();
-	void ForceActive();
-	bool checkActive();
-	static bool CheckENAZ(float x, float y, float rori=0);
 
 	void action();
 	void actionInStop();
 	void matchAction();
 	void updateAction();
 	void ChangeType(BYTE type);
-
-	void GetBlastInfo(BYTE * maxtime=NULL, float * r=NULL, float * power=NULL);
 
 	void GetCollisionRect(float * w, float * h);
 	bool CostLife(float power);
@@ -158,10 +150,6 @@ public:
 
 	void Render();
 	void RenderEffect();
-
-	static void SendGhost(float x, float y, BYTE setID, BYTE * sendtime=NULL, float * acceladd=NULL);
-	void AddSendInfo(BYTE sendsetID, BYTE sendtime, float accel, float acceladd);
-	void SetActiveInfo(BYTE activemaxtime, WORD eID, BYTE type, int angle, float accelspeed, float damagerate);
 
 public:
 	Effectsys	effCollapse;
@@ -222,11 +210,6 @@ public:
 	BYTE	frameoffset;
 	BYTE	nowstate;
 	BYTE	faceindex;
-
-	BYTE	sendtime;
-	BYTE	sendsetID;
-	BYTE	activetimer;
-	BYTE	activemaxtime;
 
 	BYTE	actionflag;
 	BYTE	storetimer;

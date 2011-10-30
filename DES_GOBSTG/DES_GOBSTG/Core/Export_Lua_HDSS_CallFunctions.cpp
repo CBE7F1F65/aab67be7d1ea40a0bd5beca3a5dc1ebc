@@ -762,34 +762,6 @@ int _HDSSCallGet::Call_ENTOI(LuaState * ls)
 	return 0;
 }
 
-int _HDSSCallGet::Call_ENAZBUILD(LuaState * ls)
-{
-	__ENTERCALL_HDSS_LUA;
-	if (true)
-	{
-		_INEXT_HDSS_LUAPARA;
-
-		BYTE _flag = _INEXT_HDSS_LUAPARA;
-		float _x = _FNEXT_HDSS_LUAPARA;
-		float _y = _FNEXT_HDSS_LUAPARA;
-		float _rPrep = _FNEXT_HDSS_LUAPARA;
-		float _rParal = 0;
-		int _angle = 9000;
-		_JNEXT_HDSS_LUAPARA;
-		if (bhavenext)
-		{
-			_rParal = _FOBJ_HDSS_LUA;
-			_JNEXT_HDSS_LUAPARA;
-			if (bhavenext)
-			{
-				_angle = _IOBJ_HDSS_LUA;
-			}
-		}
-		Enemy::BuildENAZ(_flag, _x, _y, _rPrep, _rParal, _angle);
-	}
-	return 0;
-}
-
 int _HDSSCallGet::Call_RAMA(LuaState * ls)
 {
 	__ENTERCALL_HDSS_LUA;

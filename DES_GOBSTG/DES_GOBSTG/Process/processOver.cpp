@@ -3,6 +3,7 @@
 #include "../Header/FrontDisplay.h"
 #include "../Header/GameInput.h"
 #include "../Header/Replay.h"
+#include "../Header/DataConnector.h"
 
 int Process::processOver()
 {
@@ -15,6 +16,7 @@ int Process::processOver()
 			Replay::rpy.Fill();
 			Replay::rpy.Save();
 //			FrontDisplay::fdisp.SetState(FDISP_PANEL, 0);
+			DataConnector::Insert();
 		}
 		else
 		{

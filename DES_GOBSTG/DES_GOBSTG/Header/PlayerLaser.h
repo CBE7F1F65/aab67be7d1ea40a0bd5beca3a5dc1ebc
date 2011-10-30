@@ -18,6 +18,7 @@ public:
 
 	static void Shoot();
 	static void StopFire();
+	static void ClearStop();
 	void shoot();
 	void stopfire();
 
@@ -43,6 +44,7 @@ public:
 	float headypos;
 	bool bshooting;
 	bool bstopped;
+	BYTE stoptimer;
 
 	static PlayerLaser plaser[DATASTRUCT_PLAYERLASERTYPEMAX];
 };

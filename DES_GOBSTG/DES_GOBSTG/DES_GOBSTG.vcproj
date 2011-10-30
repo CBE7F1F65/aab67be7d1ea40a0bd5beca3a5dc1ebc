@@ -412,23 +412,7 @@
 						>
 					</File>
 					<File
-						RelativePath=".\Core\Export_Lua_HDSS_Call.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Core\Export_Lua_HDSS_CallFunctions.cpp"
-						>
-					</File>
-					<File
 						RelativePath=".\Core\Export_Lua_HDSS_Function.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Core\Export_Lua_HDSS_Get.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\Core\Export_Lua_HDSS_GetFunctions.cpp"
 						>
 					</File>
 					<File
@@ -759,14 +743,6 @@
 					</File>
 					<File
 						RelativePath=".\Header\Export_Lua_HDSS.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Header\Export_Lua_HDSS_CallGet.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Header\Export_Lua_HDSS_CallGetDefine.h"
 						>
 					</File>
 					<File

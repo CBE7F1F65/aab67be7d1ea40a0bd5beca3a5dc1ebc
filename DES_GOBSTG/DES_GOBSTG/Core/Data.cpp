@@ -140,23 +140,6 @@ void Data::raSetIndi(int sno, WORD _indi)
 	indi[sno] = _indi;
 }
 */
-char * Data::getEnemyName(int type)
-{
-	if (type < 0 || type >= DATASTRUCT_ENEMYTYPEMAX)
-	{
-		return NULL;
-	}
-	return BResource::bres.enemydata[type].name;
-}
-
-char * Data::getEnemyEName(int type)
-{
-	if (type < 0 || type >= DATASTRUCT_ENEMYTYPEMAX)
-	{
-		return NULL;
-	}
-	return BResource::bres.enemydata[type].ename;
-}
 
 char * Data::getPlayerName(int type)
 {

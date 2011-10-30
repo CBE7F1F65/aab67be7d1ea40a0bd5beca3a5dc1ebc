@@ -38,6 +38,8 @@ struct replayInfo
 {
 	char username[RPYINFO_USERNAMEMAX];
 
+	LONGLONG score;
+
 	DWORD alltime;
 	DWORD offset;
 
@@ -49,7 +51,8 @@ struct replayInfo
 
 	float lost;
 
-	BYTE scene;
+	BYTE stage;
+	BYTE difflv;
 
 	BYTE usingchara;
 	BYTE initlife;

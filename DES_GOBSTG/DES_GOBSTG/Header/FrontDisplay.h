@@ -38,14 +38,20 @@ struct ftPanelSet
 	hgeSprite * topedge;
 	hgeSprite * bottomedge;
 	hgeSprite * spellpoint;
-	hgeSprite * combobar;
 	hgeSprite * winindi;
 	hgeSprite * slot;
 	hgeSprite * slotback;
 	hgeSprite * lifeindi[FDISP_LIFEINDIMAX];
+	hgeSprite * combobar;
+	hgeSprite * comboframe;
+	hgeSprite * temperbar;
+	hgeSprite * temperframe;
+	hgeSprite * temperback;
+	hgeSprite * infoframe;
 	int winindiheadangle;
 	int slotindex;
 	int combobarindex;
+	int temperbarindex;
 };
 
 struct ftInfoSet

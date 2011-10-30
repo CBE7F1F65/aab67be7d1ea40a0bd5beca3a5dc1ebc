@@ -270,6 +270,8 @@ int Process::processInit()
 	errorcode = PROC_ERROR_NONE;
 	titleselect = 0;
 
+	nowdifflv = DIFFI_EASY;
+	practicemode = false;
 	replaymode = false;
 
 	playing = false;

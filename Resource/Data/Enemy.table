@@ -1,19 +1,11 @@
-90	h5nc	49																												
-Comment	Index	FaceIndex	SIID	Collision_W	Collision_H	Flag	StandFrame	RightPreFrame	RightFrame	LeftPreFrame	LeftFrame	AttackPreFrame	AttackFrame	StorePreFrame	StoreFrame	NMaxSet	Nmax	EffID	ShotEffID	CollapseEffID	EXPoint	GhostPoint	BulletPoint	SpellPoint	BlastMaxtime	BlastR	BlastPower	BlastDamageRate	Name	Ename
-#		Boss(0~31)																												
--	0	0	SI_Boss_Reimu_0	16	24	1007	4	3	1	0	0	0	4	0	0	6	1	0	31	36	1	-1	-1	-1	0	0	0	1	≤©˚ê°§ÎëâÙ	Hakurei Reimu
-#		Enemy(32~36)																												
--	32	-1	SI_EnemySprite_Blue_0	16	16	7	4	4	4	0	0	0	0	0	0	1	25	0	31	32	1	-1	-1	-1	10	54	3	1	_	_
--	33	-1	SI_EnemySprite_Red_0	16	16	7	4	4	4	0	0	0	0	0	0	1	25	0	31	32	1	-1	-1	-1	12	66	3	1	_	_
--	34	-1	SI_EnemySprite_Green_0	16	16	7	4	4	4	0	0	0	0	0	0	1	25	0	31	32	1	-1	-1	-1	12	70	3	1	_	_
--	35	-1	SI_EnemySprite_Big_0	16	16	7	4	4	4	0	0	0	0	0	0	1	25	0	31	32	1	-1	-1	-1	14	75	3	1	_	_
--	36	-1	SI_EnemySprite_Lily_0	16	16	7	4	4	0	0	0	0	0	0	0	2	1	0	31	32	75	0	400	1000	0	0	0	1	_	_
-#		Ghost(37~43)																												
--	37	-1	SI_GhostSprite_Green_0	16	16	7	4	0	0	0	0	0	0	0	0	3	25	0	0	0	2.5	0	-1	-2	0	0	0	8	_	_
--	38	-1	SI_GhostSprite_GreenActive_0	16	16	7	8	0	0	0	0	0	0	0	0	3	25	40	0	32	2.5	0	-1	-2	10	54	3	8	_	_
--	39	-1	SI_GhostSprite_Yellow_0	16	16	7	4	0	0	0	0	0	0	0	0	3	25	0	0	0	5	0	-1	-2	0	0	0	8	_	_
--	40	-1	SI_GhostSprite_YellowActive_0	16	16	7	8	0	0	0	0	0	0	0	0	3	25	40	0	32	5	0	-1	-2	12	60	3	8	_	_
--	41	-1	SI_GhostSprite_Red_0	16	16	7	4	0	0	0	0	0	0	0	0	3	25	0	0	0	7.5	0	-1	-2	0	0	0	8	_	_
--	42	-1	SI_GhostSprite_RedActive_0	16	16	7	8	0	0	0	0	0	0	0	0	3	25	40	0	32	7.5	0	-1	-2	12	60	3	8	_	_
-#		Charge(44~60)																												
--	44	-1	SI_Null	0	0	0	0	0	0	0	0	0	0	0	0	4	25	0	0	0	0	0	0	0	0	0	0	1	_	_
+90	h5nc	49																					
+Comment	Index	FaceIndex	SIID	Collision_W	Collision_H	Flag	StandFrame	RightPreFrame	RightFrame	LeftPreFrame	LeftFrame	AttackPreFrame	AttackFrame	StorePreFrame	StoreFrame	EffID	ShotEffID	CollapseEffID	Score	ComboPoint	KillTemper	LaserTemper	ProtectTemper
+#		Boss(0~31)																					
+#		Enemy(32~36)																					
+-	32	-1	SI_EnemySprite_Blue_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	40	0	10
+-	33	-1	SI_EnemySprite_Red_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	40	0	10
+-	34	-1	SI_EnemySprite_Green_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	40	0	10
+-	35	-1	SI_EnemySprite_Big_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	40	0	10
+-	36	-1	SI_EnemySprite_Lily_0	16	16	7	4	4	0	0	0	0	0	0	0	0	31	32	100	160	40	10	40
+#		Charge(44~60)																					
+-	44	-1	SI_Null	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0

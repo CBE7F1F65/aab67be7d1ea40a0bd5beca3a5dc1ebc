@@ -488,7 +488,6 @@
 #define	SI_FRONTPANEL_BOTTOM_1	"SI_FrontPanel_Bottom_1"
 
 #define	SI_FRONTPANEL_SPELLPOINT	"SI_FrontPanel_SpellPoint"
-#define SI_FRONTPANEL_COMBOBAR	"SI_FrontPanel_ComboBar"
 #define	SI_FRONTPANEL_WININDI	"SI_FrontPanel_WinIndi"
 #define	SI_FRONTPANEL_SLOT	"SI_FrontPanel_Slot"
 #define	SI_FRONTPANEL_SLOTBACK	"SI_FrontPanel_SlotBack"
@@ -505,6 +504,13 @@
 #define	SI_FRONTINFO_ITEMLINE	"SI_FrontInfo_ItemLine"
 #define	SI_FRONTINFO_DEMO	"SI_FrontInfo_Demo"
 #define	SI_FRONT_TEXT	"SI_Front_Text"
+
+#define SI_FRONTPANEL_COMBOFRAME	"SI_FrontPanel_ComboFrame"
+#define SI_FRONTPANEL_COMBOBAR	"SI_FrontPanel_ComboBar"
+#define SI_FRONTPANEL_INFOFRAME	"SI_FrontPanel_InfoFrame"
+#define SI_FRONTPANEL_TEMPERFRAME	"SI_FrontPanel_TemperFrame"
+#define SI_FRONTPANEL_TEMPERBACK	"SI_FrontPanel_TemperBack"
+#define SI_FRONTPANEL_TEMPERBAR	"SI_FrontPanel_TemperBar"
 
 #define	SI_FACE_01	"SI_Face_01"
 /*

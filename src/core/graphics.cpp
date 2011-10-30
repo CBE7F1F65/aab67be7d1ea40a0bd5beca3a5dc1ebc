@@ -179,6 +179,7 @@ void CALL HGE_Impl::Gfx_SetTransform(float x, float y, float dx, float dy, float
 
 void CALL HGE_Impl::Gfx_SetTransform(D3DTRANSFORMSTATETYPE State, const D3DMATRIX * pMatrix)
 {
+	_render_batch();
 #if defined __WIN32
 	pD3DDevice->SetTransform(State, pMatrix);
 #elif defined __PSP

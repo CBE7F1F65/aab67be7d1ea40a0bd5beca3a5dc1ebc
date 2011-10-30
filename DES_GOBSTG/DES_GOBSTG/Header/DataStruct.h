@@ -120,21 +120,17 @@ struct bulletData
 
 struct enemyData 
 {
-	char name[M_STRMAX];
-	char ename[M_STRMAX];
 	int siid;
 	int effid;
 	int shotEffid;
 	int collapseEffid;
 	float collision_w;
 	float collision_h;
-	float blastr;
-	float blastpower;
-	float blastdamagerate;
-	float expoint;
-	int ghostpoint;
-	int bulletpoint;
-	int spellpoint;
+	int score;
+	int combogage;
+	int killtemperpoint;
+	int laserhittemperpoint;
+	int protecthittemperpoint;
 	WORD flag;
 	BYTE faceIndex;
 	BYTE standFrame;
@@ -146,9 +142,6 @@ struct enemyData
 	BYTE attackFrame;
 	BYTE storePreFrame;
 	BYTE storeFrame;
-	BYTE nmaxset;
-	BYTE nmax;
-	BYTE blastmaxtime;
 };
 
 struct playerData 
@@ -188,8 +181,7 @@ struct playershootData
 	int addangle;
 	int deletetime;
 	int siid;
-	int hitonfactor;
-	bool bchargeshoot;
+	bool bhypershoot;
 	float xbias;
 	float ybias;
 	float collisionr;

@@ -10,8 +10,6 @@
 // add
 #define PLAYER_DEFAULTINITLIFE	10
 
-#define PL_HITONFACTORDEFAULT	-1
-
 #define PLAYER_FRAME_STAND		0
 #define PLAYER_FRAME_LEFTPRE	1
 #define PLAYER_FRAME_LEFT		2
@@ -58,9 +56,7 @@
 #define PLAYER_CHARGENMAX	4
 #define PLAYER_CHARGEMAX	(PLAYER_CHARGEONE*PLAYER_CHARGENMAX)
 
-#define PLAYER_COMBOGAGEMAX	105
-#define PLAYER_COMBORESET	45
-#define PLAYER_COMBOALERT	65
+#define PLAYER_COMBOGAGEMAX	1000
 
 #define PLAYER_GRAZE_R	40
 
@@ -70,6 +66,14 @@
 #define PL_SHOOTINGCHARGE_STOPTIME	32
 
 #define PLAYER_SHOOTPUSHOVER	9
+
+#define PLAYER_TEMPERMAX	10000
+#define PLAYER_TEMPEREDGE	2000
+#define PLAYER_TEMPERCOLDEDGE	(-PLAYER_TEMPERMAX+PLAYER_TEMPEREDGE)
+#define PLAYER_TEMPERHOTEDGE	(PLAYER_TEMPERMAX-PLAYER_TEMPEREDGE)
+
+#define PLAYER_HITDISPLAYTIMEMAX	120
+#define PLAYER_HITDISPLAYFADE		60
 
 class Player : public BObject
 {
@@ -102,15 +106,19 @@ public:
 
 	void changePlayerID(WORD toID, bool moveghost=false);
 
-	void AddComboHit(int combo, bool ori);
-	void AddBulletPoint(int bulletpoint, float x, float y);
+	void AddComboGage(int gage);
+	void KeepComboGage();
+	void AddComboHit(int combo);
+	void AddScore(LONGLONG score);
+	void AddHitScore(LONGLONG score);
+	void AddTemper(int temper);
 
 	void DoEnemyCollapse(float x, float y, BYTE type);
 	void DoItemGet(WORD itemtype, float x, float y);
 	void DoGraze(float x, float y);
-	void DoPlayerBulletKill(int hitonfactor = PL_HITONFACTORDEFAULT);
-	void DoPlayerLaserHit(bool hitprotect);
-	void DoPlayerLaserKill();
+	void DoPlayerBulletKill(BYTE type);
+	void DoPlayerLaserHit(BYTE type, bool hitprotect);
+	void DoPlayerLaserKill(BYTE type);
 	void DoShot();
 
 	void Render();
@@ -177,10 +185,6 @@ public:
 	bool	bInfi;
 	bool	bLaser;
 
-	int nBulletPoint;
-	int nComboHit;
-	int nComboHitOri;
-
 	hgeSprite * sprite;
 	hgeSprite * spdrain;
 	BYTE	frameindex[PLAYER_FRAME_STATEMAX];
@@ -210,7 +214,26 @@ public:
 
 	BYTE	nLife;
 	int		nLifeCost;
-	BYTE	nComboGage;
+	int		nComboGage;
+
+	int		nTemper;
+	BYTE	temperSelf;
+	BYTE	temperEnemy;
+
+	bool	bhyper;
+	bool	bfreeze;
+
+	LONGLONG	nScore;
+	LONGLONG	nHiScore;
+	LONGLONG	nHitScore;
+	LONGLONG	nLastHitScore;
+	BYTE	nScoreMul;
+
+	int nComboHit;
+	int nComboHitMax;
+	int nLastComboHit;
+
+	BYTE	hitdisplaykeeptimer;
 
 	// add
 	BYTE	initlife;
