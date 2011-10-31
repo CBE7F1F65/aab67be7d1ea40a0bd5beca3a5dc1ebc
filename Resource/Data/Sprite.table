@@ -284,6 +284,10 @@ Comment	Index	SI_Name	Tex	Tex_x	Tex_y	Tex_w	Tex_h
 -	339	SI_FrontPanel_TemperFrame	6	160	64	128	32
 -	340	SI_FrontPanel_TemperBack	6	160	128	128	32
 -	341	SI_FrontPanel_TemperBar	6	164	96	120	32
+-	342	SI_FrontPanel_Bomb	6	0	128	16	16
+-	343	SI_FrontPanel_BombFrame	6	0	192	240	16
+-	344	SI_FrontPanel_BombBack	6	0	208	240	16
+-	345	SI_FrontPanel_BombBlock	6	64	128	16	16
 #		SceneName(350~399)					
 -	350	SI_SceneName_Default	8	0	0	128	16
 -	351	SI_SceneName_Random	8	0	16	128	16

@@ -50,8 +50,8 @@ DWORD Player::alltime = 0;
 
 BYTE Player::round = 0;
 
-#define _PL_MERGETOPOS_X	(M_GAMESQUARE_CENTER_X)
-#define _PL_MERGETOPOS_Y		(M_GAMESQUARE_BOTTOM - 64)
+#define _PL_MERGETOPOS_X	(M_GAMESQUARE_CENTER_X/2)
+#define _PL_MERGETOPOS_Y		(PL_MOVABLE_BOTTOM - 32)
 
 #define _PL_SHOOTINGCHARGE_1	0x01
 #define _PL_SHOOTINGCHARGE_2	0x02
@@ -84,6 +84,10 @@ BYTE Player::round = 0;
 #define _PL_SCOREMUL_4_HIT	5000
 #define _PL_SCOREMUL_5_HIT	7000
 #define _PL_SCOREMUL_6_HIT	10000
+
+#define _PL_DEFAULTBOMBMAX	3
+#define _PL_BOMBTIME		120
+#define _PL_PASSIVEBOMBTIME	48
 
 Player::Player()
 {
@@ -131,19 +135,22 @@ void Player::ClearSet(BYTE _round)
 	diffuse		=	0xffffff;
 
 	mergetimer			=	0;
-	shottimer			=	0;
 	collapsetimer		=	0;
 	shoottimer			=	0;
 	draintimer			=	0;
 	chargetimer			=	0;
+	bombtimer			=	0;
 	slowtimer			=	0;
 	fasttimer			=	0;
 	playerchangetimer	=	0;
 	costlifetimer		=	0;
 
-	nLifeCost	=	0;
 	infitimer = 0;
 	infireasonflag = 0;
+
+	nBombMax = _PL_DEFAULTBOMBMAX;
+	nBomb = nBombMax;
+	bPassiveBomb = false;
 
 	shootpushtimer = 0;
 	shootnotpushtimer = 0;
@@ -449,11 +456,6 @@ void Player::action()
 		}
 	}
 
-	nLifeCost++;
-	if (nLifeCost > _PLAYER_LIFECOSTMAX)
-	{
-		nLifeCost = _PLAYER_LIFECOSTMAX;
-	}
 	if (infitimer > 0)
 	{
 		infitimer--;
@@ -615,7 +617,7 @@ void Player::action()
 
 #if defined __IPHONE
 		if (!GameAI::ai.able) {
-			if (Process::mp.touchMoveID != 0xff && !(flag & PLAYER_COSTLIFE)) {
+			if (Process::mp.touchMoveID != 0xff && !(flag & PLAYER_COLLAPSE)) {
 				x += Process::mp.touchdirectmove.x * speedfactor;
 				y += Process::mp.touchdirectmove.y * speedfactor;
 			}
@@ -745,7 +747,7 @@ bool Player::Merge()
 			flag &= ~PLAYER_SLOWCHANGE;
 		}
 	}
-	else if (mergetimer <= 24)
+	else if (mergetimer < 24)
 	{
 		float interval = mergetimer / 24.0f;
 		x = INTER(PL_MERGEPOS_X, _PL_MERGETOPOS_X, interval);
@@ -753,12 +755,9 @@ bool Player::Merge()
 		flag &= ~PLAYER_SHOOT;
 		alpha = INTER(0, 0xff, interval);
 	}
-	else if(mergetimer < 60)
+	else if(mergetimer == 24)
 	{
 		alpha = 0xff;
-	}
-	else if(mergetimer == 60)
-	{
 		mergetimer = 0;
 		return true;
 	}
@@ -767,28 +766,22 @@ bool Player::Merge()
 
 bool Player::Shot()
 {
-	shottimer++;
-	// TODO:
 	if(bInfi)
 	{
-		shottimer = 0;
 		return true;
 	}
 	
-	if(shottimer == 1)
+//	Item::undrainAll();
+	SE::push(SE_PLAYER_SHOT, x);
+	if (nBomb)
 	{
-//		Item::undrainAll();
-		SE::push(SE_PLAYER_SHOT, x);
+		callBomb(true);
 	}
-	else if(shottimer == shotdelay)
+	else
 	{
-		shottimer = 0;
-		flag |= PLAYER_COSTLIFE;
-		return true;
+		flag |= PLAYER_COLLAPSE;
 	}
-
-	esShot.hscale = (shotdelay - shottimer) * 4.0f / shotdelay;
-	return false;
+	return true;
 }
 
 bool Player::CostLife()
@@ -796,38 +789,7 @@ bool Player::CostLife()
 	costlifetimer++;
 	if (costlifetimer == 1)
 	{
-		AddComboHit(-1);
-		AddComboGage(-1);
-		AddHitScore(-1);
-		if (nLife == 1)
-		{
-			nLife = 0;
-			flag |= PLAYER_COLLAPSE;
-			costlifetimer = 0;
-			return true;
-		}
-		int nLifeCostNum = nLifeCost / 720 + 2;
-		if (nLife > nLifeCostNum+1)
-		{
-			nLife -= nLifeCostNum;
-		}
-		else
-		{
-			SE::push(SE_PLAYER_ALERT, x);
-			nLife = 1;
-		}
-		nLifeCost -= 1440;
-		if (nLifeCost < 0)
-		{
-			nLifeCost = 0;
-		}
 		SetInfi(PLAYERINFI_COSTLIFE, 120);
-		if (nLife == 1)
-		{
-		}
-		else
-		{
-		}
 	}
 	else if (costlifetimer == 50)
 	{
@@ -837,17 +799,6 @@ bool Player::CostLife()
 	{
 		costlifetimer = 0;
 		return true;
-	}
-	else
-	{
-		GameInput::SetKey(KSI_UP, false);
-		GameInput::SetKey(KSI_DOWN, false);
-		GameInput::SetKey(KSI_LEFT, false);
-		GameInput::SetKey(KSI_RIGHT, false);
-//		GameInput::SetKey(KSI_FIRE, false);
-		GameInput::SetKey(KSI_QUICK, false);
-		GameInput::SetKey(KSI_SLOW, false);
-		GameInput::SetKey(KSI_DRAIN, false);
 	}
 	return false;
 }
@@ -866,6 +817,24 @@ bool Player::Collapse()
 
 		effCollapse.MoveTo(x, y , 0, true);
 		effCollapse.Fire();
+
+		AddComboHit(-1);
+		AddComboGage(-1);
+		AddHitScore(-1);
+		if (nLife == 1)
+		{
+			nLife = 0;
+			// Todo:
+//			flag |= PLAYER_COLLAPSE;
+			collapsetimer = 0;
+			return true;
+		}
+		nLife--;
+		if (nBombMax < PLAYER_BOMBMAX)
+		{
+			nBombMax++;
+		}
+		nBomb = nBombMax;
 	}
 	else if(collapsetimer == 64)
 	{
@@ -885,7 +854,7 @@ bool Player::Collapse()
 		flag |= PLAYER_MERGE;
 
 //		SetInfi(PLAYERINFI_COLLAPSE);
-		exist = false;
+//		exist = false;
 
 		if(GameInput::GetKey(KSI_SLOW))
 		{
@@ -922,9 +891,10 @@ bool Player::Shoot()
 		return true;
 	}
 
-	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COSTLIFE))
+	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COLLAPSE))
 	{
 		PlayerBullet::BuildShoot(ID, shoottimer, bhyper);
+		AddScore(nComboHit);
 	}
 	shoottimer++;
 	//
@@ -944,9 +914,10 @@ bool Player::Laser()
 		return true;
 	}
 
-	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COSTLIFE))
+	if (!(flag & PLAYER_SHOT) && !(flag & PLAYER_COLLAPSE))
 	{
 		lasertimer++;
+		AddScore(nComboHit);
 		if (lasertimer == 1)
 		{
 			PlayerLaser::Shoot();
@@ -972,7 +943,31 @@ bool Player::Drain()
 
 bool Player::Bomb()
 {
-	return true;
+	if (!(flag & PLAYER_BOMB))
+	{
+		flag |= PLAYER_BOMB;
+	}
+
+	bombtimer++;
+	BYTE bombmaxtime = bPassiveBomb?_PL_PASSIVEBOMBTIME:_PL_BOMBTIME;
+	if (bombtimer == 1)
+	{
+		if (!nBomb || bInfi)
+		{
+			bombtimer = 0;
+			return true;
+		}
+		nBomb--;
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y, bombmaxtime, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
+		SetInfi(PLAYERINFI_BOMB, bombmaxtime);
+	}
+	else if (bombtimer == bombmaxtime)
+	{
+		bombtimer = 0;
+		return true;
+	}
+
+	return false;
 }
 
 bool Player::SlowChange()
@@ -1196,12 +1191,13 @@ void Player::callCollapse()
 	collapsetimer = 0;
 }
 
-bool Player::callBomb()
+bool Player::callBomb(bool bpassive)
 {
 	if (Chat::chatitem.IsChatting() || (flag & PLAYER_COLLAPSE))
 	{
 		return false;
 	}
+	bPassiveBomb = bpassive;
 	return Bomb();
 }
 
@@ -1240,7 +1236,7 @@ void Player::AddHitScore(LONGLONG addscore)
 		nHitScore = 0;
 		return;
 	}
-	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT)
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COLLAPSE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
 	{
 		return;
 	}
@@ -1260,7 +1256,7 @@ void Player::AddComboGage(int gage)
 	}
 	else
 	{
-		if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT)
+		if (flag & PLAYER_COLLAPSE || flag & PLAYER_COLLAPSE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
 		{
 			return;
 		}
@@ -1274,6 +1270,11 @@ void Player::AddComboGage(int gage)
 
 void Player::KeepComboGage()
 {
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
+	{
+		return;
+	}
+
 	if (nComboGage < _PL_COMBOKEEP)
 	{
 		nComboGage = _PL_COMBOKEEP;
@@ -1294,7 +1295,7 @@ void Player::AddComboHit(int combo)
 		return;
 	}
 
-	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT)
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
 	{
 		return;
 	}

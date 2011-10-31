@@ -48,6 +48,10 @@ struct ftPanelSet
 	hgeSprite * temperframe;
 	hgeSprite * temperback;
 	hgeSprite * infoframe;
+	hgeSprite * bombitem;
+	hgeSprite * bombframe;
+	hgeSprite * bombback;
+	hgeSprite * bombblock;
 	int winindiheadangle;
 	int slotindex;
 	int combobarindex;

@@ -7,6 +7,7 @@
 #include "../Header/Process.h"
 #include "../Header/BResource.h"
 #include "../Header/GameInput.h"
+#include "../Header/Player.h"
 
 BGLayer BGLayer::bglayer;
 
@@ -246,12 +247,15 @@ void BGLayer::SetMapSpeedInfo(float _xspeed, float _yspeed, float _mapxoffset)
 {
 	xspeed = _xspeed;
 	yspeed = _yspeed;
-	mapxoffset = _mapxoffset;
+	if (!((Player::p.flag & PLAYER_MERGE) || (Player::p.flag & PLAYER_COLLAPSE)))
+	{
+		mapxoffset = _mapxoffset;
+	}
 }
 
 void BGLayer::UpdateTileSprite()
 {
-	int nowbegintilex = ((int)(mapcenx))/BGTILE_WIDTH-BGTILE_XCOUNTMAX/2;
+	int nowbegintilex = ((int)(mapcenx))/BGTILE_WIDTH-BGTILE_XCOUNTMAX/2+1;
 	int nowbegintiley = ((int)mapceny)/BGTILE_HEIGHT-BGTILE_YCOUNTMAX/2+1;
 	for (int j=0; j<BGTILE_YCOUNTMAX; j++)
 	{

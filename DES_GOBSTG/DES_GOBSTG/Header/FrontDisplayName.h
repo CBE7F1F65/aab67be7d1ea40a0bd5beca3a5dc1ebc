@@ -512,6 +512,11 @@
 #define SI_FRONTPANEL_TEMPERBACK	"SI_FrontPanel_TemperBack"
 #define SI_FRONTPANEL_TEMPERBAR	"SI_FrontPanel_TemperBar"
 
+#define SI_FRONTPANEL_BOMB	"SI_FrontPanel_Bomb"
+#define SI_FRONTPANEL_BOMBFRAME	"SI_FrontPanel_BombFrame"
+#define SI_FRONTPANEL_BOMBBACK	"SI_FrontPanel_BombBack"
+#define SI_FRONTPANEL_BOMBBLOCK	"SI_FrontPanel_BombBlock"
+
 #define	SI_FACE_01	"SI_Face_01"
 /*
 #define	SI_FACE_02	"SI_Face_02"

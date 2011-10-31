@@ -123,13 +123,13 @@ void PlayerLaser::render()
 		for (int i=0; i<tilecount; i++)
 		{
 			int nowtileID = (begintileID+i)%PLAYERLASER_BODYMAX;
-			spbody[nowtileID]->RenderEx(px, ystart-i*PLAYERLASER_BODYTILELENGTH-yoffset, ARC(-9000));
+			SpriteItemManager::RenderSpriteEx(spbody[nowtileID], px, ystart-i*PLAYERLASER_BODYTILELENGTH-yoffset, ARC(-9000));
 		}
 
 		//
 		BYTE animation = (timer / PLAYERLASER_ANIMATIONINTERVAL)%PLAYERLASER_ANIMATIONMAX;
-		spprotect[animation]->Render(px, py);
-		spbegin[animation]->Render(px, py+PLAYERLASER_LASERYOFFSET);
+		SpriteItemManager::RenderSprite(spprotect[animation], px, py);
+		SpriteItemManager::RenderSprite(spbegin[animation], px, py+PLAYERLASER_LASERYOFFSET);
 
 
 		if (!bstopped)
@@ -139,11 +139,11 @@ void PlayerLaser::render()
 			{
 				headanimation = headanimation%(PLAYERLASER_ANIMATIONMAX/2)+(PLAYERLASER_ANIMATIONMAX/2);
 			}
-			sphead[headanimation]->Render(px, headypos);
+			SpriteItemManager::RenderSprite(sphead[headanimation], px, headypos);
 		}
 		else
 		{
-			spstop[animation]->Render(px, headypos);
+			SpriteItemManager::RenderSprite(spstop[animation], px, headypos);
 		}
 	}
 }
@@ -256,26 +256,31 @@ void PlayerLaser::init(int playerID)
 	for (int i=0; i<PLAYERLASER_BODYMAX; i++)
 	{
 		SpriteItemManager::CreateSprite(siid, &(spbody[i]));
+//		spbody[i]->SetBlendMode(BLEND_ALPHAADD);
 		++siid;
 	}
 	for (int i=0; i<PLAYERLASER_ANIMATIONMAX; i++)
 	{
 		SpriteItemManager::CreateSprite(siid, &(spprotect[i]));
+//		spprotect[i]->SetBlendMode(BLEND_ALPHAADD);
 		++siid;
 	}
 	for (int i=0; i<PLAYERLASER_ANIMATIONMAX; i++)
 	{
 		SpriteItemManager::CreateSprite(siid, &(sphead[i]));
+//		sphead[i]->SetBlendMode(BLEND_ALPHAADD);
 		++siid;
 	}
 	for (int i=0; i<PLAYERLASER_ANIMATIONMAX; i++)
 	{
 		SpriteItemManager::CreateSprite(siid, &(spbegin[i]));
+//		spbegin[i]->SetBlendMode(BLEND_ALPHAADD);
 		++siid;
 	}
 	for (int i=0; i<PLAYERLASER_ANIMATIONMAX; i++)
 	{
 		SpriteItemManager::CreateSprite(siid, &(spstop[i]));
+//		spstop[i]->SetBlendMode(BLEND_ALPHAADD);
 		++siid;
 	}
 }

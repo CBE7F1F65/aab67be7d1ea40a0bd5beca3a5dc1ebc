@@ -252,6 +252,26 @@ void FrontDisplay::RenderPanel()
 		SpriteItemManager::SetSpriteHotSpot(panel.temperframe, 0, 0);
 		SpriteItemManager::RenderSprite(panel.temperframe, temperx, M_GAMESQUARE_TOP+yoffset);
 
+		// Bomb
+		SpriteItemManager::RenderSprite(panel.bombback, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_BOTTOM-8);
+		for (int i=0; i<PLAYER_BOMBMAX; i++)
+		{
+			float renderx = M_GAMESQUARE_CENTER_X-(PLAYER_BOMBMAX-i)*16-8;
+			float rendery = M_GAMESQUARE_BOTTOM-8;
+			if (i < Player::p.nBomb)
+			{
+				SpriteItemManager::RenderSprite(panel.bombitem, renderx, rendery);
+			}
+			else if (i < Player::p.nBombMax)
+			{
+			}
+			else
+			{
+				SpriteItemManager::RenderSprite(panel.bombblock, renderx, rendery);
+			}
+		}
+		SpriteItemManager::RenderSprite(panel.bombframe, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_BOTTOM-8);
+
 		// Border
 		SpriteItemManager::RenderSprite(panel.leftedge, M_GAMESQUARE_LEFT-M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
 		SpriteItemManager::RenderSprite(panel.rightedge, M_GAMESQUARE_RIGHT+M_GAMESQUARE_EDGE/2, M_GAMESQUARE_CENTER_Y);
@@ -259,7 +279,7 @@ void FrontDisplay::RenderPanel()
 		SpriteItemManager::RenderSprite(panel.bottomedge, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_BOTTOM+M_GAMESQUARE_EDGE/2);
 
 		// Costlife Effect
-		if (Player::p.flag & PLAYER_COSTLIFE)
+		if (Player::p.flag & PLAYER_COLLAPSE)
 		{
 			DWORD col = 0xffffffff;
 			if (gametime % 2)
@@ -397,6 +417,10 @@ bool FrontDisplay::Init()
 	panel.temperframe = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TEMPERFRAME);
 	panel.temperback = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_TEMPERBACK);
 	panel.infoframe = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_INFOFRAME);
+	panel.bombitem = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOMB);
+	panel.bombframe = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOMBFRAME);
+	panel.bombback = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOMBBACK);
+	panel.bombblock = SpriteItemManager::CreateSpriteByName(SI_FRONTPANEL_BOMBBLOCK);
 
 	for (int i=0; i<FDISP_LIFEINDIMAX; i++)
 	{
@@ -538,6 +562,10 @@ void FrontDisplay::Release()
 	SpriteItemManager::FreeSprite(&panel.temperframe);
 	SpriteItemManager::FreeSprite(&panel.temperback);
 	SpriteItemManager::FreeSprite(&panel.temperbar);
+	SpriteItemManager::FreeSprite(&panel.bombitem);
+	SpriteItemManager::FreeSprite(&panel.bombframe);
+	SpriteItemManager::FreeSprite(&panel.bombback);
+	SpriteItemManager::FreeSprite(&panel.bombblock);
 	for (int i=0; i<FDISP_LIFEINDIMAX; i++)
 	{
 		SpriteItemManager::FreeSprite(&panel.lifeindi[i]);

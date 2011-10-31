@@ -18,14 +18,14 @@
 
 #define PLAYER_FRAME_STATEMAX	5
 
-#define PL_MOVABLEDGE_X		8
-#define PL_MOVABLEDGE_Y		16
-#define PL_MOVABLE_LEFT		(M_GAMESQUARE_LEFT+PL_MOVABLEDGE_X)
-#define PL_MOVABLE_RIGHT	(M_GAMESQUARE_RIGHT-PL_MOVABLEDGE_X)
-#define PL_MOVABLE_TOP		(M_GAMESQUARE_TOP+PL_MOVABLEDGE_Y)
+#define PL_MOVABLEDGE_X		4
+#define PL_MOVABLEDGE_Y		24
+#define PL_MOVABLE_LEFT		(M_GAMESQUARE_LEFT-(M_MAPBOARDER_WIDTH-M_GAMESQUARE_WIDTH)/2+PL_MOVABLEDGE_X)
+#define PL_MOVABLE_RIGHT	(M_GAMESQUARE_RIGHT+(M_MAPBOARDER_WIDTH-M_GAMESQUARE_WIDTH)/2-PL_MOVABLEDGE_X)
+#define PL_MOVABLE_TOP		(M_GAMESQUARE_TOP+PL_MOVABLEDGE_Y*2)
 #define PL_MOVABLE_BOTTOM	(M_GAMESQUARE_BOTTOM-PL_MOVABLEDGE_Y)
 
-#define PL_MERGEPOS_X	(M_GAMESQUARE_CENTER_X)
+#define PL_MERGEPOS_X	(M_GAMESQUARE_CENTER_X/2)
 #define PL_MERGEPOS_Y		(M_GAMESQUARE_BOTTOM)
 
 #define PL_SAVELASTMAX		0x20
@@ -49,8 +49,9 @@
 #define PLAYERINFI_SHOOTCHARGE	0x02
 #define PLAYERINFI_OVER			0x04
 #define PLAYERINFI_CHAT			0x08
-#define PLAYERINFI_COSTLIFE			0x10
+#define PLAYERINFI_COSTLIFE		0x10
 #define PLAYERINFI_COLLAPSE		0x20
+#define PLAYERINFI_BOMB			0x40
 
 #define PLAYER_CHARGEONE	100.0f
 #define PLAYER_CHARGENMAX	4
@@ -74,6 +75,8 @@
 
 #define PLAYER_HITDISPLAYTIMEMAX	120
 #define PLAYER_HITDISPLAYFADE		60
+
+#define PLAYER_BOMBMAX	6
 
 class Player : public BObject
 {
@@ -130,7 +133,7 @@ public:
 	void updateFrame(BYTE frameenum, int usetimer = -1);
 
 	void callCollapse();
-	bool callBomb();
+	bool callBomb(bool bpassive=false);
 	void callSlowFastChange(bool toslow);
 	void callPlayerChange();
 
@@ -193,12 +196,12 @@ public:
 	WORD	flag;
 
 	WORD	mergetimer;
-	WORD	shottimer;
 	WORD	collapsetimer;
 	WORD	shoottimer;
 	WORD	lasertimer;
 	WORD	draintimer;
 	WORD	chargetimer;
+	WORD	bombtimer;
 	WORD	slowtimer;
 	WORD	fasttimer;
 	WORD	playerchangetimer;
@@ -212,8 +215,6 @@ public:
 
 	BYTE	infireasonflag;
 
-	BYTE	nLife;
-	int		nLifeCost;
 	int		nComboGage;
 
 	int		nTemper;
@@ -233,10 +234,15 @@ public:
 	int nComboHitMax;
 	int nLastComboHit;
 
+	BYTE	nBomb;
+	BYTE	nBombMax;
+	bool	bPassiveBomb;
+
 	BYTE	hitdisplaykeeptimer;
 
 	// add
 	BYTE	initlife;
+	BYTE	nLife;
 
 
 	static BYTE rank;
