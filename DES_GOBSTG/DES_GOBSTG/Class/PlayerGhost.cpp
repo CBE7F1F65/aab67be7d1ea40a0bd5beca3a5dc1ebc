@@ -183,7 +183,7 @@ void PlayerGhost::action()
 
 	if (flag & PGFLAG_TRACE)
 	{
-		int _tindex = (ID%DATASTRUCT_PLAYERGHOSTMAX+1)*8-1;
+		int _tindex = (ID%DATASTRUCT_PLAYERSUBMAX+1)*8-1;
 		aimx = Player::p.lastmx[_tindex];
 		aimy = Player::p.lastmy[_tindex];
 	}

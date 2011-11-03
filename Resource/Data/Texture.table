@@ -8,7 +8,7 @@ Comment	Index	Texture	TexW	TexH
 -	7	Graphic/Other/selectitem.png	512	512
 -	8	Graphic/Scene/scenename.png	256	256
 #		Player(10~59)		
--	10	Graphic/Sprite/Player/Player/pl_01.png	512	512
+-	10	Graphic/Sprite/Player/Player/pl_01.png	1024	1024
 #		PlayerEx(50~109)		
 -	50	Graphic/Sprite/Player/Player/pl_01_ex.png	256	256
 #		Face(110~159)		

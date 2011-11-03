@@ -460,7 +460,7 @@ bool _DataTable::PlayerShootDefineFile()
 bool _DataTable::PlayerLaserDefineFile()
 {
 	ZeroMemory(BResource::bres.playerlaserdata, RSIZE_PLAYERLASER);
-	_READSTRINGBUFFERLINE(10);
+	_READSTRINGBUFFERLINE(9);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -469,8 +469,7 @@ bool _DataTable::PlayerLaserDefineFile()
 		_CHECKEOF_DATATABLE;
 		playerlaserData * item = &(BResource::bres.playerlaserdata[tindex]);
 
-		fscanf(file, "%d%s%f%f%f%f%f%d", 
-			_SAVETINT, 
+		fscanf(file, "%s%f%f%f%f%f%d", 
 			strbuffer[0],
 			&(item->width),
 			&(item->power),
@@ -481,7 +480,6 @@ bool _DataTable::PlayerLaserDefineFile()
 
 		_DOSWAPTINT;
 		_INITTINT;
-		item->userID = _LOADTINT;
 		item->siid = SpriteItemManager::GetIndexByName(strbuffer[0]);
 		item->seID = _LOADTINT;
 	}

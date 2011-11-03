@@ -1,3 +1,4 @@
-90	h5nc	4D							
-Comment	Index	UserID	SIID	Width	Power	ProtectWidth	ProtectHeight	ProtectPowerMul	SE
--	0	0	SI_PlayerLaser_00_0_0	21	4	36	40	2	0
+90	h5nc	4D						
+Comment	Index	SIID	Width	Power	ProtectWidth	ProtectHeight	ProtectPowerMul	SE
+-	0	SI_PlayerLaser_0_0_0_0	21	4	36	40	2	0
+-	4	SI_PlayerLaser_0_1_0_0	32	8	36	40	2	0

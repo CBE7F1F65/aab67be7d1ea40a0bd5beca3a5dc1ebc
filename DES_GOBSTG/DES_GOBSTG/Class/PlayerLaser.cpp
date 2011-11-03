@@ -60,13 +60,25 @@ void PlayerLaser::Init()
 	}
 }
 
+int PlayerLaser::GetIndex(bool invert)
+{
+	int indexn = Player::p.ID;
+	int indexh = indexn + DATASTRUCT_PLAYERTYPEMAX;
+	int retval = indexn;
+	if (Player::p.bhyper ^ invert)
+	{
+		retval = indexh;
+	}
+	return retval;
+}
+
 void PlayerLaser::Action()
 {
 	DWORD stopflag = Process::mp.GetStopFlag();
 	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYERBULLET);
 	if (!binstop)
 	{
-		plaser[Player::p.ID].action();
+		plaser[GetIndex()].action();
 	}
 }
 
@@ -98,7 +110,7 @@ void PlayerLaser::action()
 
 void PlayerLaser::RenderAll()
 {
-	plaser[Player::p.ID].render();
+	plaser[GetIndex()].render();
 }
 
 void PlayerLaser::render()
@@ -150,10 +162,11 @@ void PlayerLaser::render()
 
 bool PlayerLaser::CheckShoot(Enemy * en, float aimx, float aimy, float aimw, float aimh/* =0.0f */)
 {
-	return plaser[Player::p.ID].checkshoot(en, aimx, aimy, aimw, aimh);
+	int index = GetIndex();
+	return plaser[index].checkshoot(index, en, aimx, aimy, aimw, aimh);
 }
 
-bool PlayerLaser::checkshoot(Enemy * en, float aimx, float aimy, float aimw, float aimh/* =0.0f */)
+bool PlayerLaser::checkshoot(int index, Enemy * en, float aimx, float aimy, float aimw, float aimh/* =0.0f */)
 {
 	if (!bshooting)
 	{
@@ -163,7 +176,7 @@ bool PlayerLaser::checkshoot(Enemy * en, float aimx, float aimy, float aimw, flo
 	BYTE hitflag = isInRange(aimx, aimy, aimw, aimh);
 	if (hitflag)
 	{
-		playerlaserData * pldata = &(BResource::bres.playerlaserdata[Player::p.ID]);
+		playerlaserData * pldata = &(BResource::bres.playerlaserdata[index]);
 		float power = pldata->power;
 		bool hitprotect = false;
 		if (hitflag & PLAYERLASER_HITFLAG_PROTECT)
@@ -208,6 +221,10 @@ BYTE PlayerLaser::isInRange(float aimx, float aimy, float w, float h/* =0.0f */)
 	{
 		useheadypos = 0;
 	}
+	if (useheadypos > Player::p.y+PLAYERLASER_LASERYOFFSET)
+	{
+		useheadypos = Player::p.y+PLAYERLASER_LASERYOFFSET;
+	}
 	float oHeight = ((_bobj.y+PLAYERLASER_LASERYOFFSET)-useheadypos)/2;
 	_bobj.y -= oHeight-PLAYERLASER_LASERYOFFSET;
 	if (_bobj.checkCollisionRightRect(aimx, aimy, w, h, pldata->width, oHeight+1))
@@ -219,17 +236,20 @@ BYTE PlayerLaser::isInRange(float aimx, float aimy, float w, float h/* =0.0f */)
 
 void PlayerLaser::Shoot()
 {
-	plaser[Player::p.ID].shoot();
+	plaser[GetIndex()].shoot();
+	plaser[GetIndex(true)].stopfire();
 }
 
 void PlayerLaser::StopFire()
 {
-	plaser[Player::p.ID].stopfire();
+	plaser[GetIndex()].stopfire();
+	plaser[GetIndex(true)].stopfire();
 }
 
 void PlayerLaser::ClearStop()
 {
-	plaser[Player::p.ID].bstopped = false;
+	plaser[GetIndex()].bstopped = false;
+	plaser[GetIndex(true)].bstopped = false;
 }
 
 void PlayerLaser::shoot()

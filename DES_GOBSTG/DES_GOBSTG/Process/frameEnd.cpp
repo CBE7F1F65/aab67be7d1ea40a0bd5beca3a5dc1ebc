@@ -56,7 +56,7 @@ void Process::frameEnd()
 		}
 		*/
 	}
-	if(active || !Player::CheckAble() && state != STATE_CONTINUE)
+	if(active || !Player::p.CheckAble() && state != STATE_CONTINUE)
 	{
 		BGLayer::Action(active);
 		Effectsys::Action();

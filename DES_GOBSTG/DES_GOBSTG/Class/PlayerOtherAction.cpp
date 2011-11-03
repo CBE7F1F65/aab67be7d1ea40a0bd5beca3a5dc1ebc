@@ -19,7 +19,7 @@ void Player::Init()
 {
 	p.exist = false;
 	p.ID = 0xffff;
-	SetAble(false);
+	p.SetAble(false);
 }
 
 void Player::RenderAll()
@@ -254,15 +254,6 @@ void Player::UpdatePlayerData()
 	{
 		sprite = SpriteItemManager::CreateSprite(pdata->siid);
 	}
-	if (spdrain)
-	{
-		SpriteItemManager::ChangeSprite(pdata->drainzoneSIID, spdrain);
-	}
-	else
-	{
-		spdrain = SpriteItemManager::CreateSprite(pdata->drainzoneSIID);
-	}
-	spdrain->SetBlendMode(BLEND_ALPHAADD);
 }
 
 void Player::SetInfi(BYTE reasonflag, int _infitimer/* =PLAYER_INFIMAX */)

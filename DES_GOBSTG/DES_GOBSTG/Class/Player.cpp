@@ -25,89 +25,53 @@
 #include "../Header/GameAI.h"
 
 #define _GAMERANK_MIN	0
-#define _GAMERANK_MAX	4
-
-#define _CARDLEVEL_ADDINTERVAL	3600
-#define _BOSSLEVEL_ADDINTERVAL	3600
-#define _CARDLEVEL_MAX	16
-#define _BOSSLEVEL_MAX	16
-
-#define _PLAYER_LIFECOSTMAX	2880
-#define _PLAYER_COMBOHITMAX	999
-
-#define _PLAYER_SHOOTNOTPUSHOVER	9
-
-#define _PL_SPELLBONUS_BOSS_1	100000
-#define _PL_SPELLBONUS_BOSS_2	300000
-#define _PL_SPELLBONUS_BOSS_3	500000
+#define _GAMERANK_MAX	5
 
 Player Player::p;
-bool Player::able = false;
-
 BYTE Player::rank = _GAMERANK_MIN;
-
 DWORD Player::alltime = 0;
-
 BYTE Player::round = 0;
+
+
+#define _PLAYER_SHOOTNOTPUSHOVER	9
 
 #define _PL_MERGETOPOS_X	(M_GAMESQUARE_CENTER_X/2)
 #define _PL_MERGETOPOS_Y		(PL_MOVABLE_BOTTOM - 32)
 
-#define _PL_SHOOTINGCHARGE_1	0x01
-#define _PL_SHOOTINGCHARGE_2	0x02
-#define _PL_SHOOTINGCHARGE_3	0x04
-#define _PL_SHOOTINGCHARGE_4	0x08
+#define _PL_COMBOMINUS_NOR	((-PLAYER_COMBOGAGEMAX)/32)
+#define _PL_COMBOMINUS_SEC	((-PLAYER_COMBOGAGEMAX)/64)
 
-#define _PL_CHARGEZONE_R_2	188.0f
-#define _PL_CHARGEZONE_R_3	252.0f
-#define _PL_CHARGEZONE_R_4	444.5f
-
-#define _PL_CHARGEZONE_MAXTIME_2	49
-#define _PL_CHARGEZONE_MAXTIME_3	65
-#define _PL_CHARGEZONE_MAXTIME_4	129
-
-#define _PLTEMPER_NULL	0x00
-#define _PLTEMPER_COLD	0x01
-#define _PLTEMPER_HOT	0x02
-
-#define _PL_COMBOMINUS_NOR	20
-#define _PL_COMBOMINUS_SEC	10
-
-#define _PL_COMBORESET	0
+#define _PL_COMBORESET	(-PLAYER_COMBOGAGEMAX)
 #define _PL_COMBOKEEP	200
 
-#define _PL_COMBOGAGE_BULLETKILLMUL	2
-
+/*
 #define _PL_SCOREMUL_1_HIT	500
 #define _PL_SCOREMUL_2_HIT	1000
 #define _PL_SCOREMUL_3_HIT	3000
 #define _PL_SCOREMUL_4_HIT	5000
 #define _PL_SCOREMUL_5_HIT	7000
 #define _PL_SCOREMUL_6_HIT	10000
+*/
 
 #define _PL_DEFAULTBOMBMAX	3
 #define _PL_BOMBTIME		120
 #define _PL_PASSIVEBOMBTIME	48
 
+#define _PLWEAPON_NULL	0
+#define _PLWEAPON_LASER	1
+#define _PLWEAPON_SHOOT	2
+
 Player::Player()
 {
 	effGraze.exist = false;
-	effChange.exist = false;
-	effInfi.exist = false;
 	effCollapse.exist = false;
-	effMerge.exist = false;
-	effBorder.exist = false;
-	effBorderOn.exist = false;
-	effBorderOff.exist = false;
 	sprite			= NULL;
-	spdrain			= NULL;
 	ID			= 0;
 }
 
 Player::~Player()
 {
 	SpriteItemManager::FreeSprite(&sprite);
-	SpriteItemManager::FreeSprite(&spdrain);
 }
 
 void Player::ClearSet(BYTE _round)
@@ -137,13 +101,12 @@ void Player::ClearSet(BYTE _round)
 	mergetimer			=	0;
 	collapsetimer		=	0;
 	shoottimer			=	0;
-	draintimer			=	0;
-	chargetimer			=	0;
 	bombtimer			=	0;
 	slowtimer			=	0;
 	fasttimer			=	0;
-	playerchangetimer	=	0;
 	costlifetimer		=	0;
+	hypertimer			=	0;
+	freezetimer			=	0;
 
 	infitimer = 0;
 	infireasonflag = 0;
@@ -152,11 +115,13 @@ void Player::ClearSet(BYTE _round)
 	nBomb = nBombMax;
 	bPassiveBomb = false;
 
+	PlayerLaser::StopFire();
+
 	shootpushtimer = 0;
 	shootnotpushtimer = 0;
 	lasertimer = 0;
-
-	spellstoptimer = 0;
+	lastWeapon = _PLWEAPON_NULL;
+	lastStableWeapon = _PLWEAPON_NULL;
 
 	speedfactor		=	1.0f;
 
@@ -175,13 +140,13 @@ void Player::ClearSet(BYTE _round)
 
 	nScore = 0;
 	nHiScore = DataConnector::nHiScore();
-	nScoreMul = 1;
+	fScoreMul = 1;
 
 	hitdisplaykeeptimer = 0;
 
 	nTemper = 0;
-	temperSelf = _PLTEMPER_NULL;
-	temperEnemy= _PLTEMPER_NULL;
+	temperSelf = TEMPERSTATE_NULL;
+	SetEnemyTemper(TEMPERSTATE_NULL);
 	bhyper = false;
 	bfreeze = false;
 
@@ -190,47 +155,13 @@ void Player::ClearSet(BYTE _round)
 		effGraze.Stop(true);
 		effGraze.MoveTo(x, y, 0, true);
 	}
-	if (effChange.exist)
-	{
-		effChange.Stop(true);
-		effChange.MoveTo(x, y, 0, true);
-	}
-	if (effInfi.exist)
-	{
-		effInfi.Stop(true);
-		effInfi.MoveTo(x, y, 0, true);
-	}
 	if (effCollapse.exist)
 	{
 		effCollapse.Stop(true);
 		effCollapse.MoveTo(x, y, 0, true);
 	}
-	if (effMerge.exist)
-	{
-		effMerge.Stop(true);
-		effMerge.MoveTo(x, y, 0, true);
-	}
-	if (effBorder.exist)
-	{
-		effBorder.Stop(true);
-		effBorder.MoveTo(x, y, 0, true);
-	}
-	if (effBorderOn.exist)
-	{
-		effBorderOn.Stop(true);
-		effBorderOn.MoveTo(x, y, 0, true);
-	}
-	if (effBorderOff.exist)
-	{
-		effBorderOff.Stop(true);
-		effBorderOff.MoveTo(x, y, 0, true);
-	}
 
 	changePlayerID(ID, true);
-
-	esChange.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERCHANGE, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y, 0, 3.0f);
-	esChange.colorSet(0x7fffffff, BLEND_ALPHAADD);
-	esChange.chaseSet(EFFSP_CHASE_PLAYER, 0, 0);
 
 	esShot.valueSet(EFFSPSET_PLAYERUSE, EFFSP_PLAYERSHOT, SpriteItemManager::GetIndexByName(SI_PLAYER_SHOTITEM), x, y, 0, 1.2f);
 	esShot.colorSet(0xccff0000);
@@ -263,21 +194,8 @@ void Player::valueSet(BYTE round)
 
 	effGraze.valueSet(EFF_PL_GRAZE, *this);
 	effGraze.Stop();
-	effChange.valueSet(EFF_PL_CHANGE, *this);
-	effChange.Stop();
-	effInfi.valueSet(EFF_PL_INFI, *this);
-	effInfi.Stop();
 	effCollapse.valueSet(EFF_PL_COLLAPSE, *this);
 	effCollapse.Stop();
-	effMerge.valueSet(EFF_PL_MERGE, *this);
-	effMerge.Stop();
-	effBorder.valueSet(EFF_PL_BORDER, *this);
-	effBorder.Stop();
-	effBorderOn.valueSet(EFF_PL_BORDERON, *this);
-	effBorderOn.Stop();
-	effBorderOff.valueSet(EFF_PL_BORDEROFF, *this);
-	effBorderOff.Stop();
-
 	SetAble(true);
 }
 
@@ -285,12 +203,6 @@ bool Player::Action()
 {
 	alltime++;
 	Replay::AddLostStack();
-	if (gametime % _CARDLEVEL_ADDINTERVAL == 0)
-	{
-	}
-	if (gametime % _BOSSLEVEL_ADDINTERVAL == 0)
-	{
-	}
 	DWORD stopflag = Process::mp.GetStopFlag();
 	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYER);
 	bool binspellstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYERSPELL);
@@ -412,13 +324,6 @@ void Player::action()
 			flag &= ~PLAYER_FASTCHANGE;
 		}
 	}
-	if(flag & PLAYER_PLAYERCHANGE)
-	{
-		if(PlayerChange())
-		{
-			flag &= ~PLAYER_PLAYERCHANGE;
-		}
-	}
 	if(flag & PLAYER_SHOOT)
 	{
 		if(Shoot())
@@ -434,18 +339,25 @@ void Player::action()
 			PlayerLaser::StopFire();
 		}
 	}
+	if (flag & PLAYER_HYPER)
+	{
+		if (Hyper())
+		{
+			flag &= ~PLAYER_HYPER;
+		}
+	}
+	if (flag & PLAYER_FREEZE)
+	{
+		if (Freeze())
+		{
+			flag &= ~PLAYER_FREEZE;
+		}
+	}
 	if(flag & PLAYER_BOMB)
 	{
 		if(Bomb())
 		{
 			flag &= ~PLAYER_BOMB;
-		}
-	}
-	if(flag & PLAYER_DRAIN)
-	{
-		if(Drain())
-		{
-			flag &= ~PLAYER_DRAIN;
 		}
 	}
 	if(flag & PLAYER_GRAZE)
@@ -469,6 +381,7 @@ void Player::action()
 	{
 		bInfi = false;
 	}
+	/*
 	if (nComboGage > 0)
 	{
 		nComboGage -= _PL_COMBOMINUS_NOR;
@@ -477,6 +390,64 @@ void Player::action()
 			AddComboGage(-1);
 		}
 	}
+	*/
+
+	bool weaponchanged = false;
+	if (flag & PLAYER_LASER && !(lastWeapon == _PLWEAPON_LASER))
+	{
+		lastWeapon = _PLWEAPON_LASER;
+		weaponchanged = true;
+	}
+	else if (flag & PLAYER_SHOOT && !(lastWeapon == _PLWEAPON_SHOOT))
+	{
+		lastWeapon = _PLWEAPON_SHOOT;
+		weaponchanged = true;
+	}
+	if (temperSelf == TEMPERSTATE_NULL && temperEnemy == TEMPERSTATE_NULL)
+	{
+		if (flag & PLAYER_LASER)
+		{
+			lastStableWeapon = _PLWEAPON_LASER;
+		}
+		else if (flag & PLAYER_SHOOT)
+		{
+			lastStableWeapon = _PLWEAPON_SHOOT;
+		}
+	}
+	if (temperEnemy != temperSelf && !bhyper && !bfreeze)
+	{
+		if (temperSelf == TEMPERSTATE_COLD && (flag & PLAYER_LASER))
+		{
+			SetEnemyTemper(TEMPERSTATE_COLD);
+			lastStableWeapon = _PLWEAPON_LASER;
+		}
+		else if (temperSelf == TEMPERSTATE_HOT && (flag & PLAYER_SHOOT))
+		{
+			SetEnemyTemper(TEMPERSTATE_HOT);
+			lastStableWeapon = _PLWEAPON_SHOOT;
+		}
+		else
+		{
+			bool stableweaponchanged = false;
+			if (flag & PLAYER_LASER && !(lastStableWeapon == _PLWEAPON_LASER))
+			{
+				stableweaponchanged = true;
+			}
+			else if (flag & PLAYER_SHOOT && !(lastStableWeapon == _PLWEAPON_SHOOT))
+			{
+				stableweaponchanged = true;
+			}
+			if (stableweaponchanged)
+			{
+				AddComboGage(_PL_COMBOMINUS_NOR);
+				if (!nComboGage)
+				{
+					SetEnemyTemper(TEMPERSTATE_NULL);
+				}
+			}
+		}
+	}
+
 	if (hitdisplaykeeptimer)
 	{
 		hitdisplaykeeptimer--;
@@ -597,23 +568,6 @@ void Player::action()
 				}
 			}
 		}
-		if (GameInput::GetKey(KSI_DRAIN))
-		{
-			bDrain = true;
-			if (GameInput::GetKey(KSI_DRAIN, DIKEY_DOWN))
-			{
-				if (!(flag & PLAYER_DRAIN))
-				{
-					draintimer = 0;
-				}
-			}
-			flag |= PLAYER_DRAIN;
-		}
-		else
-		{
-			bDrain = false;
-			flag &= ~PLAYER_DRAIN;
-		}
 
 #if defined __IPHONE
 		if (!GameAI::ai.able) {
@@ -701,20 +655,17 @@ void Player::action()
 	else
 		diffuse = 0xffffff;
 
-	esChange.action();
 	esShot.action();
 	esPoint.action();
 	
 	effGraze.MoveTo(x, y);
 	effGraze.action();
 	effCollapse.action();
-	effBorderOn.action();
-	effBorderOff.action();
 
 	if(!(flag & PLAYER_GRAZE))
 		effGraze.Stop();
 
-	for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
+	for(int i=0;i<DATASTRUCT_PLAYERSUBMAX;i++)
 	{
 		if (pg[i].exist)
 		{
@@ -819,7 +770,7 @@ bool Player::Collapse()
 		effCollapse.Fire();
 
 		AddComboHit(-1);
-		AddComboGage(-1);
+		AddComboGage(_PL_COMBORESET);
 		AddHitScore(-1);
 		if (nLife == 1)
 		{
@@ -934,10 +885,52 @@ bool Player::Laser()
 	return false;
 }
 
-bool Player::Drain()
+
+bool Player::Hyper()
 {
-	draintimer++;
-	bDrain = true;
+	hypertimer++;
+	bhyper = true;
+	if (hypertimer == 1)
+	{
+		rank++;
+		if (rank > _GAMERANK_MAX)
+		{
+			rank = _GAMERANK_MAX;
+		}
+		SetInfi(PLAYERINFI_HYPER, PLAYER_HYPERTIMEMAX);
+	}
+	else if (hypertimer == PLAYER_HYPERTIMEMAX)
+	{
+		bhyper = false;
+		hypertimer = 0;
+		if (flag & PLAYER_LASER)
+		{
+			lasertimer = 0;
+		}
+		return true;
+	}
+	return false;
+}
+
+bool Player::Freeze()
+{
+	freezetimer++;
+	bfreeze = true;
+	if (freezetimer == 1)
+	{
+		rank++;
+		if (rank > _GAMERANK_MAX)
+		{
+			rank = _GAMERANK_MAX;
+		}
+		SetInfi(PLAYERINFI_FREEZE, PLAYER_FREEZETIMEMAX);
+	}
+	else if (freezetimer == PLAYER_FREEZETIMEMAX)
+	{
+		bfreeze = false;
+		freezetimer = 0;
+		return true;
+	}
 	return false;
 }
 
@@ -980,7 +973,7 @@ bool Player::SlowChange()
 	{
 		ResetPlayerGhost();
 		SE::push(SE_PLAYER_SLOWON, x);
-		for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
+		for(int i=0;i<DATASTRUCT_PLAYERSUBMAX;i++)
 		{
 			pg[i].timer = 0;
 		}
@@ -1007,7 +1000,7 @@ bool Player::FastChange()
 	{
 		ResetPlayerGhost();
 		SE::push(SE_PLAYER_SLOWOFF, x);
-		for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
+		for(int i=0;i<DATASTRUCT_PLAYERSUBMAX;i++)
 		{
 			pg[i].timer = 0;
 		}
@@ -1019,23 +1012,6 @@ bool Player::FastChange()
 		return true;
 	}
 	esPoint.colorSet(((0xff-fasttimer*16)<<24)+0xffffff);
-	return false;
-}
-
-bool Player::PlayerChange()
-{
-	if(GameInput::GetKey(KSI_DRAIN, DIKEY_DOWN))
-		playerchangetimer = 0;
-	playerchangetimer++;
-	if(playerchangetimer == 1)
-	{
-	}
-	else if(playerchangetimer == 16)
-	{
-		playerchangetimer = 0;
-		return true;
-	}
-	esChange.colorSet(0x3030ff | (((16-playerchangetimer) * 16)<<16));
 	return false;
 }
 
@@ -1074,7 +1050,7 @@ void Player::DoGraze(float x, float y)
 void Player::DoPlayerBulletKill(BYTE type)
 {
 	enemyData * edata = &(BResource::bres.enemydata[type]);
-	int addcombogage = edata->combogage*_PL_COMBOGAGE_BULLETKILLMUL;
+	int addcombogage = edata->combogage;//*_PL_COMBOGAGE_BULLETKILLMUL;
 	AddComboGage(addcombogage);
 	int addtemper = edata->killtemperpoint;
 	AddTemper(-addtemper);
@@ -1105,7 +1081,7 @@ void Player::DoShot()
 	if (!bInfi && !(flag & (PLAYER_SHOT | PLAYER_COLLAPSE)))
 	{
 		flag |= PLAYER_SHOT;
-		AddComboGage(-1);
+		AddComboGage(_PL_COMBORESET);
 	}
 }
 
@@ -1127,12 +1103,12 @@ void Player::DoItemGet(WORD itemtype, float _x, float _y)
 void Player::ResetPlayerGhost(bool move /* = false */)
 {
 	int tid = ID;
-	tid *= DATASTRUCT_PLAYERGHOSTMAX * 2;
+	tid *= DATASTRUCT_PLAYERSUBMAX * 2;
 	if (bSlow)
 	{
-		tid += DATASTRUCT_PLAYERGHOSTMAX;
+		tid += DATASTRUCT_PLAYERSUBMAX;
 	}
-	for (int i=0; i<DATASTRUCT_PLAYERGHOSTMAX; i++)
+	for (int i=0; i<DATASTRUCT_PLAYERSUBMAX; i++)
 	{
 		pg[i].valueSet(tid+i, move);
 	}
@@ -1140,9 +1116,6 @@ void Player::ResetPlayerGhost(bool move /* = false */)
 
 void Player::Render()
 {
-	if (spdrain && bDrain)
-	{
-	}
 	if (sprite)
 	{
 		sprite->SetColor(alpha<<24|diffuse);
@@ -1154,20 +1127,15 @@ void Player::RenderEffect()
 {
 	effGraze.Render();
 
-	for(int i=0;i<DATASTRUCT_PLAYERGHOSTMAX;i++)
+	for(int i=0;i<DATASTRUCT_PLAYERSUBMAX;i++)
 	{
 		if (pg[i].exist)
 		{
 			pg[i].Render();
 		}
 	}
-	if(flag & PLAYER_PLAYERCHANGE)
-	{
-		esChange.Render();
-	}
 	if(flag & PLAYER_SHOT)
 		esShot.Render();
-	effBorderOff.Render();
 	if(bSlow || flag & PLAYER_FASTCHANGE)
 	{
 		esPoint.Render();
@@ -1179,6 +1147,26 @@ void Player::RenderEffect()
 		esCollapse.Render();
 
 	effCollapse.Render();
+}
+
+void Player::callHyper()
+{
+	if (flag & PLAYER_HYPER || flag & PLAYER_FREEZE)
+	{
+		return;
+	}
+	flag |= PLAYER_HYPER;
+	hypertimer = 0;
+}
+
+void Player::callFreeze()
+{
+	if (flag & PLAYER_HYPER || flag & PLAYER_FREEZE)
+	{
+		return;
+	}
+	flag |= PLAYER_FREEZE;
+	freezetimer = 0;
 }
 
 void Player::callCollapse()
@@ -1213,10 +1201,29 @@ void Player::callSlowFastChange(bool toslow)
 	}
 }
 
-void Player::callPlayerChange()
+void Player::SetEnemyTemper(BYTE temperstate)
 {
-	flag |= PLAYER_PLAYERCHANGE;
-	playerchangetimer = 0;
+	if (temperEnemy == TEMPERSTATE_HOT && temperstate == TEMPERSTATE_COLD)
+	{
+		if (nTemper == -PLAYER_TEMPERMAX)
+		{
+			callFreeze();
+		}
+	}
+	else if (temperEnemy == TEMPERSTATE_COLD && temperstate == TEMPERSTATE_HOT)
+	{
+		if (nTemper == PLAYER_TEMPERMAX)
+		{
+			callHyper();
+		}
+	}
+	temperEnemy = temperstate;
+	if (temperEnemy == TEMPERSTATE_NULL)
+	{
+		AddComboGage(_PL_COMBORESET);
+		AddComboHit(-1);
+		AddHitScore(-1);
+	}
 }
 
 
@@ -1240,7 +1247,7 @@ void Player::AddHitScore(LONGLONG addscore)
 	{
 		return;
 	}
-	nHitScore += addscore * (bhyper?1:nScoreMul);
+	nHitScore += addscore * (bhyper?1:fScoreMul);
 	if (!hitdisplaykeeptimer)
 	{
 		nLastHitScore = nHitScore;
@@ -1249,21 +1256,26 @@ void Player::AddHitScore(LONGLONG addscore)
 
 void Player::AddComboGage(int gage)
 {
-	if (gage < 0)
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COLLAPSE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
+	{
+		gage = _PL_COMBORESET;
+	}
+
+	if (gage <= _PL_COMBORESET)
 	{
 		nComboGage = 0;
 		AddComboHit(-1);
 	}
 	else
 	{
-		if (flag & PLAYER_COLLAPSE || flag & PLAYER_COLLAPSE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
-		{
-			return;
-		}
 		nComboGage += gage;
 		if (nComboGage > PLAYER_COMBOGAGEMAX)
 		{
 			nComboGage = PLAYER_COMBOGAGEMAX;
+		}
+		else if (nComboGage < 0)
+		{
+			nComboGage = 0;
 		}
 	}
 }
@@ -1272,6 +1284,7 @@ void Player::KeepComboGage()
 {
 	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
 	{
+		AddComboHit(_PL_COMBORESET);
 		return;
 	}
 
@@ -1283,10 +1296,15 @@ void Player::KeepComboGage()
 
 void Player::AddComboHit(int combo)
 {
+	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
+	{
+		combo = -1;
+	}
+
 	if (combo < 0)
 	{
 		nComboHit = 0;
-		nScoreMul = 1;
+		fScoreMul = 1;
 		AddHitScore(-1);
 		if (!hitdisplaykeeptimer)
 		{
@@ -1295,40 +1313,38 @@ void Player::AddComboHit(int combo)
 		return;
 	}
 
-	if (flag & PLAYER_COLLAPSE || flag & PLAYER_COSTLIFE || flag & PLAYER_SHOT || flag & PLAYER_BOMB)
-	{
-		return;
-	}
 
 	nComboHit += combo;
+	/*
 	if (nComboHit < _PL_SCOREMUL_1_HIT)
 	{
-		nScoreMul = 1;
+		fScoreMul = 1;
 	}
 	else if (nComboHit < _PL_SCOREMUL_2_HIT)
 	{
-		nScoreMul = 2;
+		fScoreMul = 2;
 	}
 	else if (nComboHit < _PL_SCOREMUL_3_HIT)
 	{
-		nScoreMul = 3;
+		fScoreMul = 3;
 	}
 	else if (nComboHit < _PL_SCOREMUL_4_HIT)
 	{
-		nScoreMul = 4;
+		fScoreMul = 4;
 	}
 	else if (nComboHit < _PL_SCOREMUL_5_HIT)
 	{
-		nScoreMul = 5;
+		fScoreMul = 5;
 	}
 	else if (nComboHit < _PL_SCOREMUL_6_HIT)
 	{
-		nScoreMul = 6;
+		fScoreMul = 6;
 	}
 	else
 	{
-		nScoreMul = 7;
+		fScoreMul = 7;
 	}
+	*/
 
 	if (!hitdisplaykeeptimer)
 	{
@@ -1355,14 +1371,14 @@ void Player::AddTemper(int temper)
 
 	if (nTemper >= PLAYER_TEMPERHOTEDGE)
 	{
-		temperSelf = _PLTEMPER_HOT;
+		temperSelf = TEMPERSTATE_HOT;
 	}
 	else if (nTemper <= PLAYER_TEMPERCOLDEDGE)
 	{
-		temperSelf = _PLTEMPER_COLD;
+		temperSelf = TEMPERSTATE_COLD;
 	}
 	else
 	{
-		temperSelf = _PLTEMPER_NULL;
+		temperSelf = TEMPERSTATE_NULL;
 	}
 }

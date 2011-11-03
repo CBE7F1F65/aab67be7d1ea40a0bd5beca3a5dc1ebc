@@ -16,6 +16,8 @@ public:
 	static void Init();
 	void Release();
 
+	static int GetIndex(bool invert=false);
+
 	static void Shoot();
 	static void StopFire();
 	static void ClearStop();
@@ -26,7 +28,7 @@ public:
 	static void RenderAll();
 
 	static bool CheckShoot(Enemy * en, float aimx, float aimy, float aimw, float aimh=0.0f);
-	bool checkshoot(Enemy * en, float aimx, float aimy, float aimw, float aimh=0.0f);
+	bool checkshoot(int index, Enemy * en, float aimx, float aimy, float aimw, float aimh=0.0f);
 
 	void init(int playerID);
 	void action();

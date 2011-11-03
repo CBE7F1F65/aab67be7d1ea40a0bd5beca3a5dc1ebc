@@ -9,7 +9,7 @@ LConst_EnemyTypeGreen	=	LConst_EnemyTypeStart + 2
 LConst_EnemyTypeBig	=	LConst_EnemyTypeStart + 3
 LConst_EnemyTypeLiLy	=	LConst_EnemyTypeStart + 4
 
-LConst_EnemyMergeInterval	=	16
+LConst_EnemyMergeInterval	=	5
 
 LConst_Desc_EnemyTimeCounter	=	FREEBEGIN
 LConst_Desc_EnemyRandom	=	FREEBEGIN + 2

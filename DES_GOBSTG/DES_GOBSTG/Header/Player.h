@@ -36,28 +36,29 @@
 #define	PLAYER_COLLAPSE				0x0008
 #define	PLAYER_SHOOT				0x0010
 #define PLAYER_LASER				0x0020
-#define	PLAYER_DRAIN				0x0040
-#define	PLAYER_BOMB					0x0080
+#define	PLAYER_BOMB					0x0040
 #define	PLAYER_SLOWCHANGE			0x0100
 #define	PLAYER_FASTCHANGE			0x0200
-#define	PLAYER_PLAYERCHANGE			0x0400
+#define PLAYER_HYPER				0x0400
+#define PLAYER_FREEZE				0x0800
 #define	PLAYER_GRAZE				0x1000
 
 #define PLAYER_INFIMAX		-1
 #define PLAYER_INFIUNSET	0
 #define PLAYERINFI_MERGE		0x01
-#define PLAYERINFI_SHOOTCHARGE	0x02
-#define PLAYERINFI_OVER			0x04
-#define PLAYERINFI_CHAT			0x08
-#define PLAYERINFI_COSTLIFE		0x10
-#define PLAYERINFI_COLLAPSE		0x20
-#define PLAYERINFI_BOMB			0x40
+#define PLAYERINFI_OVER			0x02
+#define PLAYERINFI_CHAT			0x04
+#define PLAYERINFI_COSTLIFE		0x08
+#define PLAYERINFI_COLLAPSE		0x10
+#define PLAYERINFI_BOMB			0x20
+#define PLAYERINFI_HYPER		0x40
+#define PLAYERINFI_FREEZE		0x80
 
 #define PLAYER_CHARGEONE	100.0f
 #define PLAYER_CHARGENMAX	4
 #define PLAYER_CHARGEMAX	(PLAYER_CHARGEONE*PLAYER_CHARGENMAX)
 
-#define PLAYER_COMBOGAGEMAX	1000
+#define PLAYER_COMBOGAGEMAX	10000
 
 #define PLAYER_GRAZE_R	40
 
@@ -77,6 +78,13 @@
 #define PLAYER_HITDISPLAYFADE		60
 
 #define PLAYER_BOMBMAX	6
+
+#define PLAYER_HYPERTIMEMAX		360
+#define PLAYER_FREEZETIMEMAX	60
+
+#define TEMPERSTATE_NULL	0x00
+#define TEMPERSTATE_COLD	0x01
+#define TEMPERSTATE_HOT		0x02
 
 class Player : public BObject
 {
@@ -100,12 +108,12 @@ public:
 	bool Collapse();
 	bool Shoot();
 	bool Laser();
-	bool Drain();
 	bool Bomb();
 	bool SlowChange();
 	bool FastChange();
-	bool PlayerChange();
 	bool Graze();
+	bool Hyper();
+	bool Freeze();
 
 	void changePlayerID(WORD toID, bool moveghost=false);
 
@@ -135,14 +143,17 @@ public:
 	void callCollapse();
 	bool callBomb(bool bpassive=false);
 	void callSlowFastChange(bool toslow);
-	void callPlayerChange();
+	void callFreeze();
+	void callHyper();
 
 	void SetInitLife(BYTE initlife);
 	void SetChara(WORD id);
 	void SetInfi(BYTE reasonflag, int infitimer=PLAYER_INFIMAX);
 
-	static void SetAble(bool setable);
-	static bool CheckAble();
+	void SetAble(bool setable);
+	bool CheckAble();
+
+	void SetEnemyTemper(BYTE temperstate);
 
 	static void Init();
 	static bool Action();
@@ -161,21 +172,14 @@ public:
 	float	lastmx[PL_SAVELASTMAX];
 	float	lastmy[PL_SAVELASTMAX];
 
-	PlayerGhost pg[DATASTRUCT_PLAYERGHOSTMAX];
+	PlayerGhost pg[DATASTRUCT_PLAYERSUBMAX];
 
-	EffectSp	esChange;
 	EffectSp	esShot;
 	EffectSp	esPoint;
 	EffectSp	esCollapse;
 
 	Effectsys	effGraze;
-	Effectsys	effChange;
-	Effectsys	effInfi;
 	Effectsys	effCollapse;
-	Effectsys	effMerge;
-	Effectsys	effBorder;
-	Effectsys	effBorderOn;
-	Effectsys	effBorderOff;
 
 	float	slowspeed;
 	float	speedfactor;
@@ -184,12 +188,10 @@ public:
 	int		infitimer;
 
 	bool	bSlow;
-	bool	bDrain;
 	bool	bInfi;
 	bool	bLaser;
 
 	hgeSprite * sprite;
-	hgeSprite * spdrain;
 	BYTE	frameindex[PLAYER_FRAME_STATEMAX];
 	BYTE	nowframeindex;
 
@@ -199,14 +201,12 @@ public:
 	WORD	collapsetimer;
 	WORD	shoottimer;
 	WORD	lasertimer;
-	WORD	draintimer;
-	WORD	chargetimer;
 	WORD	bombtimer;
 	WORD	slowtimer;
 	WORD	fasttimer;
-	WORD	playerchangetimer;
 	WORD	costlifetimer;
-	WORD	spellstoptimer;
+	WORD	hypertimer;
+	WORD	freezetimer;
 
 	BYTE	shootpushtimer;
 	BYTE	shootnotpushtimer;
@@ -220,6 +220,8 @@ public:
 	int		nTemper;
 	BYTE	temperSelf;
 	BYTE	temperEnemy;
+	BYTE	lastWeapon;
+	BYTE	lastStableWeapon;
 
 	bool	bhyper;
 	bool	bfreeze;
@@ -228,7 +230,7 @@ public:
 	LONGLONG	nHiScore;
 	LONGLONG	nHitScore;
 	LONGLONG	nLastHitScore;
-	BYTE	nScoreMul;
+	float	fScoreMul;
 
 	int nComboHit;
 	int nComboHitMax;
@@ -243,11 +245,11 @@ public:
 	// add
 	BYTE	initlife;
 	BYTE	nLife;
+	bool	able;
 
 
 	static BYTE rank;
 
-	static bool able;
 
 	static DWORD alltime;
 	static BYTE round;

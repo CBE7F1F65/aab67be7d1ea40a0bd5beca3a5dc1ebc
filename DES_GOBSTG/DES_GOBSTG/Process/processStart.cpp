@@ -6,7 +6,7 @@
 
 int Process::processStart()
 {
-	if (replaymode && (!Player::able/* || scene == S1*/))
+	if (replaymode && (!Player::p.able/* || scene == S1*/))
 	{
 		replayend = true;
 		replaymode = false;
@@ -18,7 +18,7 @@ int Process::processStart()
 		state = STATE_REPLAY;
 		return PTURN;
 	}
-	if(!Player::able && !replaymode)
+	if(!Player::p.able && !replaymode)
 	{
 		state = STATE_CONTINUE;
 		return PTURN;

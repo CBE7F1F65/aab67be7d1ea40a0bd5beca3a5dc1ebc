@@ -252,6 +252,45 @@ void FrontDisplay::RenderPanel()
 		SpriteItemManager::SetSpriteHotSpot(panel.temperframe, 0, 0);
 		SpriteItemManager::RenderSprite(panel.temperframe, temperx, M_GAMESQUARE_TOP+yoffset);
 
+#ifdef __DEBUG
+		switch (Player::p.temperSelf)
+		{
+		case TEMPERSTATE_NULL:
+			strcpy(strbuffer, "N/");
+			break;
+		case TEMPERSTATE_COLD:
+			strcpy(strbuffer, "C/");
+			break;
+		case TEMPERSTATE_HOT:
+			strcpy(strbuffer, "H/");
+			break;
+		}
+		switch (Player::p.temperEnemy)
+		{
+		case TEMPERSTATE_NULL:
+			strcat(strbuffer, "N");
+			break;
+		case TEMPERSTATE_COLD:
+			strcat(strbuffer, "C");
+			break;
+		case TEMPERSTATE_HOT:
+			strcat(strbuffer, "H");
+			break;
+		}
+
+		sprintf(strbuffer, "%s:%05d", strbuffer, Player::p.nTemper);
+		if (Player::p.bhyper)
+		{
+			strcat(strbuffer, " Hy");
+		}
+		else if (Player::p.bfreeze)
+		{
+			strcat(strbuffer, " Fr");
+		}
+
+		SpriteItemManager::FontPrintf(info.asciifont, temperx, yoffset+16, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
+#endif
+
 		// Bomb
 		SpriteItemManager::RenderSprite(panel.bombback, M_GAMESQUARE_CENTER_X, M_GAMESQUARE_BOTTOM-8);
 		for (int i=0; i<PLAYER_BOMBMAX; i++)
@@ -326,7 +365,7 @@ void FrontDisplay::RenderPanel()
 		sprintf(strbuffer, "%f",	hge->Timer_GetTime());
 		SpriteItemManager::FontPrintf(info.asciifont, 540, 1, 0, strbuffer);
 #endif
-		if (((Process::mp.IsInGame() && Player::CheckAble()) || Process::mp.state == STATE_OVER) && info.asciifont)
+		if (((Process::mp.IsInGame() && Player::p.CheckAble()) || Process::mp.state == STATE_OVER) && info.asciifont)
 		{
 			int usingtime = gametime;
 			if ((Process::mp.state == STATE_CLEAR || Process::mp.state == STATE_OVER) && Process::mp.alltime)
