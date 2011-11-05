@@ -1,11 +1,11 @@
-90	h5nc	49																					
-Comment	Index	FaceIndex	SIID	Collision_W	Collision_H	Flag	StandFrame	RightPreFrame	RightFrame	LeftPreFrame	LeftFrame	AttackPreFrame	AttackFrame	StorePreFrame	StoreFrame	EffID	ShotEffID	CollapseEffID	Score	ComboPoint	KillTemper	LaserTemper	ProtectTemper
-#		Boss(0~31)																					
-#		Enemy(32~36)																					
--	32	-1	SI_EnemySprite_Blue_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10
--	33	-1	SI_EnemySprite_Red_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10
--	34	-1	SI_EnemySprite_Green_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10
--	35	-1	SI_EnemySprite_Big_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10
--	36	-1	SI_EnemySprite_Lily_0	16	16	7	4	4	0	0	0	0	0	0	0	0	31	32	100	160	80	10	40
-#		Charge(44~60)																					
--	44	-1	SI_Null	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0
+90	h5nc	49																						
+Comment	Index	FaceIndex	SIID	Collision_W	Collision_H	Flag	StandFrame	RightPreFrame	RightFrame	LeftPreFrame	LeftFrame	AttackPreFrame	AttackFrame	StorePreFrame	StoreFrame	EffID	ShotEffID	CollapseEffID	Score	ComboPoint	KillTemper	LaserTemper	ProtectTemper	BlastTime
+#		Boss(0~31)																						
+#		Enemy(32~36)																						
+-	32	-1	SI_EnemySprite_Blue_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10	0
+-	33	-1	SI_EnemySprite_Red_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10	0
+-	34	-1	SI_EnemySprite_Green_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10	0
+-	35	-1	SI_EnemySprite_Big_0	16	16	7	4	4	4	0	0	0	0	0	0	0	31	32	100	160	80	0	10	0
+-	36	-1	SI_EnemySprite_Lily_0	16	16	7	4	4	0	0	0	0	0	0	0	0	31	32	100	160	80	10	40	0
+#		Charge(44~60)																						
+-	44	-1	SI_Null	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0

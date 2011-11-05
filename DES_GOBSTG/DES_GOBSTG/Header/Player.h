@@ -133,7 +133,7 @@ public:
 	void DoPlayerLaserHit(BYTE type, bool hitprotect);
 	void DoPlayerLaserKill(BYTE type);
 	void DoShot();
-	void DoBulletDead(float x, float y);
+	void DoBulletDead(float x, float y, bool frozen);
 
 	void Render();
 

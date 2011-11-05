@@ -57,6 +57,8 @@ BYTE Player::round = 0;
 #define _PL_BOMBTIME		120
 #define _PL_PASSIVEBOMBTIME	48
 
+#define _SCOREMULMAX	10.0f
+
 #define _PLWEAPON_NULL	0
 #define _PLWEAPON_LASER	1
 #define _PLWEAPON_SHOOT	2
@@ -952,10 +954,12 @@ bool Player::Freeze()
 			rank = _GAMERANK_MAX;
 		}
 		SetInfi(PLAYERINFI_FREEZE, PLAYER_FREEZETIMEMAX);
-		if (rank != _GAMERANK_MAX)
+		float rspeed = 8.0f;
+		if (rank == _GAMERANK_MAX)
 		{
-			EventZone::Build(EVENTZONE_TYPE_BULLETFREEZE|EVENTZONE_CHECKTYPE_CIRCLE, x, y, PLAYER_FREEZETIMEMAX, 0, 0, 0, EVENTZONE_TYPE_BULLETFREEZE, 8);
+			rspeed = 1.0f;
 		}
+		EventZone::Build(EVENTZONE_TYPE_BULLETFREEZE|EVENTZONE_CHECKTYPE_CIRCLE, x, y, PLAYER_FREEZETIMEMAX, 0, 0, 0, EVENTZONE_TYPE_BULLETFREEZE, rspeed);
 	}
 	else if (freezetimer == PLAYER_FREEZETIMEMAX)
 	{
@@ -1117,9 +1121,12 @@ void Player::DoShot()
 	}
 }
 
-void Player::DoBulletDead(float x, float y)
+void Player::DoBulletDead(float x, float y, bool frozen)
 {
-	AddComboHit(1);
+	if (frozen)
+	{
+		AddComboHit(1);
+	}
 	float addmul = 0;
 	switch (rank)
 	{
@@ -1136,6 +1143,7 @@ void Player::DoBulletDead(float x, float y)
 		addmul = 0.008f;
 		break;
 	case 4:
+	case 5:
 		addmul = 0.01f;
 		break;
 	}
@@ -1295,13 +1303,13 @@ float Player::GetHyperCostLife(float hyperpower)
 		rate = 0.6f;
 		break;
 	case 3:
-		rate = 0.45f;
+		rate = 0.5f;
 		break;
 	case 4:
-		rate = 0.3f;
+		rate = 0.4f;
 		break;
 	case 5:
-		rate = 0.1f;
+		rate = 0.3f;
 		break;
 	}
 	return hyperpower*rate;
@@ -1324,6 +1332,10 @@ void Player::AddScoreMul(float scoremul)
 		return;
 	}
 	fScoreMul += scoremul;
+	if (fScoreMul >= _SCOREMULMAX)
+	{
+		fScoreMul = _SCOREMULMAX;
+	}
 	if (!hitdisplaykeeptimer)
 	{
 		fLastScoreMul = fScoreMul;
@@ -1341,7 +1353,7 @@ void Player::AddHitScore(LONGLONG addscore)
 	{
 		return;
 	}
-	nHitScore += addscore * (bhyper?1:fScoreMul);
+	nHitScore += addscore * ((bhyper||bfreeze)?1:fScoreMul);
 	if (!hitdisplaykeeptimer)
 	{
 		nLastHitScore = nHitScore;

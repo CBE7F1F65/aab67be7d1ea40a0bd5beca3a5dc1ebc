@@ -272,7 +272,7 @@ bool _DataTable::BulletDefineFile()
 bool _DataTable::EnemyDefineFile()
 {
 	ZeroMemory(BResource::bres.enemydata, RSIZE_ENEMY);
-	_READSTRINGBUFFERLINE(24);
+	_READSTRINGBUFFERLINE(25);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -281,7 +281,7 @@ bool _DataTable::EnemyDefineFile()
 		enemyData * item = &(BResource::bres.enemydata[tindex]);
 		_CHECKEOF_DATATABLE;
 
-		fscanf(file, "%d%s%f%f%x%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d", 
+		fscanf(file, "%d%s%f%f%x%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d%d", 
 			_SAVETINT, 
 			strbuffer[0],
 			&(item->collision_w), 
@@ -303,7 +303,8 @@ bool _DataTable::EnemyDefineFile()
 			&(item->combogage), 
 			&(item->killtemperpoint), 
 			&(item->laserhittemperpoint),
-			&(item->protecthittemperpoint));
+			&(item->protecthittemperpoint),
+			_SAVETINT);
 
 		_DOSWAPTINT;
 		_INITTINT;
@@ -319,6 +320,7 @@ bool _DataTable::EnemyDefineFile()
 		item->attackFrame = _LOADTINT;
 		item->storePreFrame  = _LOADTINT;
 		item->storeFrame  = _LOADTINT;
+		item->blasttime = _LOADTINT;
 	}
 	return true;
 }

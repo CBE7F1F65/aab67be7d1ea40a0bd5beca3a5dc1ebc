@@ -143,6 +143,7 @@ struct enemyData
 	BYTE attackFrame;
 	BYTE storePreFrame;
 	BYTE storeFrame;
+	BYTE blasttime;
 };
 
 struct playerData 

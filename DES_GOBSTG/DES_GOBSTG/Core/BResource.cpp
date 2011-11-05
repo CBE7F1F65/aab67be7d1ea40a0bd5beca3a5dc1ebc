@@ -74,6 +74,7 @@ bool BResource::Pack(void * pStrdesc, void * pCustomConstData)
 		RSIZE_PLAYER + 
 //		RSIZE_SPRITE + 
 		RSIZE_PLAYERSHOOT + 
+		RSIZE_PLAYERLASER + 
 		RSIZE_PLAYERSUB + 
 		RSIZE_STAGEAREA + 
 		RSIZE_SPRITENUMBER +

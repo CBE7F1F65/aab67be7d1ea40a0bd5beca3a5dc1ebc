@@ -18,7 +18,7 @@
 #define _BULLETRENDERFLAG_NONE	0
 #define _BULLETRENDERFLAG_ROUND	1
 
-#define _BULLETWOUNDINGSPEEDLOSS	0.5f
+#define _BULLETWOUNDINGSPEEDLOSS	0.1f
 #define _BULLETWOUNDINGTIMEMAX		16
 
 RenderDepth Bullet::renderDepth[DATASTRUCT_BULLETTYPEMAX];
@@ -483,7 +483,7 @@ void Bullet::DoDead()
 {
 	fadeout = true;
 	timer = 0;
-	Player::p.DoBulletDead(x, y);
+	Player::p.DoBulletDead(x, y, frozen);
 }
 
 bool Bullet::DoCollision()

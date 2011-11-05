@@ -230,7 +230,7 @@ void FrontDisplay::RenderPanel()
 			BYTE r = 0xff;
 			BYTE g = 0xff;
 			BYTE b = 0xff;
-			if (Player::p.bhyper)
+			if (Player::p.bhyper || Player::p.bfreeze)
 			{
 				g = 0;
 			}

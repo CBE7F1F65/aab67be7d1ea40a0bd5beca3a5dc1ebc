@@ -862,6 +862,11 @@ void Enemy::actionInStop()
 	{
 		DoShot();
 	}
+	if (flag & ENEMYFLAG_GROUND)
+	{
+		x += BGLayer::bglayer.xspeed;
+		y += BGLayer::bglayer.yspeed;
+	}
 }
 
 void Enemy::DoShot()
@@ -882,19 +887,9 @@ void Enemy::DoShot()
 		}
 		if ((it->type & EVENTZONE_TYPE_ENEMYDAMAGE))
 		{
-			if (it->type & EVENTZONE_TYPE_ENEMYBLAST)
+			if (!(flag & ENEMYFLAG_EZONESHOTABLE))
 			{
-				if (!(flag & ENEMYFLAG_BLASTSHOTABLE))
-				{
-					continue;
-				}
-			}
-			else
-			{
-				if (!(flag & ENEMYFLAG_EZONESHOTABLE))
-				{
-					continue;
-				}
+				continue;
 			}
 			if (it->isInRect(x, y, 0, tw, th))
 			{
@@ -982,6 +977,11 @@ void Enemy::Fadeout()
 		{
 			SE::push(SE_ENEMY_DEAD, x);
 		}
+		int blasttime = BResource::bres.enemydata[type].blasttime;
+		if (blasttime)
+		{
+			EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_CHECKTYPE_CIRCLE, x, y, blasttime);
+		}
 	}
 	fadeout = true;
 	timer = 0;
@@ -1052,6 +1052,13 @@ void Enemy::action()
 //		updateMove();
 		x += xplus;
 		y += yplus;
+
+		if (flag & ENEMYFLAG_GROUND)
+		{
+			x += BGLayer::bglayer.xspeed;
+			y += BGLayer::bglayer.yspeed;
+		}
+
 		updateAction();
 
 		if (speed != lastspeed || angle != lastangle)
