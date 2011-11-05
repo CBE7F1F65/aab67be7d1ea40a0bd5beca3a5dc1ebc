@@ -25,6 +25,8 @@ BYTE Enemy::nEnemyNow[ENEMY_NMAXSETMAX];
 #define _SCOREDISPLAYMAX		(ENEMYMAX*2)
 VectorList<ScoreDisplay> Enemy::scoredisplay;
 
+DWORD Enemy::guidindex = 0;
+
 #define _ENEMYDELETE_EDGE	32.0f
 #define _ENEMYDELETE_LEFT	(M_GAMESQUARE_LEFT-_ENEMYDELETE_EDGE)
 #define _ENEMYDELETE_RIGHT	(M_GAMESQUARE_RIGHT+_ENEMYDELETE_EDGE)
@@ -50,6 +52,7 @@ void Enemy::Init()
 	en.init(ENEMYMAX);
 	scoredisplay.init(_SCOREDISPLAYMAX);
 	bossindex = 0xff;
+	guidindex = 0;
 }
 
 void Enemy::Release()
@@ -86,7 +89,7 @@ int Enemy::Build(WORD eID, float x, float y, int angle, float speed, BYTE type, 
 		{
 			life -= 0.5f;
 		}
-		_pen->valueSet(eID, x, y, angle, speed, type, life, infitimer);
+		_pen->valueSet(eID, guidindex++, x, y, angle, speed, type, life, infitimer);
 		return en.getIndex();
 	}
 	return -1;
@@ -286,9 +289,10 @@ void Enemy::setLevelAim(int _level, float aimx, float aimy, int _aimangle)
 	aimangle = _aimangle;
 }
 
-void Enemy::valueSet(WORD _eID, float _x, float _y, int _angle, float _speed, BYTE _type, float _life, int _infitimer)
+void Enemy::valueSet(WORD _eID, DWORD _guid, float _x, float _y, int _angle, float _speed, BYTE _type, float _life, int _infitimer)
 {
 	ID		=	_eID;
+	guid	=	_guid;
 	x		=	_x;
 	lastx	=	x;
 	y		=	_y;

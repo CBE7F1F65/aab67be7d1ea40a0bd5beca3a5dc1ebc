@@ -14,7 +14,7 @@
 #define DATASTRUCT_ENEMYTYPEMAX		0x50
 #define DATASTRUCT_PLAYERTYPEMAX	4
 #define DATASTRUCT_PLAYERSUBMAX		4
-#define DATASTRUCT_PLAYERSHOOTTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX * (DATASTRUCT_PLAYERSUBMAX + 2) * 2)
+#define DATASTRUCT_PLAYERSHOOTTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX * (16) * 2)
 #define DATASTRUCT_PLAYERSUBTYPEMAX		(DATASTRUCT_PLAYERSUBMAX * DATASTRUCT_PLAYERTYPEMAX * 2)
 #define DATASTRUCT_PLAYERLASERTYPEMAX	(DATASTRUCT_PLAYERTYPEMAX * 2)
 #define DATASTRUCT_PLAYERBULLETTYPE		4
@@ -105,15 +105,16 @@ struct bulletData
 	int siid;
 	float collisionMain;
 	float collisionSub;
+	float life;
 	BYTE nRoll;
 	BYTE nColor;
-	BYTE whitecolor;
+	BYTE woundingtype;
+	BYTE frozentype;
 	BYTE seID;
 	BYTE effID;
 	BYTE blendtype;
 	BYTE collisiontype;
 	BYTE fadecolor;
-	BYTE autosendsetID;
 	BYTE renderdepth;
 	BYTE renderflag;
 };
@@ -189,10 +190,12 @@ struct playershootData
 	float speed;
 	float accelspeed;
 	float power;
+	float hyperpower;
 	WORD flag;
 	BYTE userID;
 	BYTE seID;
 	BYTE timeMod;
+	BYTE timeoffset;
 	BYTE arrange;
 };
 

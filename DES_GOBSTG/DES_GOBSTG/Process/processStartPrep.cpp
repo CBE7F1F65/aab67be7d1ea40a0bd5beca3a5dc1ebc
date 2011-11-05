@@ -48,7 +48,7 @@ void Process::startPrep(bool callinit)
 		seed = Replay::rpy.partinfo[part].seed;
 		Player::p.SetChara(Replay::rpy.rpyinfo.usingchara);
 		Player::p.SetInitLife(Replay::rpy.rpyinfo.initlife);
-		SetScene(Replay::rpy.rpyinfo.stage);
+		SetStage(Replay::rpy.rpyinfo.stage);
 	}
 	else
 	{

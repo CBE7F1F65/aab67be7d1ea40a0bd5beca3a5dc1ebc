@@ -78,7 +78,7 @@ public:
 
 	void	SyncInput();
 	void	SetState(int state, int time = 0);
-	void	SetScene(BYTE scene);
+	void	SetStage(BYTE scene);
 	void	SetArea(BYTE area);
 	void	SetReturnValue(int retval);
 	void	SetInputSwap();

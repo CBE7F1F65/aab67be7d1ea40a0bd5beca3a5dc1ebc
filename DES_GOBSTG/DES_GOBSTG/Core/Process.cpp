@@ -586,7 +586,7 @@ void Process::SetState(int _state, int _time /* = 0 */)
 	}
 }
 
-void Process::SetScene(BYTE _scene)
+void Process::SetStage(BYTE _scene)
 {
 	stage = _scene;
 }

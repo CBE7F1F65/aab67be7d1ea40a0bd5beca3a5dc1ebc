@@ -11,7 +11,7 @@ function _DEBUG_NewRandomMatch()
 		randchara[i+1] = 0;
 		siid, randcharaname[i+1] = game.GetPlayerContentTable(randchara[i+1]);
 		hdss.SetChara(randchara[i+1]);
-		hdss.SetPlayerInitData(10);
+		hdss.SetPlayerInitData(1);
 	end
 	logstr = "NM :	"..randchara[1].."	"..randcharaname[1].."	"..randchara[2].."	"..randcharaname[2];
 	LOG(logstr);
@@ -56,11 +56,6 @@ end
 
 function Math_Inter(a, b, x)
 	return (b-a)*x+a;
-end
-
-function Math_Roll(x, t)
-	local modval = math.mod(x, 2*t);
-	return ((modval-math.mod(modval, t)) - Math_Sign(modval/t)) * math.mod(x, t);
 end
 
 function Math_ArcToAngle(a)

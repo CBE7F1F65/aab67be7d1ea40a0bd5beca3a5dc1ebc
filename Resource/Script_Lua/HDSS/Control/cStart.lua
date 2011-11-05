@@ -90,6 +90,12 @@ function ControlExecute_cStart(timer)
 				hdss.TogglePlayerInfi(0);
 			end
 		end
+		if hge.Input_GetDIKey(DIK_NUMPAD7, DIKEY_DOWN) then
+			hdss.SetPlayerTemper(-10000);
+		end
+		if hge.Input_GetDIKey(DIK_NUMPAD8, DIKEY_DOWN) then
+			hdss.SetPlayerTemper(10000);
+		end
 	end
 		
 	return true;

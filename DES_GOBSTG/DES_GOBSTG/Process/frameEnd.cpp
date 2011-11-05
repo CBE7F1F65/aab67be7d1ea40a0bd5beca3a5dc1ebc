@@ -24,7 +24,7 @@ void Process::frameEnd()
 		{
 //			SetState(STATE_CLEAR, -1);
 //			return;
-			Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_ONEMATCHOVER, SCRIPT_CON_INIT);
+			Scripter::scr.Execute(SCR_EVENT, SCR_EVENT_PLAYERDEAD, SCRIPT_CON_INIT);
 			if (Player::IsEnd() >= 0)
 			{
 				SetState(STATE_CLEAR, -1);
@@ -32,7 +32,8 @@ void Process::frameEnd()
 			}
 			else
 			{
-				clearPrep();
+				SetState(STATE_CONTINUE, -1);
+//				clearPrep();
 				SetInputSwap();
 				return;
 			}

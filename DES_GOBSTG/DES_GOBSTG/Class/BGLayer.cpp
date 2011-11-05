@@ -23,10 +23,10 @@ BGLayer::~BGLayer()
 void BGLayer::Release()
 {
 	areaid = 0;
-	timer = 0;
 	texbegin = 0;
 	largemapxtile = 0;
 	largemapytile = 0;
+	bossytile = 0;
 
 	mapcenx = 0;
 	mapxoffset = 0;
@@ -60,7 +60,6 @@ void BGLayer::action()
 {
 	if (bSetup)
 	{
-		timer++;
 		/*
 		if (GameInput::GetKey(KSI_UP))
 		{
@@ -102,7 +101,7 @@ void BGLayer::Action(bool active)
 	{
 		if (active)
 		{
-			Scripter::scr.Execute(SCR_SCENE, bglayer.areaid, bglayer.timer);
+			Scripter::scr.Execute(SCR_SCENE, bglayer.areaid, gametime);
 			bglayer.action();
 		}
 	}
@@ -139,6 +138,10 @@ void BGLayer::BGLayerSetup(float begincenx)
 			largemapxtile = padata->begintilex+padata->tilex;
 		}
 		largemapytile += padata->tiley;
+		if (padata->tiley)
+		{
+			bossytile = padata->tiley;
+		}
 		++padata;
 	}
 	padata = adatabegin;
@@ -342,7 +345,12 @@ void BGTile::SetSpriteByXY(int _largetilex, int _largetiley)
 		largetilex = _largetilex;
 		largetiley = _largetiley;
 
-		if (largetilex < 0 || largetiley < 0 || largetilex >= BGLayer::bglayer.largemapxtile || largetiley >= BGLayer::bglayer.largemapytile)
+		while (largetiley >= BGLayer::bglayer.largemapytile)
+		{
+			largetiley -= BGLayer::bglayer.bossytile;
+		}
+
+		if (largetilex < 0 || largetiley < 0 || largetilex >= BGLayer::bglayer.largemapxtile)
 		{
 			SpriteItemManager::ChangeSprite(SpriteItemManager::nullIndex, sprite);
 			return;
@@ -350,6 +358,10 @@ void BGTile::SetSpriteByXY(int _largetilex, int _largetiley)
 
 		BGTileMapping * nowmapping = &(BGLayer::bglayer.tilemapping[largetiley*BGLayer::bglayer.largemapxtile + largetilex]);
 		int texindex = BGLayer::bglayer.texbegin+nowmapping->texoffset;
+		if (nowmapping->texoffset > 1 || nowmapping->texoffset < 0)
+		{
+			texindex = 0;
+		}
 		HTEXTURE tex(texindex, NULL);
 		SpriteItemManager::SetSpriteData(sprite, tex, nowmapping->textilex*BGTILE_WIDTH, nowmapping->textiley*BGTILE_HEIGHT, BGTILE_WIDTH, BGTILE_HEIGHT);
 	}

@@ -1,14 +1,26 @@
-90	h5nc	4C																
-Comment	Index	UserID	HyperBullet	SIID	TimeMod	Flag	Power	DeleteTime	Arrange	Angle	AddAngle	Speed	AccelSpeed	Scale	CollisionR	Xbias	Ybias	SE
--	0	0	0	SI_PlayerBullet_0_0_0_0	4	1700	10	0	0	0	0	18	0	1	0	10	15	60
--	1	0	0	SI_PlayerBullet_0_0_0_0	4	1700	10	0	0	0	0	18	0	1	0	-10	15	60
--	2	0	0	SI_PlayerBullet_0_0_0_0	4	1700	10	0	1	-800	0	18	0	1	0	0	0	60
--	3	0	0	SI_PlayerBullet_0_0_0_0	4	1700	10	0	2	800	0	18	0	1	0	0	0	60
--	4	0	0	SI_PlayerBullet_0_0_0_0	4	1700	10	0	3	-1600	0	18	0	1	0	0	0	60
--	5	0	0	SI_PlayerBullet_0_0_0_0	4	1700	10	0	4	1600	0	18	0	1	0	0	0	60
--	6	0	1	SI_PlayerBullet_0_1_0_0	4	1700	15	0	0	0	0	18	0	1	0	10	15	60
--	7	0	1	SI_PlayerBullet_0_1_0_0	4	1700	15	0	0	0	0	18	0	1	0	-10	15	60
--	8	0	1	SI_PlayerBullet_0_1_0_0	4	1700	15	0	1	-800	0	18	0	1	0	0	0	60
--	9	0	1	SI_PlayerBullet_0_1_0_0	4	1700	15	0	2	800	0	18	0	1	0	0	0	60
--	10	0	1	SI_PlayerBullet_0_1_0_0	4	1700	15	0	3	-1600	0	18	0	1	0	0	0	60
--	11	0	1	SI_PlayerBullet_0_1_0_0	4	1700	15	0	4	1600	0	18	0	1	0	0	0	60
+90	h5nc	4C																		
+Comment	Index	UserID	HyperBullet	SIID	TimeMod	TimeOffset	Flag	Power	HyperPower	DeleteTime	Arrange	Angle	AddAngle	Speed	AccelSpeed	Scale	CollisionR	Xbias	Ybias	SE
+-	0	0	0	SI_PlayerBullet_0_0_0_0	4	0	1700	10	0	0	0	0	0	18	0	1	0	4	15	60
+-	1	0	0	SI_PlayerBullet_0_0_0_0	4	0	1700	10	0	0	0	0	0	18	0	1	0	-4	15	60
+-	2	0	0	SI_PlayerBullet_0_0_0_0	4	2	1700	10	0	0	0	0	0	18	0	1	0	8	15	60
+-	3	0	0	SI_PlayerBullet_0_0_0_0	4	2	1700	10	0	0	0	0	0	18	0	1	0	-8	15	60
+-	4	0	0	SI_PlayerBullet_0_0_0_0	4	0	1700	10	0	0	1	-1000	0	18	0	1	0	0	0	60
+-	5	0	0	SI_PlayerBullet_0_0_0_0	4	2	1700	10	0	0	1	-600	0	18	0	1	0	0	0	60
+-	6	0	0	SI_PlayerBullet_0_0_0_0	4	0	1700	10	0	0	2	1000	0	18	0	1	0	0	0	60
+-	7	0	0	SI_PlayerBullet_0_0_0_0	4	2	1700	10	0	0	2	600	0	18	0	1	0	0	0	60
+-	8	0	0	SI_PlayerBullet_0_0_0_0	4	0	1700	10	0	0	3	-1800	0	18	0	1	0	0	0	60
+-	9	0	0	SI_PlayerBullet_0_0_0_0	4	2	1700	10	0	0	3	-1400	0	18	0	1	0	0	0	60
+-	10	0	0	SI_PlayerBullet_0_0_0_0	4	0	1700	10	0	0	4	1800	0	18	0	1	0	0	0	60
+-	11	0	0	SI_PlayerBullet_0_0_0_0	4	2	1700	10	0	0	4	1400	0	18	0	1	0	0	0	60
+-	12	0	1	SI_PlayerBullet_0_1_0_0	4	0	1700	15	30	0	0	0	0	18	0	1	0	4	15	60
+-	13	0	1	SI_PlayerBullet_0_1_0_0	4	0	1700	15	30	0	0	0	0	18	0	1	0	-4	15	60
+-	14	0	1	SI_PlayerBullet_0_1_0_0	4	2	1700	15	30	0	0	0	0	18	0	1	0	8	15	60
+-	15	0	1	SI_PlayerBullet_0_1_0_0	4	2	1700	15	30	0	0	0	0	18	0	1	0	-8	15	60
+-	16	0	1	SI_PlayerBullet_0_1_0_0	4	0	1700	15	30	0	1	-1000	0	18	0	1	0	0	0	60
+-	17	0	1	SI_PlayerBullet_0_1_0_0	4	2	1700	15	30	0	1	-600	0	18	0	1	0	0	0	60
+-	18	0	1	SI_PlayerBullet_0_1_0_0	4	0	1700	15	30	0	2	1000	0	18	0	1	0	0	0	60
+-	19	0	1	SI_PlayerBullet_0_1_0_0	4	2	1700	15	30	0	2	600	0	18	0	1	0	0	0	60
+-	20	0	1	SI_PlayerBullet_0_1_0_0	4	0	1700	15	30	0	3	-1800	0	18	0	1	0	0	0	60
+-	21	0	1	SI_PlayerBullet_0_1_0_0	4	2	1700	15	30	0	3	-1400	0	18	0	1	0	0	0	60
+-	22	0	1	SI_PlayerBullet_0_1_0_0	4	0	1700	15	30	0	4	1800	0	18	0	1	0	0	0	60
+-	23	0	1	SI_PlayerBullet_0_1_0_0	4	2	1700	15	30	0	4	1400	0	18	0	1	0	0	0	60

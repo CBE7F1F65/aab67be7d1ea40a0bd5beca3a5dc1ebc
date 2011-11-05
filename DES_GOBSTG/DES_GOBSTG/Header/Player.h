@@ -80,6 +80,7 @@
 #define PLAYER_BOMBMAX	6
 
 #define PLAYER_HYPERTIMEMAX		360
+#define PLAYER_HYPERINFITIMEMAX	60
 #define PLAYER_FREEZETIMEMAX	60
 
 #define TEMPERSTATE_NULL	0x00
@@ -121,6 +122,7 @@ public:
 	void KeepComboGage();
 	void AddComboHit(int combo);
 	void AddScore(LONGLONG score);
+	void AddScoreMul(float scoremul);
 	void AddHitScore(LONGLONG score);
 	void AddTemper(int temper);
 
@@ -131,6 +133,7 @@ public:
 	void DoPlayerLaserHit(BYTE type, bool hitprotect);
 	void DoPlayerLaserKill(BYTE type);
 	void DoShot();
+	void DoBulletDead(float x, float y);
 
 	void Render();
 
@@ -154,6 +157,8 @@ public:
 	bool CheckAble();
 
 	void SetEnemyTemper(BYTE temperstate);
+
+	float GetHyperCostLife(float hyperpower);
 
 	static void Init();
 	static bool Action();
@@ -231,6 +236,7 @@ public:
 	LONGLONG	nHitScore;
 	LONGLONG	nLastHitScore;
 	float	fScoreMul;
+	float	fLastScoreMul;
 
 	int nComboHit;
 	int nComboHitMax;

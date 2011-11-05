@@ -1,7 +1,9 @@
 #include "../Header/Process.h"
+#include "../Header/Scripter.h"
 
 int Process::processContinue()
 {
+	Scripter::scr.Execute(SCR_CONTROL, STATE_CONTINUE, SCRIPT_CON_INIT);
 /*
 
 	if(Player::p[0].ncCont >= M_PL_CONTINUEMAX || practicemode)

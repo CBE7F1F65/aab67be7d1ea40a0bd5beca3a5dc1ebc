@@ -14,6 +14,8 @@ function ControlExecute(name, con)
 		return ControlExecute_cPlayerSelect(con);
 	elseif name == STATE_SCENE_SELECT then
 		return ControlExecute_cSceneSelect(con);
+	elseif name == STATE_CONTINUE then
+		return ControlExecute_cContinue(con);
 	elseif name == STATE_OVER then
 		return ControlExecute_cOver(con);
 	elseif name == STATE_REPLAY then

@@ -1,11 +1,11 @@
 90	h5nc	4E									
 Comment	Index	SIID	XAdj	YAdj	Speed	Flag	RollTime	ShootAngle	MoveR	StartAngle	Blend
 #		Reimu									
--	0	SI_PlayerGhost_00_01	-12	-15	0	10	0	0	0	0	2
--	1	SI_PlayerGhost_00_01	12	-15	0	30	0	0	0	0	2
--	2	SI_PlayerGhost_00_01	-30	-10	0	10	0	0	0	0	2
--	3	SI_PlayerGhost_00_01	30	-10	0	30	0	0	0	0	2
--	4	SI_PlayerGhost_00_02	10	15	0	10	0	0	0	0	2
--	5	SI_PlayerGhost_00_02	-10	15	0	30	0	0	0	0	2
--	6	SI_PlayerGhost_00_02	30	10	0	10	0	0	0	0	2
--	7	SI_PlayerGhost_00_02	-30	10	0	30	0	0	0	0	2
+-	0	SI_PlayerGhost_00_01	-12	15	0	10	0	0	0	0	2
+-	1	SI_PlayerGhost_00_01	12	15	0	30	0	0	0	0	2
+-	2	SI_PlayerGhost_00_01	-30	10	0	10	0	0	0	0	2
+-	3	SI_PlayerGhost_00_01	30	10	0	30	0	0	0	0	2
+-	4	SI_PlayerGhost_00_02	5	-12	0	10	0	0	0	0	2
+-	5	SI_PlayerGhost_00_02	-5	-12	0	30	0	0	0	0	2
+-	6	SI_PlayerGhost_00_02	10	-10	0	10	0	0	0	0	2
+-	7	SI_PlayerGhost_00_02	-10	-10	0	30	0	0	0	0	2

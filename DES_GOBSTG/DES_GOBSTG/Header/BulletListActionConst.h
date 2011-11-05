@@ -132,6 +132,7 @@
 #define	REMAIN			0x8300
 #define DECANCEL		0x8400
 #define FADEOUT			0x8500
+#define BULLETDIE		0x8600
 #define BOUNCE			0x8800
 #define BOUNCELR		0x8900
 #define BOUNCETB		0x8A00

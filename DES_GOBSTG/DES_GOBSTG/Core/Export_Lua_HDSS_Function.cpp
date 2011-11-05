@@ -8,6 +8,18 @@
 
 #define _HDSSFUNC_REGISTER(func)	int Export_Lua_HDSS::LuaFn_HDSS_##func(LuaState * ls)
 
+_HDSSFUNC_REGISTER(Roll)
+{
+	_ENTERFUNC_LUA(2);
+
+	int x = node.iNextGet();
+	int t = node.iNextGet();
+	int ret = ROLL(x, t);
+	node.PInt(ret);
+
+	_LEAVEFUNC_LUA;
+}
+
 _HDSSFUNC_REGISTER(SetDesc)
 {
 	_ENTERFUNC_LUA(2);
@@ -81,7 +93,7 @@ _HDSSFUNC_REGISTER(SetStage)
 	_ENTERFUNC_LUA(1);
 
 	int index = node.iNextGet();
-	Process::mp.SetScene(index);
+	Process::mp.SetStage(index);
 
 	_LEAVEFUNC_LUA;
 }
@@ -591,6 +603,15 @@ _HDSSFUNC_REGISTER(SetPlayerInitData)
 
 	BYTE initlife = node.iNextGet();
 	Player::p.SetInitLife(initlife);
+	node.jNextGet();
+	if (node.bhavenext)
+	{
+		int continuetime = node.iGet();
+		if (continuetime)
+		{
+			Player::p.valueSet(continuetime);
+		}
+	}
 
 	_LEAVEFUNC_LUA;
 }
@@ -610,6 +631,7 @@ _HDSSFUNC_REGISTER(TogglePlayerInfi)
 
 	_LEAVEFUNC_LUA;
 }
+
 _HDSSFUNC_REGISTER(CheckPlayerInfi)
 {
 	_ENTERFUNC_LUA(0);
@@ -617,6 +639,28 @@ _HDSSFUNC_REGISTER(CheckPlayerInfi)
 	node.PBoolean(Player::p.bInfi);
 	node.PInt(Player::p.infireasonflag);
 	node.PInt(Player::p.infitimer);
+
+	_LEAVEFUNC_LUA;
+}
+
+_HDSSFUNC_REGISTER(GetPlayerInfo)
+{
+	_ENTERFUNC_LUA(0);
+
+	node.PFloat(Player::p.x);
+	node.PFloat(Player::p.y);
+	node.PInt(Player::p.nTemper);
+
+	_LEAVEFUNC_LUA;
+}
+
+_HDSSFUNC_REGISTER(SetPlayerTemper)
+{
+	_ENTERFUNC_LUA(1);
+
+	int nOriTemper = Player::p.nTemper;
+	int temper = node.iNextGet();
+	Player::p.AddTemper(temper-nOriTemper);
 
 	_LEAVEFUNC_LUA;
 }
@@ -666,9 +710,23 @@ _HDSSFUNC_REGISTER(BuildEnemy)
 					}
 				}
 				node.PInt(enindex);
+				node.PInt(Enemy::en[enindex].guid);
 			}
 		}
 	}
+	_LEAVEFUNC_LUA;
+}
+
+_HDSSFUNC_REGISTER(GetEnemyInfo)
+{
+	_ENTERFUNC_LUA(0);
+
+	Enemy * pen = &(Enemy::en[Enemy::en.getIndex()]);
+	node.PFloat(pen->x);
+	node.PFloat(pen->y);
+	node.PInt(pen->ID);
+	node.PDword(pen->guid);
+
 	_LEAVEFUNC_LUA;
 }
 
@@ -690,6 +748,42 @@ _HDSSFUNC_REGISTER(GetAllEnemiesInfo)
 		iret = Enemy::nEnemyNow[enset];
 	}
 	node.PInt(iret);
+
+	_LEAVEFUNC_LUA;
+}
+
+_HDSSFUNC_REGISTER(BuildBullet)
+{
+	_ENTERFUNC_LUA(7);
+
+	DWORD enguid = node.dNextGet();
+	float x = node.fNextGet();
+	float y = node.fNextGet();
+	int angle = node.iNextGet();
+	float speed = node.fNextGet();
+	BYTE type = node.iNextGet();
+	BYTE color = node.iNextGet();
+	int fadeinTime = BULLET_FADEINTIME;
+	float avoid = 0;
+	BYTE tarID = 0xff;
+	node.jNextGet();
+	if (node.bhavenext)
+	{
+		fadeinTime = node.iGet();
+		node.jNextGet();
+		if (node.bhavenext)
+		{
+			avoid = node.fGet();
+			node.jNextGet();
+			if (node.bhavenext)
+			{
+				tarID = node.iGet();
+			}
+		}
+	}
+	
+	int buindex = Bullet::Build(enguid, x, y, angle, speed, type, color, fadeinTime, avoid, tarID);
+	node.PInt(buindex);
 
 	_LEAVEFUNC_LUA;
 }

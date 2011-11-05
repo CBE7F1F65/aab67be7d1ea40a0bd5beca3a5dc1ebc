@@ -3,15 +3,12 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="hgeParticleEditor"
-	OwnerKey="{EAF909A5-FA59-4C3D-9431-0FCC20D5BCF9}"
 	ProjectGUID="{FDA21157-179D-444D-877B-DC7A20668803}"
 	Keyword="Win32Proj"
-	TargetFrameworkVersion="0"
-	>
+	TargetFrameworkVersion="0">
 	<Platforms>
 		<Platform
-			Name="Win32"
-		/>
+			Name="Win32"/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
@@ -23,23 +20,17 @@
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			ATLMinimizesCRunTimeLibraryUsage="false"
-			CharacterSet="2"
-			>
+			CharacterSet="2">
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCMIDLTool"
-			/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
@@ -54,17 +45,13 @@
 				WarningLevel="1"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="4"
-				DisableSpecificWarnings="1786"
-			/>
+				DisableSpecificWarnings="1786"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCManagedResourceCompilerTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-			/>
+				Name="VCResourceCompilerTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions="/NODEFAULTLIB:LIBCMT.LIB"
@@ -77,29 +64,21 @@
 				GenerateDebugInformation="true"
 				ProgramDatabaseFile="$(OutDir)/$(ProjectName).pdb"
 				SubSystem="2"
-				TargetMachine="0"
-			/>
+				TargetMachine="0"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCALinkTool"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCManifestTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCXDCMakeTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCBscMakeTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCFxCopTool"/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCAppVerifierTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
@@ -109,23 +88,17 @@
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			ATLMinimizesCRunTimeLibraryUsage="false"
 			CharacterSet="2"
-			WholeProgramOptimization="1"
-			>
+			WholeProgramOptimization="1">
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCMIDLTool"
-			/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
@@ -145,17 +118,13 @@
 				WarningLevel="1"
 				Detect64BitPortabilityProblems="true"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="1786"
-			/>
+				DisableSpecificWarnings="1786"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCManagedResourceCompilerTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-			/>
+				Name="VCResourceCompilerTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=""
@@ -167,29 +136,21 @@
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				TargetMachine="0"
-			/>
+				TargetMachine="0"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCALinkTool"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCManifestTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCXDCMakeTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCBscMakeTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCFxCopTool"/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCAppVerifierTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 		</Configuration>
 		<Configuration
 			Name="FinalRelease|Win32"
@@ -198,23 +159,17 @@
 			ConfigurationType="1"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
-			WholeProgramOptimization="1"
-			>
+			WholeProgramOptimization="1">
 			<Tool
-				Name="VCPreBuildEventTool"
-			/>
+				Name="VCPreBuildEventTool"/>
 			<Tool
-				Name="VCCustomBuildTool"
-			/>
+				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCXMLDataGeneratorTool"
-			/>
+				Name="VCXMLDataGeneratorTool"/>
 			<Tool
-				Name="VCWebServiceProxyGeneratorTool"
-			/>
+				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
-				Name="VCMIDLTool"
-			/>
+				Name="VCMIDLTool"/>
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="3"
@@ -233,17 +188,13 @@
 				WarningLevel="1"
 				Detect64BitPortabilityProblems="false"
 				DebugInformationFormat="0"
-				DisableSpecificWarnings="1786"
-			/>
+				DisableSpecificWarnings="1786"/>
 			<Tool
-				Name="VCManagedResourceCompilerTool"
-			/>
+				Name="VCManagedResourceCompilerTool"/>
 			<Tool
-				Name="VCResourceCompilerTool"
-			/>
+				Name="VCResourceCompilerTool"/>
 			<Tool
-				Name="VCPreLinkEventTool"
-			/>
+				Name="VCPreLinkEventTool"/>
 			<Tool
 				Name="VCLinkerTool"
 				AdditionalOptions=""
@@ -256,29 +207,21 @@
 				LargeAddressAware="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
-				TargetMachine="0"
-			/>
+				TargetMachine="0"/>
 			<Tool
-				Name="VCALinkTool"
-			/>
+				Name="VCALinkTool"/>
 			<Tool
-				Name="VCManifestTool"
-			/>
+				Name="VCManifestTool"/>
 			<Tool
-				Name="VCXDCMakeTool"
-			/>
+				Name="VCXDCMakeTool"/>
 			<Tool
-				Name="VCBscMakeTool"
-			/>
+				Name="VCBscMakeTool"/>
 			<Tool
-				Name="VCFxCopTool"
-			/>
+				Name="VCFxCopTool"/>
 			<Tool
-				Name="VCAppVerifierTool"
-			/>
+				Name="VCAppVerifierTool"/>
 			<Tool
-				Name="VCPostBuildEventTool"
-			/>
+				Name="VCPostBuildEventTool"/>
 		</Configuration>
 	</Configurations>
 	<References>
@@ -287,68 +230,53 @@
 		<Filter
 			Name="源文件"
 			Filter="cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx"
-			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
-			>
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}">
 			<File
-				RelativePath="..\Des_gobstg\Des_gobstg\Core\BResource.cpp"
-				>
+				RelativePath="..\Des_gobstg\Des_gobstg\Core\BResource.cpp">
 			</File>
 			<File
-				RelativePath="..\Des_gobstg\Des_gobstg\Core\Data.cpp"
-				>
+				RelativePath="..\Des_gobstg\Des_gobstg\Core\Data.cpp">
 			</File>
 			<File
-				RelativePath="..\Des_gobstg\Des_gobstg\Core\DataMap.cpp"
-				>
+				RelativePath="..\Des_gobstg\Des_gobstg\Core\DataMap.cpp">
 			</File>
 			<File
-				RelativePath="..\Des_gobstg\Des_gobstg\Core\DataTable.cpp"
-				>
+				RelativePath="..\Des_gobstg\Des_gobstg\Core\DataTable.cpp">
 			</File>
 			<File
-				RelativePath=".\EditorRes.cpp"
-				>
+				RelativePath=".\EditorRes.cpp">
 			</File>
 			<File
-				RelativePath=".\EditorUI.cpp"
-				>
+				RelativePath=".\EditorUI.cpp">
 			</File>
 			<File
-				RelativePath="..\DES_GOBSTG\DES_GOBSTG\Core\Export.cpp"
-				>
+				RelativePath="..\DES_GOBSTG\DES_GOBSTG\Core\Export.cpp">
 			</File>
 			<File
-				RelativePath=".\hgeParticleEditor.cpp"
-				>
+				RelativePath=".\hgeParticleEditor.cpp">
 			</File>
 			<File
-				RelativePath="..\Des_gobstg\Des_gobstg\Core\InitDllLoader.cpp"
-				>
+				RelativePath="..\Des_gobstg\Des_gobstg\Core\InitDllLoader.cpp">
 			</File>
 			<File
-				RelativePath="..\Des_gobstg\Des_gobstg\Core\SpriteItemManager.cpp"
-				>
+				RelativePath="..\Des_gobstg\Des_gobstg\Core\SpriteItemManager.cpp">
 			</File>
 		</Filter>
 		<Filter
 			Name="头文件"
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}">
 			<File
-				RelativePath=".\EditorRes.h"
-				>
+				RelativePath=".\EditorRes.h">
 			</File>
 			<File
-				RelativePath=".\EditorUI.h"
-				>
+				RelativePath=".\EditorUI.h">
 			</File>
 		</Filter>
 		<Filter
 			Name="资源文件"
 			Filter="rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx"
-			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
-			>
+			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
 		</Filter>
 	</Files>
 	<Globals>

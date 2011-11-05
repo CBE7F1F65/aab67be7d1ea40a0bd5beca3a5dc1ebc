@@ -57,6 +57,7 @@ void EventZone::Build(DWORD _type, float _x, float _y, int _maxtime, float _rx/*
 	_pezone->power = _power;
 	_pezone->eventID = _eventID;
 	_pezone->rspeed = _rspeed;
+	_pezone->strattime = gametime;
 	if (_siid >= 0)
 	{
 		_pezone->sprite = SpriteItemManager::CreateSprite(_siid);

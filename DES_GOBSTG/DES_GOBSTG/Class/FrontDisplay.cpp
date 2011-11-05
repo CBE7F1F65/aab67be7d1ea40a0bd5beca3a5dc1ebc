@@ -179,12 +179,26 @@ void FrontDisplay::RenderPanel()
 		SpriteItemManager::RenderSprite(panel.infoframe, M_GAMESQUARE_LEFT, M_GAMESQUARE_TOP+yoffset);
 
 		yoffset += 4;
-		float infoxoffset = 18;
-		sprintf(strbuffer, "Max:");
+		float infoxoffset = 76;
 		info.asciifont->SetScale(0.5f);
-		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+infoxoffset, M_GAMESQUARE_TOP+yoffset, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
-		sprintf(strbuffer, "%dHit", Player::p.nComboHitMax);
-		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+76, M_GAMESQUARE_TOP+yoffset, HGETEXT_RIGHT|HGETEXT_TOP, strbuffer);
+		int displayhit = Player::p.nComboHit;
+		if (Player::p.nComboHit > 0 || Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
+		{
+			if (Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
+			{
+				displayhit = Player::p.nLastComboHit;
+				/*
+				BYTE alpha = 0xff;
+				if (Player::p.hitdisplaykeeptimer < PLAYER_HITDISPLAYFADE)
+				{
+					alpha = (int)Player::p.hitdisplaykeeptimer * 0xff / PLAYER_HITDISPLAYFADE;
+				}
+				*/
+				info.asciifont->SetColor(0xffff0000);
+			}
+		}
+		sprintf(strbuffer, "%dHit", displayhit);
+		SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+infoxoffset, M_GAMESQUARE_TOP+yoffset, HGETEXT_RIGHT|HGETEXT_TOP, strbuffer);
 
 		yoffset += 10;
 		LONGLONG displayhitscore = Player::p.nHitScore;
@@ -202,30 +216,44 @@ void FrontDisplay::RenderPanel()
 		yoffset += 10;
 		// Life
 		float lifexoffset = M_GAMESQUARE_LEFT+24;
-		for (int i=0; i<Player::p.nLife; i++)
+		for (int i=0; i<Player::p.nLife-1; i++)
 		{
 			SpriteItemManager::RenderSprite(panel.lifeindi[FDISP_LIFEINDI_FULL], lifexoffset+i*16, M_GAMESQUARE_TOP+yoffset);
 		}
 
 		yoffset += 32;
-		if (Player::p.nComboHit > 0 || Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
+		if (Player::p.fScoreMul > 1.0f || Player::p.hitdisplaykeeptimer && Player::p.fLastScoreMul > 1.0f)
 		{
-			int displayhit = Player::p.nComboHit;
-			float combohitx = M_GAMESQUARE_LEFT+4;
-			if (Player::p.hitdisplaykeeptimer && Player::p.nLastComboHit > 0)
+			float displayscoremul = Player::p.fScoreMul;
+
+			BYTE alpha = 0xff;
+			BYTE r = 0xff;
+			BYTE g = 0xff;
+			BYTE b = 0xff;
+			if (Player::p.bhyper)
 			{
-				displayhit = Player::p.nLastComboHit;
-				BYTE alpha = 0xff;
+				g = 0;
+			}
+			else
+			{
+				g = b = (Player::p.nComboGage * 0xff / PLAYER_COMBOGAGEMAX);
+			}
+
+			if (Player::p.hitdisplaykeeptimer && Player::p.fLastScoreMul > 1.0f)
+			{
+				displayscoremul = Player::p.fLastScoreMul;
+
 				if (Player::p.hitdisplaykeeptimer < PLAYER_HITDISPLAYFADE)
 				{
 					alpha = (int)Player::p.hitdisplaykeeptimer * 0xff / PLAYER_HITDISPLAYFADE;
+					g = 0;
+					b = 0;
 				}
-				info.asciifont->SetColor(ARGB(alpha, 0xff, 0, 0));
 			}
-			info.asciifont->SetScale(2.5f);
-			sprintf(strbuffer, "%dHit", displayhit);
-
-			SpriteItemManager::FontPrintf(info.asciifont, combohitx, M_GAMESQUARE_TOP+yoffset, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
+			info.asciifont->SetColor(ARGB(alpha, r, g, b));
+			sprintf(strbuffer, "x%.2f", displayscoremul);
+			info.asciifont->SetScale(1.5f);
+			SpriteItemManager::FontPrintf(info.asciifont, M_GAMESQUARE_LEFT+4, M_GAMESQUARE_TOP+yoffset, HGETEXT_LEFT|HGETEXT_TOP, strbuffer);
 			info.asciifont->SetColor(0xffffffff);
 			info.asciifont->SetScale(1.0f);
 		}

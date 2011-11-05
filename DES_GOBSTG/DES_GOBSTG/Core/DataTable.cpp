@@ -224,7 +224,7 @@ bool _DataTable::MusicDefineFile()
 bool _DataTable::BulletDefineFile()
 {
 	ZeroMemory(BResource::bres.bulletdata, RSIZE_BULLET);
-	_READSTRINGBUFFERLINE(17);
+	_READSTRINGBUFFERLINE(18);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -233,7 +233,7 @@ bool _DataTable::BulletDefineFile()
 		bulletData * item = &(BResource::bres.bulletdata[tindex]);
 		_CHECKEOF_DATATABLE;
 
-		fscanf(file, "%s%d%d%d%f%f%d%d%d%d%d%d%d%d%x", 
+		fscanf(file, "%s%d%d%d%f%f%d%f%d%d%d%d%d%d%d%x", 
 			strbuffer[0],
 			_SAVETINT, 
 			_SAVETINT, 
@@ -241,6 +241,7 @@ bool _DataTable::BulletDefineFile()
 			&(item->collisionMain), 
 			&(item->collisionSub), 
 			_SAVETINT, 
+			&(item->life), 
 			_SAVETINT, 
 			_SAVETINT, 
 			&(item->nTurnAngle), 
@@ -257,8 +258,8 @@ bool _DataTable::BulletDefineFile()
 		item->nColor = _LOADTINT;
 		item->collisiontype = _LOADTINT;
 		item->fadecolor = _LOADTINT;
-		item->whitecolor = _LOADTINT;
-		item->autosendsetID = _LOADTINT;
+		item->woundingtype = _LOADTINT;
+		item->frozentype = _LOADTINT;
 		item->seID = _LOADTINT;
 		item->effID = _LOADTINT;
 		item->blendtype = _LOADTINT;
@@ -416,7 +417,7 @@ bool _DataTable::SpriteDefineFile()
 bool _DataTable::PlayerShootDefineFile()
 {
 	ZeroMemory(BResource::bres.playershootdata, RSIZE_PLAYERSHOOT);
-	_READSTRINGBUFFERLINE(19);
+	_READSTRINGBUFFERLINE(21);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -425,13 +426,15 @@ bool _DataTable::PlayerShootDefineFile()
 		_CHECKEOF_DATATABLE;
 		playershootData * item = &(BResource::bres.playershootdata[tindex]);
 
-		fscanf(file, "%d%d%s%d%x%f%d%d%d%d%f%f%f%f%f%f%d", 
+		fscanf(file, "%d%d%s%d%d%x%f%f%d%d%d%d%f%f%f%f%f%f%d", 
 			_SAVETINT, 
 			_SAVETINT, 
 			strbuffer[0],
 			_SAVETINT, 
 			_SAVETINT, 
+			_SAVETINT, 
 			&(item->power), 
+			&(item->hyperpower), 
 			&(item->deletetime),
 			_SAVETINT, 
 			&(item->angle), 
@@ -450,6 +453,7 @@ bool _DataTable::PlayerShootDefineFile()
 		item->bhypershoot = (bool)_LOADTINT;
 		item->siid = SpriteItemManager::GetIndexByName(strbuffer[0]);
 		item->timeMod = _LOADTINT;
+		item->timeoffset = _LOADTINT;
 		item->flag = _LOADTINT;
 		item->arrange = _LOADTINT;
 		item->seID = _LOADTINT;

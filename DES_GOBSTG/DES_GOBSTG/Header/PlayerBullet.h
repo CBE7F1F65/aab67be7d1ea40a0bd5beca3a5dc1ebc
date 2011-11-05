@@ -40,7 +40,7 @@ public:
 	static void RenderAll();
 	static bool CheckShoot(Enemy * en, float aimx, float aimy, float aimw, float aimh=0.0f);
 
-	void valueSet(WORD ID, BYTE arrange, float xbias, float ybias, float scale, int angle, int addangle, float speed, float accelspeed, float power, WORD flag, BYTE seID, int deletetime);
+	void valueSet(WORD ID, BYTE arrange, float xbias, float ybias, float scale, int angle, int addangle, float speed, float accelspeed, float power, float hyperpower, WORD flag, BYTE seID, int deletetime);
 
 	void action();
 	void Render();
@@ -71,6 +71,7 @@ public:
 	bool	fadeout;
 	bool	able;
 	float	power;
+	float	hyperpower;
 
 	int		locktimer;
 	int		animation;
@@ -85,6 +86,7 @@ public:
 	static hgeSprite * sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
 	static int locked;
 	static VectorList<PlayerBullet>pb;
+	static bool havehyperbullet;
 };
 
 #endif

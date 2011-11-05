@@ -140,7 +140,8 @@ void Player::ClearSet(BYTE _round)
 
 	nScore = 0;
 	nHiScore = DataConnector::nHiScore();
-	fScoreMul = 1;
+	AddScoreMul(-1);
+	fLastScoreMul = 0;
 
 	hitdisplaykeeptimer = 0;
 
@@ -188,6 +189,7 @@ void Player::valueSet(BYTE round)
 	if (round == 0)
 	{
 		Replay::lostStack	=	0;
+		rank = _GAMERANK_MIN;
 	}
 
 	setFrame(PLAYER_FRAME_STAND);
@@ -307,6 +309,10 @@ void Player::action()
 		if(Collapse())
 		{
 			flag &= ~PLAYER_COLLAPSE;
+			if (!nLife)
+			{
+				exist = false;
+			}
 			return;
 		}
 	}
@@ -416,12 +422,12 @@ void Player::action()
 	}
 	if (temperEnemy != temperSelf && !bhyper && !bfreeze)
 	{
-		if (temperSelf == TEMPERSTATE_COLD && (flag & PLAYER_LASER))
+		if (temperSelf == TEMPERSTATE_COLD && ((flag & PLAYER_LASER) || (flag & PLAYER_BOMB) || (flag & PLAYER_COLLAPSE)))
 		{
 			SetEnemyTemper(TEMPERSTATE_COLD);
 			lastStableWeapon = _PLWEAPON_LASER;
 		}
-		else if (temperSelf == TEMPERSTATE_HOT && (flag & PLAYER_SHOOT))
+		else if (temperSelf == TEMPERSTATE_HOT && ((flag & PLAYER_SHOOT) || (flag & PLAYER_BOMB) || (flag & PLAYER_COLLAPSE)))
 		{
 			SetEnemyTemper(TEMPERSTATE_HOT);
 			lastStableWeapon = _PLWEAPON_SHOOT;
@@ -437,7 +443,7 @@ void Player::action()
 			{
 				stableweaponchanged = true;
 			}
-			if (stableweaponchanged)
+			if (stableweaponchanged || (flag & PLAYER_BOMB) || (flag & PLAYER_COLLAPSE))
 			{
 				AddComboGage(_PL_COMBOMINUS_NOR);
 				if (!nComboGage)
@@ -454,6 +460,7 @@ void Player::action()
 		if (hitdisplaykeeptimer == 0)
 		{
 			nLastComboHit = nComboHit;
+			fLastScoreMul = fScoreMul;
 			nLastHitScore = nHitScore;
 		}
 	}
@@ -537,6 +544,7 @@ void Player::action()
 				shootnotpushtimer++;
 			}
 		}
+		/*
 		if (shootpushtimer < PLAYER_SHOOTPUSHOVER)
 		{
 			if (GameInput::GetKey(KSI_FIRE))
@@ -566,6 +574,17 @@ void Player::action()
 					flag |= PLAYER_LASER;
 					shootpushtimer = 0xff;
 				}
+			}
+		}
+		*/
+		if (GameInput::GetKey(KSI_SLOW))
+		{
+			flag &= ~PLAYER_SHOOT;
+			bLaser = true;
+			if (!(flag & PLAYER_LASER))
+			{
+				lasertimer = 0;
+				flag |= PLAYER_LASER;
 			}
 		}
 
@@ -724,6 +743,12 @@ bool Player::Shot()
 	
 //	Item::undrainAll();
 	SE::push(SE_PLAYER_SHOT, x);
+	if (flag & PLAYER_HYPER)
+	{
+		bhyper = false;
+		hypertimer = 0;
+		flag &= ~PLAYER_HYPER;
+	}
 	if (nBomb)
 	{
 		callBomb(true);
@@ -744,7 +769,7 @@ bool Player::CostLife()
 	}
 	else if (costlifetimer == 50)
 	{
-		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, x, y, 10, 0, 0, 10, EVENTZONE_EVENT_NULL, 15.6);
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSCORE|EVENTZONE_CHECKTYPE_CIRCLE, x, y, 10, 0, 0, 10, EVENTZONE_EVENT_NULL, 15.6);
 	}
 	else if (costlifetimer == 60)
 	{
@@ -759,7 +784,6 @@ bool Player::Collapse()
 	collapsetimer++;
 	if(collapsetimer == 1)
 	{
-		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y, 64, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
 		p.SetInfi(PLAYERINFI_COLLAPSE, 64);
 
 		esCollapse.x = x;
@@ -778,8 +802,10 @@ bool Player::Collapse()
 			// Todo:
 //			flag |= PLAYER_COLLAPSE;
 			collapsetimer = 0;
+			EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_NOSCORE|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y);
 			return true;
 		}
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSCORE|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y, 64, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
 		nLife--;
 		if (nBombMax < PLAYER_BOMBMAX)
 		{
@@ -875,7 +901,7 @@ bool Player::Laser()
 		}
 	}
 
-	if (!GameInput::GetKey(KSI_FIRE))
+	if (!GameInput::GetKey(KSI_SLOW))
 	{
 		lasertimer = 0;
 		PlayerLaser::StopFire();
@@ -897,7 +923,7 @@ bool Player::Hyper()
 		{
 			rank = _GAMERANK_MAX;
 		}
-		SetInfi(PLAYERINFI_HYPER, PLAYER_HYPERTIMEMAX);
+		SetInfi(PLAYERINFI_HYPER, PLAYER_HYPERINFITIMEMAX);
 	}
 	else if (hypertimer == PLAYER_HYPERTIMEMAX)
 	{
@@ -907,6 +933,8 @@ bool Player::Hyper()
 		{
 			lasertimer = 0;
 		}
+		SetInfi(PLAYERINFI_HYPER, PLAYER_HYPERINFITIMEMAX);
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_CHECKTYPE_CIRCLE, x, y, 16);
 		return true;
 	}
 	return false;
@@ -924,6 +952,10 @@ bool Player::Freeze()
 			rank = _GAMERANK_MAX;
 		}
 		SetInfi(PLAYERINFI_FREEZE, PLAYER_FREEZETIMEMAX);
+		if (rank != _GAMERANK_MAX)
+		{
+			EventZone::Build(EVENTZONE_TYPE_BULLETFREEZE|EVENTZONE_CHECKTYPE_CIRCLE, x, y, PLAYER_FREEZETIMEMAX, 0, 0, 0, EVENTZONE_TYPE_BULLETFREEZE, 8);
+		}
 	}
 	else if (freezetimer == PLAYER_FREEZETIMEMAX)
 	{
@@ -951,7 +983,7 @@ bool Player::Bomb()
 			return true;
 		}
 		nBomb--;
-		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSEND|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y, bombmaxtime, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
+		EventZone::Build(EVENTZONE_TYPE_BULLETFADEOUT|EVENTZONE_TYPE_ENEMYDAMAGE|EVENTZONE_TYPE_NOSCORE|EVENTZONE_CHECKTYPE_CIRCLE, p.x, p.y, bombmaxtime, EVENTZONE_OVERZONE, 0, 1000, EVENTZONE_EVENT_NULL, 16);
 		SetInfi(PLAYERINFI_BOMB, bombmaxtime);
 	}
 	else if (bombtimer == bombmaxtime)
@@ -1083,6 +1115,31 @@ void Player::DoShot()
 		flag |= PLAYER_SHOT;
 		AddComboGage(_PL_COMBORESET);
 	}
+}
+
+void Player::DoBulletDead(float x, float y)
+{
+	AddComboHit(1);
+	float addmul = 0;
+	switch (rank)
+	{
+	case 0:
+		addmul = 0.05f;
+		break;
+	case 1:
+		addmul = 0.006f;
+		break;
+	case 2:
+		addmul = 0.007f;
+		break;
+	case 3:
+		addmul = 0.008f;
+		break;
+	case 4:
+		addmul = 0.01f;
+		break;
+	}
+	AddScoreMul(addmul);
 }
 
 void Player::DoItemGet(WORD itemtype, float _x, float _y)
@@ -1226,6 +1283,29 @@ void Player::SetEnemyTemper(BYTE temperstate)
 	}
 }
 
+float Player::GetHyperCostLife(float hyperpower)
+{
+	float rate = 1;
+	switch (rank)
+	{
+	case 1:
+		rate = 0.85f;
+		break;
+	case 2:
+		rate = 0.6f;
+		break;
+	case 3:
+		rate = 0.45f;
+		break;
+	case 4:
+		rate = 0.3f;
+		break;
+	case 5:
+		rate = 0.1f;
+		break;
+	}
+	return hyperpower*rate;
+}
 
 void Player::AddScore(LONGLONG addscore)
 {
@@ -1233,6 +1313,20 @@ void Player::AddScore(LONGLONG addscore)
 	if (nScore > nHiScore)
 	{
 		nHiScore = nScore;
+	}
+}
+
+void Player::AddScoreMul(float scoremul)
+{
+	if (scoremul < 0)
+	{
+		fScoreMul = 1.0f;
+		return;
+	}
+	fScoreMul += scoremul;
+	if (!hitdisplaykeeptimer)
+	{
+		fLastScoreMul = fScoreMul;
 	}
 }
 
@@ -1304,7 +1398,7 @@ void Player::AddComboHit(int combo)
 	if (combo < 0)
 	{
 		nComboHit = 0;
-		fScoreMul = 1;
+		AddScoreMul(-1);
 		AddHitScore(-1);
 		if (!hitdisplaykeeptimer)
 		{

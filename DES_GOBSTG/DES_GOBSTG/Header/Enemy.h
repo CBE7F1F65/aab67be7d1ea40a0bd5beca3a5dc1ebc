@@ -121,7 +121,7 @@ public:
 	bool isInRect(float x, float y, float r, float w, float h, int nextstep=0);
 	void Fadeout();
 
-	void valueSet(WORD eID, float x, float y, int angle, float speed, BYTE type, float life, int infitimer);
+	void valueSet(WORD eID, DWORD guid, float x, float y, int angle, float speed, BYTE type, float life, int infitimer);
 
 	void setTar(BYTE tarID=0xff);
 	void setTake(DWORD take=0);
@@ -191,7 +191,7 @@ public:
 	float	lastspeed;
 	int		lastangle;
 
-
+	DWORD	guid;
 
 	bool	fadeout;
 	bool	able;
@@ -223,6 +223,8 @@ public:
 	static VectorList<Enemy> en;
 	static list<EnemyActivationZone> enaz;
 	static VectorList<ScoreDisplay> scoredisplay;
+
+	static DWORD guidindex;
 };
 
 #endif

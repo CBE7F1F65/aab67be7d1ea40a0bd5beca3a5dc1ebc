@@ -8,5 +8,9 @@ function CEClear_ExitState(tostate)
 end
 
 function ControlExecute_cClear(timer)
-	CEClear_ExitState(STATE_OVER);
+	if timer == 120 then
+		local nowstage = hdss.GetStage();
+		hdss.SetStage(nowstage+1);
+		CEClear_ExitState(STATE_START);
+	end
 end

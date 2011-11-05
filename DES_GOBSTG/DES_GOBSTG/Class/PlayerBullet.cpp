@@ -14,6 +14,7 @@
 VectorList<PlayerBullet> PlayerBullet::pb;
 
 int PlayerBullet::locked;
+bool PlayerBullet::havehyperbullet=false;
 
 hgeSprite * PlayerBullet::sprite[DATASTRUCT_PLAYERSHOOTTYPEMAX][DATASTRUCT_PLAYERBULLETTYPE];
 
@@ -89,6 +90,7 @@ void PlayerBullet::Action()
 	bool binstop = FRAME_STOPFLAGCHECK_(stopflag, FRAME_STOPFLAG_PLAYERBULLET);
 	if (!binstop)
 	{
+		havehyperbullet = false;
 		if (pb.getSize())
 		{
 			DWORD i = 0;
@@ -143,7 +145,7 @@ void PlayerBullet::BuildShoot(BYTE playerID, int usetimer, bool bhyper/* =false 
 			{
 				continue;
 			}
-			if (item->timeMod && (item->timeMod == 1 || !(usetimer % item->timeMod)))
+			if (item->timeMod && (item->timeMod == 1 || !((usetimer+item->timeoffset) % item->timeMod)))
 			{
 				Build(i);
 			}
@@ -165,11 +167,11 @@ int PlayerBullet::Build(int shootdataID, bool explode/* =false */, float xoffset
 	}
 	pb.push_back(_pb)->valueSet(shootdataID, item->arrange, item->xbias+xoffset, item->ybias+yoffset, 
 		item->scale, item->angle, item->addangle, item->speed, item->accelspeed, 
-		item->power, item->flag, item->seID, item->deletetime);
+		item->power, item->hyperpower, item->flag, item->seID, item->deletetime);
 	return pb.getEndIndex();
 }
 
-void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, WORD _flag, BYTE seID, int _deletetime)
+void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias, float _scale, int _angle, int _addangle, float _speed, float _accelspeed, float _power, float _hyperpower, WORD _flag, BYTE seID, int _deletetime)
 {
 	ID		=	_ID;
 	angle	=	_angle;
@@ -178,6 +180,7 @@ void PlayerBullet::valueSet(WORD _ID, BYTE _arrange, float _xbias, float _ybias,
 	accelspeed = _accelspeed;
 	oldspeed =	speed;
 	power	=	_power;
+	hyperpower	=	_hyperpower;
 	arrange	=	_arrange;
 	flag	=	_flag;
 	xbias	=	_xbias;
@@ -666,6 +669,10 @@ void PlayerBullet::action()
 		alpha = (32 - timer) * 0x06;
 	}
 	able = exist && !fadeout;
+	if (hyperpower && able)
+	{
+		havehyperbullet = true;
+	}
 }
 
 bool PlayerBullet::CheckShoot(Enemy * en, float aimx, float aimy, float aimw, float aimh)

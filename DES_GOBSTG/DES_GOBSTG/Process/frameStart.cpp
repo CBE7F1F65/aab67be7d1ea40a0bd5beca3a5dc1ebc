@@ -25,8 +25,8 @@ void Process::frameStart()
 			replayend = true;
 //			scene = S1;
 //			clearPrep();
-			GameInput::SetKey(0, KSI_PAUSE);
-			GameInput::SetKey(1, KSI_PAUSE);
+			GameInput::SetKey(KSI_PAUSE);
+			GameInput::SetKey(KSI_PAUSE);
 		}
 		else
 		{

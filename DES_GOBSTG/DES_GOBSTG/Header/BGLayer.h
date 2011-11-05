@@ -140,7 +140,6 @@ public:
 
 public:
 
-	DWORD timer;
 	BYTE areaid;
 	BGTile bgtiles[BGTILEMAX];
 
@@ -155,6 +154,7 @@ public:
 	BGTileMapping * tilemapping;
 	int largemapxtile;
 	int largemapytile;
+	int bossytile;
 
 	float mapcenx;
 	float mapxoffset;

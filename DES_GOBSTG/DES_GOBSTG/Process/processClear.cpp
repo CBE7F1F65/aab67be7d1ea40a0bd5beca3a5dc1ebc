@@ -10,7 +10,7 @@ int Process::processClear()
 	if (!alltime)
 	{
 		alltime = gametime;
-		Player::p.exist = false;
+//		Player::p.exist = false;
 	}
 	processStart();
 	Scripter::scr.Execute(SCR_CONTROL, STATE_CLEAR, gametime-alltime);

@@ -46,6 +46,13 @@ typedef struct tagRenderDepth{
 	bool haveType;
 }RenderDepth;
 
+struct AppendingRenderInfo{
+	int index;
+	float x;
+	float y;
+	float arc;
+};
+
 class Bullet : public BObject
 {
 public:
@@ -63,6 +70,8 @@ public:
 	void actionInStop();
 
 	int DoIze();
+	float DoHyper();
+	void DoDead();
 	bool DoCollision();
 	void DoGraze();
 	void DoUpdateRenderDepth();
@@ -73,16 +82,14 @@ public:
 
 	bool isInRect(float aimx, float aimy, float r, int nextstep=0);
 
-	bool valueSet(WORD ID, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid = 0, BYTE tarID = 0xff);
+	bool valueSet(WORD ID, DWORD enguid, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid = 0, BYTE tarID = 0xff);
 
-	static int Build(float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0, BYTE tarID=0xff);
-	static void BuildCircle(int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
-	static void BuildLine(int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
+	static int Build(DWORD enguid, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0, BYTE tarID=0xff);
+	static void BuildCircle(DWORD enguid, int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
+	static void BuildLine(DWORD enguid, int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime=BULLET_FADEINTIME, float avoid=0);
 
 	void matchFadeInColorType();
 	void matchFadeOutColorType();
-
-	void AddSendInfo(BYTE sendsetID, BYTE _sendtime);
 
 	bool passedEvent(DWORD eventID);
 	void passEvent(DWORD eventID);
@@ -103,6 +110,11 @@ public:
 	int		lastangle;
 	int		fadeinTime;
 
+	float	life;
+	int		woundingtimer;
+	float	woundingcost;
+	bool	frozen;
+
 	bool	fadeout;
 	bool	able;
 	bool	grazed;
@@ -115,11 +127,9 @@ public:
 	BYTE	oldcolor;
 	BYTE	typechangetimer;
 
-	BYTE	sendtime;
-	BYTE	sendsetID;
-	int		sendbonus;
-
 	BYTE	bouncetime;
+
+	DWORD	enguid;
 
 	Effectsys	eff;
 
@@ -129,6 +139,7 @@ public:
 	static hgeSprite * sprite[BULLETTYPECOLORMAX];
 	static WORD index;
 	static VectorList<Bullet>bu;
+	static list<AppendingRenderInfo>appendingrenderlist;
 	
 	static int bulletcount;
 };

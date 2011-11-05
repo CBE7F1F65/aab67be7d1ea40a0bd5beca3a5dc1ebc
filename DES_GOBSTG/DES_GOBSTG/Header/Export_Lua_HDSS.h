@@ -32,8 +32,7 @@ public:
 	// hdss func
 #define _HDSSFUNC_REGISTER(func)	static int LuaFn_HDSS_##func(LuaState * ls)
 
-	_HDSSFUNC_REGISTER(Call);
-	_HDSSFUNC_REGISTER(Get);
+	_HDSSFUNC_REGISTER(Roll);
 
 	_HDSSFUNC_REGISTER(SetDesc);
 	_HDSSFUNC_REGISTER(SetDescFloat);
@@ -70,8 +69,15 @@ public:
 	_HDSSFUNC_REGISTER(TogglePlayerInfi);
 	_HDSSFUNC_REGISTER(CheckPlayerInfi);
 
+
+	_HDSSFUNC_REGISTER(GetPlayerInfo);
+	_HDSSFUNC_REGISTER(SetPlayerTemper);
+
 	_HDSSFUNC_REGISTER(BuildEnemy);
+	_HDSSFUNC_REGISTER(GetEnemyInfo);
 	_HDSSFUNC_REGISTER(GetAllEnemiesInfo);
+
+	_HDSSFUNC_REGISTER(BuildBullet);
 
 	_HDSSFUNC_REGISTER(SetState);
 	_HDSSFUNC_REGISTER(GetState);
@@ -88,6 +94,8 @@ public:
 
 //		_HDSSFUNC_REGISTER(Call);
 //		_HDSSFUNC_REGISTER(Get);
+
+		_HDSSFUNC_REGISTER(Roll);
 
 		_HDSSFUNC_REGISTER(SetDesc);
 		_HDSSFUNC_REGISTER(SetDescFloat);
@@ -124,8 +132,14 @@ public:
 		_HDSSFUNC_REGISTER(TogglePlayerInfi);
 		_HDSSFUNC_REGISTER(CheckPlayerInfi);
 
+		_HDSSFUNC_REGISTER(GetPlayerInfo);
+		_HDSSFUNC_REGISTER(SetPlayerTemper);
+
 		_HDSSFUNC_REGISTER(BuildEnemy);
+		_HDSSFUNC_REGISTER(GetEnemyInfo);
 		_HDSSFUNC_REGISTER(GetAllEnemiesInfo);
+
+		_HDSSFUNC_REGISTER(BuildBullet);
 
 		_HDSSFUNC_REGISTER(SetState);
 		_HDSSFUNC_REGISTER(GetState);

@@ -18,12 +18,17 @@
 #define _BULLETRENDERFLAG_NONE	0
 #define _BULLETRENDERFLAG_ROUND	1
 
+#define _BULLETWOUNDINGSPEEDLOSS	0.5f
+#define _BULLETWOUNDINGTIMEMAX		16
+
 RenderDepth Bullet::renderDepth[DATASTRUCT_BULLETTYPEMAX];
 
 int Bullet::_actionList[BULLETACTIONMAX];
 hgeSprite * Bullet::sprite[BULLETTYPECOLORMAX];
 
 VectorList<Bullet> Bullet::bu;
+
+list<AppendingRenderInfo> Bullet::appendingrenderlist;
 
 int Bullet::bulletcount;
 
@@ -77,7 +82,7 @@ void Bullet::Init()
 	index = 0;
 }
 
-void Bullet::BuildCircle(int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime, float avoid)
+void Bullet::BuildCircle(DWORD _enguid, int num, int baseangle, float baser, float x, float y, float speed, BYTE type, BYTE color, int fadeinTime, float avoid)
 {
 	if (num <= 0)
 	{
@@ -89,11 +94,11 @@ void Bullet::BuildCircle(int num, int baseangle, float baser, float x, float y, 
 		int tnowangle = baseangle + i * anglestep;
 		float tx = x + cost(tnowangle) * baser;
 		float ty = y + sint(tnowangle) * baser;
-		Build(tx, ty, tnowangle, speed, type, color, fadeinTime, avoid, 0xff);
+		Build(_enguid, tx, ty, tnowangle, speed, type, color, fadeinTime, avoid, 0xff);
 	}
 }
 
-void Bullet::BuildLine(int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime, float avoid)
+void Bullet::BuildLine(DWORD _enguid, int num, int baseangle, float space, int baseindex, float x, float y, int angle, float anglefactor, float speed, float speedfactor, BYTE type, BYTE color, int fadeinTime, float avoid)
 {
 	if (num <= 0)
 	{
@@ -104,11 +109,11 @@ void Bullet::BuildLine(int num, int baseangle, float space, int baseindex, float
 		int tindex = i - baseindex;
 		float tx = x + tindex * cost(baseangle) * space;
 		float ty = y + tindex * sint(baseangle) * space;
-		Build(tx, ty, angle + anglefactor * tindex, speed + speedfactor * abs(tindex), type, color, fadeinTime, avoid, 0xff);
+		Build(_enguid, tx, ty, angle + anglefactor * tindex, speed + speedfactor * abs(tindex), type, color, fadeinTime, avoid, 0xff);
 	}
 }
 
-int Bullet::Build(float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid, BYTE tarID)
+int Bullet::Build(DWORD _enguid, float x, float y, int angle, float speed, BYTE type, BYTE color, int fadeinTime, float avoid, BYTE tarID)
 {
 	if (bu.getSize() == BULLETMAX)
 	{
@@ -121,7 +126,7 @@ int Bullet::Build(float x, float y, int angle, float speed, BYTE type, BYTE colo
 	Bullet * _tbu = NULL;
 	_tbu = bu.push_back();
 	int _index = bu.getEndIndex();
-	if (!_tbu->valueSet(_index, x, y, angle, speed, type, color, fadeinTime, avoid, tarID))
+	if (!_tbu->valueSet(_index, _enguid, x, y, angle, speed, type, color, fadeinTime, avoid, tarID))
 	{
 		bu.pop(_index);
 		return -1;
@@ -145,6 +150,7 @@ void Bullet::ClearItem()
 	bu.clear_item();
 	ZeroMemory(_actionList, sizeof(int) * BULLETACTIONMAX);
 	index = 0;
+	appendingrenderlist.clear();
 }
 
 void Bullet::Action()
@@ -205,6 +211,15 @@ void Bullet::RenderAll()
 				}
 			}
 		}
+
+		if (!appendingrenderlist.empty())
+		{
+			for (list<AppendingRenderInfo>::iterator it=appendingrenderlist.begin(); it!=appendingrenderlist.end(); ++it)
+			{
+				SpriteItemManager::RenderSpriteEx(sprite[it->index], it->x, it->y, it->arc);
+			}
+		}
+		appendingrenderlist.clear();
 	}
 }
 
@@ -221,6 +236,28 @@ void Bullet::Render()
 		}
 		SpriteItemManager::RenderSpriteEx(sprite[i], x, y, arc, hscale);
 		eff.Render();
+
+		if ((frozen || woundingtimer) && able)
+		{
+			AppendingRenderInfo _frinfo;
+			_frinfo.x = x;
+			_frinfo.y = y;
+			int tindex = index;
+			int appendingtype;
+			if (frozen)
+			{
+				appendingtype = BResource::bres.bulletdata[oldtype].frozentype;
+				_frinfo.arc = ARC(randt(0, RAND_MAX, &tindex));
+			}
+			else
+			{
+				appendingtype = BResource::bres.bulletdata[oldtype].woundingtype;
+				_frinfo.arc = ARC(angle);
+			}
+			int colorrand = index % BResource::bres.bulletdata[appendingtype].nColor;
+			_frinfo.index = appendingtype*BULLETCOLORMAX+colorrand;
+			appendingrenderlist.push_back(_frinfo);
+		}
 	}
 }
 
@@ -293,9 +330,10 @@ void Bullet::matchFadeOutColorType()
 	}
 }
 
-bool Bullet::valueSet(WORD _ID, float _x, float _y, int _angle, float _speed, BYTE _type, BYTE _color, int _fadeinTime, float avoid, BYTE _tarID)
+bool Bullet::valueSet(WORD _ID, DWORD _enguid, float _x, float _y, int _angle, float _speed, BYTE _type, BYTE _color, int _fadeinTime, float avoid, BYTE _tarID)
 {
 	ID			=	_ID;
+	enguid		=	_enguid;
 	x			=	_x;
 	y			=	_y;
 	changeType(_type);
@@ -305,12 +343,13 @@ bool Bullet::valueSet(WORD _ID, float _x, float _y, int _angle, float _speed, BY
 		if(isInRect(Player::p.x, Player::p.y, avoid))
 			return false;
 	}
-	angle	=	_angle;
+	angle		=	_angle;
 	speed		=	_speed;
 	oldtype		=	type;
 	color		=	_color;
 	oldcolor	=	color;
 	fadeinTime	=	_fadeinTime;
+	life		=	BResource::bres.bulletdata[type].life;
 
 	for (int i=0; i<BULLET_EVENTMAX; i++)
 	{
@@ -318,19 +357,6 @@ bool Bullet::valueSet(WORD _ID, float _x, float _y, int _angle, float _speed, BY
 	}
 
 	tarID	=	_tarID;
-
-	
-	if (BResource::bres.bulletdata[type].autosendsetID)
-	{
-		sendsetID = randt(0, 1) ? EFFSPSET_SYSTEM_SENDREDBULLET: EFFSPSET_SYSTEM_SENDBLUEBULLET;
-	}
-	else
-	{
-		sendsetID = 0;
-	}
-	sendbonus = 0;
-	AddSendInfo(sendsetID, 0);
-	
 
 	matchFadeInColorType();
 
@@ -347,6 +373,9 @@ bool Bullet::valueSet(WORD _ID, float _x, float _y, int _angle, float _speed, BY
 	alpha			=	0xff;
 	cancelable		=	true;
 	bouncetime		=	0;
+	woundingtimer	=	0;
+	woundingcost	=	0;
+	frozen			=	false;
 
 	xplus = speed * cost(angle);
 	yplus = speed * sint(angle);
@@ -358,9 +387,37 @@ bool Bullet::valueSet(WORD _ID, float _x, float _y, int _angle, float _speed, BY
 	return true;
 }
 
+float Bullet::DoHyper()
+{
+	if (PlayerBullet::havehyperbullet)
+	{
+		if (PlayerBullet::pb.getSize())
+		{
+			DWORD i = 0;
+			DWORD size = PlayerBullet::pb.getSize();
+			for (PlayerBullet::pb.toBegin(); i<size; PlayerBullet::pb.toNext(), i++)
+			{
+				if (!PlayerBullet::pb.isValid())
+				{
+					continue;
+				}
+				DWORD _index = PlayerBullet::pb.getIndex();
+				if ((*PlayerBullet::pb).able)
+				{
+					if (isInRect((*PlayerBullet::pb).x, (*PlayerBullet::pb).y, 8))
+					{
+						woundingtimer = _BULLETWOUNDINGTIMEMAX;
+						return Player::p.GetHyperCostLife((*PlayerBullet::pb).hyperpower);
+					}
+				}
+			}
+		}
+	}
+	return 0;
+}
+
 int Bullet::DoIze()
 {
-	int sendbonus = 0;
 	if (cancelable || BossInfo::bossinfo.flag>=BOSSINFO_COLLAPSE)
 	{
 		for (list<EventZone>::iterator it=EventZone::ezone.begin(); it!=EventZone::ezone.end(); it++)
@@ -375,73 +432,23 @@ int Bullet::DoIze()
 				{
 					if (it->type & EVENTZONE_TYPE_BULLETFADEOUT)
 					{
-						sendsetID = 0;
 						fadeout = true;
 						timer = 0;
 					}
-					if (it->type & EVENTZONE_TYPE_SENDBULLET)
+					if (it->type & EVENTZONE_TYPE_BULLETFREEZE)
 					{
-						if (!(it->type & EVENTZONE_TYPE_NOSEND))
+						if (!passedEvent(it->eventID) && timer >= fadeinTime)
 						{
-							if (sendsetID)
-							{
-								if (!sendbonus)
-								{
-									SE::push(SE_BULLET_ERASE, x);
-									fadeout = true;
-									timer = 0;
-								}
-								sendbonus++;
-							}
-						}
-					}
-					if (it->type & EVENTZONE_TYPE_BULLETPERFECTFREEZE)
-					{
-						if (timer >= fadeinTime && BResource::bres.bulletdata[type].whitecolor != 0xff)
-						{
-							BYTE tocolor = BResource::bres.bulletdata[type].whitecolor;
-							if (tocolor < BResource::bres.bulletdata[type].nColor)
-							{
-								oldcolor = tocolor;
-							}
 							timer = 0;
 							speed = 0;
 							fadeinTime = -1;
+							EventZone::bulletActionList[0] = TIMEREQUAL;
+							EventZone::bulletActionList[1] = it->maxtime;
+							EventZone::bulletActionList[2] = BULLETDIE;
+							EventZone::bulletActionList[3] = SECTIONEND;
 							memcpy(actionList, EventZone::bulletActionList, BULLETACTIONMAX*sizeof(int));
-						}
-					}
-					if (it->type & EVENTZONE_TYPE_BULLETSTUPA)
-					{
-						if (!passedEvent(EVENTZONE_TYPE_BULLETSTUPA))
-						{
-							if (timer >= fadeinTime && type != it->eventID)
-							{
-								DWORD _tindex = bu.getIndex();
-								Build(x, y, angle, speed+it->power, it->eventID, 0);
-								bu.toIndex(_tindex);
-								passEvent(EVENTZONE_TYPE_BULLETSTUPA);
-							}
-						}
-					}
-					if (it->type & EVENTZONE_TYPE_BULLETWARP)
-					{
-						if (!passedEvent(EVENTZONE_TYPE_BULLETWARP))
-						{
-							if (timer >= fadeinTime && type != it->eventID)
-							{
-								DWORD _tindex = bu.getIndex();
-								if (speed < it->power)
-								{
-									speed = it->power;
-								}
-								int iret = Build(x - SIGN(0) * M_CLIENT_WIDTH/2, y, angle, speed, type, color);
-								if (iret >= 0)
-								{
-									(*(bu)).passEvent(EVENTZONE_TYPE_BULLETWARP);
-								}
-								bu.toIndex(_tindex);
-								passEvent(EVENTZONE_TYPE_BULLETWARP);
-							}
+							frozen = true;
+							passEvent(it->eventID);
 						}
 					}
 					if (it->type & EVENTZONE_TYPE_BULLETEVENT)
@@ -457,7 +464,7 @@ int Bullet::DoIze()
 			}
 		}
 	}
-	return sendbonus;
+	return 0;
 }
 
 void Bullet::DoGraze()
@@ -470,6 +477,13 @@ void Bullet::DoGraze()
 			grazed = true;
 		}
 	}
+}
+
+void Bullet::DoDead()
+{
+	fadeout = true;
+	timer = 0;
+	Player::p.DoBulletDead(x, y);
 }
 
 bool Bullet::DoCollision()
@@ -522,11 +536,12 @@ void Bullet::actionInStop()
 	index = ID;
 	if (!fadeout)
 	{
-		int sendbonusret = DoIze();
-		if (sendbonusret > sendbonus)
+		life -= DoHyper();
+		if (life < 0)
 		{
-			sendbonus = sendbonusret;
+			DoDead();
 		}
+		DoIze();
 		if (timer > fadeinTime)
 		{
 			DoGraze();
@@ -563,12 +578,6 @@ void Bullet::passEvent(DWORD _eventID)
 		}
 	}
 	eventID[0] = _eventID;
-}
-
-void Bullet::AddSendInfo(BYTE _sendsetID, BYTE _sendtime)
-{
-	sendtime = _sendtime;
-	sendsetID = _sendsetID;
 }
 
 void Bullet::changeType(BYTE totype)
@@ -664,6 +673,21 @@ void Bullet::action()
 			{
 				DoCollision();
 				DoGraze();
+				if (woundingtimer)
+				{
+					woundingtimer--;
+					x -= xplus*_BULLETWOUNDINGSPEEDLOSS;
+					y -= yplus*_BULLETWOUNDINGSPEEDLOSS;
+					life -= woundingcost;
+					if (life < 0)
+					{
+						DoDead();
+					}
+				}
+				if (!woundingtimer && timer > fadeinTime)
+				{
+					woundingcost = DoHyper();
+				}
 			}
 			x += xplus;
 			y += yplus;
@@ -707,12 +731,7 @@ void Bullet::action()
 				}
 			}
 		}
-
-		int sendbonusret = DoIze();
-		if (sendbonusret > sendbonus)
-		{
-			sendbonus = sendbonusret;
-		}
+		DoIze();
 		headangle += SIGN(color) * BResource::bres.bulletdata[type].nTurnAngle;
 		if(tarID != 0xff)
 		{
@@ -735,17 +754,6 @@ void Bullet::action()
 	{
 		if(timer == 16)
 		{
-			if (sendsetID)
-			{
-				if (sendtime > 2)
-				{
-					sendtime = 2;
-					if (hge->Random_Int(0, 4) == 0)
-					{
-						sendsetID += 2;
-					}
-				}
-			}
 		}
 		else if(timer == 32)
 		{
@@ -1443,9 +1451,14 @@ bool Bullet::ChangeAction(int nextstep)
 				case FADEOUT:
 					if(doit)
 					{
-						sendsetID = 0;
 						fadeout = true;
 						timer = 0;
+					}
+					break;
+				case BULLETDIE:
+					if (doit)
+					{
+						DoDead();
 					}
 					break;
 				case BOUNCE:
