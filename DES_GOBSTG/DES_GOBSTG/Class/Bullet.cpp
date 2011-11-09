@@ -18,7 +18,7 @@
 #define _BULLETRENDERFLAG_NONE	0
 #define _BULLETRENDERFLAG_ROUND	1
 
-#define _BULLETWOUNDINGSPEEDLOSS	0.1f
+#define _BULLETWOUNDINGSPEEDLOSS	0.2f
 #define _BULLETWOUNDINGTIMEMAX		16
 
 RenderDepth Bullet::renderDepth[DATASTRUCT_BULLETTYPEMAX];
@@ -247,7 +247,7 @@ void Bullet::Render()
 			if (frozen)
 			{
 				appendingtype = BResource::bres.bulletdata[oldtype].frozentype;
-				_frinfo.arc = ARC(randt(0, RAND_MAX, &tindex));
+				_frinfo.arc = x*y;
 			}
 			else
 			{

@@ -159,6 +159,8 @@ public:
 	float mapcenx;
 	float mapxoffset;
 	float mapceny;
+	float lastmapcenx;
+	float lastmapceny;
 
 	float tilesxoffset;
 	float tilesyoffset;

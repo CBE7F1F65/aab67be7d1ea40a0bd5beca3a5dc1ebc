@@ -1183,7 +1183,30 @@ void Player::Render()
 {
 	if (sprite)
 	{
-		sprite->SetColor(alpha<<24|diffuse);
+		DWORD usediffuse = diffuse;
+		/*
+		if (usediffuse == 0xffffff)
+		{
+			BYTE r=0;
+			BYTE g=0xff;
+			BYTE b=0;
+			int keytemper = 0xff*nTemper/PLAYER_TEMPERMAX;
+			if (nTemper > PLAYER_TEMPERHOTEDGE || nTemper < PLAYER_TEMPERCOLDEDGE)
+			{
+				g = 0x80;
+			}
+			if (keytemper < 0)
+			{
+				b = -keytemper;
+			}
+			else
+			{
+				r = keytemper;
+			}
+			usediffuse = ARGB(0, r, g, b);
+		}
+		*/
+		sprite->SetColor(alpha<<24|usediffuse);
 		SpriteItemManager::RenderSpriteEx(sprite, x, y, 0, hscale, vscale);
 	}
 }

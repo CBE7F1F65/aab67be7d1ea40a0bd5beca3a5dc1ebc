@@ -861,6 +861,14 @@ Comment	Index	SI_Name	Tex	Tex_x	Tex_y	Tex_w	Tex_h
 -	1733	SI_Bullet_Score_3	2	376	482	40	12
 -	1734	SI_Bullet_Score_4	2	416	482	40	12
 -	1735	SI_Bullet_Score_5	2	456	482	40	12
+-	1736	SI_Bullet_Wounding_0	2	384	320	32	32
+-	1737	SI_Bullet_Wounding_1	2	416	320	32	32
+-	1738	SI_Bullet_Wounding_2	2	448	320	32	32
+-	1739	SI_Bullet_Wounding_3	2	480	320	32	32
+-	1740	SI_Bullet_Frozen_0	2	0	224	32	32
+-	1741	SI_Bullet_Frozen_1	2	32	224	32	32
+-	1742	SI_Bullet_Frozen_2	2	64	224	32	32
+-	1743	SI_Bullet_Frozen_3	2	96	224	32	32
 #		BulletEx(1800~1999)					
 -	1800	SI_BulletEx_Reimu_0	50	128	0	64	64
 #		Player(2000~2999)					

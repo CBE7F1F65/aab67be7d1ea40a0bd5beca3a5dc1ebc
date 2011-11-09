@@ -529,7 +529,7 @@ bool _DataTable::PlayerSubDefineFile()
 bool _DataTable::StageareaDefineFile()
 {
 	ZeroMemory(BResource::bres.stageareadata, RSIZE_STAGEAREA);
-	_READSTRINGBUFFERLINE(11);
+	_READSTRINGBUFFERLINE(7);
 	while (!feof(file))
 	{
 		_INITTINT;
@@ -538,17 +538,13 @@ bool _DataTable::StageareaDefineFile()
 		_CHECKEOF_DATATABLE;
 		stageareaData * item = &(BResource::bres.stageareadata[tindex]);
 
-		fscanf(file, "%d%d%d%d%d%d%d%d%d%d", 
+		fscanf(file, "%d%d%d%d%d%d", 
 			_SAVETINT,
 			&(item->texbegin),
 			&(item->begintile),
 			_SAVETINT,
 			_SAVETINT,
-			_SAVETINT,
-			&(item->ledge),
-			&(item->redge),
-			&(item->tedge),
-			&(item->bedge));
+			_SAVETINT);
 
 		_DOSWAPTINT;
 		_INITTINT;

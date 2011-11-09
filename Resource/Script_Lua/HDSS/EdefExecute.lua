@@ -4,7 +4,7 @@ function edef_LilyFunction(x, y, guid, timer, px, py)
 		for i=0, 15 do
 			local angle = 0 + i*600 + (hdss.Roll(modindex, 10)-5)*200;
 			local speed = 1.5;
-			hdss.BuildBullet(guid, x, y, angle, speed, 0, 1);
+			hdss.BuildBullet(guid, x, y, angle, speed, 2, 1);
 		end
 	end
 end

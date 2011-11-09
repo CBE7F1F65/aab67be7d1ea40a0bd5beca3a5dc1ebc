@@ -16,3 +16,5 @@ LConst_Desc_EnemyRandom	=	FREEBEGIN + 2
 LConst_Desc_EnemyNowLine	=	FREEBEGIN + 4
 LConst_Desc_EnemyNowLineNum	=	FREEBEGIN + 6
 LConst_Desc_LilyItem	=	FREEBEGIN + 10
+
+LConst_Desc_StageAreaCheckPoint	=	FREEBEGIN + 12

@@ -5,7 +5,7 @@ LTable_SceneIDFunction	=
 
 function SceneExecute(area, timer)
 	
-	local mapcenx, mapceny, xspeed, yspeed, mapxoffset = hdss.GetMapSpeedInfo();
+	local mapcenx, mapceny, lastcenx, lastceny, xspeed, yspeed, mapxoffset = hdss.GetMapSpeedInfo();
 
 	local mapxoffsetmove = 0.5;
 	local mapxoffsetmax = 16;

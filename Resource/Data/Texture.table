@@ -27,3 +27,4 @@ Comment	Index	Texture	TexW	TexH
 #		MapTile(580~639)		
 -	580	Graphic/Map/MapTile_0_0.png	1024	1024
 -	581	Graphic/Map/MapTile_0_1.png	1024	1024
+-	600	Graphic/Map/Map_0_0.png	928	4096

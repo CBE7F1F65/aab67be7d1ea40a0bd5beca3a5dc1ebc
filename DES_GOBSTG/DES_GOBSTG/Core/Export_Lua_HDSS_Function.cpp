@@ -139,6 +139,8 @@ _HDSSFUNC_REGISTER(GetMapSpeedInfo)
 
 	node.PFloat(BGLayer::bglayer.mapcenx);
 	node.PFloat(BGLayer::bglayer.mapceny);
+	node.PFloat(BGLayer::bglayer.lastmapcenx);
+	node.PFloat(BGLayer::bglayer.lastmapceny);
 	node.PFloat(BGLayer::bglayer.xspeed);
 	node.PFloat(BGLayer::bglayer.yspeed);
 	node.PFloat(BGLayer::bglayer.mapxoffset);

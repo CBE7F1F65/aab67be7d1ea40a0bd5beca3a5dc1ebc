@@ -31,6 +31,8 @@ void BGLayer::Release()
 	mapcenx = 0;
 	mapxoffset = 0;
 	mapceny = 0;
+	lastmapcenx = 0;
+	lastmapceny = 0;
 
 	xspeed = 0;
 	yspeed = 0;
@@ -78,6 +80,9 @@ void BGLayer::action()
 			mapcenx+=3;
 		}
 		*/
+		lastmapcenx = mapcenx;
+		lastmapceny = mapceny;
+
 		mapcenx += xspeed;
 		mapceny += yspeed;
 
@@ -157,76 +162,94 @@ void BGLayer::BGLayerSetup(float begincenx)
 		{
 			break;
 		}
-		//
-		int nowtilenum = padata->begintile;
-		int nowtexoffset = padata->texbegin-adatabegin->texbegin;
-		//
 
-		int savednexttilenum = -1;
-		int savednexttexoffset = -1;
-
-		for (int j=0; j<padata->tiley; j++)
+		if (padata->begintile >= 0)
 		{
+			//
+			int nowtilenum = padata->begintile;
+			int nowtexoffset = padata->texbegin-adatabegin->texbegin;
+			//
 
-			int nowtilenumbase = nowtilenum;
-			int nowtexoffsetbase = nowtexoffset;
+			int savednexttilenum = -1;
+			int savednexttexoffset = -1;
 
-			int lasttilenum = -1;
-			int lasttexoffset = -1;
-
-			for (int k=0; k<=padata->tilex; k++)
+			for (int j=0; j<padata->tiley; j++)
 			{
-				if (k == padata->tilex)
+
+				int nowtilenumbase = nowtilenum;
+				int nowtexoffsetbase = nowtexoffset;
+
+				int lasttilenum = -1;
+				int lasttexoffset = -1;
+
+				for (int k=0; k<=padata->tilex; k++)
 				{
-					if (lasttilenum < 0 || lasttexoffset < 0)
+					if (k == padata->tilex)
 					{
+						if (lasttilenum < 0 || lasttexoffset < 0)
+						{
+							break;
+						}
+						if (!((nowtilenum%BGTILE_SUBTILE_TOTALTILECOUNT)/BGTILE_SUBTILE_XTILECOUNT))
+						{
+							savednexttilenum = nowtilenum;
+							savednexttexoffset = nowtexoffset;
+
+							nowtilenum = lasttilenum;
+							nowtexoffset = lasttexoffset;
+						}
 						break;
 					}
-					if (!((nowtilenum%BGTILE_SUBTILE_TOTALTILECOUNT)/BGTILE_SUBTILE_XTILECOUNT))
-					{
-						savednexttilenum = nowtilenum;
-						savednexttexoffset = nowtexoffset;
 
-						nowtilenum = lasttilenum;
-						nowtexoffset = lasttexoffset;
+					lasttilenum = nowtilenum;
+					lasttexoffset = nowtexoffset;
+
+					BGTileMapping * nowtilemapping = &(tilemapping[(j+nowtilelinebegin)*largemapxtile+padata->begintilex+k]);
+					nowtilemapping->texoffset = nowtexoffset;
+					nowtilemapping->textilex = ((nowtilenum/BGTILE_SUBTILE_TOTALTILECOUNT)/BGTILE_SUBTILE_XCOUNT*BGTILE_SUBTILE_XTILECOUNT + nowtilenum%BGTILE_SUBTILE_XTILECOUNT);
+					nowtilemapping->textiley = ((nowtilenum/BGTILE_SUBTILE_TOTALTILECOUNT)%BGTILE_SUBTILE_YCOUNT*BGTILE_SUBTILE_YTILECOUNT + (BGTILE_SUBTILE_YTILECOUNT-(nowtilenum/BGTILE_SUBTILE_XTILECOUNT)%BGTILE_SUBTILE_YTILECOUNT-1));
+
+					nowtilenum++;
+					if (!(nowtilenum % BGTILE_SUBTILE_XTILECOUNT))
+					{
+						nowtilenum += BGTILE_SUBTILE_TOTALTILECOUNT-BGTILE_SUBTILE_XTILECOUNT;
+						if (nowtilenum >= BGTILE_TOTALTILECOUNT)
+						{
+							nowtilenum -= BGTILE_TOTALTILECOUNT;
+							nowtexoffset++;
+						}
 					}
-					break;
 				}
 
-				lasttilenum = nowtilenum;
-				lasttexoffset = nowtexoffset;
-
-				BGTileMapping * nowtilemapping = &(tilemapping[(j+nowtilelinebegin)*largemapxtile+padata->begintilex+k]);
-				nowtilemapping->texoffset = nowtexoffset;
-				nowtilemapping->textilex = ((nowtilenum/BGTILE_SUBTILE_TOTALTILECOUNT)/BGTILE_SUBTILE_XCOUNT*BGTILE_SUBTILE_XTILECOUNT + nowtilenum%BGTILE_SUBTILE_XTILECOUNT);
-				nowtilemapping->textiley = ((nowtilenum/BGTILE_SUBTILE_TOTALTILECOUNT)%BGTILE_SUBTILE_YCOUNT*BGTILE_SUBTILE_YTILECOUNT + (BGTILE_SUBTILE_YTILECOUNT-(nowtilenum/BGTILE_SUBTILE_XTILECOUNT)%BGTILE_SUBTILE_YTILECOUNT-1));
-
-				nowtilenum++;
-				if (!(nowtilenum % BGTILE_SUBTILE_XTILECOUNT))
+				nowtilenum = nowtilenumbase + BGTILE_SUBTILE_XTILECOUNT;
+				nowtexoffset = nowtexoffsetbase;
+				if (!((nowtilenum%BGTILE_SUBTILE_TOTALTILECOUNT)/BGTILE_SUBTILE_XTILECOUNT))
 				{
-					nowtilenum += BGTILE_SUBTILE_TOTALTILECOUNT-BGTILE_SUBTILE_XTILECOUNT;
-					if (nowtilenum >= BGTILE_TOTALTILECOUNT)
-					{
-						nowtilenum -= BGTILE_TOTALTILECOUNT;
-						nowtexoffset++;
-					}
+					nowtilenum = savednexttilenum;
+					nowtexoffset = savednexttexoffset;
+				}
+				if (nowtilenum >= BGTILE_TOTALTILECOUNT)
+				{
+					nowtilenum -= BGTILE_TOTALTILECOUNT;
+					nowtexoffset++;
 				}
 			}
-
-			nowtilenum = nowtilenumbase + BGTILE_SUBTILE_XTILECOUNT;
-			nowtexoffset = nowtexoffsetbase;
-			if (!((nowtilenum%BGTILE_SUBTILE_TOTALTILECOUNT)/BGTILE_SUBTILE_XTILECOUNT))
+			//
+		}
+		else
+		{
+			// For Debug
+			for (int j=0; j<padata->tiley; j++)
 			{
-				nowtilenum = savednexttilenum;
-				nowtexoffset = savednexttexoffset;
-			}
-			if (nowtilenum >= BGTILE_TOTALTILECOUNT)
-			{
-				nowtilenum -= BGTILE_TOTALTILECOUNT;
-				nowtexoffset++;
+				for (int k=0; k<=padata->tilex; k++)
+				{
+					BGTileMapping * nowtilemapping = &(tilemapping[(padata->tiley-j-1)*padata->tilex+k]);
+					nowtilemapping->texoffset = 0;
+					nowtilemapping->textilex = k;
+					nowtilemapping->textiley = j;
+				}
 			}
 		}
-		//
 		nowtilelinebegin += padata->tiley;
 		++padata;
 	}

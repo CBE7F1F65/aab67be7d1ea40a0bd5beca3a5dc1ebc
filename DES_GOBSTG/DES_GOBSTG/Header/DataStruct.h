@@ -233,10 +233,6 @@ struct stageareaData
 	BYTE tiley;
 	int texbegin;
 	int begintile;
-	int ledge;
-	int redge;
-	int tedge;
-	int bedge;
 };
 
 struct blankMapTileData

@@ -45,8 +45,8 @@ Comment	Type	SIID	nRoll	nColor	CollisionType	Collision_Main	Collision_Sub	FadeCo
 -	43	SI_BulletEx_ReimuII_0	0	1	1	9	0	255	1000	48	49	240	90	0	2	1	0
 -	44	SI_BulletEx_Hatate_0	0	2	3	128	64	255	1000	48	49	0	96	0	2	1	0
 #		BulletEffect(48~59)															
--	48	SI_Bullet_FadedBlueFireBall_0	0	4	1	5	0	3	1000	48	49	0	90	0	0	0	1
--	49	SI_Bullet_FadedBlueFireBall_0	0	4	1	5	0	3	1000	48	49	0	90	0	0	0	1
+-	48	SI_Bullet_Wounding_0	0	4	1	5	0	3	1000	48	49	0	90	0	0	0	1
+-	49	SI_Bullet_Frozen_0	0	4	1	5	0	3	1000	48	49	0	90	0	0	0	1
 #		SpecialBullet(60~63)															
 -	60	SI_Null	0	16	0	0	0	0	1000	48	49	0	90	0	2	0	1
 -	61	SI_Bullet_ShootItem_0	0	8	0	0	0	255	1000	48	49	0	90	0	0	0	1
