@@ -43,6 +43,7 @@
 #ifdef __WIN32
 
 #include <windows.h>
+#include <io.h>
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <dinput.h>			//add by Thor/h5nc
