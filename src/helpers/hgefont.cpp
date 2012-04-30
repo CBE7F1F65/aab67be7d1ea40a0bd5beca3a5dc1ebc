@@ -96,7 +96,7 @@ void hgeFont::_FontFree()
 {
 	if (letters)
 	{
-		for(int i=0; i<256; i++)
+		for(int i=0; i<size; i++)
 		{
 			if(letters[i]) delete letters[i];
 		}
