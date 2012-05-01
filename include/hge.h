@@ -597,6 +597,8 @@ struct hge3DPoint
 #define JOY_DOWN		0x70
 
 #define DIJOY_MAXDEVICE	4
+
+#define TOUCH_TOUCHMAX	5
 // end
 
 /*
@@ -926,6 +928,16 @@ public:
 	virtual bool		CALL	Input_SetDIKey(int key, bool set = true) = 0;
 	virtual bool		CALL	Input_GetDIJoy(int joy, BYTE stateType = DIKEY_PRESSED, int joydevice=0) = 0;
 	virtual bool		CALL	Input_HaveJoy(int joydevice=0) = 0;
+
+	virtual bool		CALL	Input_IsTouchDown(int touch) = 0;
+	virtual bool		CALL	Input_IsTouchOn(int touch) = 0;
+	virtual bool		CALL	Input_IsTouchUp(int touch) = 0;
+	virtual void		CALL	Input_GetTouchPos(int touch, float *x, float *y) = 0;
+	virtual void		CALL	Input_GetLastTouchPos(int touch, float *x, float *y) = 0;
+	virtual void		CALL	Input_GetFirstTouchPos(int touch, float *x, float *y) = 0;
+	virtual int			CALL	Input_GetTouchDuration(int touch) = 0;
+	virtual int			CALL	Input_GetNoTouchDuration(int touch) = 0;
+	virtual void		CALL	Input_SetTouchPos(int touch, float x, float y) = 0;
 	// end
 
 	virtual bool		CALL	Gfx_BeginScene(HTARGET target=0) = 0;

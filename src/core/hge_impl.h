@@ -226,6 +226,16 @@ public:
 	virtual bool		CALL	Input_SetDIKey(int key, bool set = true);
 	virtual bool		CALL	Input_GetDIJoy(int joy, BYTE stateType = DIKEY_PRESSED, int joydevice=0);
 	virtual bool		CALL	Input_HaveJoy(int joydevice=0);
+
+	virtual bool		CALL	Input_IsTouchDown(int touch);
+	virtual bool		CALL	Input_IsTouchOn(int touch);
+	virtual bool		CALL	Input_IsTouchUp(int touch);
+	virtual void		CALL	Input_GetTouchPos(int touch, float *x, float *y);
+	virtual void		CALL	Input_GetLastTouchPos(int touch, float *x, float *y);
+	virtual void		CALL	Input_GetFirstTouchPos(int touch, float *x, float *y);
+	virtual int			CALL	Input_GetTouchDuration(int touch);
+	virtual int			CALL	Input_GetNoTouchDuration(int touch);
+	virtual void		CALL	Input_SetTouchPos(int touch, float x, float y);
 	//end
 
 	virtual bool		CALL	Gfx_BeginScene(HTARGET target=0);
@@ -445,6 +455,24 @@ public:
 #ifdef __WIN32
 	static BOOL CALLBACK _EnumJoysticksCallback (const DIDEVICEINSTANCE * pdidInstance, VOID* pContext);
 #endif
+
+	struct TouchInputInfo
+	{
+		float x;
+		float y;
+		float lastx;
+		float lasty;
+		float firstx;
+		float firsty;
+		bool touching;
+		bool lasttouching;
+		int touchtimer;
+		int notouchtimer;
+	};
+	TouchInputInfo touchesState[TOUCH_TOUCHMAX];
+	void	_TouchInit();
+	void	_TouchRelease();
+	void	_TouchUpdate();
 	// end
 
 

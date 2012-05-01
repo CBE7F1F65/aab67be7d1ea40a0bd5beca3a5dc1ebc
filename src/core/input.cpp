@@ -174,6 +174,8 @@ void HGE_Impl::_InputInit()
 #endif
 
 	memset(&keyz, 0, sizeof(keyz));
+
+	memset(touchesState, 0, sizeof(touchesState));
 }
 
 /************************************************************************/
@@ -773,4 +775,146 @@ int HGE_Impl::_DIUpdate()
 
 	return ((!nojoy)?0:ERROR_NOJOYSTICK) | (keyable?0:ERROR_NOKEYBOARD);
 }
+
+void HGE_Impl::_TouchRelease()
+{
+}
+
+void HGE_Impl::_TouchInit()
+{
+	memset(touchesState, 0, sizeof(touchesState));
+}
+
+void HGE_Impl::_TouchUpdate()
+{
+	for (int i=0; i<TOUCH_TOUCHMAX; i++)
+	{
+		if (touchesState[i].touching)
+		{
+			touchesState[i].touchtimer++;
+			touchesState[i].notouchtimer = 0;
+		}
+		else
+		{
+			touchesState[i].notouchtimer++;
+			touchesState[i].touchtimer = 0;
+		}
+		touchesState[i].lasttouching = touchesState[i].touching;
+
+		touchesState[i].touching = false;
+	}
+}
+
+bool HGE_Impl::Input_IsTouchDown(int touch)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX)
+	{
+		return false;
+	}
+	if (touchesState[touch].lasttouching == false && touchesState[touch].touching == true)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool HGE_Impl::Input_IsTouchOn(int touch)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX)
+	{
+		return false;
+	}
+	if (touchesState[touch].touching == true)
+	{
+		return true;
+	}
+	return false;
+}
+
+bool HGE_Impl::Input_IsTouchUp(int touch)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX)
+	{
+		return false;
+	}
+	if (touchesState[touch].lasttouching == true && touchesState[touch].touching == false)
+	{
+		return true;
+	}
+	return false;
+}
+
+void HGE_Impl::Input_GetTouchPos(int touch, float *x, float *y)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX || !x || !y)
+	{
+		return;
+	}
+	*x = touchesState[touch].x;
+	*y = touchesState[touch].y;
+}
+
+void HGE_Impl::Input_GetLastTouchPos(int touch, float *x, float *y)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX || !x || !y)
+	{
+		return;
+	}
+	*x = touchesState[touch].lastx;
+	*y = touchesState[touch].lasty;
+}
+
+void HGE_Impl::Input_GetFirstTouchPos(int touch, float *x, float *y)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX || !x || !y)
+	{
+		return;
+	}
+	*x = touchesState[touch].firstx;
+	*y = touchesState[touch].firsty;
+}
+
+int HGE_Impl::Input_GetTouchDuration(int touch)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX)
+	{
+		return 0;
+	}
+	return touchesState[touch].touchtimer;
+}
+
+int HGE_Impl::Input_GetNoTouchDuration(int touch)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX)
+	{
+		return 0;
+	}
+	return touchesState[touch].notouchtimer;
+}
+
+void HGE_Impl::Input_SetTouchPos(int touch, float x, float y)
+{
+	if (touch < 0 || touch >= TOUCH_TOUCHMAX)
+	{
+		return;
+	}
+
+	touchesState[touch].touching = true;
+	if (!touchesState[touch].lasttouching)
+	{
+		touchesState[touch].firstx = x;
+		touchesState[touch].firsty = y;
+		touchesState[touch].lastx = x;
+		touchesState[touch].lasty = y;
+	}
+	else
+	{
+		touchesState[touch].lastx = touchesState[touch].x;
+		touchesState[touch].lasty = touchesState[touch].y;
+	}
+	touchesState[touch].x = x;
+	touchesState[touch].y = y;
+}
+
+
 // end
