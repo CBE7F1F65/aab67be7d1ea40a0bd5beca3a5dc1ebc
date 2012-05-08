@@ -503,11 +503,11 @@ void CALL HGE_Impl::Gfx_RenderLine(float x1, float y1, float x2, float y2, DWORD
 	sceGuEnable(GU_TEXTURE_2D);
 #elif defined __IPHONE
 	
-	glDisable(GL_TEXTURE_2D);
 	if (CurBlendMode != BLEND_DEFAULT)
 	{
 		_SetBlendMode(BLEND_DEFAULT);
 	}
+	glDisable(GL_TEXTURE_2D);	
 	
 	hgeVertex vertices[HGEPRIM_LINES];
 	
@@ -522,7 +522,7 @@ void CALL HGE_Impl::Gfx_RenderLine(float x1, float y1, float x2, float y2, DWORD
 	vertices[1].col = _ARGBtoABGR(color);
 	
 	glEnableClientState(GL_COLOR_ARRAY);
-	glColorPointer(HGEPRIM_LINES, GL_UNSIGNED_BYTE, sizeof(hgeVertex), &(vertices[0].col));
+	glColorPointer(4, GL_UNSIGNED_BYTE, sizeof(hgeVertex), &(vertices[0].col));
 	glEnableClientState(GL_VERTEX_ARRAY);
 	glVertexPointer(3, GL_FLOAT, sizeof(hgeVertex), &(vertices[0].x));
 	
