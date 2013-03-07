@@ -1,0 +1,348 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="FinalRelease|Win32">
+      <Configuration>FinalRelease</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{7329E15F-F0AE-44EE-BC64-27B9038C76D7}</ProjectGuid>
+    <RootNamespace>DES_GOBSTG</RootNamespace>
+    <Keyword>Win32Proj</Keyword>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='FinalRelease|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <InterproceduralOptimization>true</InterproceduralOptimization>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <CLRSupport>false</CLRSupport>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='FinalRelease|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.40219.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='FinalRelease|Win32'">$(SolutionDir)$(Configuration)\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='FinalRelease|Win32'">$(Configuration)\</IntDir>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='FinalRelease|Win32'">false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;__DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>false</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <FunctionLevelLinking>false</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
+      <DisableSpecificWarnings>1786;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <ShowProgress>NotSet</ShowProgress>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <AdditionalLibraryDirectories>../lib/vc;../../lib/vc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>hge_d.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AssemblyDebug>true</AssemblyDebug>
+      <SubSystem>Windows</SubSystem>
+      <TargetMachine>NotSet</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;__DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <TreatWChar_tAsBuiltInType>false</TreatWChar_tAsBuiltInType>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>1786;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <ImproveFloatingPointConsistency>Some</ImproveFloatingPointConsistency>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>../lib/vc;../../lib/vc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <DelayLoadDLLs>hge.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <HeapReserveSize>0</HeapReserveSize>
+      <HeapCommitSize>0</HeapCommitSize>
+      <StackReserveSize>0</StackReserveSize>
+      <StackCommitSize>0</StackCommitSize>
+      <LargeAddressAware>
+      </LargeAddressAware>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>NotSet</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='FinalRelease|Win32'">
+    <ClCompile>
+      <Optimization>Full</Optimization>
+      <InlineFunctionExpansion>Default</InlineFunctionExpansion>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
+      <OmitFramePointers>true</OmitFramePointers>
+      <EnableFiberSafeOptimizations>true</EnableFiberSafeOptimizations>
+      <WholeProgramOptimization>true</WholeProgramOptimization>
+      <PreprocessorDefinitions>WIN32;NDEBUG;__RELEASE;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <StringPooling>true</StringPooling>
+      <MinimalRebuild>false</MinimalRebuild>
+      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <BufferSecurityCheck>false</BufferSecurityCheck>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <EnableEnhancedInstructionSet>NotSet</EnableEnhancedInstructionSet>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level1</WarningLevel>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <CompileAs>Default</CompileAs>
+      <DisableSpecificWarnings>1786;%(DisableSpecificWarnings)</DisableSpecificWarnings>
+      <OptimizeForWindowsApplication>true</OptimizeForWindowsApplication>
+      <ImproveFloatingPointConsistency>Some</ImproveFloatingPointConsistency>
+    </ClCompile>
+    <Link>
+      <AdditionalOptions>%(AdditionalOptions)</AdditionalOptions>
+      <OutputFile>$(OutDir)$(ProjectName).exe</OutputFile>
+      <AdditionalLibraryDirectories>../lib/vc;../../lib/vc;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <DelayLoadDLLs>hge.dll;%(DelayLoadDLLs)</DelayLoadDLLs>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <GenerateMapFile>false</GenerateMapFile>
+      <MapExports>false</MapExports>
+      <SubSystem>Windows</SubSystem>
+      <HeapReserveSize>0</HeapReserveSize>
+      <HeapCommitSize>0</HeapCommitSize>
+      <StackReserveSize>0</StackReserveSize>
+      <StackCommitSize>0</StackCommitSize>
+      <LargeAddressAware>true</LargeAddressAware>
+      <OptimizeReferences>true</OptimizeReferences>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <TargetMachine>NotSet</TargetMachine>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\BMath.cpp" />
+    <ClCompile Include="Core\BResource.cpp" />
+    <ClCompile Include="Core\Data.cpp" />
+    <ClCompile Include="Core\DataConnector.cpp" />
+    <ClCompile Include="Core\DataMap.cpp" />
+    <ClCompile Include="Core\DataPrinter.cpp" />
+    <ClCompile Include="Core\DataTable.cpp" />
+    <ClCompile Include="Core\Export.cpp" />
+    <ClCompile Include="Core\GameInput.cpp" />
+    <ClCompile Include="Core\InitDllLoader.cpp" />
+    <ClCompile Include="Core\Keytable.cpp" />
+    <ClCompile Include="Core\Main.cpp" />
+    <ClCompile Include="Core\Parser.cpp" />
+    <ClCompile Include="Core\ParserFunction.cpp" />
+    <ClCompile Include="Core\ParserOther.cpp" />
+    <ClCompile Include="Core\Scripter.cpp" />
+    <ClCompile Include="Core\SpriteItemManager.cpp" />
+    <ClCompile Include="Core\_LObjNode.cpp" />
+    <ClCompile Include="Core\Export_Lua.cpp" />
+    <ClCompile Include="Core\Export_Lua_Const.cpp" />
+    <ClCompile Include="Core\Export_Lua_Function.cpp" />
+    <ClCompile Include="Core\Export_Lua_Game.cpp" />
+    <ClCompile Include="Core\Export_Lua_HDSS.cpp" />
+    <ClCompile Include="Core\Export_Lua_HDSS_Function.cpp" />
+    <ClCompile Include="Core\Export_Lua_HGE.cpp" />
+    <ClCompile Include="Core\Export_Lua_HGEHelper.cpp" />
+    <ClCompile Include="Class\Beam.cpp" />
+    <ClCompile Include="Class\BGLayer.cpp" />
+    <ClCompile Include="Class\BObject.cpp" />
+    <ClCompile Include="Class\BossInfo.cpp" />
+    <ClCompile Include="Class\Bullet.cpp" />
+    <ClCompile Include="Class\Chat.cpp" />
+    <ClCompile Include="Class\EffectSp.cpp" />
+    <ClCompile Include="Class\Effectsys.cpp" />
+    <ClCompile Include="Class\Enemy.cpp" />
+    <ClCompile Include="Class\EventZone.cpp" />
+    <ClCompile Include="Class\Fontsys.cpp" />
+    <ClCompile Include="Class\FrontDisplay.cpp" />
+    <ClCompile Include="Class\GameAI.cpp" />
+    <ClCompile Include="Class\Ghost.cpp" />
+    <ClCompile Include="Class\InfoQuad.cpp" />
+    <ClCompile Include="Class\Item.cpp" />
+    <ClCompile Include="Class\Player.cpp" />
+    <ClCompile Include="Class\PlayerBullet.cpp" />
+    <ClCompile Include="Class\PlayerGhost.cpp" />
+    <ClCompile Include="Class\PlayerLaser.cpp" />
+    <ClCompile Include="Class\PlayerOtherAction.cpp" />
+    <ClCompile Include="Class\PushKey.cpp" />
+    <ClCompile Include="Class\Replay.cpp" />
+    <ClCompile Include="Class\SE.cpp" />
+    <ClCompile Include="Class\Selector.cpp" />
+    <ClCompile Include="Class\SelectSystem.cpp" />
+    <ClCompile Include="Class\Target.cpp" />
+    <ClCompile Include="Process\frame.cpp" />
+    <ClCompile Include="Process\frameEnd.cpp" />
+    <ClCompile Include="Process\frameStart.cpp" />
+    <ClCompile Include="Core\Process.cpp" />
+    <ClCompile Include="Process\processClear.cpp" />
+    <ClCompile Include="Process\processContinue.cpp" />
+    <ClCompile Include="Process\processEnding.cpp" />
+    <ClCompile Include="Process\processGetInput.cpp" />
+    <ClCompile Include="Process\processInit.cpp" />
+    <ClCompile Include="Process\processMatchSelect.cpp" />
+    <ClCompile Include="Process\processMusic.cpp" />
+    <ClCompile Include="Process\processOption.cpp" />
+    <ClCompile Include="Process\processOver.cpp" />
+    <ClCompile Include="Process\processPause.cpp" />
+    <ClCompile Include="Process\processPlayerSelect.cpp" />
+    <ClCompile Include="Process\processReplay.cpp" />
+    <ClCompile Include="Process\processResult.cpp" />
+    <ClCompile Include="Process\processSceneSelect.cpp" />
+    <ClCompile Include="Process\processSpell.cpp" />
+    <ClCompile Include="Process\processStart.cpp" />
+    <ClCompile Include="Process\processStartPrep.cpp" />
+    <ClCompile Include="Process\processTitle.cpp" />
+    <ClCompile Include="Process\reload.cpp" />
+    <ClCompile Include="Process\render.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\BMath.h" />
+    <ClInclude Include="Header\BResource.h" />
+    <ClInclude Include="Header\Const.h" />
+    <ClInclude Include="Header\ConstResource.h" />
+    <ClInclude Include="Header\Data.h" />
+    <ClInclude Include="Header\DataConnector.h" />
+    <ClInclude Include="Header\DataPrinter.h" />
+    <ClInclude Include="Header\DataStruct.h" />
+    <ClInclude Include="Header\DataTable.h" />
+    <ClInclude Include="Header\Export.h" />
+    <ClInclude Include="Header\GameInput.h" />
+    <ClInclude Include="Header\keytable.h" />
+    <ClInclude Include="Header\Main.h" />
+    <ClInclude Include="Header\MainDependency.h" />
+    <ClInclude Include="Header\Process.h" />
+    <ClInclude Include="Header\ProcessDefine.h" />
+    <ClInclude Include="Header\processPrep.h" />
+    <ClInclude Include="Header\Scripter.h" />
+    <ClInclude Include="Header\SpriteItemManager.h" />
+    <ClInclude Include="Header\VectorList.h" />
+    <ClInclude Include="Header\Export_Lua.h" />
+    <ClInclude Include="Header\Export_Lua_Const.h" />
+    <ClInclude Include="Header\Export_Lua_Game.h" />
+    <ClInclude Include="Header\Export_Lua_HDSS.h" />
+    <ClInclude Include="Header\Export_Lua_HGE.h" />
+    <ClInclude Include="Header\Export_Lua_HGEHelp.h" />
+    <ClInclude Include="Header\Beam.h" />
+    <ClInclude Include="Header\BGLayer.h" />
+    <ClInclude Include="Header\BObject.h" />
+    <ClInclude Include="Header\BossInfo.h" />
+    <ClInclude Include="Header\Bullet.h" />
+    <ClInclude Include="Header\BulletListActionConst.h" />
+    <ClInclude Include="Header\Chat.h" />
+    <ClInclude Include="Header\EffectIDDefine.h" />
+    <ClInclude Include="Header\EffectSp.h" />
+    <ClInclude Include="Header\Effectsys.h" />
+    <ClInclude Include="Header\Enemy.h" />
+    <ClInclude Include="Header\EventZone.h" />
+    <ClInclude Include="Header\Fontsys.h" />
+    <ClInclude Include="Header\FrontDisplay.h" />
+    <ClInclude Include="Header\FrontDisplayName.h" />
+    <ClInclude Include="Header\GameAI.h" />
+    <ClInclude Include="Header\Ghost.h" />
+    <ClInclude Include="Header\InfoQuad.h" />
+    <ClInclude Include="Header\Item.h" />
+    <ClInclude Include="Header\Player.h" />
+    <ClInclude Include="Header\PlayerBullet.h" />
+    <ClInclude Include="Header\PlayerGhost.h" />
+    <ClInclude Include="Header\PlayerLaser.h" />
+    <ClInclude Include="Header\PushKey.h" />
+    <ClInclude Include="Header\Replay.h" />
+    <ClInclude Include="Header\SE.h" />
+    <ClInclude Include="Header\Selector.h" />
+    <ClInclude Include="Header\SelectSystem.h" />
+    <ClInclude Include="Header\Target.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\LuaPlus\LuaPlus.vcxproj">
+      <Project>{9c233f9b-d3af-4c38-8743-45898a100640}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\core\hge.vcxproj">
+      <Project>{32b00eea-7cf8-44b6-82b4-0ea67c7c4e54}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+    <ProjectReference Include="..\..\src\helpers\hgehelp.vcxproj">
+      <Project>{fa197d84-4a1a-4fd4-92fa-536a84867c25}</Project>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

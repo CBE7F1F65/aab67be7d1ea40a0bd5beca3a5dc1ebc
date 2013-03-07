@@ -1,0 +1,434 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="源文件">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="源文件\Core">
+      <UniqueIdentifier>{93520bb9-a078-4b06-beaf-c565822d33ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Core\Export_Lua">
+      <UniqueIdentifier>{f66780aa-9ffd-4af1-aa2a-243f67afd60e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Class">
+      <UniqueIdentifier>{9cebe703-f5b5-4f0d-9b36-4f4ed0feb61e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="源文件\Process">
+      <UniqueIdentifier>{9d3e2082-62b4-4060-80bf-779064a0c0af}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="头文件\Core">
+      <UniqueIdentifier>{94756603-c801-473c-aeb0-cd1abba6b224}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Core\Export_Lua">
+      <UniqueIdentifier>{932dc831-2399-4160-b6f5-c21419ae30e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="头文件\Class">
+      <UniqueIdentifier>{da5171bd-ac97-46c1-b292-317c41786ead}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\BMath.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\BResource.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Data.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DataConnector.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DataMap.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DataPrinter.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\DataTable.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\GameInput.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\InitDllLoader.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Keytable.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Main.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Parser.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ParserFunction.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\ParserOther.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Scripter.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\SpriteItemManager.cpp">
+      <Filter>源文件\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\_LObjNode.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_Const.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_Function.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_Game.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_HDSS.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_HDSS_Function.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_HGE.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Export_Lua_HGEHelper.cpp">
+      <Filter>源文件\Core\Export_Lua</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Beam.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\BGLayer.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\BObject.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\BossInfo.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Bullet.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Chat.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\EffectSp.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Effectsys.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Enemy.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\EventZone.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Fontsys.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\FrontDisplay.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\GameAI.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Ghost.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\InfoQuad.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Item.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Player.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PlayerBullet.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PlayerGhost.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PlayerLaser.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PlayerOtherAction.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\PushKey.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Replay.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SE.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Selector.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\SelectSystem.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Class\Target.cpp">
+      <Filter>源文件\Class</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\frame.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\frameEnd.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\frameStart.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\Process.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processClear.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processContinue.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processEnding.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processGetInput.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processInit.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processMatchSelect.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processMusic.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processOption.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processOver.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processPause.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processPlayerSelect.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processReplay.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processResult.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processSceneSelect.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processSpell.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processStart.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processStartPrep.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\processTitle.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\reload.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+    <ClCompile Include="Process\render.cpp">
+      <Filter>源文件\Process</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\BMath.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BResource.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Const.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ConstResource.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Data.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DataConnector.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DataPrinter.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DataStruct.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\DataTable.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GameInput.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\keytable.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Main.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\MainDependency.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Process.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ProcessDefine.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\processPrep.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Scripter.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\SpriteItemManager.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\VectorList.h">
+      <Filter>头文件\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export_Lua.h">
+      <Filter>头文件\Core\Export_Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export_Lua_Const.h">
+      <Filter>头文件\Core\Export_Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export_Lua_Game.h">
+      <Filter>头文件\Core\Export_Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export_Lua_HDSS.h">
+      <Filter>头文件\Core\Export_Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export_Lua_HGE.h">
+      <Filter>头文件\Core\Export_Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Export_Lua_HGEHelp.h">
+      <Filter>头文件\Core\Export_Lua</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Beam.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BGLayer.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BObject.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BossInfo.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Bullet.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\BulletListActionConst.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Chat.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EffectIDDefine.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EffectSp.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Effectsys.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Enemy.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EventZone.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Fontsys.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\FrontDisplay.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\FrontDisplayName.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GameAI.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Ghost.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\InfoQuad.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Item.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Player.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PlayerBullet.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PlayerGhost.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PlayerLaser.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PushKey.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Replay.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\SE.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Selector.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\SelectSystem.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Target.h">
+      <Filter>头文件\Class</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
